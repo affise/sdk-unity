@@ -1,0 +1,22 @@
+<UXML xmlns="UnityEngine.UIElements"
+      xmlns:uie="UnityEditor.UIElements"
+      editor-extension-mode="true"
+>
+    <Style src="Styles.uss"/>
+    <Style src="AffiseSettingsProvider.uss"/>
+
+    <Label name="label" text="Affise" class="settings-label"/>
+    <uie:ObjectField name="settings-field" type="AffiseAttributionLib.AffiseSettings, Affise" allow-scene-objects="false" class="ms-3"/>
+
+    <VisualElement name="settings-new" class="grow mt-3">
+        <VisualElement class="center grow">
+            <VisualElement>
+                <Label name="settings-info" text="Settings" class="text-center bold p-3"/>
+                <Button name="settings-create" text="Create" class="settings-create"/>
+            </VisualElement>
+        </VisualElement>
+    </VisualElement>
+    <VisualElement name="settings" class="grow mt-3">
+        <uie:InspectorElement name="settings-inspector" class="grow"/>
+    </VisualElement>
+</UXML>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UXML
+        xmlns="UnityEngine.UIElements"
+        xmlns:uie="UnityEditor.UIElements"
+>
+    <Style src="Styles.uss"/>
+    <Style src="AffiseSettingsEditor.uss"/>
+
+    <VisualElement name="settings" class="grow">
+        <VisualElement name="settings-affise" class="">
+            <TextField label="App Id" name="appId"/>
+            <TextField label="Part Param Name" name="partParamName"/>
+            <TextField label="Part Param Name Token" name="partParamNameToken"/>
+            <TextField label="App Token" name="appToken"/>
+            <Toggle label="Is Production" name="isProduction"/>
+            <TextField label="Secret Id" name="secretId"/>
+        </VisualElement>
+    </VisualElement>
+</UXML>

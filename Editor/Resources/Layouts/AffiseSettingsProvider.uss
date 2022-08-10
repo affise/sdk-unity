@@ -1,0 +1,10 @@
+.settings-create {
+    height: 40px;
+}
+
+.settings-label {
+    padding-top: 2px;
+    padding-left: 9px;
+    font-size: 19px;
+    -unity-font-style: bold;
+}

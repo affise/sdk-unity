@@ -1,0 +1,14 @@
+{
+  "name": "com.affise",
+  "version": "0.2.0",
+  "displayName": "Affise",
+  "description": "A platform for data-loving marketers that want to grow their revenue by up to 250%",
+  "unity": "2020.3",
+  "dependencies": {},
+  "keywords": [],
+  "author": {
+    "name": "Affise",
+    "email": "support@affise.com",
+    "url": "https://affise.com/"
+  }
+}
