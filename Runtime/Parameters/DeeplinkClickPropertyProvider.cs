@@ -15,6 +15,6 @@ namespace AffiseAttributionLib.AffiseParameters
             _deeplinkClickRepository = deeplinkClickRepository;
         }
 
-        public override bool Provide() => _deeplinkClickRepository.IsDeeplinkClick();
+        public override bool? Provide() => _deeplinkClickRepository.IsDeeplinkClick();
     }
 }

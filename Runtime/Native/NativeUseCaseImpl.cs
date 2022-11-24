@@ -48,5 +48,13 @@ namespace AffiseAttributionLib.Native
         public string GetGaidAdid() => _platform?.GetGaidAdid();
         
         public string GetReferrer() => _platform?.GetReferrer();
+
+        public string GetReferrerInstallVersion() => _platform?.GetReferrerInstallVersion();
+
+        public long? GetReferrerClickTimestamp() => _platform?.GetReferrerClickTimestamp();
+
+        public long? GetReferrerClickTimestampServer() => _platform?.GetReferrerClickTimestampServer();
+
+        public bool? GetReferrerGooglePlayInstant() => _platform?.GetReferrerGooglePlayInstant();
     }
 }

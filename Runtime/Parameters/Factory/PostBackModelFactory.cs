@@ -17,8 +17,13 @@ namespace AffiseAttributionLib.AffiseParameters.Factory
         private readonly FirstOpenTimeProvider _firstOpenTimeProvider;
         private readonly InstalledHourProvider _installedHourProvider;
         private readonly FirstOpenHourProvider _firstOpenHourProvider;
+        private readonly InstallFirstEventProvider _installFirstEventProvider;
         private readonly InstallBeginTimeProvider _installBeginTimeProvider;
         private readonly InstallFinishTimeProvider _installFinishTimeProvider;
+        private readonly ReferrerInstallVersionProvider _referrerInstallVersionProvider;
+        private readonly ReferrerClickTimestampProvider _referrerClickTimestampProvider;
+        private readonly ReferrerClickTimestampServerProvider _referrerClickTimestampServerProvider;
+        private readonly ReferrerGooglePlayInstantProvider _referrerGooglePlayInstantProvider;
         private readonly AffiseDeviceIdProvider _affDeviceIdProvider;
         private readonly AffiseAltDeviceIdProvider _affAltDeviceIdProvider;
         private readonly AndroidIdProvider _androidIdProvider;
@@ -72,8 +77,13 @@ namespace AffiseAttributionLib.AffiseParameters.Factory
             FirstOpenTimeProvider firstOpenTimeProvider,
             InstalledHourProvider installedHourProvider,
             FirstOpenHourProvider firstOpenHourProvider,
+            InstallFirstEventProvider installFirstEventProvider,
             InstallBeginTimeProvider installBeginTimeProvider,
             InstallFinishTimeProvider installFinishTimeProvider,
+            ReferrerInstallVersionProvider referrerInstallVersionProvider,
+            ReferrerClickTimestampProvider referrerClickTimestampProvider,
+            ReferrerClickTimestampServerProvider referrerClickTimestampServerProvider,
+            ReferrerGooglePlayInstantProvider referrerGooglePlayInstantProvider,
             CreatedTimeProvider createdTimeProvider,
             CreatedTimeMilliProvider createdTimeMilliProvider,
             CreatedTimeHourProvider createdTimeHourProvider,
@@ -127,8 +137,13 @@ namespace AffiseAttributionLib.AffiseParameters.Factory
             _firstOpenTimeProvider = firstOpenTimeProvider;
             _installedHourProvider = installedHourProvider;
             _firstOpenHourProvider = firstOpenHourProvider;
+            _installFirstEventProvider = installFirstEventProvider;
             _installBeginTimeProvider = installBeginTimeProvider;
             _installFinishTimeProvider = installFinishTimeProvider;
+            _referrerInstallVersionProvider = referrerInstallVersionProvider;
+            _referrerClickTimestampProvider = referrerClickTimestampProvider;
+            _referrerClickTimestampServerProvider = referrerClickTimestampServerProvider;
+            _referrerGooglePlayInstantProvider = referrerGooglePlayInstantProvider;
             _createdTimeProvider = createdTimeProvider;
             _createdTimeMilliProvider = createdTimeMilliProvider;
             _createdTimeHourProvider = createdTimeHourProvider;
@@ -175,6 +190,12 @@ namespace AffiseAttributionLib.AffiseParameters.Factory
         public PostBackModel Create(List<SerializedEvent> events, List<SerializedLog> logs)
         {
             var createdTime = _createdTimeProvider.ProvideWithDefault();
+            var firstOpenTime = _firstOpenTimeProvider.ProvideWithDefault();
+            var lastTimeSession = _lastTimeSessionProvider.ProvideWithDefault();
+            if (!(lastTimeSession > 0))
+            {
+                lastTimeSession = firstOpenTime;
+            }
 
             return new PostBackModel(
                 uuid: _uuidProvider.ProvideWithDefault(),
@@ -184,11 +205,16 @@ namespace AffiseAttributionLib.AffiseParameters.Factory
                 appVersionRaw: _appVersionRawProvider.ProvideWithDefault(),
                 store: _storeProvider.ProvideWithDefault(),
                 installedTime: _installedTimeProvider.ProvideWithDefault(),
-                firstOpenTime: _firstOpenTimeProvider.ProvideWithDefault(),
+                firstOpenTime: firstOpenTime,
                 installedHour: _installedHourProvider.ProvideWithDefault(),
                 firstOpenHour: _firstOpenHourProvider.ProvideWithDefault(),
+                installFirstEvent: _installFirstEventProvider.ProvideWithDefault(),
                 installBeginTime: _installBeginTimeProvider.ProvideWithDefault(),
                 installFinishTime: _installFinishTimeProvider.ProvideWithDefault(),
+                referrerInstallVersion: _referrerInstallVersionProvider.ProvideWithDefault(),
+                referrerClickTimestamp: _referrerClickTimestampProvider.ProvideWithDefault(),
+                referrerClickTimestampServer: _referrerClickTimestampServerProvider.ProvideWithDefault(),
+                referrerGooglePlayInstant: _referrerGooglePlayInstantProvider.ProvideWithDefault(),
                 createdTime: createdTime,
                 createdTimeMilli: _createdTimeMilliProvider.ProvideWithDefault(),
                 createdTimeHour: _createdTimeHourProvider.ProvideWithDefault(),
@@ -220,7 +246,7 @@ namespace AffiseAttributionLib.AffiseParameters.Factory
                 affSdkPos: _affSdkPosProvider.ProvideWithDefault(),
                 timezoneDev: _timezoneDevProvider.ProvideWithDefault(),
                 affAppToken: _affAppTokenProvider.ProvideWithParamAndDefault(createdTime.ToString()),
-                lastTimeSession: _lastTimeSessionProvider.ProvideWithDefault(),
+                lastTimeSession: lastTimeSession,
                 timeSession: _timeSessionProvider.ProvideWithDefault(),
                 affSessionCount: _affSessionCountProvider.ProvideWithDefault(),
                 affAppOpened: _affAppOpenedProvider.ProvideWithDefault(),

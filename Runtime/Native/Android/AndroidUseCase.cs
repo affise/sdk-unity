@@ -195,6 +195,62 @@ namespace Packages.Affise.Runtime.Native.Android
 
             return null;
         }
+
+        public string GetReferrerInstallVersion()
+        {
+            try
+            {
+                return _plugin.Call<string>("getReferrerInstallVersion");
+            }
+            catch (Exception e)
+            {
+                _logsManager.AddDeviceError(e);
+            }
+
+            return null;
+        }
+
+        public long? GetReferrerClickTimestamp()
+        {
+            try
+            {
+                return _plugin.Call<long>("getReferrerClickTimestamp");
+            }
+            catch (Exception e)
+            {
+                _logsManager.AddDeviceError(e);
+            }
+
+            return null;
+        }
+
+        public long? GetReferrerClickTimestampServer()
+        {
+            try
+            {
+                return _plugin.Call<long>("getReferrerClickTimestampServer");
+            }
+            catch (Exception e)
+            {
+                _logsManager.AddDeviceError(e);
+            }
+
+            return null;
+        }
+
+        public bool? GetReferrerGooglePlayInstant()
+        {
+            try
+            {
+                return _plugin.Call<bool>("getReferrerGooglePlayInstant");
+            }
+            catch (Exception e)
+            {
+                _logsManager.AddDeviceError(e);
+            }
+
+            return null;
+        }
     }
 }
 #endif

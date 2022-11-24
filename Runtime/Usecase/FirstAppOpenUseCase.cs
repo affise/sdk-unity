@@ -15,6 +15,7 @@ namespace AffiseAttributionLib.Usecase
             _activityCountProvider = activityCountProvider;
         }
 
+        private const string FIRST_OPENED = "FIRST_OPENED_DATE_KEY";
         private const string FIRST_OPENED_DATE_KEY = "FIRST_OPENED_DATE_KEY";
         private const string AFF_DEVICE_ID = "AFF_DEVICE_ID";
         private const string AFF_ALT_DEVICE_ID = "AFF_ALT_DEVICE_ID";
@@ -51,9 +52,22 @@ namespace AffiseAttributionLib.Usecase
             var randomUserId = Guid.NewGuid().ToString();
 
             PlayerPrefsExt.SetLong(FIRST_OPENED_DATE_KEY, firstOpenDate);
+            PlayerPrefs.SetInt(FIRST_OPENED, 1);
             PlayerPrefs.SetString(AFF_DEVICE_ID, affDevId);
             PlayerPrefs.SetString(AFF_ALT_DEVICE_ID, affAltDevId);
             PlayerPrefs.SetString(Parameters.RANDOM_USER_ID, randomUserId);
+        }
+        
+        /**
+         * Get first open
+         * @return is first open
+         */
+        public bool IsFirstOpen()
+        {
+            if (PlayerPrefs.GetInt(FIRST_OPENED, 1) == 0) return false;
+            
+            PlayerPrefs.SetInt(FIRST_OPENED, 0);
+            return true;
         }
         
         /**

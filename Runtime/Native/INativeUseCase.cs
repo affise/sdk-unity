@@ -25,5 +25,13 @@ namespace AffiseAttributionLib.Native
         string GetGaidAdid() => null;
         
         string GetReferrer() => null;
+        
+        string GetReferrerInstallVersion() => null;
+        
+        long? GetReferrerClickTimestamp() => null;
+        
+        long? GetReferrerClickTimestampServer() => null;
+        
+        bool? GetReferrerGooglePlayInstant() => null;
     }
 }

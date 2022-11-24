@@ -17,9 +17,9 @@
         public override string DefaultValue => "";
     }
     
-    public abstract class BooleanPropertyProvider : PropertyProvider<bool>
+    public abstract class BooleanPropertyProvider : PropertyProvider<bool?>
     {
-        public override bool DefaultValue => false;
+        public override bool? DefaultValue => false;
     }
     
     public abstract class LongPropertyProvider : PropertyProvider<long?>

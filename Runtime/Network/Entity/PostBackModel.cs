@@ -16,8 +16,13 @@ namespace AffiseAttributionLib.Network.Entity
         public readonly long? FirstOpenTime;
         public readonly long? InstalledHour;
         public readonly long? FirstOpenHour;
+        public readonly bool? InstallFirstEvent;
         public readonly long? InstallBeginTime;
         public readonly long? InstallFinishTime;
+        public readonly string ReferrerInstallVersion;
+        public readonly long? ReferrerClickTimestamp;
+        public readonly long? ReferrerClickTimestampServer;
+        public readonly bool? ReferrerGooglePlayInstant;
         public readonly long? CreatedTime;
         public readonly long? CreatedTimeMilli;
         public readonly long? CreatedTimeHour;
@@ -27,7 +32,7 @@ namespace AffiseAttributionLib.Network.Entity
         public readonly string HardwareName;
         public readonly string NetworkType;
         public readonly string DeviceManufacturer;
-        public readonly bool DeeplinkClick;
+        public readonly bool? DeeplinkClick;
         public readonly string AffDeviceId;
         public readonly string AffAltDeviceId;
         public readonly string AndroidId;
@@ -72,8 +77,13 @@ namespace AffiseAttributionLib.Network.Entity
             long? firstOpenTime,
             long? installedHour,
             long? firstOpenHour,
+            bool? installFirstEvent,
             long? installBeginTime,
             long? installFinishTime,
+            string referrerInstallVersion,
+            long? referrerClickTimestamp,
+            long? referrerClickTimestampServer,
+            bool? referrerGooglePlayInstant,
             long? createdTime,
             long? createdTimeMilli,
             long? createdTimeHour,
@@ -83,7 +93,7 @@ namespace AffiseAttributionLib.Network.Entity
             string hardwareName,
             string networkType,
             string deviceManufacturer,
-            bool deeplinkClick,
+            bool? deeplinkClick,
             string affDeviceId,
             string affAltDeviceId,
             string androidId,
@@ -129,8 +139,13 @@ namespace AffiseAttributionLib.Network.Entity
             FirstOpenTime = firstOpenTime;
             InstalledHour = installedHour;
             FirstOpenHour = firstOpenHour;
+            InstallFirstEvent = installFirstEvent;
             InstallBeginTime = installBeginTime;
             InstallFinishTime = installFinishTime;
+            ReferrerInstallVersion = referrerInstallVersion;
+            ReferrerClickTimestamp = referrerClickTimestamp;
+            ReferrerClickTimestampServer = referrerClickTimestampServer;
+            ReferrerGooglePlayInstant = referrerGooglePlayInstant;
             CreatedTime = createdTime;
             CreatedTimeMilli = createdTimeMilli;
             CreatedTimeHour = createdTimeHour;

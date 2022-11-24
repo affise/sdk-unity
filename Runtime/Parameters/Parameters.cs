@@ -20,8 +20,13 @@
         public const string FIRST_OPEN_TIME = "first_open_time";
         public const string INSTALLED_HOUR = "installed_hour";
         public const string FIRST_OPEN_HOUR = "first_open_hour";
+        public const string INSTALL_FIRST_EVENT = "install_first_event";
         public const string INSTALL_BEGIN_TIME = "install_begin_time";
         public const string INSTALL_FINISH_TIME = "install_finish_time";
+        public const string REFERRER_INSTALL_VERSION = "referrer_install_version";
+        public const string REFERRER_CLICK_TIME = "referrer_click_time";
+        public const string REFERRER_CLICK_TIME_SERVER = "referrer_click_time_server";
+        public const string REFERRER_GOOGLE_PLAY_INSTANT = "referrer_google_play_instant";
         public const string CREATED_TIME = "created_time";
         public const string CREATED_TIME_MILLI = "created_time_milli";
         public const string CREATED_TIME_HOUR = "created_time_hour";
