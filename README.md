@@ -1,16 +1,19 @@
 # Affise Unity package
 
+- [Affise Unity package](#affise-unity-package)
 - [Description](#description)
-- [Quick start](#quick-start)
-- [Integration](#integration)
-  - [Integrate unity package](#integrate-unity-package)
-  - [Initialize](#initialize)
+  - [Quick start](#quick-start)
+  - [Integration](#integration)
+    - [Integrate unity package](#integrate-unity-package)
+    - [Initialize](#initialize)
 - [Features](#features)
   - [Device identifiers collection](#device-identifiers-collection)
   - [Events tracking](#events-tracking)
+    - [Custom events tracking](#custom-events-tracking)
   - [Predefined event parameters](#predefined-event-parameters)
-  - [Licence](#licence)
-
+  - [Deeplinks](#deeplinks)
+    - [Android](#android)
+- [Licence](#licence)
 
 # Description
 
@@ -29,7 +32,6 @@ Add package from git url `https://github.com/affise/sdk-unity.git`
 
 ![after_step_1](https://user-images.githubusercontent.com/10216417/170314456-4af5bed8-15a4-4ea8-bd2c-e7a74cefd0e1.jpg)
 
-
 ![after_step_2](https://user-images.githubusercontent.com/10216417/184088446-f4ae23c7-0287-41e6-a666-7aee34f0e57b.jpg)
 
 ### Initialize
@@ -44,13 +46,13 @@ On Affise tab click `Create` button.
 
 This will create `Affise Settings.asset` in `Assets / Affise / Resources` directory.
 
-> Affise is using settings file with exact name `Affise Settings.asset` 
-> 
+> Affise is using settings file with exact name `Affise Settings.asset`
+>
 > in root of folder `Resources` which can be located in any folder
-> 
+>
 > `<Any folder> / Resources`
-> 
->  except `Editor` folder
+>
+> except `Editor` folder
 
 Fill all required fields
 
@@ -58,7 +60,7 @@ Fill all required fields
 
 # Features
 
-### Device identifiers collection
+## Device identifiers collection
 
 To match users with events and data library is sending, these identifiers are collected:
 
@@ -84,7 +86,7 @@ To match users with events and data library is sending, these identifiers are co
 - `AFFISE_EVENTS_COUNT`
 - `AFFISE_SDK_EVENTS_COUNT`
 
-### Events tracking
+## Events tracking
 
 For example, we want to track achievements. To send event first create it with
 following code
@@ -92,7 +94,7 @@ following code
 ```c#
 class Presenter {
     void OnUnlockAchievement()
-    {        
+    {
         var achievement =  new JSONObject
         {
             ["achievement"] = "new level",
@@ -105,13 +107,19 @@ class Presenter {
 With above example you can implement other events:
 
 - `AchieveLevelEvent`
+- `AddPaymentInfoEvent`
+- `AddToCartEvent`
+- `AddToWishlistEvent`
 - `ClickAdvEvent`
 - `CompleteRegistrationEvent`
+- `CompleteStreamEvent`
 - `CompleteTrialEvent`
 - `CompleteTutorialEvent`
 - `ContentItemsViewEvent`
 - `DeepLinkedEvent`
 - `InitiatePurchaseEvent`
+- `InitiateStreamEvent`
+- `InviteEvent`
 - `LastAttributedTouchEvent`
 - `ListViewEvent`
 - `LoginEvent`
@@ -119,29 +127,48 @@ With above example you can implement other events:
 - `PurchaseEvent`
 - `RateEvent`
 - `ReEngageEvent`
+- `ReserveEvent`
+- `SalesEvent`
+- `SearchEvent`
+- `ShareEvent`
 - `SpendCreditsEvent`
 - `StartRegistrationEvent`
 - `StartTrialEvent`
 - `StartTutorialEvent`
 - `SubscribeEvent`
+- `TravelBookingEvent`
 - `UnlockAchievementEvent`
 - `UnsubscribeEvent`
 - `UpdateEvent`
 - `ViewAdvEvent`
+- `ViewCartEvent`
 - `ViewItemEvent`
 - `ViewItemsEvent`
 
+### Custom events tracking
 
-### Predefined event parameters
+Use any of custom events if default doesn't fit your scenario:
+
+- `CustomId01Event`
+- `CustomId02Event`
+- `CustomId03Event`
+- `CustomId04Event`
+- `CustomId05Event`
+- `CustomId06Event`
+- `CustomId07Event`
+- `CustomId08Event`
+- `CustomId09Event`
+- `CustomId10Event`
+
+## Predefined event parameters
 
 To enrich your event with another dimension, you can use predefined parameters for most common cases.
 Add it to any event:
 
-
 ```c#
 class Presenter {
     void OnUnlockAchievement()
-    {        
+    {
         var achievementEvent = new UnlockAchievementEvent(
             achievement: new JSONObject
             {
@@ -152,13 +179,14 @@ class Presenter {
         );
 
         achievementEvent.AddPredefinedParameter(PredefinedParameters.DESCRIPTION, "best damage");
-            
+
         Affise.SendEvent(achievementEvent);
     }
 }
 ```
 
 In examples above `PredefinedParameters.DESCRIPTION` is used, but many others is available:
+
 - `ADREV_AD_TYPE`,
 - `CITY`,
 - `COUNTRY`,
@@ -233,7 +261,42 @@ In examples above `PredefinedParameters.DESCRIPTION` is used, but many others is
 - `TUTORIAL_ID`,
 - `VIRTUAL_CURRENCY_NAME`
 
-## Licence
+## Deeplinks
+
+- register applink callback right after Affise.init(..)
+
+```c#
+RegisterDeeplinkCallback((uri) =>
+{
+    string screen = uri.Query.GetValueByKeyExt("");
+    if (screen == "special_offer") {
+        // open special offer screen
+    } else {
+        // open another activity
+    }
+    // return true if deeplink is handled successfully
+    return true;
+});
+```
+
+### Android
+
+To integrate applink support you need:
+
+- add intent filter to one of your activities, replacing YOUR_AFFISE_APP_ID with id from your affise personal cabinet
+
+```xml
+<intent-filter android:autoVerify="true">
+  <action android:name="android.intent.action.VIEW" />
+  <category android:name="android.intent.category.DEFAULT" />
+  <category android:name="android.intent.category.BROWSABLE" />
+  <data android:scheme="https" />
+  <data android:host="YOUR_AFFISE_APP_ID.affattr.com" />
+</intent-filter>
+```
+
+# Licence
+
 The Affise SDK is licensed under the MIT License.
 
 Copyright (c) 2022 Affise, Inc. | https://affise.com

@@ -1,4 +1,6 @@
-﻿namespace AffiseAttributionLib.Init
+﻿using SimpleJSON;
+
+namespace AffiseAttributionLib.Init
 {
     public class AffiseInitProperties
     {
@@ -43,5 +45,16 @@
         }
 
         public AffiseInitProperties Copy() => new(this);
+        
+        public JSONObject ToJson =>
+            new()
+            {
+                ["affiseAppId"] = affiseAppId,
+                ["isProduction"] = isProduction,
+                ["partParamName"] = partParamName,
+                ["partParamNameToken"] = partParamNameToken,
+                ["appToken"] = appToken,
+                ["secretId"] = secretId,
+            };
     }
 }

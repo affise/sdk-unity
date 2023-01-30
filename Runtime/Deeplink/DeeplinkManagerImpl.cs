@@ -12,7 +12,7 @@ namespace AffiseAttributionLib.Deeplink
         /**
          * Callback that is going to be triggered when deeplink is received by application
          */
-        private IOnDeeplinkCallback _deeplinkCallback;
+        private DeeplinkCallback _deeplinkCallback;
         
         /**
          * Listener for resume activities
@@ -45,7 +45,7 @@ namespace AffiseAttributionLib.Deeplink
             }
         }
 
-        public void SetDeeplinkCallback(IOnDeeplinkCallback callback)
+        public void SetDeeplinkCallback(DeeplinkCallback callback)
         {
             _deeplinkCallback = callback;
         }
@@ -54,7 +54,8 @@ namespace AffiseAttributionLib.Deeplink
         {
             _deeplinkClickRepository.SetDeeplinkClick(true);
             _deeplinkClickRepository.SetDeeplink(uri.ToString());
-            return _deeplinkCallback?.HandleDeeplink(uri) ?? false;
+            if (_deeplinkCallback is null) return false;
+            return _deeplinkCallback(uri);
         }
     }
 }

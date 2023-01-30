@@ -1,7 +1,5 @@
 using AffiseAttributionLib.Logs;
-#if UNITY_ANDROID
-using Packages.Affise.Runtime.Native.Android;
-#elif UNITY_STANDALONE_WIN
+#if UNITY_STANDALONE_WIN
 using Packages.Affise.Runtime.Native.Windows;
 #elif UNITY_IOS
 using Packages.Affise.Runtime.Native.IOS;
@@ -18,8 +16,6 @@ namespace AffiseAttributionLib.Native
         {
 #if UNITY_IOS
             _platform = new IOSUseCase(logsManager);
-#elif UNITY_ANDROID
-            _platform = new AndroidUseCase(logsManager);
 #elif UNITY_STANDALONE_WIN
             _platform = new WindowsUseCase(logsManager);
 #endif

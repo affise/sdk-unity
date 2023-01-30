@@ -3,13 +3,7 @@ using System;
 namespace AffiseAttributionLib.Deeplink
 {
     /**
-     * Interface describing callback that is going to be triggered when deeplink is received by application
+     * Delegate triggered when new deeplink [uri] is received by application with
      */
-    public interface IOnDeeplinkCallback
-    {
-        /**
-         * Triggered when new deeplink [uri] is received by application with
-         */
-        bool HandleDeeplink(Uri uri);
-    }
+    public delegate bool DeeplinkCallback(Uri uri);
 }

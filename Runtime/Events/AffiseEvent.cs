@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using AffiseAttributionLib.Events.Predefined;
+using AffiseAttributionLib.Extensions;
 using SimpleJSON;
 
 namespace AffiseAttributionLib.Events
@@ -26,5 +27,16 @@ namespace AffiseAttributionLib.Events
         }
 
         public Dictionary<PredefinedParameters, string> GetPredefinedParameters() => _predefinedParameters;
+
+        public JSONObject ToJson =>
+            new()
+            {
+                ["name"] = GetName(),
+                ["category"] = GetCategory(),
+                ["userData"] = GetUserData(),
+                ["firstForUser"] = IsFirstForUser(),
+                ["serialize"] = Serialize(),
+                ["predefinedParameters"] = GetPredefinedParameters().ToJson(),
+            };
     }
 }

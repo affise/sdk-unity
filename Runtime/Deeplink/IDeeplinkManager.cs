@@ -12,7 +12,7 @@ namespace AffiseAttributionLib.Deeplink
         /**
          * Sets [callback] to invoke when app receives deeplink
          */
-        void SetDeeplinkCallback(IOnDeeplinkCallback callback);
+        void SetDeeplinkCallback(DeeplinkCallback callback);
 
         /**
          * Process [uri] as deeplink, returns [Boolean] indicating if deeplink is processed successfully
