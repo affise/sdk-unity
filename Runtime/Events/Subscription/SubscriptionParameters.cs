@@ -36,5 +36,8 @@
 
         public const string AFFISE_SUBSCRIPTION_REACTIVATION = "affise_subscription_reactivation";
         public const string AFFISE_SUB_REACTIVATED_SUBSCRIPTION = "affise_sub_reactivated_subscription";
+
+        public const string AFFISE_UNSUBSCRIPTION = "affise_unsubscription";
+        public const string AFFISE_SUB_UNSUBSCRIPTION = "affise_sub_unsubscription";
     }
 }

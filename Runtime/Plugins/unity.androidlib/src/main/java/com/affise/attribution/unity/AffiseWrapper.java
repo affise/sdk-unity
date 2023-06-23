@@ -41,12 +41,9 @@ public class AffiseWrapper {
     private static final String AFFISE_CRASH_APPLICATION = "crash_application";
     private static final String AFFISE_GET_REFERRER = "get_referrer";
 
-    private static final String NATIVE_DEEPLINK_CALLBACK = "native_deeplink_callback";
-
     private final Context applicationContext;
     private final AffiseEvensFactory evensFactory;
     private NativeEventCallback eventCallback;
-
 
     public AffiseWrapper(Context applicationContext) {
         this.applicationContext = applicationContext;
@@ -126,7 +123,9 @@ public class AffiseWrapper {
             return;
         }
         AffiseInitProperties properties = AffiseInitPropertiesExt.toAffiseInitProperties(json);
+        Affise._crossPlatform.unity();
         Affise.init(app, properties);
+        Affise._crossPlatform.start();
     }
 
     private void nativeSendEvents(JSONObject json, Result result) {
@@ -162,7 +161,7 @@ public class AffiseWrapper {
     private void nativeRegisterDeeplinkCallback(JSONObject json, Result result) {
         Affise.registerDeeplinkCallback(uri -> {
             if (this.eventCallback != null) {
-                this.eventCallback.HandleEvent(NATIVE_DEEPLINK_CALLBACK, uri.toString());
+                this.eventCallback.HandleEvent(AFFISE_REGISTER_DEEPLINK_CALLBACK, uri.toString());
                 return true;
             }
             return false;
@@ -257,6 +256,10 @@ public class AffiseWrapper {
     }
 
     private void nativeGetReferrer(JSONObject json, Result result) {
-        result.success(Affise.getReferrer());
+        Affise.getReferrer(referrer -> {
+            if (this.eventCallback != null) {
+                this.eventCallback.HandleEvent(AFFISE_GET_REFERRER, referrer);
+            }
+        });
     }
 }

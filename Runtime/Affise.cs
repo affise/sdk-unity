@@ -2,6 +2,7 @@
 using AffiseAttributionLib.Init;
 using AffiseAttributionLib.AffiseParameters;
 using AffiseAttributionLib.Deeplink;
+using AffiseAttributionLib.Referrer;
 #if UNITY_ANDROID
 using AffiseAttributionLib.Native.Android;
 #endif 
@@ -87,16 +88,19 @@ namespace AffiseAttributionLib
 #endif
         }
 
-        /**
-         * Get referrer
-         */
-        public static string GetReferrer()
+        public static class Android
         {
+            /**
+             * Get referrer
+             */
+            public static void GetReferrer(ReferrerCallback callback)
+            {
 #if UNITY_ANDROID && !UNITY_EDITOR 
-            return _nativeModules.GetReferrer();
+                _nativeModules.GetReferrer(callback);
 #else
-            return _api?.InstallReferrerProvider?.Provide();
+                callback.Invoke(_api?.InstallReferrerProvider?.Provide());
 #endif
+            }
         }
     }
 }

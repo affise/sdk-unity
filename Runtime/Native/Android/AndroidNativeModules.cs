@@ -27,7 +27,7 @@ namespace AffiseAttributionLib.Native.Android
             }
         }
 
-        protected abstract bool HandleEvent(string eventName, string data);
+        protected abstract void HandleEvent(string eventName, string data);
 
         protected T InvokeMethod<T>(string name, string json)
         {

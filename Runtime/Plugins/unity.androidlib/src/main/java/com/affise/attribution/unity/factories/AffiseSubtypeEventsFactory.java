@@ -21,6 +21,7 @@ import com.affise.attribution.events.subscription.RenewedSubscriptionFromRetryEv
 import com.affise.attribution.events.subscription.SubscriptionInRetryEvent;
 import com.affise.attribution.events.subscription.SubscriptionParameters;
 import com.affise.attribution.events.subscription.TrialInRetryEvent;
+import com.affise.attribution.events.subscription.UnsubscriptionEvent;
 
 import org.json.JSONObject;
 
@@ -67,6 +68,8 @@ public class AffiseSubtypeEventsFactory extends AffiseBaseEvensFactory {
                 return eventConvertedOfferFromRetryEvent(json);
             case SubscriptionParameters.AFFISE_SUB_RENEWED_SUBSCRIPTION_FROM_RETRY:
                 return eventRenewedSubscriptionFromRetryEvent(json);
+            case SubscriptionParameters.AFFISE_SUB_UNSUBSCRIPTION :
+                return eventUnsubscriptionEvent(json);
         }
         return null;
     }
@@ -244,6 +247,15 @@ public class AffiseSubtypeEventsFactory extends AffiseBaseEvensFactory {
         String userData = getUserData(json);
         JSONObject data = getDataJSONObject(json);
         Event event = new RenewedSubscriptionFromRetryEvent(data, userData);
+
+        addPredefinedParameters(event, json);
+        return event;
+    }
+
+    private Event eventUnsubscriptionEvent(JSONObject json) {
+        String userData = getUserData(json);
+        JSONObject data = getDataJSONObject(json);
+        Event event = new UnsubscriptionEvent(data, userData);
 
         addPredefinedParameters(event, json);
         return event;

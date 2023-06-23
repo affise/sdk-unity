@@ -13,7 +13,8 @@
   - [Predefined event parameters](#predefined-event-parameters)
   - [Deeplinks](#deeplinks)
     - [Android](#android)
-- [Licence](#licence)
+  - [Platform specific](#platform-specific)
+    - [Get referrer](#get-referrer)
 
 # Description
 
@@ -295,14 +296,18 @@ To integrate applink support you need:
 </intent-filter>
 ```
 
-# Licence
+## Platform specific
 
-The Affise SDK is licensed under the MIT License.
+### Get referrer
 
-Copyright (c) 2022 Affise, Inc. | https://affise.com
+> `Android Only`
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+> :warning: Don't call this method directly in `Awake()` it may cause `NullReferenceException`
 
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+Use the next public method of SDK to get referrer
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+```C#
+Affise.Android.GetReferrer(referrer => {
+    // handle referrer
+});
+```

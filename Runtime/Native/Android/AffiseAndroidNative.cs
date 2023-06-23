@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using AffiseAttributionLib.Deeplink;
 using AffiseAttributionLib.Events;
 using AffiseAttributionLib.Init;
+using AffiseAttributionLib.Referrer;
 using SimpleJSON;
 
 namespace AffiseAttributionLib.Native.Android
@@ -29,9 +30,8 @@ namespace AffiseAttributionLib.Native.Android
         private const string AFFISE_CRASH_APPLICATION = "crash_application";
         private const string AFFISE_GET_REFERRER = "get_referrer";
 
-        private const string NATIVE_DEEPLINK_CALLBACK = "native_deeplink_callback";
-
         private DeeplinkCallback _onDeeplinkCallback;
+        private ReferrerCallback _onReferrerCallback;
 
         public AffiseAndroidNative() : base(JavaNativeModules)
         {
@@ -132,18 +132,23 @@ namespace AffiseAttributionLib.Native.Android
             InvokeMethod(AFFISE_CRASH_APPLICATION);
         }
 
-        public string GetReferrer()
+        public void GetReferrer(ReferrerCallback callback)
         {
-            return InvokeMethod<string>(AFFISE_GET_REFERRER);
+            _onReferrerCallback = callback;
+            InvokeMethod(AFFISE_GET_REFERRER);
         }
 
-        protected override bool HandleEvent(string eventName, string data)
+        protected override void HandleEvent(string eventName, string data)
         {
-            return eventName switch
+            switch (eventName)
             {
-                NATIVE_DEEPLINK_CALLBACK => _onDeeplinkCallback?.Invoke(new Uri(data)) ?? false,
-                _ => false
-            };
+                case AFFISE_REGISTER_DEEPLINK_CALLBACK:
+                    _onDeeplinkCallback?.Invoke(new Uri(data));
+                    break;
+                case AFFISE_GET_REFERRER:
+                    _onReferrerCallback?.Invoke(data);
+                    break;
+            }
         }
     }
 }
