@@ -7,10 +7,12 @@ import com.affise.attribution.Affise;
 import com.affise.attribution.events.Event;
 import com.affise.attribution.events.autoCatchingClick.AutoCatchingType;
 import com.affise.attribution.init.AffiseInitProperties;
+import com.affise.attribution.referrer.ReferrerKey;
 import com.affise.attribution.unity.common.NativeEventCallback;
 import com.affise.attribution.unity.common.Result;
 import com.affise.attribution.unity.ext.AffiseInitPropertiesExt;
 import com.affise.attribution.unity.ext.AutoCatchingTypeExt;
+import com.affise.attribution.unity.ext.ReferrerKeyExt;
 import com.affise.attribution.unity.factories.AffiseEvensFactory;
 
 import org.json.JSONArray;
@@ -40,6 +42,7 @@ public class AffiseWrapper {
     private static final String AFFISE_SET_ENABLED_METRICS = "set_enabled_metrics";
     private static final String AFFISE_CRASH_APPLICATION = "crash_application";
     private static final String AFFISE_GET_REFERRER = "get_referrer";
+    private static final String AFFISE_GET_REFERRER_VALUE = "get_referrer_value";
 
     private final Context applicationContext;
     private final AffiseEvensFactory evensFactory;
@@ -113,6 +116,11 @@ public class AffiseWrapper {
             case AFFISE_GET_REFERRER:
                 nativeGetReferrer(json, result);
                 break;
+            case AFFISE_GET_REFERRER_VALUE:
+                nativeGetReferrerValue(json, result);
+                break;
+            default:
+                result.notImplemented();
         }
     }
 
@@ -144,7 +152,7 @@ public class AffiseWrapper {
     private void nativeAddPushToken(JSONObject json, Result result) {
         String token = json.optString(AFFISE_ADD_PUSH_TOKEN);
         if (token.isEmpty()) {
-            result.error("Error token is empty", null, null);
+            result.error("Error token is null or empty", null, null);
             return;
         }
         Affise.addPushToken(token);
@@ -171,7 +179,7 @@ public class AffiseWrapper {
     private void nativeSetSecretId(JSONObject json, Result result) {
         String secretId = json.optString(AFFISE_SET_SECRET_ID);
         if (secretId.isEmpty()) {
-            result.error("Error secret id is empty", null, null);
+            result.error("Error secretKey is null or empty", null, null);
             return;
         }
         Affise.setSecretId(secretId);
@@ -236,7 +244,7 @@ public class AffiseWrapper {
     private void nativeForget(JSONObject json, Result result) {
         String userData = json.optString(AFFISE_FORGET);
         if (userData.isEmpty()) {
-            result.error("Error forget userData is empty", null, null);
+            result.error("Error userData is null or empty", null, null);
             return;
         }
         Affise.forget(userData);
@@ -259,6 +267,24 @@ public class AffiseWrapper {
         Affise.getReferrer(referrer -> {
             if (this.eventCallback != null) {
                 this.eventCallback.HandleEvent(AFFISE_GET_REFERRER, referrer);
+            }
+        });
+    }
+    
+    private void nativeGetReferrerValue(JSONObject json, Result result) {
+        String key = json.optString(AFFISE_GET_REFERRER_VALUE);
+        if (key.isEmpty()) {
+            result.error("Error ReferrerKey string is null or empty", null, null);
+            return;
+        }
+        ReferrerKey referrerKey = ReferrerKeyExt.toReferrerKey(key);
+        if (referrerKey == null) {
+            result.error("Error ReferrerKey is null or empty", null, null);
+            return;
+        }
+        Affise.getReferrerValue(referrerKey, referrer -> {
+            if (this.eventCallback != null) {
+                this.eventCallback.HandleEvent(AFFISE_GET_REFERRER_VALUE, referrer);
             }
         });
     }

@@ -8,7 +8,7 @@ using AffiseAttributionLib.Network;
 using AffiseAttributionLib.AffiseParameters.Base;
 using AffiseAttributionLib.AffiseParameters.Factory;
 using AffiseAttributionLib.Deeplink;
-using AffiseAttributionLib.Native;
+using AffiseAttributionLib.Native.NativeUseCase;
 using AffiseAttributionLib.Session;
 using AffiseAttributionLib.Storages;
 using AffiseAttributionLib.Usecase;

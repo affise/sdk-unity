@@ -1,4 +1,4 @@
-namespace AffiseAttributionLib.Native
+namespace AffiseAttributionLib.Native.NativeUseCase
 {
     internal interface INativeUseCase
     {

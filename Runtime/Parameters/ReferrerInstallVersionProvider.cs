@@ -1,5 +1,5 @@
 using AffiseAttributionLib.AffiseParameters.Base;
-using AffiseAttributionLib.Native;
+using AffiseAttributionLib.Native.NativeUseCase;
 
 namespace AffiseAttributionLib.AffiseParameters
 {

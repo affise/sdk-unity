@@ -1,7 +1,7 @@
 using System.Text.RegularExpressions;
 using UnityEngine;
 
-namespace Packages.Affise.Runtime.Native.Windows
+namespace AffiseAttributionLib.Native.NativeUseCase.Windows
 {
     internal static class WindowsUtils
     {

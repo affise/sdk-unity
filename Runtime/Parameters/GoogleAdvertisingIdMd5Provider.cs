@@ -1,6 +1,6 @@
 ﻿using AffiseAttributionLib.AffiseParameters.Base;
 using AffiseAttributionLib.Converter;
-using AffiseAttributionLib.Native;
+using AffiseAttributionLib.Native.NativeUseCase;
 
 namespace AffiseAttributionLib.AffiseParameters
 {

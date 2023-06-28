@@ -1,12 +1,10 @@
 using AffiseAttributionLib.Logs;
 #if UNITY_STANDALONE_WIN
-using Packages.Affise.Runtime.Native.Windows;
-#elif UNITY_IOS
-using Packages.Affise.Runtime.Native.IOS;
+using AffiseAttributionLib.Native.NativeUseCase.Windows;
 #endif
 
 
-namespace AffiseAttributionLib.Native
+namespace AffiseAttributionLib.Native.NativeUseCase
 {
     internal class NativeUseCaseImpl : INativeUseCase
     {
@@ -14,9 +12,7 @@ namespace AffiseAttributionLib.Native
 
         public NativeUseCaseImpl(ILogsManager logsManager)
         {
-#if UNITY_IOS
-            _platform = new IOSUseCase(logsManager);
-#elif UNITY_STANDALONE_WIN
+#if UNITY_STANDALONE_WIN
             _platform = new WindowsUseCase(logsManager);
 #endif
         }

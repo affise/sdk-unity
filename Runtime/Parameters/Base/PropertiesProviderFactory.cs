@@ -2,7 +2,7 @@
 using AffiseAttributionLib.Converter;
 using AffiseAttributionLib.Deeplink;
 using AffiseAttributionLib.Init;
-using AffiseAttributionLib.Native;
+using AffiseAttributionLib.Native.NativeUseCase;
 using AffiseAttributionLib.Session;
 using AffiseAttributionLib.Usecase;
 

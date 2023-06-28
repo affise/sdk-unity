@@ -6,6 +6,8 @@
   - [Integration](#integration)
     - [Integrate unity package](#integrate-unity-package)
     - [Initialize](#initialize)
+  - [Build](#build)
+    - [iOS](#ios)
 - [Features](#features)
   - [Device identifiers collection](#device-identifiers-collection)
   - [Events tracking](#events-tracking)
@@ -15,6 +17,10 @@
     - [Android](#android)
   - [Platform specific](#platform-specific)
     - [Get referrer](#get-referrer)
+    - [Get referrer value](#get-referrer-value)
+      - [Referrer keys](#referrer-keys)
+- [Troubleshoots](#troubleshoots)
+  - [iOS](#ios-1)
 
 # Description
 
@@ -58,6 +64,35 @@ This will create `Affise Settings.asset` in `Assets / Affise / Resources` direct
 Fill all required fields
 
 ![after_step_4](https://user-images.githubusercontent.com/10216417/184090017-dc32c837-f78f-4e13-92d6-8fa794a1eb90.jpg)
+
+## Build
+
+### iOS
+
+SDK is using Cocoapods
+
+1. In `Build setting` select iOS platform and press `Build`
+2. Select build folder (unity will exported iOS projetc to build folder)
+3. Build folder should contain `Podfile`
+4. In Terminal open build folder and run commend `pod update` or `pod install`
+5. Open genereated `*.worksapce` to build your unity project
+
+If Podfile hasn't generated you can create it manually using this [Podfile](Editor/Resources/iOS/AffisePodfile.rb) as template
+
+Podfile:
+
+```rb
+platform :ios, '11.0'
+
+target 'UnityFramework' do
+   pod 'AffiseAttributionLib', '1.1.6'
+end
+
+target 'Unity-iPhone' do
+end
+
+use_frameworks! :linkage => :static
+```
 
 # Features
 
@@ -302,7 +337,7 @@ To integrate applink support you need:
 
 > `Android Only`
 
-> :warning: Don't call this method directly in `Awake()` it may cause `NullReferenceException`
+> **Warning** Don't call this method directly in `Awake()` it may cause `NullReferenceException`
 
 Use the next public method of SDK to get referrer
 
@@ -311,3 +346,60 @@ Affise.Android.GetReferrer(referrer => {
     // handle referrer
 });
 ```
+
+### Get referrer value
+
+> `Android Only`
+
+Use the next public method of SDK to get referrer value by
+
+```C#
+Affise.Android.GetReferrerValue(ReferrerKey.CLICK_ID, referrer => {
+    // handle referrer value
+});
+```
+
+#### Referrer keys
+
+In examples above `ReferrerKey.CLICK_ID` is used, but many others is available:
+
+- `AD_ID`
+- `CAMPAIGN_ID`
+- `CLICK_ID`
+- `AFFISE_AD`
+- `AFFISE_AD_ID`
+- `AFFISE_AD_TYPE`
+- `AFFISE_ADSET`
+- `AFFISE_ADSET_ID`
+- `AFFISE_AFFC_ID`
+- `AFFISE_CHANNEL`
+- `AFFISE_CLICK_LOOK_BACK`
+- `AFFISE_COST_CURRENCY`
+- `AFFISE_COST_MODEL`
+- `AFFISE_COST_VALUE`
+- `AFFISE_DEEPLINK`
+- `AFFISE_KEYWORDS`
+- `AFFISE_MEDIA_TYPE`
+- `AFFISE_MODEL`
+- `AFFISE_OS`
+- `AFFISE_PARTNER`
+- `AFFISE_REF`
+- `AFFISE_SITE_ID`
+- `AFFISE_SUB_SITE_ID`
+- `AFFC`
+- `PID`
+- `SUB_1`
+- `SUB_2`
+- `SUB_3`
+- `SUB_4`
+- `SUB_5`
+
+# Troubleshoots
+
+## iOS
+
+> This app has crashed because it attempted to access privacy-sensitive data without a usage description.
+> The app's Info.plist must contain an NSUserTrackingUsageDescription key with a string value explaining
+> to the user how the app uses this data.
+
+Open info.plist and add key `NSUserTrackingUsageDescription` with string value

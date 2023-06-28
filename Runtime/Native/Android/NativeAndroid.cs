@@ -3,23 +3,28 @@ using UnityEngine;
 
 namespace AffiseAttributionLib.Native.Android
 {
-    internal abstract class AndroidNativeModules : AndroidJavaProxy
+#if UNITY_ANDROID && !UNITY_EDITOR
+    internal class NativeAndroid : AndroidJavaProxy, INative
     {
-        private const string JavaUnityPlayer = "com.unity3d.player.UnityPlayer";
+        private const string JavaNativeModules = "com.affise.attribution.unity.AffiseNativeModule";
         private const string JavaNativeEventCallback = "com.affise.attribution.unity.common.NativeEventCallback";
+        
+        private const string JavaUnityPlayer = "com.unity3d.player.UnityPlayer";
         private const string JavaInvokeMethod = "invokeMethod";
         private const string JavaInvokeMethodVoid = "invokeMethodVoid";
 
         private readonly AndroidJavaObject _plugin;
+        
+        private event INative.NativeEventCallback OnNativeEvent;
 
-        protected AndroidNativeModules(string className) : base(JavaNativeEventCallback)
+        public NativeAndroid() : base(JavaNativeEventCallback)
         {
             try
             {
                 var unityContext = new AndroidJavaClass(JavaUnityPlayer);
                 var activity = unityContext.GetStatic<AndroidJavaObject>("currentActivity");
                 var app = activity.Call<AndroidJavaObject>("getApplication");
-                _plugin = new AndroidJavaObject(className, app, this);
+                _plugin = new AndroidJavaObject(JavaNativeModules, app, this);
             }
             catch (Exception e)
             {
@@ -27,9 +32,17 @@ namespace AffiseAttributionLib.Native.Android
             }
         }
 
-        protected abstract void HandleEvent(string eventName, string data);
+        protected void HandleEvent(string eventName, string data)
+        {
+            OnNativeEvent?.Invoke(eventName, data);
+        }
 
-        protected T InvokeMethod<T>(string name, string json)
+        public void EventCallback(INative.NativeEventCallback method)
+        {
+            OnNativeEvent += method;
+        }
+
+        public T Native<T>(string name, string json)
         {
             try
             {
@@ -47,21 +60,12 @@ namespace AffiseAttributionLib.Native.Android
             return default;
         }
 
-        protected T InvokeMethod<T>(string name)
+        public T Native<T>(string name)
         {
-            try
-            {
-                return _plugin.Call<T>(JavaInvokeMethod, name);
-            }
-            catch (Exception e)
-            {
-                Debug.LogError($"Error native method: {name}: {e}");
-            }
-
-            return default;
+            return Native<T>(name, "{}");
         }
 
-        protected void InvokeMethod(string name, string json)
+        public void Native(string name, string json)
         {
             try
             {
@@ -73,16 +77,10 @@ namespace AffiseAttributionLib.Native.Android
             }
         }
 
-        protected void InvokeMethod(string name)
+        public void Native(string name)
         {
-            try
-            {
-                _plugin.Call(JavaInvokeMethodVoid, name);
-            }
-            catch (Exception e)
-            {
-                Debug.LogError($"Error native method:! {name}: {e}");
-            }
+            Native(name, "{}");
         }
     }
+#endif
 }

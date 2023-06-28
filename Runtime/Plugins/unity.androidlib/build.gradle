@@ -16,8 +16,10 @@ android {
 
 dependencies {
     implementation "com.android.installreferrer:installreferrer:2.2"
+    // Affise SDK
     implementation "com.affise:attribution:1.5.8"
-    implementation("com.affise:module-advertising:1.5.8")
-    implementation("com.affise:module-network:1.5.8")
-    implementation("com.affise:module-phone:1.5.8")
+    // Affise modules
+    implementation "com.affise:module-advertising:1.5.8"
+    implementation "com.affise:module-network:1.5.8"
+    implementation "com.affise:module-phone:1.5.8"
 }

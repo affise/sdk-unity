@@ -12,7 +12,6 @@ namespace AffiseAttributionLib.Editor.Extensions
         
         public static VisualElement Gone(this VisualElement input, bool gone, string className = "gone")
         {
-            // TODO UI hide
             if (gone)
             {
                 input.AddToClassList(className);

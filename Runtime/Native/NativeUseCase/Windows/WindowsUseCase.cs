@@ -1,8 +1,7 @@
 using AffiseAttributionLib.Logs;
-using AffiseAttributionLib.Native;
 using UnityEngine;
 
-namespace Packages.Affise.Runtime.Native.Windows
+namespace AffiseAttributionLib.Native.NativeUseCase.Windows
 {
     internal class WindowsUseCase : INativeUseCase
     {

@@ -8,11 +8,11 @@ import com.affise.attribution.unity.common.Result;
 
 import org.json.JSONObject;
 
-public class AffiseNativeModules extends NativeCallHandler {
+public class AffiseNativeModule extends NativeCallHandler {
 
     private AffiseWrapper wrapper;
 
-    public AffiseNativeModules(Application app, NativeEventCallback callback) {
+    public AffiseNativeModule(Application app, NativeEventCallback callback) {
         wrapper = new AffiseWrapper(app);
         wrapper.setEventCallback(callback);
     }

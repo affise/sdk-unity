@@ -21,16 +21,8 @@ public abstract class NativeCallHandler {
         return (T) result.getResult();
     }
 
-    public <T> T invokeMethod(String methodName) throws Exception {
-        return invokeMethod(methodName, "{}");
-    }
-
     public void invokeMethodVoid(String methodName, String json) throws Exception {
         invokeMethod(methodName, json);
-    }
-
-    public void invokeMethodVoid(String methodName) throws Exception {
-        invokeMethod(methodName, "{}");
     }
 
     public abstract void onMethodCall(String methodName, JSONObject json, Result result);
