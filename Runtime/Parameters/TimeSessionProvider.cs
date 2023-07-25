@@ -8,6 +8,8 @@ namespace AffiseAttributionLib.AffiseParameters
      */
     internal class TimeSessionProvider : LongPropertyProvider
     {
+        public override float Order => 55.0f;
+        public override string Key => Parameters.TIME_SESSION;
         private readonly ISessionManager _sessionManager;
 
         public TimeSessionProvider(ISessionManager sessionManager)

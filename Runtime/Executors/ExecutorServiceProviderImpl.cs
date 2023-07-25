@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections;
-using UnityEngine;
+using AffiseAttributionLib.Coroutine;
 
 namespace AffiseAttributionLib.Executors
 {
@@ -8,18 +8,12 @@ namespace AffiseAttributionLib.Executors
     {
         public void Execute(IEnumerator execute)
         {
-            AffiseWorker.Work(execute);
+            AffiseWorker.Run(execute);
         }
 
-        public void ExecuteWithDelay(Action action, float delay)
+        public void ExecuteWithDelay(long delay, Action action)
         {
-            AffiseWorker.Work(ActionWithDelay(action, delay));
-        }
-        
-        private IEnumerator ActionWithDelay(Action execute, float delay = 0f)
-        {
-            yield return new WaitForSeconds(delay);
-            execute.Invoke();
+            AffiseWorker.DelayRun(delay, action);
         }
     }
 }

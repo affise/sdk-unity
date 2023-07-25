@@ -1,28 +1,24 @@
-﻿using SimpleJSON;
+﻿using System;
+using SimpleJSON;
 
 namespace AffiseAttributionLib.Events.Predefined
 {
     public class CompleteTrialEvent : NativeEvent
     {
-        private readonly JSONObject _trial;
-        private readonly long _timeStampMillis;
-        private readonly string _userData;
+        public CompleteTrialEvent(): base()
+        {}
+        public CompleteTrialEvent(string userData): base(userData: userData)
+        {}
+        public CompleteTrialEvent(string userData, long timeStampMillis): base(userData, timeStampMillis)
+        {}
 
+        [Obsolete("use CompleteTrialEvent(userData, timeStampMillis)")]
         public CompleteTrialEvent(JSONObject trial, long timeStampMillis, string userData)
+            :base(userData, timeStampMillis)
         {
-            _trial = trial;
-            _timeStampMillis = timeStampMillis;
-            _userData = userData;
+            AnyData = trial;
         }
 
-        public override JSONNode Serialize() => new JSONObject
-        {
-            ["affise_event_complete_trial"] = _trial,
-            ["affise_event_complete_trial_timestamp"] = _timeStampMillis,
-        };
-
-        public override string GetName() => "CompleteTrial";
-
-        public override string GetUserData() => _userData;
+        public override string GetName() => EventName.COMPLETE_TRIAL.ToValue();
     }
 }

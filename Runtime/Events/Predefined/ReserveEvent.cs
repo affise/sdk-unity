@@ -1,36 +1,25 @@
 ﻿using System.Collections.Generic;
+using System;
 using SimpleJSON;
 
 namespace AffiseAttributionLib.Events.Predefined
 {
     public class ReserveEvent : NativeEvent
     {
-        private readonly List<JSONObject> _reserve;
-        private readonly long _timeStampMillis;
-        private readonly string _userData;
+        public ReserveEvent(): base()
+        {}
+        public ReserveEvent(string userData): base(userData: userData)
+        {}
+        public ReserveEvent(string userData, long timeStampMillis): base(userData, timeStampMillis)
+        {}
 
+        [Obsolete("use ReserveEvent(userData, timeStampMillis)")]
         public ReserveEvent(List<JSONObject> reserve, long timeStampMillis, string userData)
+            : base(userData, timeStampMillis)
         {
-            _reserve = reserve;
-            _userData = userData;
+            AnyData = reserve;
         }
 
-        public override JSONNode Serialize() {
-            var jsonArray = new JSONArray();
-            foreach (var o in _reserve)
-            {
-                jsonArray.Add(o);
-            }
-            
-            return new JSONObject
-            {
-                ["affise_event_re_engage"] = jsonArray,
-                ["affise_event_rate_timestamp"] = _timeStampMillis,
-            };
-        }
-
-        public override string GetName() => "Reserve";
-
-        public override string GetUserData() => _userData;
+        public override string GetName() => EventName.RESERVE.ToValue();
     }
 }

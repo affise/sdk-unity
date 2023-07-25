@@ -9,8 +9,8 @@ namespace AffiseAttributionLib.Events.Subscription
         {
         }
 
-        public override string Type() => SubscriptionParameters.AFFISE_UNSUBSCRIPTION;
+        public override string Type() => SubscriptionEventName.AFFISE_UNSUBSCRIPTION.ToValue();
 
-        public override string SubType() => SubscriptionParameters.AFFISE_SUB_UNSUBSCRIPTION;
+        public override string SubType() => SubscriptionSubType.AFFISE_SUB_UNSUBSCRIPTION.ToValue();
     }
 }

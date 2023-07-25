@@ -1,4 +1,4 @@
-﻿using AffiseAttributionLib.AffiseParameters;
+﻿using AffiseAttributionLib.AffiseParameters.Factory;
 using AffiseAttributionLib.Deeplink;
 using AffiseAttributionLib.Events;
 using AffiseAttributionLib.Init;
@@ -14,6 +14,6 @@ namespace AffiseAttributionLib
         public IStoreEventUseCase StoreEventUseCase { get; }
         public IInitPropertiesStorage InitPropertiesStorage { get; }
         public IDeeplinkManager DeeplinkManager { get; }
-        public InstallReferrerProvider InstallReferrerProvider { get; }
+        public PostBackModelFactory PostBackModelFactory { get; }
     }
 }

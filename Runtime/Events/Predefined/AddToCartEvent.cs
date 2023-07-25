@@ -1,28 +1,24 @@
-﻿using SimpleJSON;
+﻿using System;
+using SimpleJSON;
 
 namespace AffiseAttributionLib.Events.Predefined
 {
     public class AddToCartEvent : NativeEvent
     {
-        private readonly JSONObject _addToCartObject;
-        private readonly long _timeStampMillis;
-        private readonly string _userData;
+        public AddToCartEvent(): base()
+        {}
+        public AddToCartEvent(string userData): base(userData: userData)
+        {}
+        public AddToCartEvent(string userData, long timeStampMillis): base(userData, timeStampMillis)
+        {}
 
+        [Obsolete("use AddToCartEvent(userData, timeStampMillis)")]
         public AddToCartEvent(JSONObject addToCartObject, long timeStampMillis, string userData)
+            :base(userData, timeStampMillis)
         {
-            _addToCartObject = addToCartObject;
-            _timeStampMillis = timeStampMillis;
-            _userData = userData;
+            AnyData = addToCartObject;
         }
 
-        public override JSONNode Serialize() => new JSONObject
-        {
-            ["affise_event_add_to_cart"] = _addToCartObject,
-            ["affise_event_add_to_cart_timestamp"] = _timeStampMillis,
-        };
-
-        public override string GetName() => "AddToCart";
-
-        public override string GetUserData() => _userData;
+        public override string GetName() => EventName.ADD_TO_CART.ToValue();
     }
 }

@@ -1,28 +1,24 @@
-﻿using SimpleJSON;
+﻿using System;
+using SimpleJSON;
 
 namespace AffiseAttributionLib.Events.Predefined
 {
     public class StartRegistrationEvent : NativeEvent
     {
-        private readonly JSONObject _registration;
-        private readonly long _timeStampMillis;
-        private readonly string _userData;
+        public StartRegistrationEvent(): base()
+        {}
+        public StartRegistrationEvent(string userData): base(userData: userData)
+        {}
+        public StartRegistrationEvent(string userData, long timeStampMillis): base(userData, timeStampMillis)
+        {}
 
+        [Obsolete("use StartRegistrationEvent(userData, timeStampMillis)")]
         public StartRegistrationEvent(JSONObject registration, long timeStampMillis, string userData)
+            :base(userData, timeStampMillis)
         {
-            _registration = registration;
-            _timeStampMillis = timeStampMillis;
-            _userData = userData;
+            AnyData = registration;
         }
 
-        public override JSONNode Serialize() => new JSONObject
-        {
-            ["affise_event_start_registration"] = _registration,
-            ["affise_event_start_registration_timestamp"] = _timeStampMillis,
-        };
-
-        public override string GetName() => "StartRegistration";
-
-        public override string GetUserData() => _userData;
+        public override string GetName() => EventName.START_REGISTRATION.ToValue();
     }
 }

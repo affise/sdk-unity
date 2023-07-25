@@ -1,28 +1,24 @@
-﻿using SimpleJSON;
+﻿using System;
+using SimpleJSON;
 
 namespace AffiseAttributionLib.Events.Predefined
 {
     public class SalesEvent : NativeEvent
     {
-        private readonly JSONObject _salesData;
-        private readonly long _timeStampMillis;
-        private readonly string _userData;
+        public SalesEvent(): base()
+        {}
+        public SalesEvent(string userData): base(userData: userData)
+        {}
+        public SalesEvent(string userData, long timeStampMillis): base(userData, timeStampMillis)
+        {}
 
+        [Obsolete("use SalesEvent(userData, timeStampMillis)")]
         public SalesEvent(JSONObject salesData, long timeStampMillis, string userData)
+            :base(userData, timeStampMillis)
         {
-            _salesData = salesData;
-            _timeStampMillis = timeStampMillis;
-            _userData = userData;
+            AnyData = salesData;
         }
 
-        public override JSONNode Serialize() => new JSONObject
-        {
-            ["affise_event_sales"] = _salesData,
-            ["affise_event_sales_timestamp"] = _timeStampMillis,
-        };
-
-        public override string GetName() => "Sales";
-
-        public override string GetUserData() => _userData;
+        public override string GetName() => EventName.SALES.ToValue();
     }
 }

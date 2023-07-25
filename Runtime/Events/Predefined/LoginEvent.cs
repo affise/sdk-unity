@@ -1,28 +1,24 @@
-﻿using SimpleJSON;
+﻿using System;
+using SimpleJSON;
 
 namespace AffiseAttributionLib.Events.Predefined
 {
     public class LoginEvent : NativeEvent
     {
-        private readonly JSONObject _login;
-        private readonly long _timeStampMillis;
-        private readonly string _userData;
+        public LoginEvent(): base()
+        {}
+        public LoginEvent(string userData): base(userData: userData)
+        {}
+        public LoginEvent(string userData, long timeStampMillis): base(userData, timeStampMillis)
+        {}
 
+        [Obsolete("use LoginEvent(userData, timeStampMillis)")]
         public LoginEvent(JSONObject login, long timeStampMillis, string userData)
+            :base(userData, timeStampMillis)
         {
-            _login = login;
-            _timeStampMillis = timeStampMillis;
-            _userData = userData;
+            AnyData = login;
         }
 
-        public override JSONNode Serialize() => new JSONObject
-        {
-            ["affise_event_login"] = _login,
-            ["affise_event_login_timestamp"] = _timeStampMillis,
-        };
-
-        public override string GetName() => "Login";
-
-        public override string GetUserData() => _userData;
+        public override string GetName() => EventName.LOGIN.ToValue();
     }
 }

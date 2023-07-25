@@ -8,9 +8,9 @@ namespace AffiseAttributionLib.Events.Subscription
         {
         }
 
-        public override string Type() => SubscriptionParameters.AFFISE_SUBSCRIPTION_ACTIVATION;
+        public override string Type() => SubscriptionEventName.AFFISE_SUBSCRIPTION_ACTIVATION.ToValue();
 
-        public override string SubType() => SubscriptionParameters.AFFISE_SUB_INITIAL_SUBSCRIPTION;
+        public override string SubType() => SubscriptionSubType.AFFISE_SUB_INITIAL_SUBSCRIPTION.ToValue();
     }
 
     public class InitialTrialEvent : BaseSubscriptionEvent
@@ -19,9 +19,9 @@ namespace AffiseAttributionLib.Events.Subscription
         {
         }
 
-        public override string Type() => SubscriptionParameters.AFFISE_SUBSCRIPTION_ACTIVATION;
+        public override string Type() => SubscriptionEventName.AFFISE_SUBSCRIPTION_ACTIVATION.ToValue();
 
-        public override string SubType() => SubscriptionParameters.AFFISE_SUB_INITIAL_TRIAL;
+        public override string SubType() => SubscriptionSubType.AFFISE_SUB_INITIAL_TRIAL.ToValue();
     }
 
     public class InitialOfferEvent : BaseSubscriptionEvent
@@ -30,8 +30,8 @@ namespace AffiseAttributionLib.Events.Subscription
         {
         }
 
-        public override string Type() => SubscriptionParameters.AFFISE_SUBSCRIPTION_ACTIVATION;
+        public override string Type() => SubscriptionEventName.AFFISE_SUBSCRIPTION_ACTIVATION.ToValue();
 
-        public override string SubType() => SubscriptionParameters.AFFISE_SUB_INITIAL_OFFER;
+        public override string SubType() => SubscriptionSubType.AFFISE_SUB_INITIAL_OFFER.ToValue();
     }
 }

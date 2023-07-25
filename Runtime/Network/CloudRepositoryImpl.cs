@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using AffiseAttributionLib.AffiseParameters;
 using AffiseAttributionLib.Converter;
 using AffiseAttributionLib.Executors;
 using AffiseAttributionLib.Network.Entity;
@@ -10,17 +11,19 @@ namespace AffiseAttributionLib.Network
     public class CloudRepositoryImpl : ICloudRepository
     {
         private readonly IHttpClient _httpClientImpl;
+        private readonly UserAgentProvider _userAgentProvider;
         private readonly IConverter<List<PostBackModel>, string> _postBackModelToJsonStringConverter;
         private readonly IExecutorServiceProvider _executorServiceProvider;
 
         public CloudRepositoryImpl(
             IExecutorServiceProvider executorServiceProvider,
             IHttpClient httpClientImpl,
-            IConverter<List<PostBackModel>, string> postBackModelToJsonStringConverter
-        )
+            UserAgentProvider userAgentProvider,
+            IConverter<List<PostBackModel>, string> postBackModelToJsonStringConverter)
         {
             _executorServiceProvider = executorServiceProvider;
             _httpClientImpl = httpClientImpl;
+            _userAgentProvider = userAgentProvider;
             _postBackModelToJsonStringConverter = postBackModelToJsonStringConverter;
         }
 
@@ -55,8 +58,9 @@ namespace AffiseAttributionLib.Network
 
         private Dictionary<string, string> CreateHeaders()
         {
-            return new Dictionary<string, string>()
+            return new Dictionary<string, string>
             {
+                { "User-Agent", _userAgentProvider.ProvideWithDefault() },
                 { "Content-Type", "application/json; charset=utf-8" }
             };
         }

@@ -1,5 +1,5 @@
-﻿using System;
-using AffiseAttributionLib.AffiseParameters.Base;
+﻿using AffiseAttributionLib.AffiseParameters.Base;
+using AffiseAttributionLib.Utils;
 
 namespace AffiseAttributionLib.AffiseParameters
 {
@@ -8,9 +8,11 @@ namespace AffiseAttributionLib.AffiseParameters
      */
     internal class UuidProvider : StringPropertyProvider
     {
+        public override float Order => 64.0f;
+        public override string Key => Parameters.UUID;
         public override string Provide()
         {
-            return Guid.NewGuid().ToString();
+            return Uuid.Generate();
         }
     }
 }

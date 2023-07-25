@@ -8,9 +8,9 @@ namespace AffiseAttributionLib.Events.Subscription
         {
         }
 
-        public override string Type() => SubscriptionParameters.AFFISE_SUBSCRIPTION_CANCELLATION;
+        public override string Type() => SubscriptionEventName.AFFISE_SUBSCRIPTION_CANCELLATION.ToValue();
 
-        public override string SubType() => SubscriptionParameters.AFFISE_SUB_FAILED_TRIAL;
+        public override string SubType() => SubscriptionSubType.AFFISE_SUB_FAILED_TRIAL.ToValue();
     }
 
     public class FailedOfferiseEvent : BaseSubscriptionEvent
@@ -19,9 +19,9 @@ namespace AffiseAttributionLib.Events.Subscription
         {
         }
 
-        public override string Type() => SubscriptionParameters.AFFISE_SUBSCRIPTION_CANCELLATION;
+        public override string Type() => SubscriptionEventName.AFFISE_SUBSCRIPTION_CANCELLATION.ToValue();
 
-        public override string SubType() => SubscriptionParameters.AFFISE_SUB_FAILED_OFFERISE;
+        public override string SubType() => SubscriptionSubType.AFFISE_SUB_FAILED_OFFERISE.ToValue();
     }
 
     public class FailedSubscriptionEvent : BaseSubscriptionEvent
@@ -30,9 +30,9 @@ namespace AffiseAttributionLib.Events.Subscription
         {
         }
 
-        public override string Type() => SubscriptionParameters.AFFISE_SUBSCRIPTION_CANCELLATION;
+        public override string Type() => SubscriptionEventName.AFFISE_SUBSCRIPTION_CANCELLATION.ToValue();
 
-        public override string SubType() => SubscriptionParameters.AFFISE_SUB_FAILED_SUBSCRIPTION;
+        public override string SubType() => SubscriptionSubType.AFFISE_SUB_FAILED_SUBSCRIPTION.ToValue();
     }
 
     public class FailedTrialFromRetryEvent : BaseSubscriptionEvent
@@ -41,9 +41,9 @@ namespace AffiseAttributionLib.Events.Subscription
         {
         }
 
-        public override string Type() => SubscriptionParameters.AFFISE_SUBSCRIPTION_CANCELLATION;
+        public override string Type() => SubscriptionEventName.AFFISE_SUBSCRIPTION_CANCELLATION.ToValue();
 
-        public override string SubType() => SubscriptionParameters.AFFISE_SUB_FAILED_TRIAL_FROM_RETRY;
+        public override string SubType() => SubscriptionSubType.AFFISE_SUB_FAILED_TRIAL_FROM_RETRY.ToValue();
     }
 
     public class FailedOfferFromRetryEvent : BaseSubscriptionEvent
@@ -52,9 +52,9 @@ namespace AffiseAttributionLib.Events.Subscription
         {
         }
 
-        public override string Type() => SubscriptionParameters.AFFISE_SUBSCRIPTION_CANCELLATION;
+        public override string Type() => SubscriptionEventName.AFFISE_SUBSCRIPTION_CANCELLATION.ToValue();
 
-        public override string SubType() => SubscriptionParameters.AFFISE_SUB_FAILED_OFFER_FROM_RETRY;
+        public override string SubType() => SubscriptionSubType.AFFISE_SUB_FAILED_OFFER_FROM_RETRY.ToValue();
     }
 
     public class FailedSubscriptionFromRetryEvent : BaseSubscriptionEvent
@@ -63,8 +63,8 @@ namespace AffiseAttributionLib.Events.Subscription
         {
         }
 
-        public override string Type() => SubscriptionParameters.AFFISE_SUBSCRIPTION_CANCELLATION;
+        public override string Type() => SubscriptionEventName.AFFISE_SUBSCRIPTION_CANCELLATION.ToValue();
 
-        public override string SubType() => SubscriptionParameters.AFFISE_SUB_FAILED_SUBSCRIPTION_FROM_RETRY;
+        public override string SubType() => SubscriptionSubType.AFFISE_SUB_FAILED_SUBSCRIPTION_FROM_RETRY.ToValue();
     }
 }

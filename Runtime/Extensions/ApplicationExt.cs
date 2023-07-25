@@ -4,26 +4,33 @@ namespace AffiseAttributionLib.Extensions
 {
     internal static class ApplicationExt
     {
-        public static string ToOS(this RuntimePlatform platform)
+        public static string ToValue(this RuntimePlatform platform)
         {
             return platform switch
             {
-                RuntimePlatform.OSXEditor => Names.k_OSX,
-                RuntimePlatform.OSXPlayer => Names.k_OSX,
-                RuntimePlatform.OSXServer => Names.k_OSX,
+                RuntimePlatform.OSXEditor => Platform.OSX,
+                RuntimePlatform.OSXPlayer => Platform.OSX,
+                RuntimePlatform.OSXServer => Platform.OSX,
 
-                RuntimePlatform.WindowsPlayer => Names.k_Windows,
-                RuntimePlatform.WindowsEditor => Names.k_Windows,
-                RuntimePlatform.WindowsServer => Names.k_Windows,
+                RuntimePlatform.WindowsPlayer => Platform.Windows,
+                RuntimePlatform.WindowsEditor => Platform.Windows,
+                RuntimePlatform.WindowsServer => Platform.Windows,
 
-                RuntimePlatform.LinuxPlayer => Names.k_Linux,
-                RuntimePlatform.LinuxEditor => Names.k_Linux,
-                RuntimePlatform.LinuxServer => Names.k_Linux,
+                RuntimePlatform.LinuxPlayer => Platform.Linux,
+                RuntimePlatform.LinuxEditor => Platform.Linux,
+                RuntimePlatform.LinuxServer => Platform.Linux,
 
-                RuntimePlatform.IPhonePlayer => Names.k_IOS,
-                RuntimePlatform.Android => Names.k_Android,
+                RuntimePlatform.IPhonePlayer => Platform.IOS,
+                RuntimePlatform.Android => Platform.Android,
+                
+                RuntimePlatform.XboxOne => Platform.Xbox,
+                RuntimePlatform.GameCoreXboxOne => Platform.Xbox,
+                RuntimePlatform.GameCoreXboxSeries => Platform.Xbox,
+                
+                RuntimePlatform.PS4 => Platform.PS,
+                RuntimePlatform.PS5 => Platform.PS,
 
-                _ => Names.k_Other
+                _ => Platform.Other
             };
         }
     }

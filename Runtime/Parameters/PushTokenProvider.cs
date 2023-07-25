@@ -1,5 +1,5 @@
 ﻿using AffiseAttributionLib.AffiseParameters.Base;
-using UnityEngine;
+using AffiseAttributionLib.Utils;
 
 namespace AffiseAttributionLib.AffiseParameters
 {
@@ -8,11 +8,13 @@ namespace AffiseAttributionLib.AffiseParameters
      */
     internal class PushTokenProvider : StringPropertyProvider
     {
+        public override float Order => 65.0f;
+        public override string Key => Parameters.PUSHTOKEN;
         public const string KEY_APP_PUSHTOKEN = "com.affise.attribution.init.PUSHTOKEN";
         
         public override string Provide()
         {
-            return PlayerPrefs.GetString(KEY_APP_PUSHTOKEN, null);
+            return PrefUtils.GetString(KEY_APP_PUSHTOKEN, null);
         }
     }
 }

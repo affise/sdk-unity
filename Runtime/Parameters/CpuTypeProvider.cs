@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using AffiseAttributionLib.AffiseParameters.Base;
-using SystemInfo = UnityEngine.Device.SystemInfo;
+﻿using AffiseAttributionLib.AffiseParameters.Base;
+using AffiseAttributionLib.Utils;
 
 namespace AffiseAttributionLib.AffiseParameters
 {
@@ -11,23 +8,8 @@ namespace AffiseAttributionLib.AffiseParameters
      */
     internal class CpuTypeProvider : StringPropertyProvider
     {
-        public override string Provide() => GetCpuType();
-
-        private string GetCpuType()
-        {
-            var inf = new List<string>();
-            if (CultureInfo.InvariantCulture.CompareInfo.IndexOf(SystemInfo.processorType, "ARM", CompareOptions.IgnoreCase) >= 0)
-            {
-                inf.Add(Environment.Is64BitProcess ? "arm64" : "arm");
-            }
-            else
-            {
-                // Must be in the x86 family.
-                inf.Add(Environment.Is64BitProcess ? "x86_64" : "x86");
-            }
-
-            inf.Add(SystemInfo.processorType);
-            return String.Join(", ", inf);
-        }
+        public override float Order => 22.0f;
+        public override string Key => Parameters.CPU_TYPE;
+        public override string Provide() => Cpu.Type();
     }
 }

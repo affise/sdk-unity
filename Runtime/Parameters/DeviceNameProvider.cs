@@ -8,6 +8,8 @@ namespace AffiseAttributionLib.AffiseParameters
      */
     internal class DeviceNameProvider : StringPropertyProvider
     {
+        public override float Order => 41.0f;
+        public override string Key => Parameters.DEVICE_NAME;
         public override string Provide() => SystemInfo.deviceName;
     }
 }

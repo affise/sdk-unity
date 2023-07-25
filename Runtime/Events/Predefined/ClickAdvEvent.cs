@@ -1,28 +1,23 @@
-﻿using SimpleJSON;
+﻿using System;
 
 namespace AffiseAttributionLib.Events.Predefined
 {
     public class ClickAdvEvent : NativeEvent
     {
-        private readonly string _advertisement;
-        private readonly long _timeStampMillis;
-        private readonly string _userData;
+        public ClickAdvEvent(): base()
+        {}
+        public ClickAdvEvent(string userData): base(userData: userData)
+        {}
+        public ClickAdvEvent(string userData, long timeStampMillis): base(userData, timeStampMillis)
+        {}
 
+        [Obsolete("use ClickAdvEvent(userData, timeStampMillis)")]
         public ClickAdvEvent(string advertisement, long timeStampMillis, string userData)
+            :base(userData, timeStampMillis)
         {
-            _advertisement = advertisement;
-            _timeStampMillis = timeStampMillis;
-            _userData = userData;
+            AnyData = advertisement;
         }
 
-        public override JSONNode Serialize() => new JSONObject
-        {
-            ["affise_event_click_adv"] = _advertisement,
-            ["affise_event_click_adv_timestamp"] = _timeStampMillis,
-        };
-
-        public override string GetName() => "ClickAdv";
-
-        public override string GetUserData() => _userData;
+        public override string GetName() => EventName.CLICK_ADV.ToValue();
     }
 }

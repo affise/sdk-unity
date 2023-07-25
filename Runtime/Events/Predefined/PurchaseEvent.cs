@@ -1,28 +1,24 @@
-﻿using SimpleJSON;
+﻿using System;
+using SimpleJSON;
 
 namespace AffiseAttributionLib.Events.Predefined
 {
     public class PurchaseEvent : NativeEvent
     {
-        private readonly JSONObject _purchaseData;
-        private readonly long _timeStampMillis;
-        private readonly string _userData;
+        public PurchaseEvent(): base()
+        {}
+        public PurchaseEvent(string userData): base(userData: userData)
+        {}
+        public PurchaseEvent(string userData, long timeStampMillis): base(userData, timeStampMillis)
+        {}
 
+        [Obsolete("use PurchaseEvent(userData, timeStampMillis)")]
         public PurchaseEvent(JSONObject purchaseData, long timeStampMillis, string userData)
+            :base(userData, timeStampMillis)
         {
-            _purchaseData = purchaseData;
-            _timeStampMillis = timeStampMillis;
-            _userData = userData;
+            AnyData = purchaseData;
         }
 
-        public override JSONNode Serialize() => new JSONObject
-        {
-            ["affise_event_purchase"] = _purchaseData,
-            ["affise_event_purchase_timestamp"] = _timeStampMillis,
-        };
-
-        public override string GetName() => "Purchase";
-
-        public override string GetUserData() => _userData;
+        public override string GetName() => EventName.PURCHASE.ToValue();
     }
 }

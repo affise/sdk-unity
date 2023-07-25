@@ -1,5 +1,4 @@
 using AffiseAttributionLib.AffiseParameters.Base;
-using AffiseAttributionLib.Native.NativeUseCase;
 
 namespace AffiseAttributionLib.AffiseParameters
 {
@@ -8,13 +7,8 @@ namespace AffiseAttributionLib.AffiseParameters
      */
     internal class ReferrerGooglePlayInstantProvider : BooleanPropertyProvider
     {
-        private readonly INativeUseCase _useCase;
-
-        public ReferrerGooglePlayInstantProvider(INativeUseCase useCase)
-        {
-            _useCase = useCase;
-        }
-        
-        public override bool? Provide() => _useCase.GetReferrerGooglePlayInstant();
+        public override float Order => 17.0f;
+        public override string Key => Parameters.REFERRER_GOOGLE_PLAY_INSTANT;
+        public override bool? Provide() => null;
     }
 }

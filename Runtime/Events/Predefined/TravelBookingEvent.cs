@@ -1,25 +1,23 @@
-﻿using SimpleJSON;
+﻿using System;
+using SimpleJSON;
 
 namespace AffiseAttributionLib.Events.Predefined
 {
     public class TravelBookingEvent : NativeEvent
     {
-        private readonly JSONArray _details;
-        private readonly string _userData;
+        public TravelBookingEvent(string userData) : base(userData: userData)
+        { }
 
+        public TravelBookingEvent(string userData, long timeStampMillis) : base(userData, timeStampMillis)
+        { }
+
+        [Obsolete("use TravelBookingEvent(userData, timeStampMillis)")]
         public TravelBookingEvent(JSONArray details, string userData)
+            : base(userData: userData)
         {
-            _details = details;
-            _userData = userData;
+            AnyData = details;
         }
 
-        public override JSONNode Serialize() => new JSONObject
-        {
-            ["affise_event_travel_booking"] = _details,
-        };
-
-        public override string GetName() => "TravelBooking";
-
-        public override string GetUserData() => _userData;
+        public override string GetName() => EventName.TRAVEL_BOOKING.ToValue();
     }
 }

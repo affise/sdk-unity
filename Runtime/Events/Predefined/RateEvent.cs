@@ -1,28 +1,24 @@
-﻿using SimpleJSON;
+﻿using System;
+using SimpleJSON;
 
 namespace AffiseAttributionLib.Events.Predefined
 {
     public class RateEvent : NativeEvent
     {
-        private readonly JSONObject _rate;
-        private readonly long _timeStampMillis;
-        private readonly string _userData;
+        public RateEvent(): base()
+        {}
+        public RateEvent(string userData): base(userData: userData)
+        {}
+        public RateEvent(string userData, long timeStampMillis): base(userData, timeStampMillis)
+        {}
 
+        [Obsolete("use RateEvent(userData, timeStampMillis)")]
         public RateEvent(JSONObject rate, long timeStampMillis, string userData)
+            :base(userData, timeStampMillis)
         {
-            _rate = rate;
-            _timeStampMillis = timeStampMillis;
-            _userData = userData;
+            AnyData = rate;
         }
 
-        public override JSONNode Serialize() => new JSONObject
-        {
-            ["affise_event_rate"] = _rate,
-            ["affise_event_rate_timestamp"] = _timeStampMillis,
-        };
-
-        public override string GetName() => "Rate";
-
-        public override string GetUserData() => _userData;
+        public override string GetName() => EventName.RATE.ToValue();
     }
 }

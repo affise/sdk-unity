@@ -13,14 +13,25 @@ jobs:
 
     steps:
       - name: Checkout
-        if: false
         uses: actions/checkout@v3
+        with:
+          path: Assets/Packages/AffiseAttribution
+
+      - name: Unitypackage Meta List
+        run: |
+          find Assets/Packages/AffiseAttribution/ -name \*.meta > metaList
+          mkdir output
 
       - name: Version Tag
         id: version_tag
         run: |
           echo Version: ${GITHUB_REF_NAME}
           echo "VERSION=${GITHUB_REF_NAME}" >> "$GITHUB_OUTPUT"
+
+      - uses: pCYSl5EDgo/create-unitypackage@master
+        with:
+          package-path: 'output/affise.unitypackage'
+          include-files: metaList
 
       - name: Release
         if: ${{ !contains(github.event.ref, '-') }}
@@ -33,3 +44,13 @@ jobs:
           release_name: Affise Attribution Unity SDK ${{ github.ref }}
           draft: false
           prerelease: false
+
+      - name: Upload Release Unitypackage 🗳
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: output/affise.unitypackage
+          asset_name: attribution-${{ steps.version_tag.outputs.VERSION }}.unitypackage
+          asset_content_type: application/x-gzip

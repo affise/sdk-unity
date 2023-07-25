@@ -1,5 +1,4 @@
 ﻿using AffiseAttributionLib.AffiseParameters.Base;
-using AffiseAttributionLib.Native.NativeUseCase;
 
 namespace AffiseAttributionLib.AffiseParameters
 {
@@ -8,13 +7,8 @@ namespace AffiseAttributionLib.AffiseParameters
      */
     internal class IspNameProvider : StringPropertyProvider
     {
-        private readonly INativeUseCase _useCase;
-
-        public IspNameProvider(INativeUseCase useCase)
-        {
-            _useCase = useCase;
-        }
-
-        public override string Provide() => _useCase.GetIsp();
+        public override float Order => 37.1f;
+        public override string Key => Parameters.ISP;
+        public override string Provide() => null;
     }
 }

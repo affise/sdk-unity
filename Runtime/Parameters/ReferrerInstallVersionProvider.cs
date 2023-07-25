@@ -1,5 +1,4 @@
 using AffiseAttributionLib.AffiseParameters.Base;
-using AffiseAttributionLib.Native.NativeUseCase;
 
 namespace AffiseAttributionLib.AffiseParameters
 {
@@ -8,13 +7,8 @@ namespace AffiseAttributionLib.AffiseParameters
      */
     internal class ReferrerInstallVersionProvider : StringPropertyProvider
     {
-        private readonly INativeUseCase _useCase;
-
-        public ReferrerInstallVersionProvider(INativeUseCase useCase)
-        {
-            _useCase = useCase;
-        }
-
-        public override string Provide() => _useCase.GetReferrerInstallVersion();
+        public override float Order => 13.0f;
+        public override string Key => Parameters.REFERRER_INSTALL_VERSION;
+        public override string Provide() => null;
     }
 }

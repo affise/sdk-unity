@@ -8,6 +8,8 @@ namespace AffiseAttributionLib.AffiseParameters
      */
     internal class AffPartParamNamePropertyProvider : StringPropertyProvider
     {
+        public override float Order => 59.0f;
+        public override string Key => Parameters.AFFISE_PART_PARAM_NAME;
         private readonly IInitPropertiesStorage _initProperties;
 
         public AffPartParamNamePropertyProvider(IInitPropertiesStorage initProperties)

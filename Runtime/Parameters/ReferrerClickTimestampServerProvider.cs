@@ -1,5 +1,4 @@
 using AffiseAttributionLib.AffiseParameters.Base;
-using AffiseAttributionLib.Native.NativeUseCase;
 
 namespace AffiseAttributionLib.AffiseParameters
 {
@@ -8,13 +7,8 @@ namespace AffiseAttributionLib.AffiseParameters
      */
     internal class ReferrerClickTimestampServerProvider : LongPropertyProvider
     {
-        private readonly INativeUseCase _useCase;
-
-        public ReferrerClickTimestampServerProvider(INativeUseCase useCase)
-        {
-            _useCase = useCase;
-        }
-
-        public override long? Provide() => _useCase.GetReferrerClickTimestampServer();
+        public override float Order => 16.0f;
+        public override string Key => Parameters.REFERRER_CLICK_TIME_SERVER;
+        public override long? Provide() => null;
     }
 }

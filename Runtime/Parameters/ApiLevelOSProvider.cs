@@ -1,5 +1,5 @@
 ﻿using AffiseAttributionLib.AffiseParameters.Base;
-using AffiseAttributionLib.Native.NativeUseCase;
+using AffiseAttributionLib.Utils;
 
 namespace AffiseAttributionLib.AffiseParameters
 {
@@ -8,13 +8,8 @@ namespace AffiseAttributionLib.AffiseParameters
      */
     internal class ApiLevelOSProvider : StringPropertyProvider
     {
-        private readonly INativeUseCase _useCase;
-
-        public ApiLevelOSProvider(INativeUseCase useCase)
-        {
-            _useCase = useCase;
-        }
-
-        public override string Provide() => _useCase.GetApiVersion();
+        public override float Order => 46.0f;
+        public override string Key => Parameters.API_LEVEL_OS;
+        public override string Provide() => OSUtils.GetOSVersion();
     }
 }

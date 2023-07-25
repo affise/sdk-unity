@@ -8,7 +8,6 @@ using AffiseAttributionLib.Network;
 using AffiseAttributionLib.AffiseParameters.Base;
 using AffiseAttributionLib.AffiseParameters.Factory;
 using AffiseAttributionLib.Deeplink;
-using AffiseAttributionLib.Native.NativeUseCase;
 using AffiseAttributionLib.Session;
 using AffiseAttributionLib.Storages;
 using AffiseAttributionLib.Usecase;
@@ -30,7 +29,7 @@ namespace AffiseAttributionLib
 
         public IDeeplinkManager DeeplinkManager { get; }
 
-        public InstallReferrerProvider InstallReferrerProvider { get; }
+        public PostBackModelFactory PostBackModelFactory { get; }
 
         private readonly ConverterToBase64 _converterToBase64;
         
@@ -50,8 +49,6 @@ namespace AffiseAttributionLib
 
         private readonly ISendDataToServerUseCase _sendDataToServerUseCase;
 
-        private readonly PostBackModelFactory _postBackModelFactory;
-        
         private readonly ICurrentActiveActivityCountProvider _activityCountProvider;
         
         private readonly ISessionManager _sessionManager;
@@ -60,7 +57,9 @@ namespace AffiseAttributionLib
         
         private readonly IDeeplinkClickRepository _isDeeplinkClickRepository;
         
-        private readonly INativeUseCase _nativeUseCase;
+        private readonly IIsFirstForUserStorage _isFirstForUserStorage;
+        
+        private readonly IIsFirstForUserUseCase _isFirstForUserUseCase;
 
         public AffiseComponent(AffiseInitProperties initProperties)
         {
@@ -79,9 +78,6 @@ namespace AffiseAttributionLib
             InitPropertiesStorage = new InitPropertiesStorageImpl();
             SetPropertiesWhenInitUseCase = new SetPropertiesWhenAppInitializedUseCaseImpl(InitPropertiesStorage);
 
-            _nativeUseCase = new NativeUseCaseImpl(_logsManager);
-            InstallReferrerProvider = new InstallReferrerProvider(_nativeUseCase);
-            
             _isDeeplinkClickRepository = new DeeplinkClickRepositoryImpl();
             
             DeeplinkManager = new DeeplinkManagerImpl(
@@ -101,31 +97,34 @@ namespace AffiseAttributionLib
                 eventsStorage: _eventsStorage
             );
 
-            _cloudRepository = new CloudRepositoryImpl(
-                executorServiceProvider: new ExecutorServiceProviderImpl(),
-                httpClientImpl: new HttpClientImpl(),
-                postBackModelToJsonStringConverter: new PostBackModelToJsonStringConverter()
-            );
-
-            _postBackModelFactory = new PropertiesProviderFactory(
+            PostBackModelFactory = new PropertiesProviderFactory(
                 firstAppOpenUseCase: FirstAppOpenUseCase,
                 sessionManager: _sessionManager,
                 initPropertiesStorage: InitPropertiesStorage,
                 stringToSHA256Converter: new StringToSHA256Converter(),
                 stringToMd5Converter: new StringToMD5Converter(),
-                nativeUseCase: _nativeUseCase,
-                deeplinkClickRepository: _isDeeplinkClickRepository,
-                installReferrerProvider: InstallReferrerProvider
+                deeplinkClickRepository: _isDeeplinkClickRepository
             ).Create();
-
+            
+            _cloudRepository = new CloudRepositoryImpl(
+                executorServiceProvider: new ExecutorServiceProviderImpl(),
+                httpClientImpl: new HttpClientImpl(),
+                userAgentProvider: PostBackModelFactory.GetProvider<UserAgentProvider>(),
+                postBackModelToJsonStringConverter: new PostBackModelToJsonStringConverter()
+            );
+            
             _sendDataToServerUseCase = new SendDataToServerUseCaseImpl(
                 executorServiceProvider: new ExecutorServiceProviderImpl(),
-                postBackModelFactory: _postBackModelFactory,
+                postBackModelFactory: PostBackModelFactory,
                 cloudRepository: _cloudRepository,
                 eventsRepository: _eventsRepository,
                 logsRepository: _logsRepository,
                 logsManager: _logsManager
             );
+
+            _isFirstForUserStorage = new IsFirstForUserStorageImpl();
+            
+            _isFirstForUserUseCase = new IsFirstForUserUseCaseImpl(_isFirstForUserStorage);
 
             EventsManager = new EventsManager(
                 executorServiceProvider: new ExecutorServiceProviderImpl(),
@@ -135,7 +134,8 @@ namespace AffiseAttributionLib
 
             StoreEventUseCase = new StoreEventUseCaseImpl(
                 eventsRepository: _eventsRepository,
-                eventsManager: EventsManager
+                eventsManager: EventsManager,
+                isFirstForUserUseCase: _isFirstForUserUseCase
             );
         }
     }

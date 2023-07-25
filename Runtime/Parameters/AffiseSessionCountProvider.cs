@@ -8,6 +8,8 @@ namespace AffiseAttributionLib.AffiseParameters
      */
     internal class AffiseSessionCountProvider : LongPropertyProvider
     {
+        public override float Order => 56.0f;
+        public override string Key => Parameters.AFFISE_SESSION_COUNT;
         private readonly ISessionManager _sessionManager;
 
         public AffiseSessionCountProvider(ISessionManager sessionManager)

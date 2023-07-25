@@ -1,4 +1,5 @@
 ﻿using System;
+using AffiseAttributionLib.Native.Base;
 using UnityEngine;
 
 namespace AffiseAttributionLib.Native.IOS
@@ -6,51 +7,51 @@ namespace AffiseAttributionLib.Native.IOS
 #if UNITY_IOS && !UNITY_EDITOR
     internal class NativeIOS : INative
     {
-        private static event INative.NativeEventCallback OnNativeEvent;
+        private static event INative.AffiseNativeCallback OnAffiseCallback;
         
         [System.Runtime.InteropServices.DllImport("__Internal")]
-        private static extern void _c_void_method_json(string methodName, string json);
+        private static extern void _c_void_method_json(string apiName, string json);
 
         [System.Runtime.InteropServices.DllImport("__Internal")]
-        private static extern bool _c_bool_method_json(string methodName, string json);
+        private static extern bool _c_bool_method_json(string apiName, string json);
 
         [System.Runtime.InteropServices.DllImport("__Internal")]
-        private static extern string _c_string_method_json(string methodName, string json);
+        private static extern string _c_string_method_json(string apiName, string json);
 
         [System.Runtime.InteropServices.DllImport("__Internal")]
-        private static extern void _c_register_callback(INative.NativeEventCallback callback);
+        private static extern void _c_register_callback(INative.AffiseNativeCallback callback);
         
-        [AOT.MonoPInvokeCallback(typeof(INative.NativeEventCallback))]
-        protected static void EventCallback(string eventName, string data)
+        [AOT.MonoPInvokeCallback(typeof(INative.AffiseNativeCallback))]
+        protected static void NativeCallback(string eventName, string data)
         {
-            OnNativeEvent?.Invoke(eventName, data);
+            OnAffiseCallback?.Invoke(eventName, data);
         }
 
-        public void EventCallback(INative.NativeEventCallback method)
+        public void SetCallback(INative.AffiseNativeCallback method)
         {
-            OnNativeEvent += method;
+            OnAffiseCallback += method;
         }
 
         public NativeIOS()
         {
-            if (OnNativeEvent is not null)
+            if (OnAffiseCallback is not null)
             {
-                foreach (var onNativeDelegate in OnNativeEvent.GetInvocationList())
+                foreach (var onNativeDelegate in OnAffiseCallback.GetInvocationList())
                 {
-                    OnNativeEvent -= (INative.NativeEventCallback)onNativeDelegate;
+                    OnAffiseCallback -= (INative.AffiseNativeCallback)onNativeDelegate;
                 }
             }
-            _c_register_callback(EventCallback);
+            _c_register_callback(NativeCallback);
         }
 
-        public T Native<T>(string name, string json)
+        public T Native<T>(string apiName, string json)
         {
             try
             {
                 object value = Type.GetTypeCode(typeof(T)) switch
                 {
-                    TypeCode.Boolean => _c_bool_method_json(name, json),
-                    TypeCode.String => _c_string_method_json(name, json),
+                    TypeCode.Boolean => _c_bool_method_json(apiName, json),
+                    TypeCode.String => _c_string_method_json(apiName, json),
                     _ => null
                 };
                 
@@ -62,31 +63,31 @@ namespace AffiseAttributionLib.Native.IOS
             }
             catch (Exception e)
             {
-                Debug.LogError($"Error native method: {name}: {e}");
+                Debug.LogError($"Api [ {apiName} ] error: {json}:\n {e}");
             }
             return default;
         }
 
-        public T Native<T>(string name)
+        public T Native<T>(string apiName)
         {
-            return Native<T>(name, "{}");
+            return Native<T>(apiName, "{}");
         }
 
-        public void Native(string name, string json)
+        public void Native(string apiName, string json)
         {
             try
             {
-                _c_void_method_json(name, json);
+                _c_void_method_json(apiName, json);
             }
             catch (Exception e)
             {
-                Debug.LogError($"Error native method: {name}: {e}");
+                Debug.LogError($"Api [ {apiName} ] error: {json}:\n {e}");
             }
         }
 
-        public void Native(string name)
+        public void Native(string apiName)
         {
-            Native(name, "{}");
+            Native(apiName, "{}");
         }
     }
 #endif

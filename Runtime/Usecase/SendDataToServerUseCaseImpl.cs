@@ -13,7 +13,7 @@ namespace AffiseAttributionLib.Usecase
 {
     internal class SendDataToServerUseCaseImpl : ISendDataToServerUseCase
     {
-        private const float TIME_DELAY_SENDING = 15f;
+        private const long TIME_DELAY_SENDING = 15 * 1000;
 
         private readonly IExecutorServiceProvider _executorServiceProvider;
         private readonly PostBackModelFactory _postBackModelFactory;
@@ -119,9 +119,10 @@ namespace AffiseAttributionLib.Usecase
 
         private void SendWithDelay(string url, Action onComplete)
         {
-            _executorServiceProvider.ExecuteWithDelay(() => { Send(url, onComplete); },
-                TIME_DELAY_SENDING
-            );
+            _executorServiceProvider.ExecuteWithDelay(TIME_DELAY_SENDING, () =>
+            {
+                Send(url, onComplete);
+            });
         }
 
         private List<PostBackModel> PostBackModelsData(List<SerializedEvent> events, List<SerializedLog> logs)

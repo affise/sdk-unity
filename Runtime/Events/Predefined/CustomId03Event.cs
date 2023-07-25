@@ -1,28 +1,24 @@
-﻿using SimpleJSON;
+﻿using System;
+using SimpleJSON;
 
 namespace AffiseAttributionLib.Events.Predefined
 {
     public class CustomId03Event : NativeEvent
     {
-        private readonly string _custom;
-        private readonly long _timeStampMillis;
-        private readonly string _userData;
+        public CustomId03Event(): base()
+        {}
+        public CustomId03Event(string userData): base(userData: userData)
+        {}
+        public CustomId03Event(string userData, long timeStampMillis): base(userData, timeStampMillis)
+        {}
 
+        [Obsolete("use CustomId03Event(userData, timeStampMillis)")]
         public CustomId03Event(string custom, long timeStampMillis, string userData)
+            :base(userData, timeStampMillis)
         {
-            _custom = custom;
-            _timeStampMillis = timeStampMillis;
-            _userData = userData;
+            AnyData = custom;
         }
 
-        public override JSONNode Serialize() => new JSONObject
-        {
-            ["affise_event_custom_id_03"] = _custom,
-            ["affise_event_custom_id_03_timestamp"] = _timeStampMillis,
-        };
-
-        public override string GetName() => "CustomId03";
-
-        public override string GetUserData() => _userData;
+        public override string GetName() => EventName.CUSTOM_ID_03.ToValue();
     }
 }

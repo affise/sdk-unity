@@ -1,6 +1,5 @@
-﻿using System;
-using AffiseAttributionLib.AffiseParameters.Base;
-using AffiseAttributionLib.Extensions;
+﻿using AffiseAttributionLib.AffiseParameters.Base;
+using AffiseAttributionLib.Utils;
 
 namespace AffiseAttributionLib.AffiseParameters
 {
@@ -9,9 +8,8 @@ namespace AffiseAttributionLib.AffiseParameters
      */
     internal class CreatedTimeMilliProvider : LongPropertyProvider
     {
-        public override long? Provide()
-        {
-            return DateTime.UtcNow.GetTimeInMillis();
-        }
+        public override float Order => 19.0f;
+        public override string Key => Parameters.CREATED_TIME_MILLI;
+        public override long? Provide() => Timestamp.New();
     }
 }

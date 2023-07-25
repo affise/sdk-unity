@@ -9,6 +9,8 @@ namespace AffiseAttributionLib.AffiseParameters
      */
     internal class PlatformNameProvider : StringPropertyProvider
     {
-        public override string Provide() => Application.platform.ToOS();
+        public override float Order => 45.0f;
+        public override string Key => Parameters.PLATFORM;
+        public override string Provide() => Application.platform.ToValue();
     }
 }

@@ -2,23 +2,26 @@ package com.affise.attribution.unity;
 
 import android.app.Application;
 
-import com.affise.attribution.unity.common.NativeEventCallback;
-import com.affise.attribution.unity.common.NativeCallHandler;
-import com.affise.attribution.unity.common.Result;
+import com.affise.attribution.internal.AffiseApiMethod;
+import com.affise.attribution.internal.AffiseApiWrapper;
+import com.affise.attribution.internal.callback.AffiseResult;
+import com.affise.attribution.internal.callback.OnAffiseCallback;
 
-import org.json.JSONObject;
+import java.util.Map;
 
 public class AffiseNativeModule extends NativeCallHandler {
 
-    private AffiseWrapper wrapper;
+    private final AffiseApiWrapper apiWrapper;
 
-    public AffiseNativeModule(Application app, NativeEventCallback callback) {
-        wrapper = new AffiseWrapper(app);
-        wrapper.setEventCallback(callback);
+    public AffiseNativeModule(Application app, OnAffiseCallback callback) {
+        apiWrapper = new AffiseApiWrapper(app);
+        apiWrapper.unity();
+        apiWrapper.setCallback(callback);
     }
 
     @Override
-    public void onMethodCall(String methodName, JSONObject json, Result result) {
-        wrapper.handle(methodName, json, result);
+    public void apiCall(AffiseApiMethod api, Map<String, ?> data, AffiseResult result) {
+        if (apiWrapper == null) return;
+        apiWrapper.call(api, data, result);
     }
 }

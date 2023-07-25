@@ -8,6 +8,8 @@ namespace AffiseAttributionLib.AffiseParameters
      */
     internal class AppVersionProvider : StringPropertyProvider
     {
+        public override float Order => 3.0f;
+        public override string Key => Parameters.APP_VERSION;
         public override string Provide() => Application.version;
     }
 }

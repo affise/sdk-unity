@@ -8,6 +8,8 @@ namespace AffiseAttributionLib.AffiseParameters
      */
     internal class TimezoneDeviceProvider : StringPropertyProvider
     {
+        public override float Order => 51.0f;
+        public override string Key => Parameters.TIMEZONE_DEV;
         public override string Provide() => GetOffset();
 
         private string GetOffset()

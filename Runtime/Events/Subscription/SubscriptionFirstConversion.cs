@@ -8,9 +8,9 @@ namespace AffiseAttributionLib.Events.Subscription
         {
         }
 
-        public override string Type() => SubscriptionParameters.AFFISE_SUBSCRIPTION_FIRST_CONVERSION;
+        public override string Type() => SubscriptionEventName.AFFISE_SUBSCRIPTION_FIRST_CONVERSION.ToValue();
 
-        public override string SubType() => SubscriptionParameters.AFFISE_SUB_CONVERTED_TRIAL;
+        public override string SubType() => SubscriptionSubType.AFFISE_SUB_CONVERTED_TRIAL.ToValue();
     }
     
     public class ConvertedOfferEvent : BaseSubscriptionEvent
@@ -19,8 +19,8 @@ namespace AffiseAttributionLib.Events.Subscription
         {
         }
 
-        public override string Type() => SubscriptionParameters.AFFISE_SUBSCRIPTION_FIRST_CONVERSION;
+        public override string Type() => SubscriptionEventName.AFFISE_SUBSCRIPTION_FIRST_CONVERSION.ToValue();
 
-        public override string SubType() => SubscriptionParameters.AFFISE_SUB_CONVERTED_OFFER;
+        public override string SubType() => SubscriptionSubType.AFFISE_SUB_CONVERTED_OFFER.ToValue();
     }
 }

@@ -8,10 +8,10 @@ namespace AffiseAttributionLib.Extensions
         {
             return deviceType switch
             {
-                DeviceType.Unknown => Names.k_Unknown,
-                DeviceType.Handheld => Names.k_Smartphone,
-                DeviceType.Console => Names.k_Console,
-                DeviceType.Desktop => Names.k_Desktop,
+                DeviceType.Unknown => Platform.Unknown,
+                DeviceType.Handheld => Platform.Smartphone,
+                DeviceType.Console => Platform.Console,
+                DeviceType.Desktop => Platform.Desktop,
                 _ => null
             };
         }
@@ -20,10 +20,10 @@ namespace AffiseAttributionLib.Extensions
         {
             return os switch
             {
-                OperatingSystemFamily.Other => Names.k_Other,
-                OperatingSystemFamily.MacOSX => Names.k_OSX,
-                OperatingSystemFamily.Windows => Names.k_Windows,
-                OperatingSystemFamily.Linux => Names.k_Linux,
+                OperatingSystemFamily.Other => Platform.Other,
+                OperatingSystemFamily.MacOSX => Platform.OSX,
+                OperatingSystemFamily.Windows => Platform.Windows,
+                OperatingSystemFamily.Linux => Platform.Linux,
                 _ => null
             };
         }

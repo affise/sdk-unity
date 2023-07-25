@@ -1,10 +1,10 @@
 ﻿namespace AffiseAttributionLib.AffiseParameters.Base
 {
-    public abstract class PropertyProvider<T>
+    public abstract class PropertyProvider<T> : Provider
     {
-        abstract public T DefaultValue { get; }
+        public abstract T DefaultValue { get; }
 
-        abstract public T Provide();
+        public abstract T Provide();
 
         public T ProvideWithDefault()
         {
@@ -27,7 +27,7 @@
         public override long? DefaultValue => 0L;
     }
 
-    public abstract class StringWithParamPropertyProvider
+    public abstract class StringWithParamPropertyProvider : Provider
     {
         private string DefaultValue = "";
 

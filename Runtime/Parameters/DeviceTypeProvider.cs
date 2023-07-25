@@ -9,6 +9,8 @@ namespace AffiseAttributionLib.AffiseParameters
      */
     internal class DeviceTypeProvider : StringPropertyProvider
     {
+        public override float Order => 42.0f;
+        public override string Key => Parameters.DEVICE_TYPE;
         public override string Provide() => SystemInfo.deviceType.ToCustom();
     }
 }

@@ -7,9 +7,8 @@ namespace AffiseAttributionLib.AffiseParameters
      */
     internal class RefTokenProvider : StringPropertyProvider
     {
-        public override string Provide()
-        {
-            return "";
-        }
+        public override float Order => 32.0f;
+        public override string Key => Parameters.REFTOKEN;
+        public override string Provide() => null;
     }
 }

@@ -1,5 +1,4 @@
 ﻿using AffiseAttributionLib.AffiseParameters.Base;
-using AffiseAttributionLib.Native.NativeUseCase;
 
 namespace AffiseAttributionLib.AffiseParameters
 {
@@ -8,13 +7,8 @@ namespace AffiseAttributionLib.AffiseParameters
      */
     internal class DeviceManufacturerProvider : StringPropertyProvider
     {
-        private readonly INativeUseCase _useCase;
-
-        public DeviceManufacturerProvider(INativeUseCase useCase)
-        {
-            _useCase = useCase;
-        }
-
-        public override string Provide() => _useCase.GetDeviceManufacturer();
+        public override float Order => 24.0f;
+        public override string Key => Parameters.DEVICE_MANUFACTURER;
+        public override string Provide() => null;
     }
 }

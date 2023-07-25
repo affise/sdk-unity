@@ -8,6 +8,9 @@ namespace AffiseAttributionLib.AffiseParameters
      */
     internal class IsProductionPropertyProvider : StringPropertyProvider
     {
+        public override float Order => 50.0f;
+        public override string Key => Parameters.AFFISE_SDK_POS;
+        
         private const string TYPE_SANDBOX = "Sandbox";
         private const string TYPE_PRODUCTION = "Production";
 

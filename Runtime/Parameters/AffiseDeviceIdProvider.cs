@@ -8,6 +8,9 @@ namespace AffiseAttributionLib.AffiseParameters
      */
     internal class AffiseDeviceIdProvider : StringPropertyProvider
     {
+        public override float Order => 27.0f;
+        public override string Key => Parameters.AFFISE_DEVICE_ID;
+        
         private readonly FirstAppOpenUseCase _useCase;
 
         public AffiseDeviceIdProvider(FirstAppOpenUseCase firstAppOpenUseCase)

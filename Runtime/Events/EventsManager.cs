@@ -5,7 +5,7 @@ namespace AffiseAttributionLib.Events
 {
     internal class EventsManager
     {
-        private const float TIME_SEND_REPEAT = 15f;
+        private const long TIME_SEND_REPEAT = 15 * 1000;
 
         private readonly ISendDataToServerUseCase _sendDataToServerUseCase;
         private readonly IExecutorServiceProvider _executorServiceProvider;
@@ -21,18 +21,24 @@ namespace AffiseAttributionLib.Events
 
         public void Init()
         {
-            SendEventsNoDelay();
-            _executorServiceProvider.ExecuteWithDelay(SendEventsNoDelay, TIME_SEND_REPEAT);
+            sendEventsOnStart();
         }
 
-        public void SendEvents()
+        public void SendEvents(bool withDelay = true)
         {
-            _sendDataToServerUseCase.Send();
+            _sendDataToServerUseCase.Send(withDelay);
         }
-        
-        private void SendEventsNoDelay()
+
+        private void sendEventsOnStart()
         {
-            _sendDataToServerUseCase.Send(false);
+            //Send events on start
+            SendEvents(false);
+            
+            //Start timer fo repeat send events
+            _executorServiceProvider.ExecuteWithDelay(TIME_SEND_REPEAT, () =>
+            {
+                SendEvents();
+            });
         }
     }
 }

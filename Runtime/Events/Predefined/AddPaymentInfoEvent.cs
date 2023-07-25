@@ -1,28 +1,24 @@
-﻿using SimpleJSON;
+﻿using System;
+using SimpleJSON;
 
 namespace AffiseAttributionLib.Events.Predefined
 {
     public class AddPaymentInfoEvent : NativeEvent
     {
-        private readonly JSONObject _paymentInfo;
-        private readonly long _timeStampMillis;
-        private readonly string _userData;
+        public AddPaymentInfoEvent(): base()
+        {}
+        public AddPaymentInfoEvent(string userData): base(userData: userData)
+        {}
+        public AddPaymentInfoEvent(string userData, long timeStampMillis): base(userData, timeStampMillis)
+        {}
 
+        [Obsolete("use AddPaymentInfoEvent(userData, timeStampMillis)")]
         public AddPaymentInfoEvent(JSONObject paymentInfo, long timeStampMillis, string userData)
+            :base(userData, timeStampMillis)
         {
-            _paymentInfo = paymentInfo;
-            _timeStampMillis = timeStampMillis;
-            _userData = userData;
+            AnyData = paymentInfo;
         }
 
-        public override JSONNode Serialize() => new JSONObject
-        {
-            ["affise_event_add_payment_info"] = _paymentInfo,
-            ["affise_event_add_payment_info_timestamp"] = _timeStampMillis,
-        };
-
-        public override string GetName() => "AddPaymentInfo";
-
-        public override string GetUserData() => _userData;
+        public override string GetName() => EventName.ADD_PAYMENT_INFO.ToValue();
     }
 }

@@ -1,6 +1,5 @@
 ﻿using AffiseAttributionLib.AffiseParameters.Base;
 using AffiseAttributionLib.Converter;
-using AffiseAttributionLib.Native.NativeUseCase;
 
 namespace AffiseAttributionLib.AffiseParameters
 {
@@ -9,21 +8,22 @@ namespace AffiseAttributionLib.AffiseParameters
      */
     internal class GoogleAdvertisingIdMd5Provider : StringPropertyProvider
     {
-        private readonly INativeUseCase _useCase;
+        public override float Order => 31.4f;
+        public override string Key => Parameters.GAID_ADID_MD5;
+        
         private readonly IConverter<string, string> _md5Converter;
 
-        public GoogleAdvertisingIdMd5Provider(INativeUseCase useCase, IConverter<string, string> md5Converter)
+        public GoogleAdvertisingIdMd5Provider(IConverter<string, string> md5Converter)
         {
-            _useCase = useCase;
             _md5Converter = md5Converter;
         }
 
         public override string Provide()
         {
-            var gaidAdid = _useCase.GetGaidAdid();
+            var gaidAdid = "";
 
             if (string.IsNullOrEmpty(gaidAdid)) return "";
-                
+
             return _md5Converter.Convert(gaidAdid);
         }
     }

@@ -1,25 +1,23 @@
-﻿using SimpleJSON;
+﻿using System;
 
 namespace AffiseAttributionLib.Events.Predefined
 {
     public class ReEngageEvent : NativeEvent
     {
-        private readonly string _reEngage;
-        private readonly string _userData;
+        public ReEngageEvent(): base()
+        {}
+        public ReEngageEvent(string userData): base(userData: userData)
+        {}
+        public ReEngageEvent(string userData, long timeStampMillis): base(userData, timeStampMillis)
+        {}
 
+        [Obsolete("use ReEngageEvent(userData, timeStampMillis)")]
         public ReEngageEvent(string reEngage, string userData)
+            :base(userData)
         {
-            _reEngage = reEngage;
-            _userData = userData;
+            AnyData = reEngage;
         }
 
-        public override JSONNode Serialize() => new JSONObject
-        {
-            ["affise_event_re_engage"] = _reEngage
-        };
-
-        public override string GetName() => "ReEngage";
-
-        public override string GetUserData() => _userData;
+        public override string GetName() => EventName.RE_ENGAGE.ToValue();
     }
 }

@@ -1,10 +1,15 @@
 # Affise Unity package
 
+| Artifact | Version |
+| -------- | ------- |
+| attribution  | [1.6.0](/releases) |
+
 - [Affise Unity package](#affise-unity-package)
 - [Description](#description)
   - [Quick start](#quick-start)
   - [Integration](#integration)
     - [Integrate unity package](#integrate-unity-package)
+    - [Integrate unitypackage file](#integrate-unitypackage-file)
     - [Initialize](#initialize)
   - [Build](#build)
     - [iOS](#ios)
@@ -13,8 +18,19 @@
   - [Events tracking](#events-tracking)
     - [Custom events tracking](#custom-events-tracking)
   - [Predefined event parameters](#predefined-event-parameters)
+    - [PredefinedString](#predefinedstring)
+    - [PredefinedLong](#predefinedlong)
+    - [PredefinedFloat](#predefinedfloat)
+    - [PredefinedObject](#predefinedobject)
+    - [PredefinedListObject](#predefinedlistobject)
+    - [PredefinedListString](#predefinedliststring)
+  - [Events buffering](#events-buffering)
+  - [Push token tracking](#push-token-tracking)
   - [Deeplinks](#deeplinks)
     - [Android](#android)
+  - [Get random user Id](#get-random-user-id)
+  - [Get random device Id](#get-random-device-id)
+  - [Get module state](#get-module-state)
   - [Platform specific](#platform-specific)
     - [Get referrer](#get-referrer)
     - [Get referrer value](#get-referrer-value)
@@ -40,6 +56,11 @@ Add package from git url `https://github.com/affise/sdk-unity.git`
 ![after_step_1](https://user-images.githubusercontent.com/10216417/170314456-4af5bed8-15a4-4ea8-bd2c-e7a74cefd0e1.jpg)
 
 ![after_step_2](https://user-images.githubusercontent.com/10216417/184088446-f4ae23c7-0287-41e6-a666-7aee34f0e57b.jpg)
+
+### Integrate unitypackage file
+
+Download latest Affise SDK `attribution-1.6.0.unitypackage`
+from [releases page](/releases) and drop this file to unity editor
 
 ### Initialize
 
@@ -85,7 +106,7 @@ Podfile:
 platform :ios, '11.0'
 
 target 'UnityFramework' do
-   pod 'AffiseAttributionLib', '1.1.6'
+   pod 'AffiseInternal', '~> 1.6.2'
 end
 
 target 'Unity-iPhone' do
@@ -104,23 +125,72 @@ To match users with events and data library is sending, these identifiers are co
 - `AFFISE_PKG_APP_NAME`
 - `APP_VERSION`
 - `APP_VERSION_RAW`
+- `STORE`
+- `INSTALLED_TIME`
 - `FIRST_OPEN_TIME`
+- `INSTALLED_HOUR`
+- `FIRST_OPEN_HOUR`
+- `INSTALL_BEGIN_TIME`
+- `INSTALL_FINISH_TIME`
+- `REFERRAL_TIME`
 - `CREATED_TIME`
 - `CREATED_TIME_MILLI`
 - `CREATED_TIME_HOUR`
+- `LAST_SESSION_TIME`
+- `CONNECTION_TYPE`
 - `CPU_TYPE`
 - `HARDWARE_NAME`
+- `NETWORK_TYPE`
+- `DEVICE_MANUFACTURER`
+- `PROXY_IP_ADDRESS`
+- `DEEPLINK_CLICK`
+- `DEVICE_ATLAS_ID`
 - `AFFISE_DEVICE_ID`
 - `AFFISE_ALT_DEVICE_ID`
+- `ADID`
+- `ANDROID_ID`
+- `ANDROID_ID_MD5`
+- `MAC_SHA1`
+- `MAC_MD5`
+- `GAID_ADID`
+- `GAID_ADID_MD5`
+- `OAID`
+- `OAID_MD5`
+- `REFTOKEN`
+- `REFTOKENS`
+- `REFERRER`
+- `USER_AGENT`
+- `MCCODE`
+- `MNCODE`
+- `ISP`
+- `REGION`
+- `COUNTRY`
+- `LANGUAGE`
 - `DEVICE_NAME`
 - `DEVICE_TYPE`
 - `OS_NAME`
 - `PLATFORM`
+- `API_LEVEL_OS`
+- `AFFISE_SDK_VERSION`
+- `OS_VERSION`
+- `RANDOM_USER_ID`
+- `AFFISE_SDK_POS`
+- `TIMEZONE_DEV`
+- `LAST_TIME_SESSION`
+- `TIME_SESSION`
+- `AFFISE_SESSION_COUNT`
+- `LIFETIME_SESSION_COUNT`
+- `AFFISE_DEEPLINK`
 - `AFFISE_PART_PARAM_NAME`
 - `AFFISE_PART_PARAM_NAME_TOKEN`
 - `AFFISE_APP_TOKEN`
+- `LABEL`
+- `AFFISE_SDK_SECRET_ID`
+- `UUID`
+- `AFFISE_APP_OPENED`
+- `PUSHTOKEN`
+- `EVENTS`
 - `AFFISE_EVENTS_COUNT`
-- `AFFISE_SDK_EVENTS_COUNT`
 
 ## Events tracking
 
@@ -135,51 +205,87 @@ class Presenter {
         {
             ["achievement"] = "new level",
         };
-        Affise.SendEvent(new UnlockAchievementEvent(achievement, DateTime.UtcNow.GetTimeInMillis(), "best damage"));
+
+        var event = new UnlockAchievementEvent("best damage");
+        
+        event.AddPredefinedParameter(PredefinedLong.USER_SCORE, 12552L);
+        evtnt.AddPredefinedParameter(PredefinedString.ACHIEVEMENT_ID, "1334-1225-ASDZ");
+        event.AddPredefinedParameter(PredefinedObject.CONTENT, achievement);
+
+        Affise.SendEvent(event);
     }
 }
 ```
 
 With above example you can implement other events:
 
-- `AchieveLevelEvent`
-- `AddPaymentInfoEvent`
-- `AddToCartEvent`
-- `AddToWishlistEvent`
-- `ClickAdvEvent`
-- `CompleteRegistrationEvent`
-- `CompleteStreamEvent`
-- `CompleteTrialEvent`
-- `CompleteTutorialEvent`
-- `ContentItemsViewEvent`
-- `DeepLinkedEvent`
-- `InitiatePurchaseEvent`
-- `InitiateStreamEvent`
-- `InviteEvent`
-- `LastAttributedTouchEvent`
-- `ListViewEvent`
-- `LoginEvent`
-- `OpenedFromPushNotificationEvent`
-- `PurchaseEvent`
-- `RateEvent`
-- `ReEngageEvent`
-- `ReserveEvent`
-- `SalesEvent`
-- `SearchEvent`
-- `ShareEvent`
-- `SpendCreditsEvent`
-- `StartRegistrationEvent`
-- `StartTrialEvent`
-- `StartTutorialEvent`
-- `SubscribeEvent`
-- `TravelBookingEvent`
-- `UnlockAchievementEvent`
-- `UnsubscribeEvent`
-- `UpdateEvent`
-- `ViewAdvEvent`
-- `ViewCartEvent`
-- `ViewItemEvent`
-- `ViewItemsEvent`
+- `AchieveLevel`
+- `AddPaymentInfo`
+- `AddToCart`
+- `AddToWishlist`
+- `ClickAdv`
+- `CompleteRegistration`
+- `CompleteStream`
+- `CompleteTrial`
+- `CompleteTutorial`
+- `Contact`
+- `ContentItemsView`
+- `CustomizeProduct`
+- `DeepLinked`
+- `Donate`
+- `FindLocation`
+- `InitiateCheckout`
+- `InitiatePurchase`
+- `InitiateStream`
+- `Invite`
+- `LastAttributedTouch`
+- `Lead`
+- `ListView`
+- `Login`
+- `OpenedFromPushNotification`
+- `Purchase`
+- `Rate`
+- `ReEngage`
+- `Reserve`
+- `Sales`
+- `Schedule`
+- `Search`
+- `Share`
+- `SpendCredits`
+- `StartRegistration`
+- `StartTrial`
+- `StartTutorial`
+- `SubmitApplication`
+- `Subscribe`
+- `TravelBooking`
+- `UnlockAchievement`
+- `Unsubscribe`
+- `Update`
+- `ViewAdv`
+- `ViewCart`
+- `ViewContent`
+- `ViewItem`
+- `ViewItems`
+- `InitialSubscription`
+- `InitialTrial`
+- `InitialOffer`
+- `ConvertedTrial`
+- `ConvertedOffer`
+- `TrialInRetry`
+- `OfferInRetry`
+- `SubscriptionInRetry`
+- `RenewedSubscription`
+- `FailedSubscriptionFromRetry`
+- `FailedOfferFromRetry`
+- `FailedTrialFromRetry`
+- `FailedSubscription`
+- `FailedOfferise`
+- `FailedTrial`
+- `ReactivatedSubscription`
+- `RenewedSubscriptionFromRetry`
+- `ConvertedOfferFromRetry`
+- `ConvertedTrialFromRetry`
+- `Unsubscription`
 
 ### Custom events tracking
 
@@ -205,97 +311,137 @@ Add it to any event:
 class Presenter {
     void OnUnlockAchievement()
     {
-        var achievementEvent = new UnlockAchievementEvent(
-            achievement: new JSONObject
-            {
-                ["achievement"] = "new level",
-            },
-            timeStampMillis: DateTime.UtcNow.GetTimeInMillis(),
-            userData: "best damage"
+        var achievement = new JSONObject
+        {
+            ["achievement"] = "new level",
+        };
+        
+        var event = new UnlockAchievementEvent(
+            userData: "best damage",
+            timeStampMillis: DateTime.UtcNow.GetTimeInMillis()
         );
 
-        achievementEvent.AddPredefinedParameter(PredefinedParameters.DESCRIPTION, "best damage");
+        event.AddPredefinedParameter(PredefinedString.DESCRIPTION, "best damage");
+        event.AddPredefinedParameter(PredefinedObject.CONTENT, achievement);
 
-        Affise.SendEvent(achievementEvent);
+        Affise.SendEvent(event);
     }
 }
 ```
 
-In examples above `PredefinedParameters.DESCRIPTION` is used, but many others is available:
+In examples above `PredefinedParameters.DESCRIPTION` and `PredefinedObject.CONTENT` is used, but many others is available:
 
-- `ADREV_AD_TYPE`,
-- `CITY`,
-- `COUNTRY`,
-- `REGION`,
-- `CLASS`,
-- `CONTENT`,
-- `CONTENT_ID`,
-- `CONTENT_LIST`,
-- `CONTENT_TYPE`,
-- `CURRENCY`,
-- `CUSTOMER_USER_ID`,
-- `DATE_A`,
-- `DATE_B`,
-- `DEPARTING_ARRIVAL_DATE`,
-- `DEPARTING_DEPARTURE_DATE`,
-- `DESCRIPTION`,
-- `DESTINATION_A`,
-- `DESTINATION_B`,
-- `DESTINATION_LIST`,
-- `HOTEL_SCORE`,
-- `LEVEL`,
-- `MAX_RATING_VALUE`,
-- `NUM_ADULTS`,
-- `NUM_CHILDREN`,
-- `NUM_INFANTS`,
-- `ORDER_ID`,
-- `PAYMENT_INFO_AVAILABLE`,
-- `PREFERRED_NEIGHBORHOODS`,
-- `PREFERRED_NUM_STOPS`,
-- `PREFERRED_PRICE_RANGE`,
-- `PREFERRED_STAR_RATINGS`,
-- `PRICE`,
-- `PURCHASE_CURRENCY`,
-- `QUANTITY`,
-- `RATING_VALUE`,
-- `RECEIPT_ID`,
-- `REGISTRATION_METHOD`,
-- `RETURNING_ARRIVAL_DATE`,
-- `RETURNING_DEPARTURE_DATE`,
-- `REVENUE`,
-- `SCORE`,
-- `SEARCH_STRING`,
-- `SUBSCRIPTION_ID`,
-- `SUCCESS`,
-- `SUGGESTED_DESTINATIONS`,
-- `SUGGESTED_HOTELS`,
-- `TRAVEL_START`,
-- `TRAVEL_END`,
-- `USER_SCORE`,
-- `VALIDATED`,
-- `ACHIEVEMENT_ID`,
-- `COUPON_CODE`,
-- `CUSTOMER_SEGMENT`,
-- `DEEP_LINK`,
-- `EVENT_START`,
-- `EVENT_END`,
-- `LAT`,
-- `LONG`,
-- `NEW_VERSION`,
-- `OLD_VERSION`,
-- `PARAM_01`,
-- `PARAM_02`,
-- `PARAM_03`,
-- `PARAM_04`,
-- `PARAM_05`,
-- `PARAM_06`,
-- `PARAM_07`,
-- `PARAM_08`,
-- `PARAM_09`,
-- `PARAM_10`,
-- `REVIEW_TEXT`,
-- `TUTORIAL_ID`,
+| PredefinedParameter                           | Type                  |
+|-----------------------------------------------|-----------------------|
+| [PredefinedString](#predefinedstring)         | string                |
+| [PredefinedLong](#predefinedlong)             | long                  |
+| [PredefinedFloat](#predefinedfloat)           | float                 |
+| [PredefinedObject](#predefinedobject)         | JSONObject            |
+| [PredefinedListObject](#predefinedlistobject) | List&lt;JSONObject&gt; |
+| [PredefinedListString](#predefinedliststring) | List&lt;string&gt;     |
+
+### PredefinedString
+
+- `ADREV_AD_TYPE`
+- `CITY`
+- `COUNTRY`
+- `REGION`
+- `CLASS`
+- `CONTENT_ID`
+- `CONTENT_TYPE`
+- `CURRENCY`
+- `CUSTOMER_USER_ID`
+- `DESCRIPTION`
+- `DESTINATION_A`
+- `DESTINATION_B`
+- `DESTINATION_LIST`
+- `ORDER_ID`
+- `PAYMENT_INFO_AVAILABLE`
+- `PREFERRED_NEIGHBORHOODS`
+- `PURCHASE_CURRENCY`
+- `RECEIPT_ID`
+- `REGISTRATION_METHOD`
+- `SEARCH_STRING`
+- `SUBSCRIPTION_ID`
+- `SUCCESS`
+- `SUGGESTED_DESTINATIONS`
+- `SUGGESTED_HOTELS`
+- `VALIDATED`
+- `ACHIEVEMENT_ID`
+- `COUPON_CODE`
+- `CUSTOMER_SEGMENT`
+- `DEEP_LINK`
+- `NEW_VERSION`
+- `OLD_VERSION`
+- `PARAM_01`
+- `PARAM_02`
+- `PARAM_03`
+- `PARAM_04`
+- `PARAM_05`
+- `PARAM_06`
+- `PARAM_07`
+- `PARAM_08`
+- `PARAM_09`
+- `PARAM_10`
+- `REVIEW_TEXT`
+- `TUTORIAL_ID`
 - `VIRTUAL_CURRENCY_NAME`
+- `STATUS`
+
+### PredefinedLong
+
+- `DATE_A`
+- `DATE_B`
+- `DEPARTING_ARRIVAL_DATE`
+- `DEPARTING_DEPARTURE_DATE`
+- `HOTEL_SCORE`
+- `LEVEL`
+- `MAX_RATING_VALUE`
+- `NUM_ADULTS`
+- `NUM_CHILDREN`
+- `NUM_INFANTS`
+- `PREFERRED_NUM_STOPS`
+- `PREFERRED_STAR_RATINGS`
+- `QUANTITY`
+- `RATING_VALUE`
+- `RETURNING_ARRIVAL_DATE`
+- `RETURNING_DEPARTURE_DATE`
+- `SCORE`
+- `TRAVEL_START`
+- `TRAVEL_END`
+- `USER_SCORE`
+- `EVENT_START`
+- `EVENT_END`
+
+### PredefinedFloat
+
+- `PREFERRED_PRICE_RANGE`
+- `PRICE`
+- `REVENUE`
+- `LAT`
+- `LONG`
+
+### PredefinedObject
+
+- `CONTENT`
+
+### PredefinedListObject
+
+- `CONTENT_LIST`
+
+### PredefinedListString
+
+- `CONTENT_IDS`
+
+## Events buffering
+
+Affise library will send any pending events with first opportunity,
+but if there is no network connection or device is disabled, events are kept locally for 7 days before deletion.
+
+## Push token tracking
+
+To let affise track push token you need to receive it from your push service provider, and pass to Affise library.
+First add firebase integration to your app completing theese steps: Firebase [iOS](https://firebase.google.com/docs/cloud-messaging/ios/client) or [Android](https://firebase.google.com/docs/cloud-messaging/android/client) Docs
 
 ## Deeplinks
 
@@ -329,6 +475,32 @@ To integrate applink support you need:
   <data android:scheme="https" />
   <data android:host="YOUR_AFFISE_APP_ID.affattr.com" />
 </intent-filter>
+```
+
+## Get random user Id
+
+Use the next public method of SDK
+
+```c#
+Affise.GetRandomUserId();
+```
+
+## Get random device Id
+
+Use the next public method of SDK
+
+```c#
+Affise.GetRandomDeviceId();
+```
+
+## Get module state
+
+> Implemented for `Android`
+
+```C#
+Affise.GetStatus(AffiseModules.Status, response => {
+    // handle response
+});
 ```
 
 ## Platform specific

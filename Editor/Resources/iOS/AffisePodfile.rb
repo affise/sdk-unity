@@ -1,7 +1,7 @@
 platform :ios, '11.0'
 
 target 'UnityFramework' do
-   pod 'AffiseAttributionLib', '1.1.6'
+   pod 'AffiseInternal', '~> 1.6.2'
 end
 
 target 'Unity-iPhone' do

@@ -1,7 +1,6 @@
-﻿using System;
-using AffiseAttributionLib.AffiseParameters.Base;
-using AffiseAttributionLib.Extensions;
+﻿using AffiseAttributionLib.AffiseParameters.Base;
 using AffiseAttributionLib.Usecase;
+using AffiseAttributionLib.Utils;
 
 namespace AffiseAttributionLib.AffiseParameters
 {
@@ -10,6 +9,9 @@ namespace AffiseAttributionLib.AffiseParameters
      */
     internal class FirstOpenHourProvider : LongPropertyProvider
     {
+        public override float Order => 9.0f;
+        public override string Key => Parameters.FIRST_OPEN_HOUR;
+        
         private readonly FirstAppOpenUseCase _useCase;
 
         public FirstOpenHourProvider(FirstAppOpenUseCase firstAppOpenUseCase)
@@ -17,11 +19,6 @@ namespace AffiseAttributionLib.AffiseParameters
             _useCase = firstAppOpenUseCase;
         }
         
-        public override long? Provide()
-        {
-            var date = _useCase.GetFirstOpenDate();
-            var result = new DateTime(date.Year, date.Month, date.Day, date.Hour, 0, 0);
-            return result.ToLocalTime().GetTimeInMillis();
-        }
+        public override long? Provide() => _useCase.GetFirstOpenDate()?.TimestampHour();
     }
 }

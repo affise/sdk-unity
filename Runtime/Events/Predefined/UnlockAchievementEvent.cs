@@ -1,28 +1,24 @@
-﻿using SimpleJSON;
+﻿using System;
+using SimpleJSON;
 
 namespace AffiseAttributionLib.Events.Predefined
 {
     public class UnlockAchievementEvent : NativeEvent
     {
-        private readonly JSONObject _achievement;
-        private readonly long _timeStampMillis;
-        private readonly string _userData;
+        public UnlockAchievementEvent(): base()
+        {}
+        public UnlockAchievementEvent(string userData): base(userData: userData)
+        {}
+        public UnlockAchievementEvent(string userData, long timeStampMillis): base(userData, timeStampMillis)
+        {}
 
+        [Obsolete("use UnlockAchievementEvent(userData, timeStampMillis)")]
         public UnlockAchievementEvent(JSONObject achievement, long timeStampMillis, string userData)
+            :base(userData, timeStampMillis)
         {
-            _achievement = achievement;
-            _timeStampMillis = timeStampMillis;
-            _userData = userData;
+            AnyData = achievement;
         }
 
-        public override JSONNode Serialize() => new JSONObject
-        {
-            ["affise_event_unlock_achievement"] = _achievement,
-            ["affise_event_unlock_achievement_timestamp"] = _timeStampMillis,
-        };
-
-        public override string GetName() => "UnlockAchievement";
-
-        public override string GetUserData() => _userData;
+        public override string GetName() => EventName.UNLOCK_ACHIEVEMENT.ToValue();
     }
 }

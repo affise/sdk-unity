@@ -1,5 +1,4 @@
 ﻿using AffiseAttributionLib.AffiseParameters.Base;
-using AffiseAttributionLib.Native.NativeUseCase;
 
 namespace AffiseAttributionLib.AffiseParameters
 {
@@ -8,13 +7,8 @@ namespace AffiseAttributionLib.AffiseParameters
      */
     internal class NetworkTypeProvider : StringPropertyProvider
     {
-        private readonly INativeUseCase _useCase;
-
-        public NetworkTypeProvider(INativeUseCase useCase)
-        {
-            _useCase = useCase;
-        }
-
-        public override string Provide() => _useCase.GetNetworkType();
+        public override float Order => 23.1f;
+        public override string Key => Parameters.NETWORK_TYPE;
+        public override string Provide() => null;
     }
 }

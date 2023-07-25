@@ -1,5 +1,4 @@
 ﻿using AffiseAttributionLib.AffiseParameters.Base;
-using AffiseAttributionLib.Native.NativeUseCase;
 
 namespace AffiseAttributionLib.AffiseParameters
 {
@@ -8,13 +7,8 @@ namespace AffiseAttributionLib.AffiseParameters
      */
     internal class GoogleAdvertisingIdProvider : StringPropertyProvider
     {
-        private readonly INativeUseCase _useCase;
-
-        public GoogleAdvertisingIdProvider(INativeUseCase useCase)
-        {
-            _useCase = useCase;
-        }
-
-        public override string Provide() => _useCase.GetGaidAdid();
+        public override float Order => 31.3f;
+        public override string Key => Parameters.GAID_ADID;
+        public override string Provide() => null;
     }
 }

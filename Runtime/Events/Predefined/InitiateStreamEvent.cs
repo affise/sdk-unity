@@ -1,28 +1,24 @@
-﻿using SimpleJSON;
+﻿using System;
+using SimpleJSON;
 
 namespace AffiseAttributionLib.Events.Predefined
 {
     public class InitiateStreamEvent : NativeEvent
     {
-        private readonly JSONObject _stream;
-        private readonly long _timeStampMillis;
-        private readonly string _userData;
+        public InitiateStreamEvent(): base()
+        {}
+        public InitiateStreamEvent(string userData): base(userData: userData)
+        {}
+        public InitiateStreamEvent(string userData, long timeStampMillis): base(userData, timeStampMillis)
+        {}
 
+        [Obsolete("use InitiateStreamEvent(userData, timeStampMillis)")]
         public InitiateStreamEvent(JSONObject stream, long timeStampMillis, string userData)
+            :base(userData, timeStampMillis)
         {
-            _stream = stream;
-            _timeStampMillis = timeStampMillis;
-            _userData = userData;
+            AnyData = stream;
         }
 
-        public override JSONNode Serialize() => new JSONObject
-        {
-            ["affise_event_initiate_stream"] = _stream,
-            ["affise_event_initiate_stream_timestamp"] = _timeStampMillis,
-        };
-
-        public override string GetName() => "InitiateStream";
-
-        public override string GetUserData() => _userData;
+        public override string GetName() => EventName.INITIATE_STREAM.ToValue();
     }
 }

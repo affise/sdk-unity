@@ -8,6 +8,8 @@ namespace AffiseAttributionLib.AffiseParameters
      */
     internal class LastSessionTimeProvider : LongPropertyProvider
     {
+        public override float Order => 21.0f;
+        public override string Key => Parameters.LAST_SESSION_TIME;
         private readonly ISessionManager _sessionManager;
 
         public LastSessionTimeProvider(ISessionManager sessionManager)

@@ -8,6 +8,9 @@ namespace AffiseAttributionLib.AffiseParameters
      */
     internal class DeeplinkProvider : StringPropertyProvider
     {
+        public override float Order => 58.0f;
+        public override string Key => Parameters.AFFISE_DEEPLINK;
+        
         private readonly IDeeplinkClickRepository _deeplinkClickRepository;
 
         public DeeplinkProvider(IDeeplinkClickRepository deeplinkClickRepository)

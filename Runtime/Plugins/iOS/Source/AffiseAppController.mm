@@ -13,12 +13,12 @@
 {
     [[AffiseNativeModule shared] application:application launchOptions:launchOptions];
     NSURL *url = [launchOptions objectForKey:UIApplicationLaunchOptionsURLKey];
-    [[AffiseNativeModule shared] deeplink:url.absoluteString];
+    [[AffiseNativeModule shared] handleDeeplink:url.absoluteString];
     return [super application:application didFinishLaunchingWithOptions:launchOptions];
 }
 
 - (BOOL) application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
-    [[AffiseNativeModule shared] deeplink:url.absoluteString];
+    [[AffiseNativeModule shared] handleDeeplink:url.absoluteString];
     return [super application:app openURL:url options:options];
 }
 
@@ -26,7 +26,7 @@
     BOOL result = false;
     if (userActivity.activityType == NSUserActivityTypeBrowsingWeb) {
         NSURL *url = userActivity.webpageURL;
-        [[AffiseNativeModule shared] deeplink:url.absoluteString];
+        [[AffiseNativeModule shared] handleDeeplink:url.absoluteString];
         result = false;
     }
     result = [super application:application continueUserActivity:userActivity restorationHandler:restorationHandler];

@@ -1,28 +1,24 @@
-﻿using SimpleJSON;
+﻿using System;
+using SimpleJSON;
 
 namespace AffiseAttributionLib.Events.Predefined
 {
     public class InviteEvent : NativeEvent
     {
-        private readonly JSONObject _invite;
-        private readonly long _timeStampMillis;
-        private readonly string _userData;
+        public InviteEvent(): base()
+        {}
+        public InviteEvent(string userData): base(userData: userData)
+        {}
+        public InviteEvent(string userData, long timeStampMillis): base(userData, timeStampMillis)
+        {}
 
+        [Obsolete("use InviteEvent(userData, timeStampMillis)")]
         public InviteEvent(JSONObject invite, long timeStampMillis, string userData)
+            :base(userData, timeStampMillis)
         {
-            _invite = invite;
-            _timeStampMillis = timeStampMillis;
-            _userData = userData;
+            AnyData = invite;
         }
 
-        public override JSONNode Serialize() => new JSONObject
-        {
-            ["affise_event_invite"] = _invite,
-            ["affise_event_invite_timestamp"] = _timeStampMillis,
-        };
-
-        public override string GetName() => "Invite";
-
-        public override string GetUserData() => _userData;
+        public override string GetName() => EventName.INVITE.ToValue();
     }
 }

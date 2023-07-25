@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿#nullable enable
+using System.Collections.Generic;
 using AffiseAttributionLib.Deeplink;
 using AffiseAttributionLib.Events;
 using AffiseAttributionLib.Init;
+using AffiseAttributionLib.Modules;
 using AffiseAttributionLib.Referrer;
 
 namespace AffiseAttributionLib.Native
@@ -12,7 +14,7 @@ namespace AffiseAttributionLib.Native
 
         void SendEvents();
 
-        void StoreEvent(AffiseEvent affiseEvent);
+        void SendEvent(AffiseEvent affiseEvent);
 
         void AddPushToken(string pushToken);
 
@@ -43,5 +45,11 @@ namespace AffiseAttributionLib.Native
         void GetReferrer(ReferrerCallback callback);
 
         void GetReferrerValue(ReferrerKey key, ReferrerCallback callback);
+        
+        void GetStatus(AffiseModules module, OnKeyValueCallback callback);
+
+        string? GetRandomUserId();
+
+        string? GetRandomDeviceId();
     }
 }

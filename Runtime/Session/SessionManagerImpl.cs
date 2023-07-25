@@ -1,12 +1,16 @@
-using System;
-using AffiseAttributionLib.Extensions;
 using AffiseAttributionLib.AffiseParameters;
+using AffiseAttributionLib.Utils;
 
 namespace AffiseAttributionLib.Session
 {
     public class SessionManagerImpl : ISessionManager
     {
         private const long TIME_TO_START_SESSION = 15 * 1000L;
+
+        private SessionData _sessionData = new(
+            lifetimeSessionCount: PrefUtils.GetLong(Parameters.LIFETIME_SESSION_COUNT),
+            affiseSessionCount: PrefUtils.GetLong(Parameters.AFFISE_SESSION_COUNT)
+        );
 
         /**
          * Time of start session
@@ -53,14 +57,7 @@ namespace AffiseAttributionLib.Session
                 //Check open activity count
                 if (count > 0)
                 {
-                    //App is open
-                    _isOpenApp = true;
-
-                    // Check create open app time
-                    if (_openAppTime is not null) return;
-
-                    //open app time
-                    _openAppTime = GetTimeMillis();
+                    SessionStart();
                 }
                 else
                 {
@@ -83,6 +80,26 @@ namespace AffiseAttributionLib.Session
                     _openAppTime = null;
                 }
             });
+        }
+
+        public void SessionStart()
+        {
+            //App is open
+            _isOpenApp = true;
+
+            // Check create open app time
+            if (_openAppTime is null)
+            {
+                //open app time
+                _openAppTime = GetTimeMillis();
+            }
+
+            // TODO send InternalEvent
+            // Delay.Run(TIME_TO_START_SESSION, () =>
+            // {
+            //     if (SessionTime() == 0L) return;
+            //     //Send sdk events
+            // });
         }
 
         /**
@@ -141,9 +158,9 @@ namespace AffiseAttributionLib.Session
                 CheckSessionToStart();
             }
 
-            return PlayerPrefsExt.GetLong(Parameters.AFFISE_SESSION_COUNT, 0L);
+            return _sessionData.AffiseSessionCount;
         }
-        
+
         /**
          * Get session start
          */
@@ -159,19 +176,29 @@ namespace AffiseAttributionLib.Session
         {
             if (_sessionActive) return;
 
-            //Check open app time
-            if (_openAppTime is null) return;
-
-            //Time current session
-            var time = GetTimeMillis() - _openAppTime - TIME_TO_START_SESSION;
+            if (SessionTime() <= 0) return;
 
             //if session started
-            if (time <= 0) return;
-
             _sessionActive = true;
 
             //Save new session
             AddNewSession();
+        }
+
+        private long SessionTime()
+        {
+            if (_sessionActive) return 0L;
+
+            //Check open app time
+            if (_openAppTime is null) return 0L;
+
+            //Time current session
+            var time = GetTimeMillis() - _openAppTime - TIME_TO_START_SESSION ?? 0L;
+
+            if (time <= 0) return 0L;
+
+            //if session started
+            return time;
         }
 
         /**
@@ -179,26 +206,29 @@ namespace AffiseAttributionLib.Session
          */
         private void SaveSessionTime()
         {
-            PlayerPrefsExt.SetLong(Parameters.LIFETIME_SESSION_COUNT, GetLifetimeSessionTime());
+            var lifetimeSessionTime = GetLifetimeSessionTime();
+            _sessionData = _sessionData.Copy(lifetimeSessionCount: lifetimeSessionTime);
+            PrefUtils.SaveLong(Parameters.LIFETIME_SESSION_COUNT, lifetimeSessionTime);
         }
 
         /**
          * Get all old sessions time
          */
-        private long GetSaveSessionsTime() => PlayerPrefsExt.GetLong(Parameters.LIFETIME_SESSION_COUNT, 0L);
+        private long GetSaveSessionsTime() => _sessionData.LifetimeSessionCount;
 
         /**
          * Save new session count
          */
         private void AddNewSession()
         {
-            var count = PlayerPrefsExt.GetLong(Parameters.AFFISE_SESSION_COUNT, 0L);
-            PlayerPrefsExt.SetLong(Parameters.AFFISE_SESSION_COUNT, count + 1);
+            var count = _sessionData.AffiseSessionCount + 1;
+            _sessionData = _sessionData.Copy(affiseSessionCount: count);
+            PrefUtils.SaveLong(Parameters.AFFISE_SESSION_COUNT, count);
         }
 
         private long GetTimeMillis()
         {
-            return DateTime.UtcNow.GetTimeInMillis();
+            return Timestamp.New();
         }
     }
 }

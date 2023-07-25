@@ -9,6 +9,9 @@ namespace AffiseAttributionLib.AffiseParameters
      */
     internal class AffAppTokenPropertyProvider : StringWithParamPropertyProvider
     {
+        public override float Order => 61.0f;
+        public override string Key => Parameters.AFFISE_APP_TOKEN;
+        
         private readonly IInitPropertiesStorage _initProperties;
         private readonly IConverter<string, string> _stringToSHA256Converter;
 

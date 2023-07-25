@@ -1,4 +1,5 @@
 using System;
+using AffiseAttributionLib.Coroutine;
 
 namespace AffiseAttributionLib.Utils
 {

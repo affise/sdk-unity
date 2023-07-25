@@ -1,4 +1,5 @@
-﻿using AffiseAttributionLib.Events.Predefined;
+﻿using System;
+using AffiseAttributionLib.Events.Property;
 using SimpleJSON;
 
 namespace AffiseAttributionLib.Events.Predefined
@@ -6,28 +7,35 @@ namespace AffiseAttributionLib.Events.Predefined
     public class LastAttributedTouchEvent : NativeEvent
     {
         private readonly TouchType _touchType;
-        private readonly long _timeStampMillis;
         private readonly JSONObject _touchData;
-        private readonly string _userData;
 
-        public LastAttributedTouchEvent(TouchType touchType, long timeStampMillis, JSONObject touchData,
-            string userData)
+        public LastAttributedTouchEvent(): base()
+        {}
+        public LastAttributedTouchEvent(string userData): base(userData: userData)
+        {}
+        public LastAttributedTouchEvent(string userData, long timeStampMillis): base(userData, timeStampMillis)
+        {}
+
+        [Obsolete("use LastAttributedTouchEvent(userData, timeStampMillis)")]
+        public LastAttributedTouchEvent(
+            TouchType touchType,
+            long timeStampMillis,
+            JSONObject touchData,
+            string userData
+        )
+            : base(userData, timeStampMillis)
         {
             _touchType = touchType;
-            _timeStampMillis = timeStampMillis;
             _touchData = touchData;
-            _userData = userData;
         }
 
-        public override JSONNode Serialize() => new JSONObject
+        protected override AffisePropertyBuilder SerializeBuilder()
         {
-            ["affise_event_last_attributed_touch_type"] = _touchType.ToValue(),
-            ["affise_event_last_attributed_touch_timestamp"] = _timeStampMillis,
-            ["affise_event_last_attributed_touch_data"] = _touchData,
-        };
+            return base.SerializeBuilder()
+                .Add("type", _touchType.ToValue())
+                .Add("data", _touchData);
+        }
 
-        public override string GetName() => "LastAttributedTouch";
-
-        public override string GetUserData() => _userData;
+        public override string GetName() => EventName.LAST_ATTRIBUTED_TOUCH.ToValue();
     }
 }

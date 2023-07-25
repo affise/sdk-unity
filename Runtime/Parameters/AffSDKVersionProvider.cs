@@ -1,5 +1,4 @@
 ﻿using AffiseAttributionLib.AffiseParameters.Base;
-using AffiseAttributionLib.Init;
 
 namespace AffiseAttributionLib.AffiseParameters
 {
@@ -8,13 +7,8 @@ namespace AffiseAttributionLib.AffiseParameters
      */
     internal class AffSDKVersionProvider : StringPropertyProvider
     {
-        private readonly IInitPropertiesStorage _initPropertiesStorage;
-
-        public AffSDKVersionProvider(IInitPropertiesStorage initPropertiesStorage)
-        {
-            _initPropertiesStorage = initPropertiesStorage;
-        }
-
-        public override string Provide() => _initPropertiesStorage.GetProperties().buildInfo?.version ?? "unknown";
+        public override float Order => 47.0f;
+        public override string Key => Parameters.AFFISE_SDK_VERSION;
+        public override string Provide() => "1.6.0";
     }
 }

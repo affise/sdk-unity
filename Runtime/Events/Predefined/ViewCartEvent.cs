@@ -1,25 +1,23 @@
-﻿using SimpleJSON;
+﻿using System;
+using SimpleJSON;
 
 namespace AffiseAttributionLib.Events.Predefined
 {
     public class ViewCartEvent : NativeEvent
     {
-        private readonly JSONObject _objects;
-        private readonly string _userData;
+        public ViewCartEvent(): base()
+        {}
+        public ViewCartEvent(string userData): base(userData: userData)
+        {}
+        public ViewCartEvent(string userData, long timeStampMillis): base(userData, timeStampMillis)
+        {}
 
-        public ViewCartEvent(JSONObject objects, string userData)
+        [Obsolete("use ViewCartEvent(userData, timeStampMillis)")]
+        public ViewCartEvent(JSONObject objects, string userData): base(userData: userData)
         {
-            _objects = objects;
-            _userData = userData;
+            AnyData = objects;
         }
 
-        public override JSONNode Serialize() => new JSONObject
-        {
-            ["affise_event_view_cart"] = _objects,
-        };
-
-        public override string GetName() => "ViewCart";
-
-        public override string GetUserData() => _userData;
+        public override string GetName() => EventName.VIEW_CART.ToValue();
     }
 }

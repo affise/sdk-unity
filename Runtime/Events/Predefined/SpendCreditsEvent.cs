@@ -1,28 +1,24 @@
-﻿using SimpleJSON;
+﻿using System;
+using SimpleJSON;
 
 namespace AffiseAttributionLib.Events.Predefined
 {
     public class SpendCreditsEvent : NativeEvent
     {
-        private readonly long _credits;
-        private readonly long _timeStampMillis;
-        private readonly string _userData;
+        public SpendCreditsEvent(): base()
+        {}
+        public SpendCreditsEvent(string userData): base(userData: userData)
+        {}
+        public SpendCreditsEvent(string userData, long timeStampMillis): base(userData, timeStampMillis)
+        {}
 
+        [Obsolete("use SpendCreditsEvent(userData, timeStampMillis)")]
         public SpendCreditsEvent(long credits, long timeStampMillis, string userData)
+            :base(userData, timeStampMillis)
         {
-            _credits = credits;
-            _timeStampMillis = timeStampMillis;
-            _userData = userData;
+            AnyData = credits;
         }
 
-        public override JSONNode Serialize() => new JSONObject
-        {
-            ["affise_event_spend_credits"] = _credits,
-            ["affise_event_spend_credits_timestamp"] = _timeStampMillis,
-        };
-
-        public override string GetName() => "SpendCredits";
-
-        public override string GetUserData() => _userData;
+        public override string GetName() => EventName.SPEND_CREDITS.ToValue();
     }
 }

@@ -7,6 +7,6 @@ namespace AffiseAttributionLib.Executors
     {
         void Execute(IEnumerator execute);
 
-        void ExecuteWithDelay(Action action, float delay);
+        void ExecuteWithDelay(long delay, Action action);
     }
 }

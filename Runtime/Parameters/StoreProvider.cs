@@ -1,5 +1,4 @@
 ﻿using AffiseAttributionLib.AffiseParameters.Base;
-using AffiseAttributionLib.Native.NativeUseCase;
 
 namespace AffiseAttributionLib.AffiseParameters
 {
@@ -8,13 +7,14 @@ namespace AffiseAttributionLib.AffiseParameters
      */
     internal class StoreProvider : StringPropertyProvider
     {
-        private readonly INativeUseCase _useCase;
-
-        public StoreProvider(INativeUseCase useCase)
-        {
-            _useCase = useCase;
+        public override float Order => 5.0f;
+        public override string Key => Parameters.STORE;
+        public override string Provide() {
+#if UNITY_STANDALONE_WIN
+            return "exe";
+#else
+            return null;
+#endif
         }
-
-        public override string Provide() => _useCase.GetStore();
     }
 }

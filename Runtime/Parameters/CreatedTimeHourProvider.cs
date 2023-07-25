@@ -1,6 +1,5 @@
-﻿using System;
-using AffiseAttributionLib.AffiseParameters.Base;
-using AffiseAttributionLib.Extensions;
+﻿using AffiseAttributionLib.AffiseParameters.Base;
+using AffiseAttributionLib.Utils;
 
 namespace AffiseAttributionLib.AffiseParameters
 {
@@ -9,14 +8,8 @@ namespace AffiseAttributionLib.AffiseParameters
      */
     internal class CreatedTimeHourProvider : LongPropertyProvider
     {
-        /**
-         * Provider for parameter [Parameters.CREATED_TIME_HOUR]
-         */
-        public override long? Provide()
-        {
-            var date = DateTime.UtcNow;
-            var result = new DateTime(date.Year, date.Month, date.Day, date.Hour, 0, 0);
-            return result.ToLocalTime().GetTimeInMillis();
-        }
+        public override float Order => 20.0f;
+        public override string Key => Parameters.CREATED_TIME_HOUR;
+        public override long? Provide() => Timestamp.NewHour();
     }
 }

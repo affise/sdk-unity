@@ -1,28 +1,24 @@
-﻿using SimpleJSON;
+﻿using System;
+using SimpleJSON;
 
 namespace AffiseAttributionLib.Events.Predefined
 {
     public class AddToWishlistEvent : NativeEvent
     {
-        private readonly JSONObject _wishList;
-        private readonly long _timeStampMillis;
-        private readonly string _userData;
+        public AddToWishlistEvent(): base()
+        {}
+        public AddToWishlistEvent(string userData): base(userData: userData)
+        {}
+        public AddToWishlistEvent(string userData, long timeStampMillis): base(userData, timeStampMillis)
+        {}
 
+        [Obsolete("use AddToWishlistEvent(userData, timeStampMillis)")]
         public AddToWishlistEvent(JSONObject wishList, long timeStampMillis, string userData)
+            :base(userData, timeStampMillis)
         {
-            _wishList = wishList;
-            _timeStampMillis = timeStampMillis;
-            _userData = userData;
+            AnyData = wishList;
         }
 
-        public override JSONNode Serialize() => new JSONObject
-        {
-            ["affise_event_add_to_wishlist"] = _wishList,
-            ["affise_event_add_to_wishlist_timestamp"] = _timeStampMillis,
-        };
-
-        public override string GetName() => "AddToWishlist";
-
-        public override string GetUserData() => _userData;
+        public override string GetName() => EventName.ADD_TO_WISHLIST.ToValue();
     }
 }

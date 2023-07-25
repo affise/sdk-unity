@@ -7,7 +7,7 @@
         IMPRESSION
     }
     
-    public static class TouchTypeExtensions
+    public static class TouchTypeExt
     {
         public static string ToValue(this TouchType type)
         {

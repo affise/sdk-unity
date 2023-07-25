@@ -1,28 +1,24 @@
-﻿using SimpleJSON;
+﻿using System;
+using SimpleJSON;
 
 namespace AffiseAttributionLib.Events.Predefined
 {
     public class ViewAdvEvent : NativeEvent
     {
-        private readonly JSONObject _ad;
-        private readonly long _timeStampMillis;
-        private readonly string _userData;
+        public ViewAdvEvent(): base()
+        {}
+        public ViewAdvEvent(string userData): base(userData: userData)
+        {}
+        public ViewAdvEvent(string userData, long timeStampMillis): base(userData, timeStampMillis)
+        {}
 
+        [Obsolete("use ViewAdvEvent(userData, timeStampMillis)")]
         public ViewAdvEvent(JSONObject ad, long timeStampMillis, string userData)
+            :base(userData, timeStampMillis)
         {
-            _ad = ad;
-            _timeStampMillis = timeStampMillis;
-            _userData = userData;
+            AnyData = ad;
         }
 
-        public override JSONNode Serialize() => new JSONObject
-        {
-            ["affise_event_view_adv"] = _ad,
-            ["affise_event_view_adv_timestamp"] = _timeStampMillis,
-        };
-
-        public override string GetName() => "ViewAdv";
-
-        public override string GetUserData() => _userData;
+        public override string GetName() => EventName.VIEW_ADV.ToValue();
     }
 }

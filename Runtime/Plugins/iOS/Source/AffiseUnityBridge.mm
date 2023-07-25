@@ -17,37 +17,37 @@ static NSString* CreateNSString(const char* string)
     return string ? [NSString stringWithUTF8String:string] : nil;
 }
 
-typedef void (*NativeEventCallback)(const char* eventName, const char* data);
+typedef void (*NativeCallback)(const char* apiName, const char* data);
 
 extern "C" {
 
-    void _c_register_callback(NativeEventCallback callback) {
+    void _c_register_callback(NativeCallback callback) {
         if (callback == NULL) return;
-        
-        [[AffiseNativeModule shared] eventCallback: ^(NSString* eventName, NSString* data) {
-            callback(cStringCopy([eventName UTF8String]), cStringCopy([data UTF8String]));
+        // todo check
+        [[AffiseNativeModule shared] callback: ^(NSString* apiName, NSString* data) {
+            callback(cStringCopy([apiName UTF8String]), cStringCopy([data UTF8String]));
         }];
     }
     
-    void _c_void_method_json(const char* methodName, const char* json) {
-        NSString *method = CreateNSString(methodName); 
+    void _c_void_method_json(const char* apiName, const char* json) {
+        NSString *api = CreateNSString(apiName); 
         NSString *data = CreateNSString(json);
         
-        [[AffiseNativeModule shared] voidMethod:method json:data];
+        [[AffiseNativeModule shared] apiCallVoid:api json:data];
     }
 
-    bool _c_bool_method_json(const char* methodName, const char* json) {
-        NSString *method = CreateNSString(methodName); 
+    bool _c_bool_method_json(const char* apiName, const char* json) {
+        NSString *api = CreateNSString(apiName); 
         NSString *data = CreateNSString(json);
         
-        return [[AffiseNativeModule shared] boolMethod:method json:data];
+        return [[AffiseNativeModule shared] apiCallBool:api json:data];
     }
 
-    const char* _c_string_method_json(const char* methodName, const char* json) {
-        NSString *method = CreateNSString(methodName); 
+    const char* _c_string_method_json(const char* apiName, const char* json) {
+        NSString *api = CreateNSString(apiName); 
         NSString *data = CreateNSString(json);
         
-        NSString *result = [[AffiseNativeModule shared] stringMethod:method json:data];
+        NSString *result = [[AffiseNativeModule shared] apiCallString:api json:data];
         return cStringCopy([result UTF8String]);
     }
 }

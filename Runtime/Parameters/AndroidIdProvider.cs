@@ -1,5 +1,4 @@
 ﻿using AffiseAttributionLib.AffiseParameters.Base;
-using AffiseAttributionLib.Native.NativeUseCase;
 
 namespace AffiseAttributionLib.AffiseParameters
 {
@@ -8,13 +7,9 @@ namespace AffiseAttributionLib.AffiseParameters
      */
     internal class AndroidIdProvider : StringPropertyProvider
     {
-        private readonly INativeUseCase _useCase;
-
-        public AndroidIdProvider(INativeUseCase useCase)
-        {
-            _useCase = useCase;
-        }
-
-        public override string Provide() => _useCase.GetAndroidId();
+        public override float Order => 30.0f;
+        public override string Key => Parameters.ANDROID_ID;
+        
+        public override string Provide() => null;
     }
 }

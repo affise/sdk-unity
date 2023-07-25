@@ -1,7 +1,7 @@
 ﻿using System;
-using AffiseAttributionLib.Extensions;
 using AffiseAttributionLib.AffiseParameters;
 using AffiseAttributionLib.Session;
+using AffiseAttributionLib.Utils;
 using UnityEngine;
 
 namespace AffiseAttributionLib.Usecase
@@ -15,7 +15,7 @@ namespace AffiseAttributionLib.Usecase
             _activityCountProvider = activityCountProvider;
         }
 
-        private const string FIRST_OPENED = "FIRST_OPENED_DATE_KEY";
+        private const string FIRST_OPENED = "FIRST_OPENED";
         private const string FIRST_OPENED_DATE_KEY = "FIRST_OPENED_DATE_KEY";
         private const string AFF_DEVICE_ID = "AFF_DEVICE_ID";
         private const string AFF_ALT_DEVICE_ID = "AFF_ALT_DEVICE_ID";
@@ -25,10 +25,12 @@ namespace AffiseAttributionLib.Usecase
          */
         public void OnAppCreated()
         {
-            if (PlayerPrefsExt.GetLong(FIRST_OPENED_DATE_KEY, 0) == 0L)
+            if (PrefUtils.GetLong(FIRST_OPENED_DATE_KEY) == 0L)
             {
                 OnAppFirstOpen();
             }
+
+            CheckSaveUUIDs();
 
             //init session observer
             _activityCountProvider.Init();
@@ -40,33 +42,34 @@ namespace AffiseAttributionLib.Usecase
         private void OnAppFirstOpen()
         {
             //Create first open date
-            var firstOpenDate = DateTime.UtcNow.GetTimeInMillis();
+            var firstOpenDate = Timestamp.New();
 
-            //Create affDevId
-            var affDevId = Guid.NewGuid().ToString();
-
-            //Create affAltDevId
-            var affAltDevId = Guid.NewGuid().ToString();
+            CheckSaveUUIDs();
             
-            //Create randomUserId
-            var randomUserId = Guid.NewGuid().ToString();
-
-            PlayerPrefsExt.SetLong(FIRST_OPENED_DATE_KEY, firstOpenDate);
-            PlayerPrefs.SetInt(FIRST_OPENED, 1);
-            PlayerPrefs.SetString(AFF_DEVICE_ID, affDevId);
-            PlayerPrefs.SetString(AFF_ALT_DEVICE_ID, affAltDevId);
-            PlayerPrefs.SetString(Parameters.RANDOM_USER_ID, randomUserId);
+            //Save properties
+            PrefUtils.SaveLong(FIRST_OPENED_DATE_KEY, firstOpenDate);
+            PrefUtils.SaveBoolean(FIRST_OPENED, true);
         }
-        
+
+        private void CheckSaveUUIDs()
+        {
+            //Create affDevId
+            PrefUtils.CheckSaveString(AFF_DEVICE_ID, Uuid.Generate);
+            //Create affAltDevId
+            PrefUtils.CheckSaveString(AFF_ALT_DEVICE_ID, Uuid.Generate);
+            //Create randomUserId
+            PrefUtils.CheckSaveString(Parameters.RANDOM_USER_ID, Uuid.Generate);
+        }
+
         /**
          * Get first open
          * @return is first open
          */
         public bool IsFirstOpen()
         {
-            if (PlayerPrefs.GetInt(FIRST_OPENED, 1) == 0) return false;
-            
-            PlayerPrefs.SetInt(FIRST_OPENED, 0);
+            var firstOpened = PrefUtils.GetBoolean(FIRST_OPENED, true);
+            if (!firstOpened) return false;
+            PrefUtils.SaveBoolean(FIRST_OPENED, false);
             return true;
         }
         
@@ -74,10 +77,10 @@ namespace AffiseAttributionLib.Usecase
          * Get first open date
          * @return first open date
          */
-        public DateTime GetFirstOpenDate()
+        public DateTime? GetFirstOpenDate()
         {
-            var time = PlayerPrefsExt.GetLong(FIRST_OPENED_DATE_KEY, 0);
-            if (time == 0L) return new DateTime(1970, 1, 1).ToLocalTime();
+            var time = PrefUtils.GetLong(FIRST_OPENED_DATE_KEY, 0);
+            if (time == 0L) return null;
             
             return DateTimeOffset.FromUnixTimeMilliseconds(time).UtcDateTime;
         }
@@ -86,19 +89,19 @@ namespace AffiseAttributionLib.Usecase
          * Get devise id
          * @return devise id
          */
-        public string GetAffiseDeviseId() => PlayerPrefs.GetString(AFF_DEVICE_ID, "");
+        public string GetAffiseDeviseId() => PrefUtils.GetString(AFF_DEVICE_ID, "");
         
         /**
          * Get alt devise id
          * @return alt devise id
          */
-        public string GetAffiseAltDeviseId() => PlayerPrefs.GetString(AFF_ALT_DEVICE_ID, "");
+        public string GetAffiseAltDeviseId() => PrefUtils.GetString(AFF_ALT_DEVICE_ID, "");
 
 
         /**
          * Get random user id
          * @return random user id
          */
-        public string getRandomUserId() => PlayerPrefs.GetString(Parameters.RANDOM_USER_ID, "");
+        public string GetRandomUserId() => PrefUtils.GetString(Parameters.RANDOM_USER_ID, "");
     }
 }

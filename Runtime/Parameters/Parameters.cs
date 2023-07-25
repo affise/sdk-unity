@@ -51,6 +51,7 @@
         public const string DEVICE_TYPE = "device_type";
         public const string OS_NAME = "os_name";
         public const string PLATFORM = "platform";
+        public const string SDK_PLATFORM = "sdk_platform";
         public const string API_LEVEL_OS = "api_level_os";
         public const string AFFISE_SDK_VERSION = "affise_sdk_version";
         public const string OS_VERSION = "os_version";

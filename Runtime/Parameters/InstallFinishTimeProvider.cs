@@ -1,6 +1,6 @@
 ﻿using AffiseAttributionLib.AffiseParameters.Base;
-using AffiseAttributionLib.Extensions;
 using AffiseAttributionLib.Usecase;
+using AffiseAttributionLib.Utils;
 
 namespace AffiseAttributionLib.AffiseParameters
 {
@@ -9,6 +9,9 @@ namespace AffiseAttributionLib.AffiseParameters
      */
     internal class InstallFinishTimeProvider : LongPropertyProvider
     {
+        public override float Order => 12.0f;
+        public override string Key => Parameters.INSTALL_FINISH_TIME;
+        
         private readonly FirstAppOpenUseCase _useCase;
 
         public InstallFinishTimeProvider(FirstAppOpenUseCase firstAppOpenUseCase)
@@ -16,6 +19,6 @@ namespace AffiseAttributionLib.AffiseParameters
             _useCase = firstAppOpenUseCase;
         }
 
-        public override long? Provide() => _useCase.GetFirstOpenDate().GetTimeInMillis();
+        public override long? Provide() => _useCase.GetFirstOpenDate()?.GetTimeInMillis();
     }
 }

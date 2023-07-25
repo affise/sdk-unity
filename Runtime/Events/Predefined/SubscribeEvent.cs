@@ -1,28 +1,24 @@
-﻿using SimpleJSON;
+﻿using System;
+using SimpleJSON;
 
 namespace AffiseAttributionLib.Events.Predefined
 {
     public class SubscribeEvent : NativeEvent
     {
-        private readonly JSONObject _subscribe;
-        private readonly long _timeStampMillis;
-        private readonly string _userData;
+        public SubscribeEvent(): base()
+        {}
+        public SubscribeEvent(string userData): base(userData: userData)
+        {}
+        public SubscribeEvent(string userData, long timeStampMillis): base(userData, timeStampMillis)
+        {}
 
+        [Obsolete("use SubscribeEvent(userData, timeStampMillis)")]
         public SubscribeEvent(JSONObject subscribe, long timeStampMillis, string userData)
+            :base(userData, timeStampMillis)
         {
-            _subscribe = subscribe;
-            _timeStampMillis = timeStampMillis;
-            _userData = userData;
+            AnyData = subscribe;
         }
 
-        public override JSONNode Serialize() => new JSONObject
-        {
-            ["affise_event_subscribe"] = _subscribe,
-            ["affise_event_subscribe_timestamp"] = _timeStampMillis,
-        };
-
-        public override string GetName() => "Subscribe";
-
-        public override string GetUserData() => _userData;
+        public override string GetName() => EventName.SUBSCRIBE.ToValue();
     }
 }

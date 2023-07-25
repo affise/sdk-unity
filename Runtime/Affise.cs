@@ -1,38 +1,41 @@
-﻿using System.Collections.Generic;
-using AffiseAttributionLib.Events;
-using AffiseAttributionLib.Init;
+﻿#nullable enable
+using System.Collections.Generic;
 using AffiseAttributionLib.AffiseParameters;
 using AffiseAttributionLib.Deeplink;
+using AffiseAttributionLib.Events;
+using AffiseAttributionLib.Init;
+using AffiseAttributionLib.Modules;
 using AffiseAttributionLib.Referrer;
-#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR 
+using AffiseAttributionLib.Utils;
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
 using AffiseAttributionLib.Native;
 #endif
-using UnityEngine;
 
 namespace AffiseAttributionLib
 {
     public static class Affise
     {
-#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR 
-        private static IAffiseNative _native;
-#else   
-        private static AffiseComponent _api;
-#endif 
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+        private static IAffiseNative? _native;
+#else
+        private static AffiseComponent? _api;
+#endif
 
-        public static bool IsInit  {
+        public static bool IsInit
+        {
             get
             {
-#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR 
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
                 return _native is not null;
-#else            
+#else
                 return _api is not null;
-#endif 
+#endif
             }
         }
 
         public static void Init(AffiseInitProperties initProperties)
         {
-#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR  
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
             if (_native is not null) return;
             _native = new AffiseNative(initProperties);
 #else
@@ -46,10 +49,10 @@ namespace AffiseAttributionLib
          */
         public static void SendEvents()
         {
-#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR  
-            _native.SendEvents();
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+            _native?.SendEvents();
 #else
-            _api.EventsManager.SendEvents();
+            _api?.EventsManager.SendEvents();
 #endif
         }
 
@@ -58,22 +61,22 @@ namespace AffiseAttributionLib
          */
         public static void SendEvent(AffiseEvent affiseEvent)
         {
-#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR  
-            _native.StoreEvent(affiseEvent);
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+            _native?.SendEvent(affiseEvent);
 #else
-            _api.StoreEventUseCase.StoreEvent(affiseEvent);
+            _api?.StoreEventUseCase.StoreEvent(affiseEvent);
 #endif
         }
-        
+
         /**
          * Add [pushToken]
          */
         public static void AddPushToken(string pushToken)
         {
-#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR 
-            _native.AddPushToken(pushToken);
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+            _native?.AddPushToken(pushToken);
 #else
-            PlayerPrefs.SetString(PushTokenProvider.KEY_APP_PUSHTOKEN, pushToken);
+            PrefUtils.SaveString(PushTokenProvider.KEY_APP_PUSHTOKEN, pushToken);
 #endif
         }
 
@@ -82,40 +85,40 @@ namespace AffiseAttributionLib
          */
         public static void RegisterDeeplinkCallback(DeeplinkCallback callback)
         {
-#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR 
-            _native.RegisterDeeplinkCallback(callback);
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+            _native?.RegisterDeeplinkCallback(callback);
 #else
             _api?.DeeplinkManager?.SetDeeplinkCallback(callback);
 #endif
         }
-        
+
         /**
          * Set [pushToken]
          */
         public static void SetSecretId(string secretId)
         {
-#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR 
-            _native.SetSecretId(secretId);
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+            _native?.SetSecretId(secretId);
 #endif
         }
-        
+
         /**
          * Set offline mode to [enabled] state
          */
         public static void SetOfflineModeEnabled(bool enabled)
         {
-#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR 
-            _native.SetOfflineModeEnabled(enabled);
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+            _native?.SetOfflineModeEnabled(enabled);
 #endif
         }
-        
+
         /**
          * Return current offline mode state
          */
         public static bool? IsOfflineModeEnabled()
         {
-#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR 
-            return _native.IsOfflineModeEnabled();
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+            return _native?.IsOfflineModeEnabled();
 #else
             return null;
 #endif
@@ -126,18 +129,18 @@ namespace AffiseAttributionLib
          */
         public static void SetBackgroundTrackingEnabled(bool enabled)
         {
-#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR 
-            _native.SetBackgroundTrackingEnabled(enabled);
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+            _native?.SetBackgroundTrackingEnabled(enabled);
 #endif
         }
-        
+
         /**
          * Return current background tracking state
          */
         public static bool? IsBackgroundTrackingEnabled()
         {
-#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR 
-            return _native.IsBackgroundTrackingEnabled();
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+            return _native?.IsBackgroundTrackingEnabled();
 #else
             return null;
 #endif
@@ -148,20 +151,49 @@ namespace AffiseAttributionLib
          */
         public static void SetTrackingEnabled(bool enabled)
         {
-#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR 
-            _native.SetTrackingEnabled(enabled);
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+            _native?.SetTrackingEnabled(enabled);
 #endif
         }
-        
+
         /**
          * Return current tracking state
          */
         public static bool? IsTrackingEnabled()
         {
-#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR 
-            return _native.IsTrackingEnabled();
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+            return _native?.IsTrackingEnabled();
 #else
             return null;
+#endif
+        }
+
+        /**
+         * Get module status
+         */
+        public static void GetStatus(AffiseModules module, OnKeyValueCallback onComplete)
+        {
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+            _native?.GetStatus(module, onComplete);
+#else
+#endif
+        }
+
+        public static string? GetRandomUserId()
+        {
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+            return _native?.GetRandomUserId();
+#else
+            return _api?.PostBackModelFactory.GetProvider<RandomUserIdProvider>()?.Provide();
+#endif
+        }
+
+        public static string? GetRandomDeviceId()
+        {
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+            return _native?.GetRandomDeviceId();
+#else
+            return _api?.PostBackModelFactory.GetProvider<AffiseDeviceIdProvider>()?.Provide();
 #endif
         }
 
@@ -172,59 +204,57 @@ namespace AffiseAttributionLib
              */
             public static void SetAutoCatchingTypes(List<AutoCatchingType> types)
             {
-#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR 
-                _native.SetAutoCatchingTypes(types);
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+                _native?.SetAutoCatchingTypes(types);
 #endif
             }
-            
+
             /**
              * Erases all user data
              */
             public static void Forget(string userData)
             {
-#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR 
-                _native.Forget(userData);
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+                _native?.Forget(userData);
 #endif
             }
-        
+
             /**
              * Set [enabled] to collect metrics
              */
             public static void SetEnabledMetrics(bool enabled)
             {
-#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR 
-                _native.SetEnabledMetrics(enabled);
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+                _native?.SetEnabledMetrics(enabled);
 #endif
             }
-            
+
             public static void CrashApplication()
             {
-#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR 
-                _native.CrashApplication();
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+                _native?.CrashApplication();
 #endif
             }
-            
+
             /**
              * Get referrer
              */
             public static void GetReferrer(ReferrerCallback callback)
             {
-#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR 
-                _native.GetReferrer(callback);
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+                _native?.GetReferrer(callback);
 #else
-                callback.Invoke(_api?.InstallReferrerProvider?.Provide());
 #endif
             }
-            
+
             /**
              * Get referrer value by key
              */
             public static void GetReferrerValue(ReferrerKey key, ReferrerCallback callback)
             {
-#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR 
-                _native.GetReferrerValue(key, callback);
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+                _native?.GetReferrerValue(key, callback);
 #else
-                callback.Invoke(_api?.InstallReferrerProvider?.Provide());
 #endif
             }
         }

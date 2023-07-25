@@ -1,4 +1,5 @@
 ﻿using System;
+using AffiseAttributionLib.Native.Base;
 using UnityEngine;
 
 namespace AffiseAttributionLib.Native.Android
@@ -6,80 +7,81 @@ namespace AffiseAttributionLib.Native.Android
 #if UNITY_ANDROID && !UNITY_EDITOR
     internal class NativeAndroid : AndroidJavaProxy, INative
     {
-        private const string JavaNativeModules = "com.affise.attribution.unity.AffiseNativeModule";
-        private const string JavaNativeEventCallback = "com.affise.attribution.unity.common.NativeEventCallback";
+        private const string JavaModule = "com.affise.attribution.unity.AffiseNativeModule";
+        private const string JavaAffiseCallback = "com.affise.attribution.internal.callback.OnAffiseCallback";
         
         private const string JavaUnityPlayer = "com.unity3d.player.UnityPlayer";
-        private const string JavaInvokeMethod = "invokeMethod";
-        private const string JavaInvokeMethodVoid = "invokeMethodVoid";
+        private const string JavaApiCall = "apiCall";
+        private const string JavaApiCallVoid = "apiCallVoid";
 
         private readonly AndroidJavaObject _plugin;
         
-        private event INative.NativeEventCallback OnNativeEvent;
+        private event INative.AffiseNativeCallback OnAffiseCallback;
 
-        public NativeAndroid() : base(JavaNativeEventCallback)
+        public NativeAndroid() : base(JavaAffiseCallback)
         {
             try
             {
                 var unityContext = new AndroidJavaClass(JavaUnityPlayer);
                 var activity = unityContext.GetStatic<AndroidJavaObject>("currentActivity");
                 var app = activity.Call<AndroidJavaObject>("getApplication");
-                _plugin = new AndroidJavaObject(JavaNativeModules, app, this);
+                _plugin = new AndroidJavaObject(JavaModule, app, this);
             }
             catch (Exception e)
             {
-                Debug.LogError($"Error android native module: {e}");
+                Debug.LogError($"Module NativeAndroid error: {e}");
             }
         }
 
-        protected void HandleEvent(string eventName, string data)
+        // Java interface signature is case sensitive
+        protected void handleCallback(string eventName, string data)
         {
-            OnNativeEvent?.Invoke(eventName, data);
+            OnAffiseCallback?.Invoke(eventName, data);
         }
 
-        public void EventCallback(INative.NativeEventCallback method)
+        public void SetCallback(INative.AffiseNativeCallback method)
         {
-            OnNativeEvent += method;
+            OnAffiseCallback += method;
         }
 
-        public T Native<T>(string name, string json)
+        public T Native<T>(string apiName, string json)
         {
             try
             {
-                return _plugin.Call<T>(JavaInvokeMethod, name, json);
+                return _plugin.Call<T>(JavaApiCall, apiName, json);
             }
             catch (AndroidJavaException e)
             {
-                Debug.LogError($"AndroidJavaException: {e.Message}");
+                Debug.LogError($"NativeAndroid.Native<T>(): {e.Message}");
             }
             catch (Exception e)
             {
-                Debug.LogError($"Error native method: {name}: {e}");
+                Debug.LogError($"Api [ {apiName} ] error: {json}:\n {e}");
             }
 
             return default;
         }
 
-        public T Native<T>(string name)
+        public T Native<T>(string apiName)
         {
-            return Native<T>(name, "{}");
+            return Native<T>(apiName, "{}");
         }
 
-        public void Native(string name, string json)
+        public void Native(string apiName, string json)
         {
             try
             {
-                _plugin.Call(JavaInvokeMethodVoid, name, json);
+                _plugin.Call(JavaApiCallVoid, apiName, json);
             }
             catch (Exception e)
             {
-                Debug.LogError($"Error native method: {name}: {e}");
+                Debug.LogError($"Api [ {apiName} ] error: {json}:\n {e}");
             }
         }
 
-        public void Native(string name)
+        public void Native(string apiName)
         {
-            Native(name, "{}");
+            Native(apiName, "{}");
         }
     }
 #endif

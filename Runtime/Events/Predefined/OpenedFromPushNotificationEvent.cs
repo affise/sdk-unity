@@ -1,25 +1,24 @@
-﻿using SimpleJSON;
+﻿using System;
+using SimpleJSON;
 
 namespace AffiseAttributionLib.Events.Predefined
 {
     public class OpenedFromPushNotificationEvent : NativeEvent
     {
-        private readonly string _details;
-        private readonly string _userData;
+        public OpenedFromPushNotificationEvent(): base()
+        {}
+        public OpenedFromPushNotificationEvent(string userData): base(userData: userData)
+        {}
+        public OpenedFromPushNotificationEvent(string userData, long timeStampMillis): base(userData, timeStampMillis)
+        {}
 
+        [Obsolete("use OpenedFromPushNotificationEvent(userData, timeStampMillis)")]
         public OpenedFromPushNotificationEvent(string details, string userData)
+            :base(userData)
         {
-            _details = details;
-            _userData = userData;
+            AnyData = details;
         }
 
-        public override JSONNode Serialize() => new JSONObject
-        {
-            ["affise_event_opened_from_push_notification"] = _details
-        };
-
-        public override string GetName() => "OpenedFromPushNotification";
-
-        public override string GetUserData() => _userData;
+        public override string GetName() => EventName.OPENED_FROM_PUSH_NOTIFICATION.ToValue();
     }
 }

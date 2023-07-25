@@ -1,5 +1,4 @@
 ﻿using AffiseAttributionLib.AffiseParameters.Base;
-using AffiseAttributionLib.Native.NativeUseCase;
 
 namespace AffiseAttributionLib.AffiseParameters
 {
@@ -8,13 +7,8 @@ namespace AffiseAttributionLib.AffiseParameters
      */
     internal class ConnectionTypeProvider : StringPropertyProvider
     {
-        private readonly INativeUseCase _useCase;
-
-        public ConnectionTypeProvider(INativeUseCase useCase)
-        {
-            _useCase = useCase;
-        }
-
-        public override string Provide() => _useCase.GetConnectionType();
+        public override float Order => 21.1f;
+        public override string Key => Parameters.CONNECTION_TYPE;
+        public override string Provide() => null;
     }
 }

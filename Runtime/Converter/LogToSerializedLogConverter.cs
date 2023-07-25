@@ -1,7 +1,7 @@
 using System;
-using AffiseAttributionLib.Extensions;
 using AffiseAttributionLib.Logs;
 using AffiseAttributionLib.AffiseParameters;
+using AffiseAttributionLib.Utils;
 using SimpleJSON;
 
 namespace AffiseAttributionLib.Converter
@@ -39,7 +39,7 @@ namespace AffiseAttributionLib.Converter
                 ["affise_sdkevent_name"] = "affise_event_sdklog",
 
                 //Add timestam
-                ["affise_sdkevent_timestamp"] = DateTime.UtcNow.GetTimeInMillis(),
+                ["affise_sdkevent_timestamp"] = Timestamp.New(),
 
                 //Add parameters
                 ["affise_sdkevent_parameters"] = parameters,

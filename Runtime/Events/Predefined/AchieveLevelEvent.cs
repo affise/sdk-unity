@@ -1,28 +1,24 @@
-﻿using SimpleJSON;
+﻿using System;
+using SimpleJSON;
 
 namespace AffiseAttributionLib.Events.Predefined
 {
     public class AchieveLevelEvent : NativeEvent
     {
-        private readonly JSONObject _level;
-        private readonly long _timeStampMillis;
-        private readonly string _userData;
-
+        public AchieveLevelEvent(): base()
+        {}
+        public AchieveLevelEvent(string userData): base(userData: userData)
+        {}
+        public AchieveLevelEvent(string userData, long timeStampMillis): base(userData, timeStampMillis)
+        {}
+        
+        [Obsolete("use AchieveLevelEvent(userData, timeStampMillis)")]
         public AchieveLevelEvent(JSONObject level, long timeStampMillis, string userData)
+            : base(userData, timeStampMillis)
         {
-            _level = level;
-            _timeStampMillis = timeStampMillis;
-            _userData = userData;
+            AnyData = level;
         }
 
-        public override JSONNode Serialize() => new JSONObject
-        {
-            ["affise_event_achieve_level"] = _level,
-            ["affise_event_achieve_level_timestamp"] = _timeStampMillis,
-        };
-
-        public override string GetName() => "AchieveLevel";
-
-        public override string GetUserData() => _userData;
+        public override string GetName() => EventName.ACHIEVE_LEVEL.ToValue();
     }
 }

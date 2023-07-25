@@ -1,36 +1,30 @@
-﻿using SimpleJSON;
+﻿using AffiseAttributionLib.Events.Property;
+using SimpleJSON;
 
 namespace AffiseAttributionLib.Events.Subscription
 {
     public abstract class BaseSubscriptionEvent : NativeEvent
     {
         private readonly JSONObject _data;
-        private readonly string _userData;
 
-        protected BaseSubscriptionEvent(JSONObject data, string userData)
+        protected BaseSubscriptionEvent(JSONObject data, string userData) 
+            : base(userData)
         {
             _data = data;
-            _userData = userData;
         }
 
-        public override JSONNode Serialize()
+        protected override AffisePropertyBuilder SerializeBuilder()
         {
-            var result = new JSONObject
+            var result = base.SerializeBuilder();
+            result.AddRaw(SubscriptionParameters.AFFISE_SUBSCRIPTION_EVENT_TYPE_KEY, SubType());
+            foreach (var item in _data)
             {
-                [SubscriptionParameters.AFFISE_SUBSCRIPTION_EVENT_TYPE_KEY] = SubType(),
-            };
-            
-            foreach (var (key, value) in _data)
-            {
-                result.Add(key, value);
+                result.AddRaw(item.Key, item.Value);
             }
-
             return result;
         }
 
         public override string GetName() => Type();
-
-        public override string GetUserData() => _userData;
 
         public abstract string Type();
 

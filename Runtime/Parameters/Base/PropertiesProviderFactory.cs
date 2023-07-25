@@ -1,8 +1,8 @@
-﻿using AffiseAttributionLib.AffiseParameters.Factory;
+﻿using System.Collections.Generic;
+using AffiseAttributionLib.AffiseParameters.Factory;
 using AffiseAttributionLib.Converter;
 using AffiseAttributionLib.Deeplink;
 using AffiseAttributionLib.Init;
-using AffiseAttributionLib.Native.NativeUseCase;
 using AffiseAttributionLib.Session;
 using AffiseAttributionLib.Usecase;
 
@@ -15,9 +15,7 @@ namespace AffiseAttributionLib.AffiseParameters.Base
         private readonly IInitPropertiesStorage _initPropertiesStorage;
         private readonly IConverter<string, string> _stringToSHA256Converter;
         private readonly IConverter<string, string> _stringToMd5Converter;
-        private readonly INativeUseCase _nativeUseCase;
         private readonly IDeeplinkClickRepository _deeplinkClickRepository;
-        private readonly InstallReferrerProvider _installReferrerProvider;
 
         public PropertiesProviderFactory(
             FirstAppOpenUseCase firstAppOpenUseCase,
@@ -25,9 +23,7 @@ namespace AffiseAttributionLib.AffiseParameters.Base
             IInitPropertiesStorage initPropertiesStorage,
             IConverter<string, string> stringToSHA256Converter,
             IConverter<string, string> stringToMd5Converter,
-            INativeUseCase nativeUseCase, 
-            IDeeplinkClickRepository deeplinkClickRepository,
-            InstallReferrerProvider installReferrerProvider
+            IDeeplinkClickRepository deeplinkClickRepository
         )
         {
             _firstAppOpenUseCase = firstAppOpenUseCase;
@@ -35,72 +31,89 @@ namespace AffiseAttributionLib.AffiseParameters.Base
             _initPropertiesStorage = initPropertiesStorage;
             _stringToSHA256Converter = stringToSHA256Converter;
             _stringToMd5Converter = stringToMd5Converter;
-            _nativeUseCase = nativeUseCase;
             _deeplinkClickRepository = deeplinkClickRepository;
-            _installReferrerProvider = installReferrerProvider;
         }
 
         public PostBackModelFactory Create()
         {
+            var createdTimeProvider = new CreatedTimeProvider();
+            var firstOpenTimeProvider = new FirstOpenTimeProvider(_firstAppOpenUseCase);
+            var lastSessionTimeProvider = new LastSessionTimeProvider(_sessionManager);
             return new PostBackModelFactory(
-                uuidProvider: new UuidProvider(),
-                affiseAppIdProvider: new AffiseAppIdProvider(_initPropertiesStorage),
-                affisePkgAppNameProvider: new AffisePackageAppNameProvider(),
-                appVersionProvider: new AppVersionProvider(),
-                appVersionRawProvider: new AppVersionRawProvider(),
-                storeProvider: new StoreProvider(_nativeUseCase),
-                installedTimeProvider: new InstalledTimeProvider(_nativeUseCase),
-                firstOpenTimeProvider: new FirstOpenTimeProvider(_firstAppOpenUseCase),
-                installedHourProvider: new InstalledHourProvider(_nativeUseCase),
-                firstOpenHourProvider: new FirstOpenHourProvider(_firstAppOpenUseCase),
-                installFirstEventProvider: new InstallFirstEventProvider(_firstAppOpenUseCase),
-                installBeginTimeProvider: new InstallBeginTimeProvider(_nativeUseCase),
-                installFinishTimeProvider: new InstallFinishTimeProvider(_firstAppOpenUseCase),
-                referrerInstallVersionProvider: new ReferrerInstallVersionProvider(_nativeUseCase),
-                referrerClickTimestampProvider: new ReferrerClickTimestampProvider(_nativeUseCase),
-                referrerClickTimestampServerProvider: new ReferrerClickTimestampServerProvider(_nativeUseCase),
-                referrerGooglePlayInstantProvider: new ReferrerGooglePlayInstantProvider(_nativeUseCase),
-                createdTimeProvider: new CreatedTimeProvider(),
-                createdTimeMilliProvider: new CreatedTimeMilliProvider(),
-                createdTimeHourProvider: new CreatedTimeHourProvider(),
-                lastSessionTimeProvider: new LastSessionTimeProvider(_sessionManager),
-                connectionTypeProvider: new ConnectionTypeProvider(_nativeUseCase),
-                cpuTypeProvider: new CpuTypeProvider(),
-                hardwareNameProvider: new HardwareNameProvider(),
-                networkTypeProvider: new NetworkTypeProvider(_nativeUseCase),
-                deviceManufacturerProvider: new DeviceManufacturerProvider(_nativeUseCase),
-                deeplinkClickProvider: new DeeplinkClickPropertyProvider(_deeplinkClickRepository),
-                affDeviceIdProvider: new AffiseDeviceIdProvider(_firstAppOpenUseCase),
-                affAltDeviceIdProvider: new AffiseAltDeviceIdProvider(_firstAppOpenUseCase),
-                androidIdProvider: new AndroidIdProvider(_nativeUseCase),
-                gaidAdidProvider: new GoogleAdvertisingIdProvider(_nativeUseCase),
-                gaidAdidMd5Provider: new GoogleAdvertisingIdMd5Provider(_nativeUseCase, _stringToMd5Converter),
-                reftokenProvider: new RefTokenProvider(),
-                referrerProvider: _installReferrerProvider,
-                userAgentProvider: new UserAgentProvider(),
-                ispProvider: new IspNameProvider(_nativeUseCase),
-                languageProvider: new LanguageProvider(),
-                deviceNameProvider: new DeviceNameProvider(),
-                deviceTypeProvider: new DeviceTypeProvider(),
-                osNameProvider: new OsNameProvider(),
-                platformProvider: new PlatformNameProvider(),
-                apiLevelOsProvider: new ApiLevelOSProvider(_nativeUseCase),
-                affSdkVersionProvider: new AffSDKVersionProvider(_initPropertiesStorage),
-                osVersionProvider: new OSVersionProvider(_nativeUseCase),
-                randomUserIdProvider: new RandomUserIdProvider(_firstAppOpenUseCase),
-                affSdkPosProvider: new IsProductionPropertyProvider(_initPropertiesStorage),
-                timezoneDevProvider: new TimezoneDeviceProvider(),
-                lastTimeSessionProvider: new LastSessionTimeProvider(_sessionManager),
-                timeSessionProvider: new TimeSessionProvider(_sessionManager),
-                affSessionCountProvider: new AffiseSessionCountProvider(_sessionManager),
-                affAppOpenedProvider: new AffiseAppOpenedProvider(_sessionManager),
-                lifetimeSessionCountProvider: new LifetimeSessionCountProvider(_sessionManager),
-                affDeeplinkProvider: new DeeplinkProvider(_deeplinkClickRepository),
-                affPartParamNameProvider: new AffPartParamNamePropertyProvider(_initPropertiesStorage),
-                affPartParamNameTokenProvider: new AffPartParamNameTokenPropertyProvider(_initPropertiesStorage),
-                affAppTokenProvider: new AffAppTokenPropertyProvider(_initPropertiesStorage, _stringToSHA256Converter),
-                affsdkSecretIdProvider: new AffSDKSecretIdProvider(_initPropertiesStorage),
-                pushtokenProvider: new PushTokenProvider()
+                providers: new List<Provider>
+                {
+                    new UuidProvider(),
+                    new AffiseAppIdProvider(_initPropertiesStorage),
+                    new AffisePackageAppNameProvider(),
+                    new AppVersionProvider(),
+                    new AppVersionRawProvider(),
+                    new StoreProvider(),
+                    new InstalledTimeProvider(),
+                    firstOpenTimeProvider,
+                    new InstalledHourProvider(),
+                    new FirstOpenHourProvider(_firstAppOpenUseCase),
+                    new InstallFirstEventProvider(_firstAppOpenUseCase),
+                    new InstallBeginTimeProvider(),
+                    new InstallFinishTimeProvider(_firstAppOpenUseCase),
+                    new ReferrerInstallVersionProvider(),
+                    new ReferrerClickTimestampProvider(),
+                    new ReferrerClickTimestampServerProvider(),
+                    new ReferrerGooglePlayInstantProvider(),
+                    createdTimeProvider,
+                    new CreatedTimeMilliProvider(),
+                    new CreatedTimeHourProvider(),
+                    new CustomLongProvider(Parameters.LAST_TIME_SESSION, 54.0f, () =>
+                    {
+                        var lastTimeSession = lastSessionTimeProvider.ProvideWithDefault();
+                        if (lastTimeSession > 0)
+                        {
+                            return lastTimeSession;
+                        }
+                        return firstOpenTimeProvider.ProvideWithDefault() ?? 0L;
+                    }),
+                    new ConnectionTypeProvider(),
+                    new CpuTypeProvider(),
+                    new HardwareNameProvider(),
+                    new NetworkTypeProvider(),
+                    new DeviceManufacturerProvider(),
+                    new DeeplinkClickPropertyProvider(_deeplinkClickRepository),
+                    // new EmptyStringProvider(Parameters.DEVICE_ATLAS_ID, 26.0f),
+                    new AffiseDeviceIdProvider(_firstAppOpenUseCase),
+                    new AffiseAltDeviceIdProvider(_firstAppOpenUseCase),
+                    new AndroidIdProvider(),
+                    new GoogleAdvertisingIdProvider(),
+                    new GoogleAdvertisingIdMd5Provider(_stringToMd5Converter),
+                    new RefTokenProvider(),
+                    new InstallReferrerProvider(),
+                    new UserAgentProvider(),
+                    new IspNameProvider(),
+                    new LanguageProvider(),
+                    new DeviceNameProvider(),
+                    new DeviceTypeProvider(),
+                    new OsNameProvider(),
+                    new PlatformNameProvider(),
+                    new SdkPlatformNameProvider(),
+                    new ApiLevelOSProvider(),
+                    new AffSDKVersionProvider(),
+                    new OSVersionProvider(),
+                    new RandomUserIdProvider(_firstAppOpenUseCase),
+                    new IsProductionPropertyProvider(_initPropertiesStorage),
+                    new TimezoneDeviceProvider(),
+                    // new EmptyStringProvider(Parameters.AFFISE_EVENT_TOKEN, 52.0f),
+                    // new EmptyStringProvider(Parameters.AFFISE_EVENT_NAME, 53.0f),
+                    lastSessionTimeProvider,
+                    new TimeSessionProvider(_sessionManager),
+                    new AffiseSessionCountProvider(_sessionManager),
+                    new AffiseAppOpenedProvider(_sessionManager),
+                    new LifetimeSessionCountProvider(_sessionManager),
+                    new DeeplinkProvider(_deeplinkClickRepository),
+                    new AffPartParamNamePropertyProvider(_initPropertiesStorage),
+                    new AffPartParamNameTokenPropertyProvider(_initPropertiesStorage),
+                    new AffAppTokenPropertyProvider(_initPropertiesStorage, _stringToSHA256Converter),
+                    // new EmptyStringProvider(Parameters.LABEL, 62.0f),
+                    // new AffSDKSecretIdProvider(_initPropertiesStorage),
+                    new PushTokenProvider()
+                }
             );
         }
     }

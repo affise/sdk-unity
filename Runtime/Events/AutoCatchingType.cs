@@ -1,4 +1,7 @@
-﻿namespace AffiseAttributionLib.Events
+﻿using System.Collections.Generic;
+using SimpleJSON;
+
+namespace AffiseAttributionLib.Events
 {
     public enum AutoCatchingType
     {
@@ -11,7 +14,7 @@
         GROUP
     }
     
-    public static class AutoCatchingTypeExtensions
+    internal static class AutoCatchingTypeExtensions
     {
         public static string ToValue(this AutoCatchingType type)
         {
@@ -26,6 +29,16 @@
                 AutoCatchingType.GROUP => "GROUP",
                 _ => null
             };
+        }
+
+        public static JSONArray ToJsonArray(this List<AutoCatchingType> types)
+        {
+            var result = new JSONArray();
+            foreach (var type in types)
+            {
+                result.Add(type.ToValue());
+            }
+            return result;
         }
     }
 }

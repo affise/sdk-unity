@@ -1,25 +1,23 @@
-﻿using SimpleJSON;
+﻿using System;
+using SimpleJSON;
 
 namespace AffiseAttributionLib.Events.Predefined
 {
     public class UpdateEvent : NativeEvent
     {
-        private readonly JSONArray _details;
-        private readonly string _userData;
+        public UpdateEvent(): base()
+        {}
+        public UpdateEvent(string userData): base(userData: userData)
+        {}
+        public UpdateEvent(string userData, long timeStampMillis): base(userData, timeStampMillis)
+        {}
 
-        public UpdateEvent(JSONArray details, string userData)
+        [Obsolete("use UpdateEvent(userData, timeStampMillis)")]
+        public UpdateEvent(JSONArray details, string userData): base(userData: userData)
         {
-            _details = details;
-            _userData = userData;
+            AnyData = details;
         }
 
-        public override JSONNode Serialize() => new JSONObject
-        {
-            ["affise_event_update"] = _details
-        };
-
-        public override string GetName() => "Update";
-
-        public override string GetUserData() => _userData;
+        public override string GetName() => EventName.UPDATE.ToValue();
     }
 }

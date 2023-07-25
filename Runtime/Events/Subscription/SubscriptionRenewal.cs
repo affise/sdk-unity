@@ -8,8 +8,8 @@ namespace AffiseAttributionLib.Events.Subscription
         {
         }
 
-        public override string Type() => SubscriptionParameters.AFFISE_SUBSCRIPTION_RENEWAL;
+        public override string Type() => SubscriptionEventName.AFFISE_SUBSCRIPTION_RENEWAL.ToValue();
 
-        public override string SubType() => SubscriptionParameters.AFFISE_SUB_RENEWED_SUBSCRIPTION;
+        public override string SubType() => SubscriptionSubType.AFFISE_SUB_RENEWED_SUBSCRIPTION.ToValue();
     }
 }

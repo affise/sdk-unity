@@ -1,28 +1,24 @@
-﻿using SimpleJSON;
+﻿using System;
+using SimpleJSON;
 
 namespace AffiseAttributionLib.Events.Predefined
 {
     public class UnsubscribeEvent : NativeEvent
     {
-        private readonly JSONObject _unsubscribe;
-        private readonly long _timeStampMillis;
-        private readonly string _userData;
+        public UnsubscribeEvent(): base()
+        {}
+        public UnsubscribeEvent(string userData): base(userData: userData)
+        {}
+        public UnsubscribeEvent(string userData, long timeStampMillis): base(userData, timeStampMillis)
+        {}
 
+        [Obsolete("use UnsubscribeEvent(userData, timeStampMillis)")]
         public UnsubscribeEvent(JSONObject unsubscribe, long timeStampMillis, string userData)
+            :base(userData, timeStampMillis)
         {
-            _unsubscribe = unsubscribe;
-            _timeStampMillis = timeStampMillis;
-            _userData = userData;
+            AnyData = unsubscribe;
         }
 
-        public override JSONNode Serialize() => new JSONObject
-        {
-            ["affise_event_unsubscribe"] = _unsubscribe,
-            ["affise_event_unsubscribe_timestamp"] = _timeStampMillis,
-        };
-
-        public override string GetName() => "Unsubscribe";
-
-        public override string GetUserData() => _userData;
+        public override string GetName() => EventName.UNSUBSCRIBE.ToValue();
     }
 }

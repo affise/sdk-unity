@@ -1,25 +1,22 @@
-﻿using SimpleJSON;
+﻿using System;
 
 namespace AffiseAttributionLib.Events.Predefined
 {
     public class DeepLinkedEvent : NativeEvent
     {
-        private readonly bool _isLinked;
-        private readonly string _userData;
+        public DeepLinkedEvent(): base()
+        {}
+        public DeepLinkedEvent(string userData): base(userData: userData)
+        {}
+        public DeepLinkedEvent(string userData, long timeStampMillis): base(userData, timeStampMillis)
+        {}
 
-        public DeepLinkedEvent(bool isLinked, string userData)
+        [Obsolete("use DeepLinkedEvent(userData, timeStampMillis)")]
+        public DeepLinkedEvent(bool isLinked, string userData): base(userData: userData)
         {
-            _isLinked = isLinked;
-            _userData = userData;
+            AnyData = isLinked;
         }
 
-        public override JSONNode Serialize() => new JSONObject
-        {
-            ["affise_event_deep_linked"] = _isLinked,
-        };
-
-        public override string GetName() => "DeepLinked";
-
-        public override string GetUserData() => _userData;
+        public override string GetName() => EventName.DEEP_LINKED.ToValue();
     }
 }

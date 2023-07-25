@@ -1,5 +1,4 @@
 ﻿using AffiseAttributionLib.AffiseParameters.Base;
-using AffiseAttributionLib.Native.NativeUseCase;
 
 namespace AffiseAttributionLib.AffiseParameters
 {
@@ -8,13 +7,8 @@ namespace AffiseAttributionLib.AffiseParameters
      */
     internal class InstalledTimeProvider : LongPropertyProvider
     {
-        private readonly INativeUseCase _useCase;
-
-        public InstalledTimeProvider(INativeUseCase useCase)
-        {
-            _useCase = useCase;
-        }
-
-        public override long? Provide() => _useCase.GetInstalledTime();
+        public override float Order => 6.0f;
+        public override string Key => Parameters.INSTALLED_TIME;
+        public override long? Provide() => null;
     }
 }

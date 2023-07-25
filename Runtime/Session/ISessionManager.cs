@@ -48,5 +48,7 @@ namespace AffiseAttributionLib.Session
          * @return session start time
          */
         long? GetSessionStartTime();
+
+        void SessionStart();
     }
 }

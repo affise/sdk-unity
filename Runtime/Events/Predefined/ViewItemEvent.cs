@@ -1,25 +1,23 @@
-﻿using SimpleJSON;
+﻿using System;
+using SimpleJSON;
 
 namespace AffiseAttributionLib.Events.Predefined
 {
     public class ViewItemEvent : NativeEvent
     {
-        private readonly JSONObject _item;
-        private readonly string _userData;
+        public ViewItemEvent(): base()
+        {}
+        public ViewItemEvent(string userData): base(userData: userData)
+        {}
+        public ViewItemEvent(string userData, long timeStampMillis): base(userData, timeStampMillis)
+        {}
 
-        public ViewItemEvent(JSONObject item, string userData)
+        [Obsolete("use ViewItemEvent(userData, timeStampMillis)")]
+        public ViewItemEvent(JSONObject item, string userData): base(userData: userData)
         {
-            _item = item;
-            _userData = userData;
+            AnyData = item;
         }
 
-        public override JSONNode Serialize() => new JSONObject
-        {
-            ["affise_event_view_item"] = _item,
-        };
-
-        public override string GetName() => "ViewItem";
-
-        public override string GetUserData() => _userData;
+        public override string GetName() => EventName.VIEW_ITEM.ToValue();
     }
 }

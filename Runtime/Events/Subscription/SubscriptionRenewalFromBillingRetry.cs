@@ -8,9 +8,9 @@ namespace AffiseAttributionLib.Events.Subscription
         {
         }
 
-        public override string Type() => SubscriptionParameters.AFFISE_SUBSCRIPTION_RENEWAL_FROM_BILLING_RETRY;
+        public override string Type() => SubscriptionEventName.AFFISE_SUBSCRIPTION_RENEWAL_FROM_BILLING_RETRY.ToValue();
 
-        public override string SubType() => SubscriptionParameters.AFFISE_SUB_CONVERTED_TRIAL_FROM_RETRY;
+        public override string SubType() => SubscriptionSubType.AFFISE_SUB_CONVERTED_TRIAL_FROM_RETRY.ToValue();
     }
     
     public class ConvertedOfferFromRetryEvent : BaseSubscriptionEvent
@@ -19,9 +19,9 @@ namespace AffiseAttributionLib.Events.Subscription
         {
         }
 
-        public override string Type() => SubscriptionParameters.AFFISE_SUBSCRIPTION_RENEWAL_FROM_BILLING_RETRY;
+        public override string Type() => SubscriptionEventName.AFFISE_SUBSCRIPTION_RENEWAL_FROM_BILLING_RETRY.ToValue();
 
-        public override string SubType() => SubscriptionParameters.AFFISE_SUB_CONVERTED_OFFER_FROM_RETRY;
+        public override string SubType() => SubscriptionSubType.AFFISE_SUB_CONVERTED_OFFER_FROM_RETRY.ToValue();
     }
     
     public class RenewedSubscriptionFromRetryEvent : BaseSubscriptionEvent
@@ -30,8 +30,8 @@ namespace AffiseAttributionLib.Events.Subscription
         {
         }
 
-        public override string Type() => SubscriptionParameters.AFFISE_SUBSCRIPTION_RENEWAL_FROM_BILLING_RETRY;
+        public override string Type() => SubscriptionEventName.AFFISE_SUBSCRIPTION_RENEWAL_FROM_BILLING_RETRY.ToValue();
 
-        public override string SubType() => SubscriptionParameters.AFFISE_SUB_RENEWED_SUBSCRIPTION_FROM_RETRY;
+        public override string SubType() => SubscriptionSubType.AFFISE_SUB_RENEWED_SUBSCRIPTION_FROM_RETRY.ToValue();
     }
 }
