@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using AffiseAttributionLib.AffiseParameters.Base;
 
 namespace AffiseAttributionLib.AffiseParameters

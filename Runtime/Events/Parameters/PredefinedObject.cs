@@ -1,4 +1,4 @@
-namespace AffiseAttributionLib.Events.Parameters
+﻿namespace AffiseAttributionLib.Events.Parameters
 {
     public enum PredefinedObject
     {

@@ -11,10 +11,10 @@
             properties = model;
         }
 
-        public void UpdateSecretId(string secretId)
+        public void UpdateSecretKey(string secretKey)
         {
             properties = properties.Copy();
-            properties.secretId = secretId;
+            properties.secretKey = secretKey;
         }
     }
 }

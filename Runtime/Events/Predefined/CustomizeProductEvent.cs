@@ -1,4 +1,4 @@
-namespace AffiseAttributionLib.Events.Predefined
+﻿namespace AffiseAttributionLib.Events.Predefined
 {
     public class CustomizeProductEvent: NativeEvent
     {

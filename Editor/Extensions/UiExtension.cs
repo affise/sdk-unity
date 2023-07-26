@@ -10,18 +10,12 @@ namespace AffiseAttributionLib.Editor.Extensions
             return root; 
         }
         
-        public static VisualElement Gone(this VisualElement input, bool gone, string className = "gone")
+        public static VisualElement Hide(this VisualElement input, bool hide = true)
         {
-            if (gone)
-            {
-                input.AddToClassList(className);
-            }
-            else
-            {
-                input.RemoveFromClassList(className);
-            }
-
+            input.style.display = hide ? DisplayStyle.None : DisplayStyle.Flex;
             return input;
         }
+        
+        public static VisualElement Show(this VisualElement input, bool show = true) => input.Hide(!show);
     }
 }

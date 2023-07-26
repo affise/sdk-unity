@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 
 namespace AffiseAttributionLib.Native
 {
@@ -10,7 +10,7 @@ namespace AffiseAttributionLib.Native
         ADD_PUSH_TOKEN,
         REGISTER_WEB_VIEW,
         UNREGISTER_WEB_VIEW,
-        SET_SECRET_ID,
+        SET_SECRET_KEY,
         SET_AUTO_CATCHING_TYPES,
         SET_OFFLINE_MODE_ENABLED,
         IS_OFFLINE_MODE_ENABLED,
@@ -53,7 +53,7 @@ namespace AffiseAttributionLib.Native
                 AffiseApiMethod.ADD_PUSH_TOKEN => "add_push_token",
                 AffiseApiMethod.REGISTER_WEB_VIEW => "register_web_view",
                 AffiseApiMethod.UNREGISTER_WEB_VIEW => "unregister_web_view",
-                AffiseApiMethod.SET_SECRET_ID => "set_secret_id",
+                AffiseApiMethod.SET_SECRET_KEY => "set_secret_id",
                 AffiseApiMethod.SET_AUTO_CATCHING_TYPES => "set_auto_catching_types",
                 AffiseApiMethod.SET_OFFLINE_MODE_ENABLED => "set_offline_mode_enabled",
                 AffiseApiMethod.IS_OFFLINE_MODE_ENABLED => "is_offline_mode_enabled",

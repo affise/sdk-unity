@@ -46,9 +46,9 @@ namespace AffiseAttributionLib.Native
             NativeCallback(AffiseApiMethod.REGISTER_DEEPLINK_CALLBACK, callback: callback);
         }
 
-        public void SetSecretId(string secretId)
+        public void SetSecretKey(string secretKey)
         {
-            Native(AffiseApiMethod.SET_SECRET_ID, secretId);
+            Native(AffiseApiMethod.SET_SECRET_KEY, secretKey);
         }
 
         public void SetAutoCatchingTypes(List<AutoCatchingType> types)

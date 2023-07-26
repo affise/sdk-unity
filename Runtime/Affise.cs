@@ -176,6 +176,7 @@ namespace AffiseAttributionLib
 #if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
             _native?.GetStatus(module, onComplete);
 #else
+            onComplete.Invoke(new List<AffiseKeyValue>());
 #endif
         }
 
@@ -244,6 +245,7 @@ namespace AffiseAttributionLib
 #if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
                 _native?.GetReferrer(callback);
 #else
+                callback.Invoke("");
 #endif
             }
 
@@ -255,6 +257,7 @@ namespace AffiseAttributionLib
 #if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
                 _native?.GetReferrerValue(key, callback);
 #else
+                callback.Invoke("");
 #endif
             }
         }

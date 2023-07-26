@@ -1,4 +1,4 @@
-using AffiseAttributionLib.AffiseParameters.Base;
+﻿using AffiseAttributionLib.AffiseParameters.Base;
 using AffiseAttributionLib.Extensions;
 using UnityEngine;
 

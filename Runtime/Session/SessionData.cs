@@ -1,4 +1,4 @@
-namespace AffiseAttributionLib.Session
+﻿namespace AffiseAttributionLib.Session
 {
     internal class SessionData
     {

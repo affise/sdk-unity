@@ -1,22 +1,39 @@
-<UXML xmlns="UnityEngine.UIElements"
-      xmlns:uie="UnityEditor.UIElements"
-      editor-extension-mode="true"
->
-    <Style src="Styles.uss"/>
-    <Style src="AffiseSettingsProvider.uss"/>
-
-    <Label name="label" text="Affise" class="settings-label"/>
-    <uie:ObjectField name="settings-field" type="AffiseAttributionLib.AffiseSettings, Affise" allow-scene-objects="false" class="ms-3"/>
-
-    <VisualElement name="settings-new" class="grow mt-3">
-        <VisualElement class="center grow">
-            <VisualElement>
-                <Label name="settings-info" text="Settings" class="text-center bold p-3"/>
-                <Button name="settings-create" text="Create" class="settings-create"/>
-            </VisualElement>
-        </VisualElement>
-    </VisualElement>
-    <VisualElement name="settings" class="grow mt-3">
-        <uie:InspectorElement name="settings-inspector" class="grow"/>
-    </VisualElement>
-</UXML>
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xmlns="UnityEngine.UIElements" editor-extension-mode="true">
+    <Style src="project://database/Assets/Packages/_GITHUB_sdk-unity/Editor/Resources/Layouts/Styles.uss?fileID=7433441132597879392&amp;guid=75669a2da9324d948bdbb31fc4048af9&amp;type=3#Styles" />
+    <Style src="project://database/Assets/Packages/_GITHUB_sdk-unity/Editor/Resources/Layouts/AffiseSettingsProvider.uss?fileID=7433441132597879392&amp;guid=8af00cbd5e2041f99ccc007bbef46824&amp;type=3#AffiseSettingsProvider" />
+    <ui:VisualElement name="AffiseHeader" class="affise-info header" style="flex-direction: row; -unity-background-scale-mode: scale-and-crop; min-height: 120px;">
+        <ui:VisualElement name="Logo" class="logo" style="margin-right: 10px; -unity-background-scale-mode: scale-and-crop;" />
+        <ui:VisualElement name="VisualElement" style="flex-grow: 1; flex-shrink: 0; justify-content: flex-start;">
+            <ui:Label text="version" display-tooltip-when-elided="true" name="version" style="-unity-text-align: upper-right; color: rgba(210, 210, 210, 0.2);" />
+            <ui:Label text="Affise" display-tooltip-when-elided="true" style="-unity-font-style: bold; font-size: 30px;" />
+            <ui:Label text="SaaS Partner Marketing Platform" display-tooltip-when-elided="true" style="color: rgba(210, 210, 210, 0.78);" />
+            <ui:VisualElement style="flex-direction: row; margin-bottom: 4px; margin-top: 4px;">
+                <ui:VisualElement name="link" class="img-link" />
+                <ui:Button display-tooltip-when-elided="true" tooltip="https://affise.com/" name="site" text="affise.com" class="link" />
+                <ui:Label text="&#10;" display-tooltip-when-elided="true" class="interpunct" />
+                <ui:VisualElement name="link" class="img-gh" />
+                <ui:Button text="github" display-tooltip-when-elided="true" tooltip="https://github.com/affise/sdk-unity" class="link" />
+                <ui:Label text="&#10;" display-tooltip-when-elided="true" class="interpunct" />
+                <ui:VisualElement name="mail" class="img-mail" />
+                <ui:Button text="support@affise.com" display-tooltip-when-elided="true" tooltip="mailto:support@affise.com" name="email" class="link" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <uie:ObjectField name="settings-asset" type="AffiseAttributionLib.AffiseSettings, Affise" allow-scene-objects="false" class="ms-3 no-label mb-2" style="flex-direction: column; -unity-text-align: upper-center; -unity-font-style: bold;" />
+    <ui:VisualElement name="settings-new-view" class="grow mt-3" style="display: flex; margin-top: 0;">
+        <ui:VisualElement class="center grow">
+            <ui:VisualElement>
+                <ui:Label name="settings-new-message" text="Settings" class="text-center bold p-3" />
+                <ui:VisualElement style="flex-direction: row; align-items: auto; justify-content: center;">
+                    <ui:Button name="settings-new-btn" text="Create" class="settings-create" style="flex-grow: 1;" />
+                    <ui:Button name="settings-find" text="Find" class="settings-create" style="flex-grow: 1; display: flex;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:ScrollView scroll-deceleration-rate="0,135" elasticity="0,1" horizontal-scroller-visibility="Hidden" vertical-scroller-visibility="Auto" name="setting-view" style="flex-grow: 0; flex-shrink: 1; display: none;">
+        <ui:VisualElement class="hide-info" style="flex-shrink: 1; flex-grow: 0; align-items: stretch; flex-direction: column; min-height: auto;">
+            <uie:InspectorElement name="settings-inspector" class="grow" style="flex-grow: 0;" />
+        </ui:VisualElement>
+    </ui:ScrollView>
+</ui:UXML>

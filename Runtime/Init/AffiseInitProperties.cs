@@ -12,7 +12,7 @@ namespace AffiseAttributionLib.Init
 
         public readonly string appToken = "";
 
-        public string secretId = "";
+        public string secretKey = "";
 
         public readonly bool isProduction = true;
         
@@ -21,14 +21,14 @@ namespace AffiseAttributionLib.Init
         public AffiseInitProperties(
             string affiseAppId, string partParamName,
             string partParamNameToken, string appToken,
-            string secretId, bool isProduction, AffiseBuildInfo buildInfo = null
+            string secretKey, bool isProduction, AffiseBuildInfo buildInfo = null
         )
         {
             this.affiseAppId = affiseAppId;
             this.partParamName = partParamName;
             this.partParamNameToken = partParamNameToken;
             this.appToken = appToken;
-            this.secretId = secretId;
+            this.secretKey = secretKey;
             this.isProduction = isProduction;
             this.buildInfo = buildInfo;
         }
@@ -39,7 +39,7 @@ namespace AffiseAttributionLib.Init
             partParamName = props.partParamName;
             partParamNameToken = props.partParamNameToken;
             appToken = props.appToken;
-            secretId = props.secretId;
+            secretKey = props.secretKey;
             isProduction = props.isProduction;
             buildInfo = props.buildInfo;
         }
@@ -54,7 +54,7 @@ namespace AffiseAttributionLib.Init
                 ["partParamName"] = partParamName,
                 ["partParamNameToken"] = partParamNameToken,
                 ["appToken"] = appToken,
-                ["secretId"] = secretId,
+                ["secretId"] = secretKey,
             };
     }
 }

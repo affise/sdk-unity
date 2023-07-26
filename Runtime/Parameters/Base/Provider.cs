@@ -1,4 +1,4 @@
-namespace AffiseAttributionLib.AffiseParameters.Base
+﻿namespace AffiseAttributionLib.AffiseParameters.Base
 {
     public abstract class Provider
     {

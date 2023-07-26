@@ -8,3 +8,8 @@
     font-size: 19px;
     -unity-font-style: bold;
 }
+
+
+.hide-info  .affise-info {
+    display:none;
+}

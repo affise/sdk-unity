@@ -2,7 +2,7 @@
 
 | Artifact | Version |
 | -------- | ------- |
-| attribution  | [1.6.0](https://github.com/affise/sdk-unity/releases) |
+| attribution  | [1.6.1](/releases) |
 
 - [Affise Unity package](#affise-unity-package)
 - [Description](#description)
@@ -53,13 +53,13 @@ Open Package Manager(`Window / Package Manager`)
 
 Add package from git url `https://github.com/affise/sdk-unity.git`
 
-![after_step_1](https://user-images.githubusercontent.com/10216417/170314456-4af5bed8-15a4-4ea8-bd2c-e7a74cefd0e1.jpg)
-
-![after_step_2](https://user-images.githubusercontent.com/10216417/184088446-f4ae23c7-0287-41e6-a666-7aee34f0e57b.jpg)
+<div align=center>
+    <img src="https://github.com/affise/sdk-unity/blob/assets/package_git.png?raw=true" alt="package_manager">
+</div>
 
 ### Integrate unitypackage file
 
-Download latest Affise SDK `attribution-1.6.0.unitypackage`
+Download latest Affise SDK [`attribution-1.6.1.unitypackage`](https://github.com/affise/sdk-unity/releases/download/1.6.1/attribution-1.6.1.unitypackage)
 from [releases page](https://github.com/affise/sdk-unity/releases) and drop this file to unity editor
 
 ### Initialize
@@ -70,7 +70,7 @@ Open Project Settings(`Edit / Project Settings`)
 
 On Affise tab click `Create` button.
 
-![after_step_3](https://user-images.githubusercontent.com/10216417/170314553-51b2c8dd-eb82-4c2e-8d72-28464fb943ac.jpg)
+![affise_settings_new](https://github.com/affise/sdk-unity/blob/assets/affise_settings_new.png?raw=true)
 
 This will create `Affise Settings.asset` in `Assets / Affise / Resources` directory.
 
@@ -84,7 +84,7 @@ This will create `Affise Settings.asset` in `Assets / Affise / Resources` direct
 
 Fill all required fields
 
-![after_step_4](https://user-images.githubusercontent.com/10216417/184090017-dc32c837-f78f-4e13-92d6-8fa794a1eb90.jpg)
+![affise_settings](https://github.com/affise/sdk-unity/blob/assets/affise_settings.png?raw=true)
 
 ## Build
 

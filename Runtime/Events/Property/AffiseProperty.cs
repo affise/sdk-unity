@@ -1,4 +1,4 @@
-namespace AffiseAttributionLib.Events.Property
+﻿namespace AffiseAttributionLib.Events.Property
 {
     public enum AffiseProperty
     {

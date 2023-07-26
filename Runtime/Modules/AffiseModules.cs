@@ -1,4 +1,4 @@
-namespace AffiseAttributionLib.Modules
+﻿namespace AffiseAttributionLib.Modules
 {
     public enum AffiseModules
     {

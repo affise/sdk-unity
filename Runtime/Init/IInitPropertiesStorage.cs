@@ -6,6 +6,6 @@
 
         void SetProperties(AffiseInitProperties model);
 
-        void UpdateSecretId(string secretId);
+        void UpdateSecretKey(string secretKey);
     }
 }

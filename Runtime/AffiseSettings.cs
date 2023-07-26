@@ -9,6 +9,7 @@ namespace AffiseAttributionLib
     public class AffiseSettings : ScriptableObject
     {
         internal const string ConfigName = "affise.settings";
+        public const string DefaultName = "Affise Settings";
 
         #region Variables
 
@@ -66,7 +67,7 @@ namespace AffiseAttributionLib
 
         private static void LoadFromResources(out AffiseSettings settings)
         {
-            settings = Resources.Load<AffiseSettings>("Affise Settings");
+            settings = Resources.Load<AffiseSettings>(DefaultName);
             if (settings is null) return;
             
             var allSettings = Resources.FindObjectsOfTypeAll<AffiseSettings>();
@@ -85,7 +86,7 @@ namespace AffiseAttributionLib
             Debug.LogWarning("Could not find affise settings. Default will be used.");
 
             settings = CreateInstance<AffiseSettings>();
-            settings.name = "Default Affise Settings";
+            settings.name = $"Default {DefaultName}";
 
             return settings;
         }

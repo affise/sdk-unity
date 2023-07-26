@@ -1,4 +1,4 @@
-namespace AffiseAttributionLib.Extensions
+﻿namespace AffiseAttributionLib.Extensions
 {
     internal static class Platform
     {

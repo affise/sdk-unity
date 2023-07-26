@@ -20,7 +20,7 @@ namespace AffiseAttributionLib.Native
 
         void RegisterDeeplinkCallback(DeeplinkCallback callback);
 
-        void SetSecretId(string secretId);
+        void SetSecretKey(string secretKey);
 
         void SetAutoCatchingTypes(List<AutoCatchingType> types);
 

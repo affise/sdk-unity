@@ -27,7 +27,7 @@ namespace AffiseAttributionLib.AffiseParameters
         public override string ProvideWithParam(string param) => _stringToSHA256Converter.Convert(
             _initProperties.GetProperties().affiseAppId +
             param +
-            _initProperties.GetProperties().secretId
+            _initProperties.GetProperties().secretKey
         );
     }
 }

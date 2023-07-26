@@ -2,6 +2,7 @@ using System;
 using AffiseAttributionLib.Editor.Utils;
 using AffiseAttributionLib.Extensions;
 using AffiseAttributionLib.Init;
+using AffiseAttributionLib.Utils;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
 using UnityEngine;
@@ -39,7 +40,7 @@ namespace AffiseAttributionLib.Editor.Build
                 settings.buildInfo = new AffiseBuildInfo
                 {
                     version = version,
-                    timestamp = DateTime.UtcNow.GetTimeInMillis()
+                    timestamp = Timestamp.New()
                 };
             }
         }

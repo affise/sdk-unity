@@ -1,19 +1,34 @@
-<?xml version="1.0" encoding="utf-8"?>
-<UXML
-        xmlns="UnityEngine.UIElements"
-        xmlns:uie="UnityEditor.UIElements"
->
-    <Style src="Styles.uss"/>
-    <Style src="AffiseSettingsEditor.uss"/>
-
-    <VisualElement name="settings" class="grow">
-        <VisualElement name="settings-affise" class="">
-            <TextField label="App Id" name="appId"/>
-            <TextField label="Part Param Name" name="partParamName"/>
-            <TextField label="Part Param Name Token" name="partParamNameToken"/>
-            <TextField label="App Token" name="appToken"/>
-            <Toggle label="Is Production" name="isProduction"/>
-            <TextField label="Secret Id" name="secretId"/>
-        </VisualElement>
-    </VisualElement>
-</UXML>
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xmlns="UnityEngine.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/Packages/_GITHUB_sdk-unity/Editor/Resources/Layouts/Styles.uss?fileID=7433441132597879392&amp;guid=75669a2da9324d948bdbb31fc4048af9&amp;type=3#Styles" />
+    <Style src="project://database/Assets/Packages/_GITHUB_sdk-unity/Editor/Resources/Layouts/AffiseSettingsEditor.uss?fileID=7433441132597879392&amp;guid=48a1ed92372e4faba850e8024ac95421&amp;type=3#AffiseSettingsEditor" />
+    <ui:VisualElement style="flex-grow: 0; flex-shrink: 1; flex-direction: column; margin-left: 0;">
+        <ui:VisualElement name="AffiseHeader" class="affise-info" style="flex-direction: row; -unity-background-scale-mode: scale-and-crop; min-height: 120px; padding-left: 3px; padding-right: 3px;">
+            <ui:VisualElement name="Logo" class="logo" style="margin-right: 10px; background-image: resource(&apos;Images/affise_logo&apos;); min-width: 100px; min-height: 100px;" />
+            <ui:VisualElement name="VisualElement" style="flex-grow: 1; flex-shrink: 0; justify-content: center;">
+                <ui:Label text="Settings" display-tooltip-when-elided="true" style="-unity-font-style: bold; font-size: 30px;" />
+                <ui:VisualElement style="flex-direction: row; margin-bottom: 4px; margin-top: 4px;">
+                    <ui:VisualElement name="link" class="img-gear" />
+                    <ui:Button text="Project Settings" display-tooltip-when-elided="true" name="OpenSettings" class="link" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="warning-asset" class="msg-box my-2 p-3 color-alert bg-alert border-alert" style="margin-left: 3px; margin-right: 3px; display: none;">
+            <ui:Label display-tooltip-when-elided="true" name="warning-text" style="-unity-text-align: middle-left; -unity-font-style: bold; display: flex;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="MainSettings" class="label-bold" style="margin-bottom: 16px; flex-direction: column; flex-wrap: nowrap; justify-content: flex-start; align-items: stretch;">
+            <ui:TextField label="App Id" name="appId" tooltip="Your app id" class="mb-2" style="flex-grow: 1; flex-direction: column;" />
+            <ui:TextField label="Secret Key" name="secretId" tooltip="Your SDK secretKey" class="mb-2" style="flex-grow: 1; flex-direction: column;" />
+        </ui:VisualElement>
+        <ui:Foldout text="Optional" value="false" style="color: rgba(210, 210, 210, 0.78);">
+            <ui:VisualElement class="label-bold" style="align-items: stretch;">
+                <ui:Toggle label="Is Production" name="isProduction" value="true" class="mb-2" style="flex-grow: 1; flex-direction: row; flex-wrap: nowrap;" />
+                <ui:VisualElement name="warning" class="msg-box my-2 p-3 color-alert bg-alert border-alert" style="margin-left: 3px; margin-right: 3px;">
+                    <ui:Label text="Leave this fields blank" display-tooltip-when-elided="true" style="-unity-text-align: middle-left;" />
+                </ui:VisualElement>
+                <ui:TextField label="App Token (Optional)" name="appToken" class="mb-2" style="flex-grow: 1; flex-direction: column;" />
+                <ui:TextField label="Part Param Name (Optional)" name="partParamName" class="mb-2" style="flex-grow: 1; flex-direction: column;" />
+                <ui:TextField label="Part Param Name Token (Optional)" name="partParamNameToken" class="mb-2" style="flex-grow: 1; flex-direction: column;" />
+            </ui:VisualElement>
+        </ui:Foldout>
+    </ui:VisualElement>
+</ui:UXML>

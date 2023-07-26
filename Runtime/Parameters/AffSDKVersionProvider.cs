@@ -9,6 +9,6 @@ namespace AffiseAttributionLib.AffiseParameters
     {
         public override float Order => 47.0f;
         public override string Key => Parameters.AFFISE_SDK_VERSION;
-        public override string Provide() => "1.6.0";
+        public override string Provide() => "1.6.1";
     }
 }

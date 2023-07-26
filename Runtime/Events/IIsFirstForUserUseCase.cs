@@ -1,4 +1,4 @@
-namespace AffiseAttributionLib.Events
+﻿namespace AffiseAttributionLib.Events
 {
     internal interface IIsFirstForUserUseCase
     {

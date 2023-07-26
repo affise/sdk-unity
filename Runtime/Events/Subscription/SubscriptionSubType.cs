@@ -1,4 +1,4 @@
-namespace AffiseAttributionLib.Events.Subscription
+﻿namespace AffiseAttributionLib.Events.Subscription
 {
     internal enum SubscriptionSubType
     {
