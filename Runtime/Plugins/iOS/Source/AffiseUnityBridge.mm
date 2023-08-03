@@ -23,7 +23,6 @@ extern "C" {
 
     void _c_register_callback(NativeCallback callback) {
         if (callback == NULL) return;
-        // todo check
         [[AffiseNativeModule shared] callback: ^(NSString* apiName, NSString* data) {
             callback(cStringCopy([apiName UTF8String]), cStringCopy([data UTF8String]));
         }];

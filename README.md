@@ -2,7 +2,7 @@
 
 | Artifact | Version |
 | -------- | ------- |
-| attribution  | [1.6.1](/releases) |
+| attribution  | [1.6.2](/releases) |
 
 - [Affise Unity package](#affise-unity-package)
 - [Description](#description)
@@ -59,7 +59,7 @@ Add package from git url `https://github.com/affise/sdk-unity.git`
 
 ### Integrate unitypackage file
 
-Download latest Affise SDK [`attribution-1.6.1.unitypackage`](https://github.com/affise/sdk-unity/releases/download/1.6.1/attribution-1.6.1.unitypackage)
+Download latest Affise SDK [`attribution-1.6.2.unitypackage`](https://github.com/affise/sdk-unity/releases/download/1.6.2/attribution-1.6.2.unitypackage)
 from [releases page](https://github.com/affise/sdk-unity/releases) and drop this file to unity editor
 
 ### Initialize
@@ -106,7 +106,7 @@ Podfile:
 platform :ios, '11.0'
 
 target 'UnityFramework' do
-   pod 'AffiseInternal', '~> 1.6.2'
+   pod 'AffiseInternal', '~> 1.6.4'
 end
 
 target 'Unity-iPhone' do
