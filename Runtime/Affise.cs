@@ -98,7 +98,7 @@ namespace AffiseAttributionLib
         public static void SetSecretId(string secretId)
         {
 #if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
-            _native?.SetSecretId(secretId);
+            _native?.SetSecretKey(secretId);
 #endif
         }
 

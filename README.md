@@ -2,7 +2,7 @@
 
 | Artifact | Version |
 | -------- | ------- |
-| attribution  | [1.6.2](/releases) |
+| attribution  | [1.6.3](/releases) |
 
 - [Affise Unity package](#affise-unity-package)
 - [Description](#description)
@@ -59,7 +59,7 @@ Add package from git url `https://github.com/affise/sdk-unity.git`
 
 ### Integrate unitypackage file
 
-Download latest Affise SDK [`attribution-1.6.2.unitypackage`](https://github.com/affise/sdk-unity/releases/download/1.6.2/attribution-1.6.2.unitypackage)
+Download latest Affise SDK [`attribution-1.6.3.unitypackage`](https://github.com/affise/sdk-unity/releases/download/1.6.3/attribution-1.6.3.unitypackage)
 from [releases page](https://github.com/affise/sdk-unity/releases) and drop this file to unity editor
 
 ### Initialize
@@ -93,7 +93,7 @@ Fill all required fields
 SDK is using Cocoapods
 
 1. In `Build setting` select iOS platform and press `Build`
-2. Select build folder (unity will exported iOS projetc to build folder)
+2. Select build folder (unity will exported iOS project to build folder)
 3. Build folder should contain `Podfile`
 4. In Terminal open build folder and run commend `pod update` or `pod install`
 5. Open genereated `*.worksapce` to build your unity project
@@ -106,7 +106,7 @@ Podfile:
 platform :ios, '11.0'
 
 target 'UnityFramework' do
-   pod 'AffiseInternal', '~> 1.6.4'
+   pod 'AffiseInternal', '~> 1.6.5'
 end
 
 target 'Unity-iPhone' do
@@ -243,6 +243,10 @@ With above example you can implement other events:
 - `ListView`
 - `Login`
 - `OpenedFromPushNotification`
+- `Order`
+- `OrderCancel`
+- `OrderReturnRequest`
+- `OrderReturnRequestCancel`
 - `Purchase`
 - `Rate`
 - `ReEngage`
@@ -342,37 +346,30 @@ In examples above `PredefinedParameters.DESCRIPTION` and `PredefinedObject.CONTE
 
 ### PredefinedString
 
+- `ACHIEVEMENT_ID`
 - `ADREV_AD_TYPE`
+- `BRAND`
+- `BRICK`
+- `CATALOGUE_ID`
+- `CHANNEL_TYPE`
 - `CITY`
-- `COUNTRY`
-- `REGION`
 - `CLASS`
 - `CONTENT_ID`
 - `CONTENT_TYPE`
+- `COUNTRY`
+- `COUPON_CODE`
 - `CURRENCY`
+- `CUSTOMER_SEGMENT`
+- `CUSTOMER_TYPE`
 - `CUSTOMER_USER_ID`
+- `DEEP_LINK`
 - `DESCRIPTION`
 - `DESTINATION_A`
 - `DESTINATION_B`
 - `DESTINATION_LIST`
-- `ORDER_ID`
-- `PAYMENT_INFO_AVAILABLE`
-- `PREFERRED_NEIGHBORHOODS`
-- `PURCHASE_CURRENCY`
-- `RECEIPT_ID`
-- `REGISTRATION_METHOD`
-- `SEARCH_STRING`
-- `SUBSCRIPTION_ID`
-- `SUCCESS`
-- `SUGGESTED_DESTINATIONS`
-- `SUGGESTED_HOTELS`
-- `VALIDATED`
-- `ACHIEVEMENT_ID`
-- `COUPON_CODE`
-- `CUSTOMER_SEGMENT`
-- `DEEP_LINK`
 - `NEW_VERSION`
 - `OLD_VERSION`
+- `ORDER_ID`
 - `PARAM_01`
 - `PARAM_02`
 - `PARAM_03`
@@ -383,13 +380,32 @@ In examples above `PredefinedParameters.DESCRIPTION` and `PredefinedObject.CONTE
 - `PARAM_08`
 - `PARAM_09`
 - `PARAM_10`
+- `PAYMENT_INFO_AVAILABLE`
+- `PREFERRED_NEIGHBORHOODS`
+- `PURCHASE_CURRENCY`
+- `RECEIPT_ID`
+- `REGION`
+- `REGISTRATION_METHOD`
 - `REVIEW_TEXT`
-- `TUTORIAL_ID`
-- `VIRTUAL_CURRENCY_NAME`
+- `SEARCH_STRING`
+- `SEGMENT`
 - `STATUS`
+- `SUBSCRIPTION_ID`
+- `SUCCESS`
+- `SUGGESTED_DESTINATIONS`
+- `SUGGESTED_HOTELS`
+- `TUTORIAL_ID`
+- `UTM_CAMPAIGN`
+- `UTM_MEDIUM`
+- `UTM_SOURCE`
+- `VALIDATED`
+- `VERTICAL`
+- `VIRTUAL_CURRENCY_NAME`
+- `VOUCHER_CODE`
 
 ### PredefinedLong
 
+- `AMOUNT`
 - `DATE_A`
 - `DATE_B`
 - `DEPARTING_ARRIVAL_DATE`

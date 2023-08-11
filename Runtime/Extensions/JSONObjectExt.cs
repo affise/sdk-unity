@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using SimpleJSON;
 
 namespace AffiseAttributionLib.Extensions
@@ -9,16 +10,22 @@ namespace AffiseAttributionLib.Extensions
         {
             var json = value switch
             {
-                double doubleValue => new JSONNumber(doubleValue),
-                int intValue => new JSONNumber(intValue),
-                float floatValue => new JSONNumber(floatValue),
-                bool boolValue => new JSONBool(boolValue),
-                long longValue => new JSONNumber(longValue),
                 string stringValue => new JSONString(stringValue),
+                long longValue => new JSONNumber(longValue.ToString()),
+                int intValue => new JSONNumber(intValue.ToString()),
+                float floatValue => new JSONNumber(floatValue.ToString(CultureInfo.InvariantCulture)),
+                double doubleValue => new JSONNumber(doubleValue.ToString(CultureInfo.InvariantCulture)),
+                bool boolValue => new JSONBool(boolValue),
                 JSONNode jsonNodeValue => jsonNodeValue,
-                List<JSONObject> listValue => listValue.ToJsonArray(),
-                List<string> listValue => listValue.ToJsonArray(),
                 Dictionary<string, object> mapValue => mapValue.ToJsonObject(),
+                List<JSONObject> listValue => listValue.ToJsonArray(),
+                List<Dictionary<string, object>> listValue => listValue.ToJsonArray(),
+                List<string> listValue => listValue.ToJsonArray(),
+                List<long> listValue => listValue.ToJsonArray(),
+                List<int> listValue => listValue.ToJsonArray(),
+                List<float> listValue => listValue.ToJsonArray(),
+                List<double> listValue => listValue.ToJsonArray(),
+                List<bool> listValue => listValue.ToJsonArray(),
                 _ => null
             };
             return json;

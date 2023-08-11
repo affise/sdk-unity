@@ -2,6 +2,7 @@
 {
     public enum PredefinedLong
     {
+        AMOUNT,
         DATE_A,
         DATE_B,
         DEPARTING_ARRIVAL_DATE,
@@ -30,30 +31,36 @@
     {
         public static string ToValue(this PredefinedLong param)
         {
+            return $"{PredefinedConstants.PREFIX}{param.Value()}";
+        }
+
+        private static string Value(this PredefinedLong param)
+        {
             return param switch
             {
-                PredefinedLong.DATE_A => "affise_p_date_a",
-                PredefinedLong.DATE_B => "affise_p_date_b",
-                PredefinedLong.DEPARTING_ARRIVAL_DATE => "affise_p_departing_arrival_date",
-                PredefinedLong.DEPARTING_DEPARTURE_DATE => "affise_p_departing_departure_date",
-                PredefinedLong.HOTEL_SCORE => "affise_p_hotel_score",
-                PredefinedLong.LEVEL => "affise_p_level",
-                PredefinedLong.MAX_RATING_VALUE => "affise_p_max_rating_value",
-                PredefinedLong.NUM_ADULTS => "affise_p_num_adults",
-                PredefinedLong.NUM_CHILDREN => "affise_p_num_children",
-                PredefinedLong.NUM_INFANTS => "affise_p_num_infants",
-                PredefinedLong.PREFERRED_NUM_STOPS => "affise_p_preferred_num_stops",
-                PredefinedLong.PREFERRED_STAR_RATINGS => "affise_p_preferred_star_ratings",
-                PredefinedLong.QUANTITY => "affise_p_quantity",
-                PredefinedLong.RATING_VALUE => "affise_p_rating_value",
-                PredefinedLong.RETURNING_ARRIVAL_DATE => "affise_p_returning_arrival_date",
-                PredefinedLong.RETURNING_DEPARTURE_DATE => "affise_p_returning_departure_date",
-                PredefinedLong.SCORE => "affise_p_score",
-                PredefinedLong.TRAVEL_START => "affise_p_travel_start",
-                PredefinedLong.TRAVEL_END => "affise_p_travel_end",
-                PredefinedLong.USER_SCORE => "affise_p_user_score",
-                PredefinedLong.EVENT_START => "affise_p_event_start",
-                PredefinedLong.EVENT_END => "affise_p_event_end",
+                PredefinedLong.AMOUNT => "amount",
+                PredefinedLong.DATE_A => "date_a",
+                PredefinedLong.DATE_B => "date_b",
+                PredefinedLong.DEPARTING_ARRIVAL_DATE => "departing_arrival_date",
+                PredefinedLong.DEPARTING_DEPARTURE_DATE => "departing_departure_date",
+                PredefinedLong.HOTEL_SCORE => "hotel_score",
+                PredefinedLong.LEVEL => "level",
+                PredefinedLong.MAX_RATING_VALUE => "max_rating_value",
+                PredefinedLong.NUM_ADULTS => "num_adults",
+                PredefinedLong.NUM_CHILDREN => "num_children",
+                PredefinedLong.NUM_INFANTS => "num_infants",
+                PredefinedLong.PREFERRED_NUM_STOPS => "preferred_num_stops",
+                PredefinedLong.PREFERRED_STAR_RATINGS => "preferred_star_ratings",
+                PredefinedLong.QUANTITY => "quantity",
+                PredefinedLong.RATING_VALUE => "rating_value",
+                PredefinedLong.RETURNING_ARRIVAL_DATE => "returning_arrival_date",
+                PredefinedLong.RETURNING_DEPARTURE_DATE => "returning_departure_date",
+                PredefinedLong.SCORE => "score",
+                PredefinedLong.TRAVEL_START => "travel_start",
+                PredefinedLong.TRAVEL_END => "travel_end",
+                PredefinedLong.USER_SCORE => "user_score",
+                PredefinedLong.EVENT_START => "event_start",
+                PredefinedLong.EVENT_END => "event_end",
                 _ => null
             };
         }

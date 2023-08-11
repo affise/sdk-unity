@@ -9,9 +9,14 @@
     {
         public static string ToValue(this PredefinedObject param)
         {
+            return $"{PredefinedConstants.PREFIX}{param.Value()}";
+        }
+
+        private static string Value(this PredefinedObject param)
+        {
             return param switch
             {
-                PredefinedObject.CONTENT => "affise_p_content",
+                PredefinedObject.CONTENT => "content",
                 _ => null
             };
         }

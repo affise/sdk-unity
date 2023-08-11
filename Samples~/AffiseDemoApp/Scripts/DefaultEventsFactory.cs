@@ -52,6 +52,10 @@ namespace AffiseDemo
                 CreateListViewEvent(),
                 CreateLoginEvent(),
                 CreateOpenedFromPushNotificationEvent(),
+                CreateOrderEvent(),
+                CreateOrderCancelEvent(),
+                CreateOrderReturnRequestEvent(),
+                CreateOrderReturnRequestCancelEvent(),
                 CreatePurchaseEvent(),
                 CreateRateEvent(),
                 CreateReEngageEvent(),
@@ -110,12 +114,13 @@ namespace AffiseDemo
                 userData: "warlock"
             );
 
-            affiseEvent.AddPredefinedParameter(PredefinedString.DEEP_LINK, "https://new-game.lt");
-            affiseEvent.AddPredefinedParameter(PredefinedLong.SCORE, 25013L);
-            affiseEvent.AddPredefinedParameter(PredefinedLong.LEVEL, 70L);
-            affiseEvent.AddPredefinedParameter(PredefinedString.SUCCESS, "true");
-            affiseEvent.AddPredefinedParameter(PredefinedString.TUTORIAL_ID, "12");
-            affiseEvent.AddPredefinedParameter(PredefinedObject.CONTENT, level);
+            affiseEvent
+                .AddPredefinedParameter(PredefinedString.DEEP_LINK, "https://new-game.lt")
+                .AddPredefinedParameter(PredefinedLong.SCORE, 25013L)
+                .AddPredefinedParameter(PredefinedLong.LEVEL, 70L)
+                .AddPredefinedParameter(PredefinedString.SUCCESS, "true")
+                .AddPredefinedParameter(PredefinedString.TUTORIAL_ID, "12")
+                .AddPredefinedParameter(PredefinedObject.CONTENT, level);
 
             return affiseEvent;
         }
@@ -132,8 +137,9 @@ namespace AffiseDemo
                 userData: "taxi"
             );
 
-            affiseEvent.AddPredefinedParameter(PredefinedString.PURCHASE_CURRENCY, "USD");
-            affiseEvent.AddPredefinedParameter(PredefinedObject.CONTENT, paymentInfo);
+            affiseEvent
+                .AddPredefinedParameter(PredefinedString.PURCHASE_CURRENCY, "USD")
+                .AddPredefinedParameter(PredefinedObject.CONTENT, paymentInfo);
 
             return affiseEvent;
         }
@@ -149,8 +155,9 @@ namespace AffiseDemo
                 userData: "cart"
             );
 
-            affiseEvent.AddPredefinedParameter(PredefinedString.DESCRIPTION, "best before 2029");
-            affiseEvent.AddPredefinedParameter(PredefinedObject.CONTENT, addToCartObject);
+            affiseEvent
+                .AddPredefinedParameter(PredefinedString.DESCRIPTION, "best before 2029")
+                .AddPredefinedParameter(PredefinedObject.CONTENT, addToCartObject);
 
             return affiseEvent;
         }
@@ -166,11 +173,12 @@ namespace AffiseDemo
                 userData: "next year"
             );
 
-            affiseEvent.AddPredefinedParameter(PredefinedString.COUNTRY, "Russia");
-            affiseEvent.AddPredefinedParameter(PredefinedString.CITY, "Voronezh");
-            affiseEvent.AddPredefinedParameter(PredefinedFloat.LAT, 42);
-            affiseEvent.AddPredefinedParameter(PredefinedFloat.LONG, 24);
-            affiseEvent.AddPredefinedParameter(PredefinedObject.CONTENT, wishList);
+            affiseEvent
+                .AddPredefinedParameter(PredefinedString.COUNTRY, "Russia")
+                .AddPredefinedParameter(PredefinedString.CITY, "Voronezh")
+                .AddPredefinedParameter(PredefinedFloat.LAT, 42)
+                .AddPredefinedParameter(PredefinedFloat.LONG, 24)
+                .AddPredefinedParameter(PredefinedObject.CONTENT, wishList);
 
             return affiseEvent;
         }
@@ -182,16 +190,17 @@ namespace AffiseDemo
                 userData: "header"
             );
 
-            affiseEvent.AddPredefinedParameter(PredefinedString.PARAM_01, "PARAM_01");
-            affiseEvent.AddPredefinedParameter(PredefinedString.PARAM_02, "PARAM_02");
-            affiseEvent.AddPredefinedParameter(PredefinedString.PARAM_03, "PARAM_03");
-            affiseEvent.AddPredefinedParameter(PredefinedString.PARAM_04, "PARAM_04");
-            affiseEvent.AddPredefinedParameter(PredefinedString.PARAM_05, "PARAM_05");
-            affiseEvent.AddPredefinedParameter(PredefinedString.PARAM_06, "PARAM_06");
-            affiseEvent.AddPredefinedParameter(PredefinedString.PARAM_07, "PARAM_07");
-            affiseEvent.AddPredefinedParameter(PredefinedString.PARAM_08, "PARAM_08");
-            affiseEvent.AddPredefinedParameter(PredefinedString.PARAM_09, "PARAM_09");
-            affiseEvent.AddPredefinedParameter(PredefinedString.PARAM_10, "PARAM_10");
+            affiseEvent
+                .AddPredefinedParameter(PredefinedString.PARAM_01, "PARAM_01")
+                .AddPredefinedParameter(PredefinedString.PARAM_02, "PARAM_02")
+                .AddPredefinedParameter(PredefinedString.PARAM_03, "PARAM_03")
+                .AddPredefinedParameter(PredefinedString.PARAM_04, "PARAM_04")
+                .AddPredefinedParameter(PredefinedString.PARAM_05, "PARAM_05")
+                .AddPredefinedParameter(PredefinedString.PARAM_06, "PARAM_06")
+                .AddPredefinedParameter(PredefinedString.PARAM_07, "PARAM_07")
+                .AddPredefinedParameter(PredefinedString.PARAM_08, "PARAM_08")
+                .AddPredefinedParameter(PredefinedString.PARAM_09, "PARAM_09")
+                .AddPredefinedParameter(PredefinedString.PARAM_10, "PARAM_10");
 
             return affiseEvent;
         }
@@ -207,10 +216,11 @@ namespace AffiseDemo
                 userData: "promo"
             );
 
-            affiseEvent.AddPredefinedParameter(PredefinedString.VALIDATED, "02.11.2021");
-            affiseEvent.AddPredefinedParameter(PredefinedString.REVIEW_TEXT, "approve");
-            affiseEvent.AddPredefinedParameter(PredefinedString.CUSTOMER_SEGMENT, "DOG");
-            affiseEvent.AddPredefinedParameter(PredefinedObject.CONTENT, registration);
+            affiseEvent
+                .AddPredefinedParameter(PredefinedString.VALIDATED, "02.11.2021")
+                .AddPredefinedParameter(PredefinedString.REVIEW_TEXT, "approve")
+                .AddPredefinedParameter(PredefinedString.CUSTOMER_SEGMENT, "DOG")
+                .AddPredefinedParameter(PredefinedObject.CONTENT, registration);
 
             return affiseEvent;
         }
@@ -227,8 +237,9 @@ namespace AffiseDemo
                 userData: "23 hours"
             );
 
-            affiseEvent.AddPredefinedParameter(PredefinedFloat.REVENUE, 225522f);
-            affiseEvent.AddPredefinedParameter(PredefinedObject.CONTENT, stream);
+            affiseEvent
+                .AddPredefinedParameter(PredefinedFloat.REVENUE, 225522f)
+                .AddPredefinedParameter(PredefinedObject.CONTENT, stream);
 
             return affiseEvent;
         }
@@ -244,8 +255,9 @@ namespace AffiseDemo
                 userData: "time"
             );
 
-            affiseEvent.AddPredefinedParameter(PredefinedString.REGISTRATION_METHOD, "SMS");
-            affiseEvent.AddPredefinedParameter(PredefinedObject.CONTENT, trial);
+            affiseEvent
+                .AddPredefinedParameter(PredefinedString.REGISTRATION_METHOD, "SMS")
+                .AddPredefinedParameter(PredefinedObject.CONTENT, trial);
 
             return affiseEvent;
         }
@@ -261,8 +273,9 @@ namespace AffiseDemo
                 userData: "intro"
             );
 
-            affiseEvent.AddPredefinedParameter(PredefinedString.REGISTRATION_METHOD, "SMS");
-            affiseEvent.AddPredefinedParameter(PredefinedObject.CONTENT, tutorial);
+            affiseEvent
+                .AddPredefinedParameter(PredefinedString.REGISTRATION_METHOD, "SMS")
+                .AddPredefinedParameter(PredefinedObject.CONTENT, tutorial);
 
             return affiseEvent;
         }
@@ -295,30 +308,31 @@ namespace AffiseDemo
                 userData: "intro"
             );
 
-            affiseEvent.AddPredefinedParameter(PredefinedObject.CONTENT, new JSONObject
-            {
-                ["collection"] = "Greatest Hits"
-            });
-            affiseEvent.AddPredefinedParameter(PredefinedString.CONTENT_ID, "2561");
-            affiseEvent.AddPredefinedParameter(PredefinedListObject.CONTENT_LIST, new List<JSONObject>()
-            {
-                new()
+            affiseEvent
+                .AddPredefinedParameter(PredefinedObject.CONTENT, new JSONObject
                 {
-                    ["content"] = "songs",
-                },
-                new()
+                    ["collection"] = "Greatest Hits"
+                })
+                .AddPredefinedParameter(PredefinedString.CONTENT_ID, "2561")
+                .AddPredefinedParameter(PredefinedListObject.CONTENT_LIST, new List<JSONObject>
                 {
-                    ["type"] = "videos",
-                },
-            });
-            affiseEvent.AddPredefinedParameter(PredefinedListString.CONTENT_IDS, new List<string>()
-            {
-                "id_1", "id_2"
-            });
-            affiseEvent.AddPredefinedParameter(PredefinedString.CONTENT_TYPE, "MATURE");
-            affiseEvent.AddPredefinedParameter(PredefinedString.CURRENCY, "USD");
-            affiseEvent.AddPredefinedParameter(PredefinedLong.QUANTITY, 6L);
-            affiseEvent.AddPredefinedParameter(PredefinedFloat.PRICE, 2.19f);
+                    new()
+                    {
+                        ["content"] = "songs",
+                    },
+                    new()
+                    {
+                        ["type"] = "videos",
+                    },
+                })
+                .AddPredefinedParameter(PredefinedListString.CONTENT_IDS, new List<string>
+                {
+                    "id_1", "id_2"
+                })
+                .AddPredefinedParameter(PredefinedString.CONTENT_TYPE, "MATURE")
+                .AddPredefinedParameter(PredefinedString.CURRENCY, "USD")
+                .AddPredefinedParameter(PredefinedLong.QUANTITY, 6L)
+                .AddPredefinedParameter(PredefinedFloat.PRICE, 2.19f);
 
             return affiseEvent;
         }
@@ -451,13 +465,14 @@ namespace AffiseDemo
                 userData: "referrer: google"
             );
 
-            affiseEvent.AddPredefinedParameter(PredefinedString.ADREV_AD_TYPE, "interstitial");
-            affiseEvent.AddPredefinedParameter(PredefinedString.REGION, "ASIA");
-            affiseEvent.AddPredefinedParameter(PredefinedString.CLASS, "student");
-            affiseEvent.AddPredefinedParameter(PredefinedObject.CONTENT, new JSONObject
-            {
-                ["isLinked"] = true
-            });
+            affiseEvent
+                .AddPredefinedParameter(PredefinedString.ADREV_AD_TYPE, "interstitial")
+                .AddPredefinedParameter(PredefinedString.REGION, "ASIA")
+                .AddPredefinedParameter(PredefinedString.CLASS, "student")
+                .AddPredefinedParameter(PredefinedObject.CONTENT, new JSONObject
+                {
+                    ["isLinked"] = true
+                });
 
             return affiseEvent;
         }
@@ -468,9 +483,10 @@ namespace AffiseDemo
                 userData: "Donate"
             );
 
-            affiseEvent.AddPredefinedParameter(PredefinedString.ORDER_ID, "23123");
-            affiseEvent.AddPredefinedParameter(PredefinedFloat.PRICE, 2.19f);
-            affiseEvent.AddPredefinedParameter(PredefinedLong.QUANTITY, 1L);
+            affiseEvent
+                .AddPredefinedParameter(PredefinedString.ORDER_ID, "23123")
+                .AddPredefinedParameter(PredefinedFloat.PRICE, 2.19f)
+                .AddPredefinedParameter(PredefinedLong.QUANTITY, 1L);
 
             return affiseEvent;
         }
@@ -481,9 +497,10 @@ namespace AffiseDemo
                 userData: "location"
             );
 
-            affiseEvent.AddPredefinedParameter(PredefinedString.ORDER_ID, "23123");
-            affiseEvent.AddPredefinedParameter(PredefinedFloat.PRICE, 2.19f);
-            affiseEvent.AddPredefinedParameter(PredefinedLong.QUANTITY, 1L);
+            affiseEvent
+                .AddPredefinedParameter(PredefinedString.ORDER_ID, "23123")
+                .AddPredefinedParameter(PredefinedFloat.PRICE, 2.19f)
+                .AddPredefinedParameter(PredefinedLong.QUANTITY, 1L);
 
             return affiseEvent;
         }
@@ -494,9 +511,10 @@ namespace AffiseDemo
                 userData: "checkout"
             );
 
-            affiseEvent.AddPredefinedParameter(PredefinedString.ORDER_ID, "23123");
-            affiseEvent.AddPredefinedParameter(PredefinedFloat.PRICE, 2.19f);
-            affiseEvent.AddPredefinedParameter(PredefinedLong.QUANTITY, 1L);
+            affiseEvent
+                .AddPredefinedParameter(PredefinedString.ORDER_ID, "23123")
+                .AddPredefinedParameter(PredefinedFloat.PRICE, 2.19f)
+                .AddPredefinedParameter(PredefinedLong.QUANTITY, 1L);
 
             return affiseEvent;
         }
@@ -512,10 +530,11 @@ namespace AffiseDemo
                 userData: "best price"
             );
 
-            affiseEvent.AddPredefinedParameter(PredefinedString.ORDER_ID, "23123");
-            affiseEvent.AddPredefinedParameter(PredefinedFloat.PRICE, 2.19f);
-            affiseEvent.AddPredefinedParameter(PredefinedLong.QUANTITY, 1L);
-            affiseEvent.AddPredefinedParameter(PredefinedObject.CONTENT, purchaseData);
+            affiseEvent
+                .AddPredefinedParameter(PredefinedString.ORDER_ID, "23123")
+                .AddPredefinedParameter(PredefinedFloat.PRICE, 2.19f)
+                .AddPredefinedParameter(PredefinedLong.QUANTITY, 1L)
+                .AddPredefinedParameter(PredefinedObject.CONTENT, purchaseData);
 
             return affiseEvent;
         }
@@ -531,9 +550,10 @@ namespace AffiseDemo
                 userData: "shooter"
             );
 
-            affiseEvent.AddPredefinedParameter(PredefinedString.COUPON_CODE, "25XLKM");
-            affiseEvent.AddPredefinedParameter(PredefinedString.VIRTUAL_CURRENCY_NAME, "BTC");
-            affiseEvent.AddPredefinedParameter(PredefinedObject.CONTENT, stream);
+            affiseEvent
+                .AddPredefinedParameter(PredefinedString.COUPON_CODE, "25XLKM")
+                .AddPredefinedParameter(PredefinedString.VIRTUAL_CURRENCY_NAME, "BTC")
+                .AddPredefinedParameter(PredefinedObject.CONTENT, stream);
 
             return affiseEvent;
         }
@@ -549,8 +569,9 @@ namespace AffiseDemo
                 userData: "dancing"
             );
 
-            affiseEvent.AddPredefinedParameter(PredefinedString.PARAM_01, "param1");
-            affiseEvent.AddPredefinedParameter(PredefinedObject.CONTENT, invite);
+            affiseEvent
+                .AddPredefinedParameter(PredefinedString.PARAM_01, "param1")
+                .AddPredefinedParameter(PredefinedObject.CONTENT, invite);
 
             return affiseEvent;
         }
@@ -567,8 +588,9 @@ namespace AffiseDemo
                 userData: "tablet"
             );
 
-            affiseEvent.AddPredefinedParameter(PredefinedString.SUBSCRIPTION_ID, "lasAK22");
-            affiseEvent.AddPredefinedParameter(PredefinedObject.CONTENT, touchData);
+            affiseEvent
+                .AddPredefinedParameter(PredefinedString.SUBSCRIPTION_ID, "lasAK22")
+                .AddPredefinedParameter(PredefinedObject.CONTENT, touchData);
 
             return affiseEvent;
         }
@@ -579,8 +601,9 @@ namespace AffiseDemo
                 userData: "lead"
             );
 
-            affiseEvent.AddPredefinedParameter(PredefinedString.PAYMENT_INFO_AVAILABLE, "card");
-            affiseEvent.AddPredefinedParameter(PredefinedString.SEARCH_STRING, "best car wash");
+            affiseEvent
+                .AddPredefinedParameter(PredefinedString.PAYMENT_INFO_AVAILABLE, "card")
+                .AddPredefinedParameter(PredefinedString.SEARCH_STRING, "best car wash");
 
             return affiseEvent;
         }
@@ -596,11 +619,12 @@ namespace AffiseDemo
                 userData: "items"
             );
 
-            affiseEvent.AddPredefinedParameter(PredefinedString.PAYMENT_INFO_AVAILABLE, "card");
-            affiseEvent.AddPredefinedParameter(PredefinedString.SEARCH_STRING, "best car wash");
-            affiseEvent.AddPredefinedParameter(PredefinedString.SUGGESTED_DESTINATIONS, "crete, spain");
-            affiseEvent.AddPredefinedParameter(PredefinedString.SUGGESTED_HOTELS, "beach resort, marina spa");
-            affiseEvent.AddPredefinedParameter(PredefinedObject.CONTENT, list);
+            affiseEvent
+                .AddPredefinedParameter(PredefinedString.PAYMENT_INFO_AVAILABLE, "card")
+                .AddPredefinedParameter(PredefinedString.SEARCH_STRING, "best car wash")
+                .AddPredefinedParameter(PredefinedString.SUGGESTED_DESTINATIONS, "crete, spain")
+                .AddPredefinedParameter(PredefinedString.SUGGESTED_HOTELS, "beach resort, marina spa")
+                .AddPredefinedParameter(PredefinedObject.CONTENT, list);
 
             return affiseEvent;
         }
@@ -627,11 +651,94 @@ namespace AffiseDemo
                 userData: "active"
             );
 
-            affiseEvent.AddPredefinedParameter(PredefinedString.PARAM_01, "param1");
-            affiseEvent.AddPredefinedParameter(PredefinedObject.CONTENT, new JSONObject
-            {
-                ["details"] = "silent"
-            });
+            affiseEvent
+                .AddPredefinedParameter(PredefinedString.PARAM_01, "param1")
+                .AddPredefinedParameter(PredefinedObject.CONTENT, new JSONObject
+                {
+                    ["details"] = "silent"
+                });
+
+            return affiseEvent;
+        }
+
+        private AffiseEvent CreateOrderEvent()
+        {
+            var affiseEvent = new OrderEvent(
+                userData: "items"
+            );
+
+            affiseEvent
+                .AddPredefinedParameter(PredefinedString.ORDER_ID, "23123")
+                .AddPredefinedParameter(PredefinedFloat.PRICE, 2.19f)
+                .AddPredefinedParameter(PredefinedLong.QUANTITY, 1L);
+
+            // TODO PredefinedGroup example
+            // affiseEvent.AddPredefinedListGroup(new List<PredefinedGroup>
+            // {
+            //     new PredefinedGroup()
+            //         .AddPredefinedParameter(PredefinedString.CUSTOMER_USER_ID, "KDCJHB10834rJHG")
+            //         .AddPredefinedParameter(PredefinedString.CONTENT_ID, "334923062984")
+            //         .AddPredefinedParameter(PredefinedString.DESCRIPTION,
+            //             "SevenFriday Men's M1B-01 Urban Explorer 47.6 Automatic Watch")
+            //         .AddPredefinedParameter(PredefinedLong.QUANTITY, 3)
+            //         .AddPredefinedParameter(PredefinedFloat.PRICE, 499f)
+            //         .AddPredefinedParameter(PredefinedString.CURRENCY, "USD")
+            //         .AddPredefinedParameter(PredefinedFloat.REVENUE, 1497f)
+            //         .AddPredefinedParameter(PredefinedString.ORDER_ID, "ID_34923"),
+            //
+            //     new PredefinedGroup()
+            //         .AddPredefinedParameter(PredefinedString.CUSTOMER_USER_ID, "KDCJHB10834rJHG")
+            //         .AddPredefinedParameter(PredefinedString.CONTENT_ID, "383791923777")
+            //         .AddPredefinedParameter(PredefinedString.DESCRIPTION, "2021 Apple iPad 9th Gen 64/256GB WiFi 10.2")
+            //         .AddPredefinedParameter(PredefinedLong.QUANTITY, 1)
+            //         .AddPredefinedParameter(PredefinedFloat.PRICE, 299f)
+            //         .AddPredefinedParameter(PredefinedString.CURRENCY, "USD")
+            //         .AddPredefinedParameter(PredefinedFloat.REVENUE, 299f)
+            //         .AddPredefinedParameter(PredefinedString.ORDER_ID, "ID_83792")
+            // });
+
+            return affiseEvent;
+        }
+
+        private AffiseEvent CreateOrderCancelEvent()
+        {
+            var affiseEvent = new OrderCancelEvent(
+                userData: "items"
+            );
+
+            affiseEvent
+                .AddPredefinedParameter(PredefinedString.ORDER_ID, "23123")
+                .AddPredefinedParameter(PredefinedFloat.PRICE, 2.19f)
+                .AddPredefinedParameter(PredefinedLong.QUANTITY, 1L);
+
+            return affiseEvent;
+        }
+
+        private AffiseEvent CreateOrderReturnRequestEvent()
+        {
+            var affiseEvent = new OrderReturnRequestEvent(
+                userData: "items"
+            );
+
+            affiseEvent
+                .AddPredefinedParameter(PredefinedString.ORDER_ID, "23123")
+                .AddPredefinedParameter(PredefinedFloat.PRICE, 2.19f)
+                .AddPredefinedParameter(PredefinedLong.QUANTITY, 1L);
+
+            return affiseEvent;
+        }
+
+        private AffiseEvent CreateOrderReturnRequestCancelEvent()
+        {
+            var affiseEvent = new OrderReturnRequestCancelEvent(
+                userData: "items"
+            );
+
+            affiseEvent
+                .AddPredefinedParameter(PredefinedString.ORDER_ID, "23123")
+                .AddPredefinedParameter(PredefinedFloat.PRICE, 2.19f)
+                .AddPredefinedParameter(PredefinedLong.QUANTITY, 1L);
+
             return affiseEvent;
         }
 
@@ -647,10 +754,11 @@ namespace AffiseDemo
                 userData: "items"
             );
 
-            affiseEvent.AddPredefinedParameter(PredefinedString.ORDER_ID, "23123");
-            affiseEvent.AddPredefinedParameter(PredefinedFloat.PRICE, 2.19f);
-            affiseEvent.AddPredefinedParameter(PredefinedLong.QUANTITY, 1L);
-            affiseEvent.AddPredefinedParameter(PredefinedObject.CONTENT, purchaseData);
+            affiseEvent
+                .AddPredefinedParameter(PredefinedString.ORDER_ID, "23123")
+                .AddPredefinedParameter(PredefinedFloat.PRICE, 2.19f)
+                .AddPredefinedParameter(PredefinedLong.QUANTITY, 1L)
+                .AddPredefinedParameter(PredefinedObject.CONTENT, purchaseData);
 
             return affiseEvent;
         }
@@ -666,11 +774,12 @@ namespace AffiseDemo
                 userData: "no bugs"
             );
 
-            affiseEvent.AddPredefinedParameter(PredefinedString.PREFERRED_NEIGHBORHOODS, "2");
-            affiseEvent.AddPredefinedParameter(PredefinedLong.PREFERRED_NUM_STOPS, 4L);
-            affiseEvent.AddPredefinedParameter(PredefinedFloat.PREFERRED_PRICE_RANGE, 10.22f);
-            affiseEvent.AddPredefinedParameter(PredefinedLong.PREFERRED_STAR_RATINGS, 6L);
-            affiseEvent.AddPredefinedParameter(PredefinedObject.CONTENT, rate);
+            affiseEvent
+                .AddPredefinedParameter(PredefinedString.PREFERRED_NEIGHBORHOODS, "2")
+                .AddPredefinedParameter(PredefinedLong.PREFERRED_NUM_STOPS, 4L)
+                .AddPredefinedParameter(PredefinedFloat.PREFERRED_PRICE_RANGE, 10.22f)
+                .AddPredefinedParameter(PredefinedLong.PREFERRED_STAR_RATINGS, 6L)
+                .AddPredefinedParameter(PredefinedObject.CONTENT, rate);
 
             return affiseEvent;
         }
@@ -681,8 +790,9 @@ namespace AffiseDemo
                 userData: "web"
             );
 
-            affiseEvent.AddPredefinedParameter(PredefinedString.CUSTOMER_USER_ID, "4");
-            affiseEvent.AddPredefinedParameter(PredefinedString.VALIDATED, "data");
+            affiseEvent
+                .AddPredefinedParameter(PredefinedString.CUSTOMER_USER_ID, "4")
+                .AddPredefinedParameter(PredefinedString.VALIDATED, "data");
 
             return affiseEvent;
         }
@@ -705,8 +815,9 @@ namespace AffiseDemo
                 userData: "web"
             );
 
-            affiseEvent.AddPredefinedParameter(PredefinedString.CUSTOMER_USER_ID, "4");
-            affiseEvent.AddPredefinedParameter(PredefinedListObject.CONTENT_LIST, reserve);
+            affiseEvent
+                .AddPredefinedParameter(PredefinedString.CUSTOMER_USER_ID, "4")
+                .AddPredefinedParameter(PredefinedListObject.CONTENT_LIST, reserve);
 
             return affiseEvent;
         }
@@ -717,9 +828,10 @@ namespace AffiseDemo
                 userData: "schedule"
             );
 
-            affiseEvent.AddPredefinedParameter(PredefinedString.ORDER_ID, "23123");
-            affiseEvent.AddPredefinedParameter(PredefinedFloat.PRICE, 2.19f);
-            affiseEvent.AddPredefinedParameter(PredefinedLong.QUANTITY, 1L);
+            affiseEvent
+                .AddPredefinedParameter(PredefinedString.ORDER_ID, "23123")
+                .AddPredefinedParameter(PredefinedFloat.PRICE, 2.19f)
+                .AddPredefinedParameter(PredefinedLong.QUANTITY, 1L);
 
             return affiseEvent;
         }
@@ -736,10 +848,11 @@ namespace AffiseDemo
                 userData: "apple"
             );
 
-            affiseEvent.AddPredefinedParameter(PredefinedString.ORDER_ID, "23123");
-            affiseEvent.AddPredefinedParameter(PredefinedFloat.PRICE, 2.19f);
-            affiseEvent.AddPredefinedParameter(PredefinedLong.QUANTITY, 1L);
-            affiseEvent.AddPredefinedParameter(PredefinedObject.CONTENT, salesData);
+            affiseEvent
+                .AddPredefinedParameter(PredefinedString.ORDER_ID, "23123")
+                .AddPredefinedParameter(PredefinedFloat.PRICE, 2.19f)
+                .AddPredefinedParameter(PredefinedLong.QUANTITY, 1L)
+                .AddPredefinedParameter(PredefinedObject.CONTENT, salesData);
 
             return affiseEvent;
         }
@@ -759,8 +872,9 @@ namespace AffiseDemo
                 userData: "browser"
             );
 
-            affiseEvent.AddPredefinedParameter(PredefinedString.PARAM_01, "param1");
-            affiseEvent.AddPredefinedParameter(PredefinedObject.CONTENT, data);
+            affiseEvent
+                .AddPredefinedParameter(PredefinedString.PARAM_01, "param1")
+                .AddPredefinedParameter(PredefinedObject.CONTENT, data);
 
             return affiseEvent;
         }
@@ -777,8 +891,9 @@ namespace AffiseDemo
                 userData: "telegram"
             );
 
-            affiseEvent.AddPredefinedParameter(PredefinedString.RECEIPT_ID, "22");
-            affiseEvent.AddPredefinedParameter(PredefinedObject.CONTENT, share);
+            affiseEvent
+                .AddPredefinedParameter(PredefinedString.RECEIPT_ID, "22")
+                .AddPredefinedParameter(PredefinedObject.CONTENT, share);
 
             return affiseEvent;
         }
@@ -789,8 +904,9 @@ namespace AffiseDemo
                 userData: "boosters"
             );
 
-            affiseEvent.AddPredefinedParameter(PredefinedString.PARAM_01, "param1");
-            affiseEvent.AddPredefinedParameter(PredefinedLong.QUANTITY, 2142);
+            affiseEvent
+                .AddPredefinedParameter(PredefinedString.PARAM_01, "param1")
+                .AddPredefinedParameter(PredefinedLong.QUANTITY, 2142);
 
             return affiseEvent;
         }
@@ -806,8 +922,9 @@ namespace AffiseDemo
                 userData: "referrer"
             );
 
-            affiseEvent.AddPredefinedParameter(PredefinedString.PARAM_01, "param1");
-            affiseEvent.AddPredefinedParameter(PredefinedObject.CONTENT, registration);
+            affiseEvent
+                .AddPredefinedParameter(PredefinedString.PARAM_01, "param1")
+                .AddPredefinedParameter(PredefinedObject.CONTENT, registration);
 
             return affiseEvent;
         }
@@ -823,8 +940,9 @@ namespace AffiseDemo
                 userData: "30-days"
             );
 
-            affiseEvent.AddPredefinedParameter(PredefinedString.PARAM_01, "param1");
-            affiseEvent.AddPredefinedParameter(PredefinedObject.CONTENT, trial);
+            affiseEvent
+                .AddPredefinedParameter(PredefinedString.PARAM_01, "param1")
+                .AddPredefinedParameter(PredefinedObject.CONTENT, trial);
 
             return affiseEvent;
         }
@@ -841,8 +959,9 @@ namespace AffiseDemo
                 userData: "video-feature"
             );
 
-            affiseEvent.AddPredefinedParameter(PredefinedString.PARAM_01, "param1");
-            affiseEvent.AddPredefinedParameter(PredefinedObject.CONTENT, tutorial);
+            affiseEvent
+                .AddPredefinedParameter(PredefinedString.PARAM_01, "param1")
+                .AddPredefinedParameter(PredefinedObject.CONTENT, tutorial);
 
             return affiseEvent;
         }
@@ -869,8 +988,9 @@ namespace AffiseDemo
                 userData: "wire"
             );
 
-            affiseEvent.AddPredefinedParameter(PredefinedString.PARAM_01, "param1");
-            affiseEvent.AddPredefinedParameter(PredefinedObject.CONTENT, subscribe);
+            affiseEvent
+                .AddPredefinedParameter(PredefinedString.PARAM_01, "param1")
+                .AddPredefinedParameter(PredefinedObject.CONTENT, subscribe);
 
             return affiseEvent;
         }
@@ -890,20 +1010,21 @@ namespace AffiseDemo
                 userData: "booking"
             );
 
-            affiseEvent.AddPredefinedParameter(PredefinedLong.NUM_ADULTS, 1L);
-            affiseEvent.AddPredefinedParameter(PredefinedLong.NUM_CHILDREN, 2L);
-            affiseEvent.AddPredefinedParameter(PredefinedLong.NUM_INFANTS, 1L);
-            affiseEvent.AddPredefinedParameter(PredefinedLong.DATE_A, "30.12.2020".ToTimeStamp());
-            affiseEvent.AddPredefinedParameter(PredefinedLong.DATE_B, "01.01.2021".ToTimeStamp());
-            affiseEvent.AddPredefinedParameter(PredefinedLong.DEPARTING_ARRIVAL_DATE, "01.01.2021".ToTimeStamp());
-            affiseEvent.AddPredefinedParameter(PredefinedLong.DEPARTING_DEPARTURE_DATE, "30.12.2020".ToTimeStamp());
-            affiseEvent.AddPredefinedParameter(PredefinedString.DESTINATION_A, "usa");
-            affiseEvent.AddPredefinedParameter(PredefinedString.DESTINATION_B, "mexico");
-            affiseEvent.AddPredefinedParameter(PredefinedString.DESTINATION_LIST, "usa, mexico");
-            affiseEvent.AddPredefinedParameter(PredefinedLong.HOTEL_SCORE, 5L);
-            affiseEvent.AddPredefinedParameter(PredefinedLong.TRAVEL_START, "01.12.2020".ToTimeStamp());
-            affiseEvent.AddPredefinedParameter(PredefinedLong.TRAVEL_END, "01.12.2021".ToTimeStamp());
-            affiseEvent.AddPredefinedParameter(PredefinedObject.CONTENT, data);
+            affiseEvent
+                .AddPredefinedParameter(PredefinedLong.NUM_ADULTS, 1L)
+                .AddPredefinedParameter(PredefinedLong.NUM_CHILDREN, 2L)
+                .AddPredefinedParameter(PredefinedLong.NUM_INFANTS, 1L)
+                .AddPredefinedParameter(PredefinedLong.DATE_A, "30.12.2020".ToTimeStamp())
+                .AddPredefinedParameter(PredefinedLong.DATE_B, "01.01.2021".ToTimeStamp())
+                .AddPredefinedParameter(PredefinedLong.DEPARTING_ARRIVAL_DATE, "01.01.2021".ToTimeStamp())
+                .AddPredefinedParameter(PredefinedLong.DEPARTING_DEPARTURE_DATE, "30.12.2020".ToTimeStamp())
+                .AddPredefinedParameter(PredefinedString.DESTINATION_A, "usa")
+                .AddPredefinedParameter(PredefinedString.DESTINATION_B, "mexico")
+                .AddPredefinedParameter(PredefinedString.DESTINATION_LIST, "usa, mexico")
+                .AddPredefinedParameter(PredefinedLong.HOTEL_SCORE, 5L)
+                .AddPredefinedParameter(PredefinedLong.TRAVEL_START, "01.12.2020".ToTimeStamp())
+                .AddPredefinedParameter(PredefinedLong.TRAVEL_END, "01.12.2021".ToTimeStamp())
+                .AddPredefinedParameter(PredefinedObject.CONTENT, data);
 
             return affiseEvent;
         }
@@ -919,9 +1040,10 @@ namespace AffiseDemo
                 userData: "best damage"
             );
 
-            affiseEvent.AddPredefinedParameter(PredefinedLong.USER_SCORE, 12552L);
-            affiseEvent.AddPredefinedParameter(PredefinedString.ACHIEVEMENT_ID, "1334-1225-ASDZ");
-            affiseEvent.AddPredefinedParameter(PredefinedObject.CONTENT, achievement);
+            affiseEvent
+                .AddPredefinedParameter(PredefinedLong.USER_SCORE, 12552L)
+                .AddPredefinedParameter(PredefinedString.ACHIEVEMENT_ID, "1334-1225-ASDZ")
+                .AddPredefinedParameter(PredefinedObject.CONTENT, achievement);
 
             return affiseEvent;
         }
@@ -937,8 +1059,9 @@ namespace AffiseDemo
                 userData: "02.01.2021"
             );
 
-            affiseEvent.AddPredefinedParameter(PredefinedString.PARAM_01, "param1");
-            affiseEvent.AddPredefinedParameter(PredefinedObject.CONTENT, unsubscribe);
+            affiseEvent
+                .AddPredefinedParameter(PredefinedString.PARAM_01, "param1")
+                .AddPredefinedParameter(PredefinedObject.CONTENT, unsubscribe);
 
             return affiseEvent;
         }
@@ -952,14 +1075,15 @@ namespace AffiseDemo
                 userData: "firmware"
             );
 
-            affiseEvent.AddPredefinedParameter(PredefinedLong.EVENT_START, "01.02.2021".ToTimeStamp());
-            affiseEvent.AddPredefinedParameter(PredefinedLong.EVENT_END, "01.01.2022".ToTimeStamp());
-            affiseEvent.AddPredefinedParameter(PredefinedString.NEW_VERSION, "8");
-            affiseEvent.AddPredefinedParameter(PredefinedString.OLD_VERSION, "1.8");
-            affiseEvent.AddPredefinedParameter(PredefinedObject.CONTENT, new JSONObject
-            {
-                ["data"] = data,
-            });
+            affiseEvent
+                .AddPredefinedParameter(PredefinedLong.EVENT_START, "01.02.2021".ToTimeStamp())
+                .AddPredefinedParameter(PredefinedLong.EVENT_END, "01.01.2022".ToTimeStamp())
+                .AddPredefinedParameter(PredefinedString.NEW_VERSION, "8")
+                .AddPredefinedParameter(PredefinedString.OLD_VERSION, "1.8")
+                .AddPredefinedParameter(PredefinedObject.CONTENT, new JSONObject
+                {
+                    ["data"] = data,
+                });
 
             return affiseEvent;
         }
@@ -975,9 +1099,10 @@ namespace AffiseDemo
                 userData: "skip"
             );
 
-            affiseEvent.AddPredefinedParameter(PredefinedLong.RETURNING_ARRIVAL_DATE, "01.12.2021".ToTimeStamp());
-            affiseEvent.AddPredefinedParameter(PredefinedLong.RETURNING_DEPARTURE_DATE, "01.12.2020".ToTimeStamp());
-            affiseEvent.AddPredefinedParameter(PredefinedObject.CONTENT, ad);
+            affiseEvent
+                .AddPredefinedParameter(PredefinedLong.RETURNING_ARRIVAL_DATE, "01.12.2021".ToTimeStamp())
+                .AddPredefinedParameter(PredefinedLong.RETURNING_DEPARTURE_DATE, "01.12.2020".ToTimeStamp())
+                .AddPredefinedParameter(PredefinedObject.CONTENT, ad);
 
             return affiseEvent;
         }
@@ -1005,8 +1130,9 @@ namespace AffiseDemo
                 userData: "main"
             );
 
-            affiseEvent.AddPredefinedParameter(PredefinedString.PARAM_01, "param1");
-            affiseEvent.AddPredefinedParameter(PredefinedObject.CONTENT, objects);
+            affiseEvent
+                .AddPredefinedParameter(PredefinedString.PARAM_01, "param1")
+                .AddPredefinedParameter(PredefinedObject.CONTENT, objects);
 
             return affiseEvent;
         }
@@ -1022,9 +1148,10 @@ namespace AffiseDemo
                 userData: "main"
             );
 
-            affiseEvent.AddPredefinedParameter(PredefinedLong.MAX_RATING_VALUE, 5L);
-            affiseEvent.AddPredefinedParameter(PredefinedLong.RATING_VALUE, 9L);
-            affiseEvent.AddPredefinedParameter(PredefinedObject.CONTENT, item);
+            affiseEvent
+                .AddPredefinedParameter(PredefinedLong.MAX_RATING_VALUE, 5L)
+                .AddPredefinedParameter(PredefinedLong.RATING_VALUE, 9L)
+                .AddPredefinedParameter(PredefinedObject.CONTENT, item);
 
             return affiseEvent;
         }
@@ -1033,10 +1160,10 @@ namespace AffiseDemo
         {
             var data = new List<JSONObject>
             {
-                new JSONObject { ["section_name"] = "header" },
-                new JSONObject { ["section_name"] = "section-1" },
-                new JSONObject { ["section_name"] = "section-2" },
-                new JSONObject { ["section_name"] = "footer" },
+                new() { ["section_name"] = "header" },
+                new() { ["section_name"] = "section-1" },
+                new() { ["section_name"] = "section-2" },
+                new() { ["section_name"] = "footer" },
             };
 
 
@@ -1044,9 +1171,10 @@ namespace AffiseDemo
                 userData: "main"
             );
 
-            affiseEvent.AddPredefinedParameter(PredefinedLong.MAX_RATING_VALUE, 5L);
-            affiseEvent.AddPredefinedParameter(PredefinedLong.RATING_VALUE, 9L);
-            affiseEvent.AddPredefinedParameter(PredefinedListObject.CONTENT_LIST, data);
+            affiseEvent
+                .AddPredefinedParameter(PredefinedLong.MAX_RATING_VALUE, 5L)
+                .AddPredefinedParameter(PredefinedLong.RATING_VALUE, 9L)
+                .AddPredefinedParameter(PredefinedListObject.CONTENT_LIST, data);
 
             return affiseEvent;
         }

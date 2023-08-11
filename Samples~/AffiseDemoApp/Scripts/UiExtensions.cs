@@ -59,5 +59,13 @@ namespace AffiseDemo
             elm.style.paddingBottom = new StyleLength(rightBottom.y);
             elm.style.paddingRight = new StyleLength(rightBottom.x);
         }
+        
+        public static VisualElement Hide(this VisualElement input, bool hide = true)
+        {
+            input.style.display = hide ? DisplayStyle.None : DisplayStyle.Flex;
+            return input;
+        }
+        
+        public static VisualElement Show(this VisualElement input, bool show = true) => input.Hide(!show);
     }
 }

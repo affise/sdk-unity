@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AffiseAttributionLib;
-using AffiseAttributionLib.Editor.Extensions;
 using AffiseAttributionLib.Modules;
 using AffiseAttributionLib.Referrer;
 using AffiseAttributionLib.Utils;

@@ -13,13 +13,18 @@
     {
         public static string ToValue(this PredefinedFloat param)
         {
+            return $"{PredefinedConstants.PREFIX}{param.Value()}";
+        }
+
+        private static string Value(this PredefinedFloat param)
+        {
             return param switch
             {
-                PredefinedFloat.PREFERRED_PRICE_RANGE => "affise_p_preferred_price_range",
-                PredefinedFloat.PRICE => "affise_p_price",
-                PredefinedFloat.REVENUE => "affise_p_revenue",
-                PredefinedFloat.LAT => "affise_p_lat",
-                PredefinedFloat.LONG => "affise_p_long",
+                PredefinedFloat.PREFERRED_PRICE_RANGE => "preferred_price_range",
+                PredefinedFloat.PRICE => "price",
+                PredefinedFloat.REVENUE => "revenue",
+                PredefinedFloat.LAT => "lat",
+                PredefinedFloat.LONG => "long",
                 _ => null
             };
         }
