@@ -7,6 +7,7 @@ using AffiseAttributionLib.Events;
 using AffiseAttributionLib.Init;
 using AffiseAttributionLib.Modules;
 using AffiseAttributionLib.Referrer;
+using AffiseAttributionLib.SKAd;
 using SimpleJSON;
 
 namespace AffiseAttributionLib.Native
@@ -23,6 +24,11 @@ namespace AffiseAttributionLib.Native
         public void Init(AffiseInitProperties initProperties)
         {
             Native(AffiseApiMethod.INIT, initProperties.ToJson);
+        }
+
+        public bool IsInitialized()
+        {
+            return Native<bool>(AffiseApiMethod.IS_INITIALIZED);
         }
 
         public void SendEvents()
@@ -126,6 +132,21 @@ namespace AffiseAttributionLib.Native
             return Native<string>(AffiseApiMethod.GET_RANDOM_DEVICE_ID);
         }
 
+        public void RegisterAppForAdNetworkAttribution(ErrorCallback completionHandler)
+        {
+            NativeCallback(AffiseApiMethod.SKAD_REGISTER_ERROR_CALLBACK, callback: completionHandler); 
+        }
+
+        public void UpdatePostbackConversionValue(int fineValue, CoarseValue coarseValue, ErrorCallback completionHandler)
+        {
+            var data = new Dictionary<string, object>
+            {
+                { "fineValue", fineValue },
+                { "coarseValue", coarseValue.Value }
+            };
+            NativeCallback(AffiseApiMethod.SKAD_POSTBACK_ERROR_CALLBACK, callback: completionHandler, data: data);
+        }
+
         protected override void HandleCallback(AffiseApiMethod? api, object callback, JSONNode? json)
         {
             switch (api)
@@ -142,6 +163,12 @@ namespace AffiseAttributionLib.Native
                 case AffiseApiMethod.GET_STATUS_CALLBACK:
                     var values = json?.ToAffiseKeyValueList() ?? new List<AffiseKeyValue>();
                     (callback as OnKeyValueCallback)?.Invoke(values);
+                    break;
+                case AffiseApiMethod.SKAD_REGISTER_ERROR_CALLBACK:
+                    (callback as ErrorCallback)?.Invoke(json?.ToString());
+                    break;
+                case AffiseApiMethod.SKAD_POSTBACK_ERROR_CALLBACK:
+                    (callback as ErrorCallback)?.Invoke(json?.ToString());
                     break;
             }
         }

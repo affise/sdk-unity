@@ -1,8 +1,8 @@
 # Affise Unity package
 
-| Artifact | Version |
-| -------- | ------- |
-| attribution  | [1.6.3](/releases) |
+| Artifact      | Version            |
+| ------------- | ------------------ |
+| `attribution` | [`1.6.4`](/releases) |
 
 - [Affise Unity package](#affise-unity-package)
 - [Description](#description)
@@ -11,6 +11,9 @@
     - [Integrate unity package](#integrate-unity-package)
     - [Integrate unitypackage file](#integrate-unitypackage-file)
     - [Initialize](#initialize)
+    - [Add platform modules](#add-platform-modules)
+      - [Android](#android)
+      - [iOS](#ios)
   - [Build](#build)
     - [iOS](#ios)
 - [Features](#features)
@@ -35,6 +38,7 @@
     - [Get referrer](#get-referrer)
     - [Get referrer value](#get-referrer-value)
       - [Referrer keys](#referrer-keys)
+    - [StoreKit Ad Network](#storekit-ad-network)
 - [Troubleshoots](#troubleshoots)
   - [iOS](#ios-1)
 
@@ -86,6 +90,58 @@ Fill all required fields
 
 ![affise_settings](https://github.com/affise/sdk-unity/blob/assets/affise_settings.png?raw=true)
 
+### Add platform modules
+
+#### Android
+
+Expord Unity project as Android project
+
+Add modules to Android project gradle file `unityLibrary/build.gradle`
+
+| Module             | Version                                      |
+|--------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `module-advertising` | [![module-advertising](https://img.shields.io/maven-central/v/com.affise/module-advertising?label=latest)](https://mvnrepository.com/artifact/com.affise/module-advertising) |
+| `module-network`     | [![module-network](https://img.shields.io/maven-central/v/com.affise/module-network?label=latest)](https://mvnrepository.com/artifact/com.affise/module-network)             |
+| `module-phone`       | [![module-phone](https://img.shields.io/maven-central/v/com.affise/module-phone?label=latest)](https://mvnrepository.com/artifact/com.affise/module-phone)                   |
+| `module-status`      | [![module-status](https://img.shields.io/maven-central/v/com.affise/module-status?label=latest)](https://mvnrepository.com/artifact/com.affise/module-status)                |
+
+```gradle
+dependencies {
+  // ...
+  // Affise modules
+  implementation 'com.affise:module-advertising:1.6.+'
+  implementation 'com.affise:module-network:1.6.+'
+  implementation 'com.affise:module-phone:1.6.+'
+  implementation 'com.affise:module-status:1.6.+'
+}
+```
+
+#### iOS
+
+Open `Podfile` in XCode project folder
+
+Add modules to iOS project
+
+| Module                | Version |
+|-----------------------|:-------:|
+| `AffiseModule/Status` | `1.6.9` |
+
+```rb
+platform :ios, '11.0'
+
+target 'UnityFramework' do
+  pod 'AffiseInternal', '~> 1.6.9'
+
+  # Affise Modules
+  pod 'AffiseModule/Status', `~> 1.6.9`
+end
+
+target 'Unity-iPhone' do
+end
+
+use_frameworks! :linkage => :static
+```
+
 ## Build
 
 ### iOS
@@ -96,7 +152,7 @@ SDK is using Cocoapods
 2. Select build folder (unity will exported iOS project to build folder)
 3. Build folder should contain `Podfile`
 4. In Terminal open build folder and run commend `pod update` or `pod install`
-5. Open genereated `*.worksapce` to build your unity project
+5. Open generated `*.worksapce` to build your unity project
 
 If Podfile hasn't generated you can create it manually using this [Podfile](Editor/Resources/iOS/AffisePodfile.rb) as template
 
@@ -106,7 +162,10 @@ Podfile:
 platform :ios, '11.0'
 
 target 'UnityFramework' do
-   pod 'AffiseInternal', '~> 1.6.5'
+  pod 'AffiseInternal', '~> 1.6.9'
+
+  # Affise Modules
+  # pod 'AffiseModule/Status', `~> 1.6.9`
 end
 
 target 'Unity-iPhone' do
@@ -206,13 +265,14 @@ class Presenter {
             ["achievement"] = "new level",
         };
 
-        var event = new UnlockAchievementEvent("best damage");
+        var anlockAchievement = new UnlockAchievementEvent("best damage");
         
-        event.AddPredefinedParameter(PredefinedLong.USER_SCORE, 12552L);
-        evtnt.AddPredefinedParameter(PredefinedString.ACHIEVEMENT_ID, "1334-1225-ASDZ");
-        event.AddPredefinedParameter(PredefinedObject.CONTENT, achievement);
+        anlockAchievement
+          .AddPredefinedParameter(PredefinedLong.USER_SCORE, 12552L)
+          .AddPredefinedParameter(PredefinedString.ACHIEVEMENT_ID, "1334-1225-ASDZ")
+          .AddPredefinedParameter(PredefinedObject.CONTENT, achievement);
 
-        Affise.SendEvent(event);
+        Affise.SendEvent(anlockAchievement);
     }
 }
 ```
@@ -320,27 +380,28 @@ class Presenter {
             ["achievement"] = "new level",
         };
         
-        var event = new UnlockAchievementEvent(
+        var anlockAchievement = new UnlockAchievementEvent(
             userData: "best damage",
             timeStampMillis: DateTime.UtcNow.GetTimeInMillis()
         );
 
-        event.AddPredefinedParameter(PredefinedString.DESCRIPTION, "best damage");
-        event.AddPredefinedParameter(PredefinedObject.CONTENT, achievement);
+        anlockAchievement
+          .AddPredefinedParameter(PredefinedString.DESCRIPTION, "best damage")
+          .AddPredefinedParameter(PredefinedObject.CONTENT, achievement);
 
-        Affise.SendEvent(event);
+        Affise.SendEvent(anlockAchievement);
     }
 }
 ```
 
 In examples above `PredefinedParameters.DESCRIPTION` and `PredefinedObject.CONTENT` is used, but many others is available:
 
-| PredefinedParameter                           | Type                  |
-|-----------------------------------------------|-----------------------|
-| [PredefinedString](#predefinedstring)         | string                |
-| [PredefinedLong](#predefinedlong)             | long                  |
-| [PredefinedFloat](#predefinedfloat)           | float                 |
-| [PredefinedObject](#predefinedobject)         | JSONObject            |
+| PredefinedParameter                           | Type                   |
+|-----------------------------------------------|------------------------|
+| [PredefinedString](#predefinedstring)         | string                 |
+| [PredefinedLong](#predefinedlong)             | long                   |
+| [PredefinedFloat](#predefinedfloat)           | float                  |
+| [PredefinedObject](#predefinedobject)         | JSONObject             |
 | [PredefinedListObject](#predefinedlistobject) | List&lt;JSONObject&gt; |
 | [PredefinedListString](#predefinedliststring) | List&lt;string&gt;     |
 
@@ -350,12 +411,16 @@ In examples above `PredefinedParameters.DESCRIPTION` and `PredefinedObject.CONTE
 - `ADREV_AD_TYPE`
 - `BRAND`
 - `BRICK`
+- `CAMPAIGN_ID`
 - `CATALOGUE_ID`
 - `CHANNEL_TYPE`
 - `CITY`
 - `CLASS`
+- `CLICK_ID`
 - `CONTENT_ID`
+- `CONTENT_NAME`
 - `CONTENT_TYPE`
+- `CONVERSION_ID`
 - `COUNTRY`
 - `COUPON_CODE`
 - `CURRENCY`
@@ -367,6 +432,7 @@ In examples above `PredefinedParameters.DESCRIPTION` and `PredefinedObject.CONTE
 - `DESTINATION_A`
 - `DESTINATION_B`
 - `DESTINATION_LIST`
+- `EVENT_NAME`
 - `NEW_VERSION`
 - `OLD_VERSION`
 - `ORDER_ID`
@@ -381,7 +447,10 @@ In examples above `PredefinedParameters.DESCRIPTION` and `PredefinedObject.CONTE
 - `PARAM_09`
 - `PARAM_10`
 - `PAYMENT_INFO_AVAILABLE`
+- `PID`
 - `PREFERRED_NEIGHBORHOODS`
+- `PRODUCT_ID`
+- `PRODUCT_NAME`
 - `PURCHASE_CURRENCY`
 - `RECEIPT_ID`
 - `REGION`
@@ -457,7 +526,7 @@ but if there is no network connection or device is disabled, events are kept loc
 ## Push token tracking
 
 To let affise track push token you need to receive it from your push service provider, and pass to Affise library.
-First add firebase integration to your app completing theese steps: Firebase [iOS](https://firebase.google.com/docs/cloud-messaging/ios/client) or [Android](https://firebase.google.com/docs/cloud-messaging/android/client) Docs
+First add firebase integration to your app completing these steps: Firebase [iOS](https://firebase.google.com/docs/cloud-messaging/ios/client) or [Android](https://firebase.google.com/docs/cloud-messaging/android/client) Docs
 
 ## Deeplinks
 
@@ -495,23 +564,17 @@ To integrate applink support you need:
 
 ## Get random user Id
 
-Use the next public method of SDK
-
 ```c#
 Affise.GetRandomUserId();
 ```
 
 ## Get random device Id
 
-Use the next public method of SDK
-
 ```c#
 Affise.GetRandomDeviceId();
 ```
 
 ## Get module state
-
-> Implemented for `Android`
 
 ```C#
 Affise.GetStatus(AffiseModules.Status, response => {
@@ -581,6 +644,44 @@ In examples above `ReferrerKey.CLICK_ID` is used, but many others is available:
 - `SUB_3`
 - `SUB_4`
 - `SUB_5`
+
+### StoreKit Ad Network
+
+> `iOS Only`
+
+For ios prior `16.1` first call
+
+```C#
+Affise.IOS.RegisterAppForAdNetworkAttribution(error =>
+{
+    // Handle error
+});
+```
+
+Updates the fine and coarse conversion values, and calls a completion handler if the update fails.
+Second argument coarseValue is available in iOS 16.1+
+
+```C#
+Affise.IOS.UpdatePostbackConversionValue(1, SKAdNetwork.CoarseConversionValue.Medium, error =>
+{
+    // Handle error
+});
+```
+
+Configure your app to send postback copies to Affise:
+
+Add key `NSAdvertisingAttributionReportEndpoint` to project `Info.plist`
+Set key value to `https://affise-skadnetwork.com/`
+
+```xml
+<key>CFBundleURLTypes</key>
+<array>
+    <dict>
+      <key>NSAdvertisingAttributionReportEndpoint</key>
+      <string>https://affise-skadnetwork.com/</string>
+    </dict>
+</array>
+```
 
 # Troubleshoots
 

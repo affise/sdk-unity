@@ -1,4 +1,3 @@
-﻿import AffiseAttributionLib
 import AffiseInternal
 
 @objc 
@@ -11,7 +10,11 @@ public class AffiseNativeModule : NativeCallHandler {
        
     @objc(callback:)
     public func setCallback(callback: @escaping (String, String)->Void) {
-        apiWrapper?.setCallback(callback)
+        apiWrapper?.setCallback { (apiName: String, data: [String: Any?]) in
+            DispatchQueue.main.async {
+                callback(apiName, data.toArray().jsonString())
+            }
+        }
     }
     
     @objc(application:launchOptions:)

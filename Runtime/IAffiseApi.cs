@@ -15,5 +15,7 @@ namespace AffiseAttributionLib
         public IInitPropertiesStorage InitPropertiesStorage { get; }
         public IDeeplinkManager DeeplinkManager { get; }
         public PostBackModelFactory PostBackModelFactory { get; }
+
+        public bool IsInitialized();
     }
 }

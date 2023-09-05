@@ -58,6 +58,14 @@
         UTM_SOURCE,
         VERTICAL,
         VOUCHER_CODE,
+        CLICK_ID,
+        CAMPAIGN_ID,
+        EVENT_NAME,
+        PID,
+        PRODUCT_ID,
+        CONVERSION_ID,
+        CONTENT_NAME,
+        PRODUCT_NAME,
     }
     
     public static class PredefinedStringExt
@@ -127,6 +135,14 @@
                 PredefinedString.UTM_SOURCE => "utm_source",
                 PredefinedString.VERTICAL => "vertical",
                 PredefinedString.VOUCHER_CODE => "voucher_code",
+                PredefinedString.CLICK_ID => "click_id",
+                PredefinedString.CAMPAIGN_ID => "campaign_id",
+                PredefinedString.EVENT_NAME => "event_name",
+                PredefinedString.PID => "pid",
+                PredefinedString.PRODUCT_ID => "product_id",
+                PredefinedString.CONVERSION_ID => "conversion_id",
+                PredefinedString.CONTENT_NAME => "content_name",
+                PredefinedString.PRODUCT_NAME => "product_name",
                 _ => null
             };
         }

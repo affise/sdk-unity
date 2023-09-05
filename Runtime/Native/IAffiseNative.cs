@@ -5,13 +5,16 @@ using AffiseAttributionLib.Events;
 using AffiseAttributionLib.Init;
 using AffiseAttributionLib.Modules;
 using AffiseAttributionLib.Referrer;
+using AffiseAttributionLib.SKAd;
 
 namespace AffiseAttributionLib.Native
 {
     internal interface IAffiseNative
     {
         void Init(AffiseInitProperties initProperties);
-
+        
+        bool IsInitialized();
+        
         void SendEvents();
 
         void SendEvent(AffiseEvent affiseEvent);
@@ -51,5 +54,9 @@ namespace AffiseAttributionLib.Native
         string? GetRandomUserId();
 
         string? GetRandomDeviceId();
+
+        void RegisterAppForAdNetworkAttribution(ErrorCallback completionHandler);
+        
+        void UpdatePostbackConversionValue(int fineValue, CoarseValue coarseValue, ErrorCallback completionHandler);
     }
 }

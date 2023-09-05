@@ -61,6 +61,8 @@ namespace AffiseAttributionLib
         
         private readonly IIsFirstForUserUseCase _isFirstForUserUseCase;
 
+        private readonly bool _isReady = false;
+        
         public AffiseComponent(AffiseInitProperties initProperties)
         {
             _converterToBase64 = new ConverterToBase64();
@@ -137,6 +139,13 @@ namespace AffiseAttributionLib
                 eventsManager: EventsManager,
                 isFirstForUserUseCase: _isFirstForUserUseCase
             );
+
+            _isReady = true;
+        }
+
+        public bool IsInitialized()
+        {
+            return _isReady;
         }
     }
 }

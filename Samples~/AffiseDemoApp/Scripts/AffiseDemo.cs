@@ -5,6 +5,7 @@ using System.Linq;
 using AffiseAttributionLib;
 using AffiseAttributionLib.Modules;
 using AffiseAttributionLib.Referrer;
+using AffiseAttributionLib.SKAd;
 using AffiseAttributionLib.Utils;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -28,8 +29,8 @@ namespace AffiseDemo
         private bool _isApi = true;
 
         private ReferrerKey _refKey;
-        
-        private Dictionary<CallbackEventHandler, EventCallback<ClickEvent>> _ClickCallback= new();
+
+        private Dictionary<CallbackEventHandler, EventCallback<ClickEvent>> _ClickCallback = new();
 
         #endregion variables
 
@@ -49,19 +50,19 @@ namespace AffiseDemo
         private void BindView()
         {
             _eventsFactory = GetComponent<DefaultEventsFactory>();
-            
+
             _root = GetComponent<UIDocument>().rootVisualElement;
-            
+
             _safeZone = _root.Q<VisualElement>("safe-zone");
             _safeZone.RegisterCallback<GeometryChangedEvent>(LayoutChanged);
-            
+
             _eventScrollView = _root.Q<ScrollView>("events");
             _apiScrollView = _root.Q<ScrollView>("api");
-            
+
             _output = _root.Q<TextField>("output");
 
             BindButton("toggle-btn", ToggleMode);
-            
+
             BindButton("output-clear", () =>
             {
                 _output.value = "";
@@ -98,8 +99,9 @@ namespace AffiseDemo
         {
             foreach (var (button, callback) in _ClickCallback)
             {
-               button.UnregisterCallback(callback);
+                button.UnregisterCallback(callback);
             }
+
             _ClickCallback.Clear();
         }
 
@@ -112,9 +114,9 @@ namespace AffiseDemo
 
             var button = _root.Q<Button>(btnName);
             button.RegisterCallback(callback);
-            
+
             _ClickCallback[button] = callback;
-            
+
             return button;
         }
 
@@ -162,6 +164,27 @@ namespace AffiseDemo
                 });
             });
 
+#if UNITY_IOS
+            view?.AddButton("SKAd Register", () =>
+            {
+                Affise.IOS.RegisterAppForAdNetworkAttribution(error =>
+                {
+                    Output($"SKAd Register: {error}");
+                });
+            });
+            
+            view?.AddButton("SKAd Postback", () =>
+            {
+                Affise.IOS.UpdatePostbackConversionValue(
+                    1,
+                    SKAdNetwork.CoarseConversionValue.Medium,
+                    error =>
+                    {
+                        Output($"SKAd Postback: {error}");
+                    });
+            });
+#endif
+
             view?.AddButton("Random push Token", () =>
             {
                 var token = Uuid.Generate();
@@ -174,13 +197,13 @@ namespace AffiseDemo
                 var value = Affise.IsOfflineModeEnabled() ?? false;
                 Output($"IsOfflineModeEnabled: {(value ? "true" : "false")}");
             });
-            
+
             view?.AddButton("Get Random User Id", () =>
             {
                 var value = Affise.GetRandomUserId();
                 Output($"GetRandomUserId: {value}");
             });
-            
+
             view?.AddButton("Get Random Device Id", () =>
             {
                 var value = Affise.GetRandomDeviceId();
@@ -195,7 +218,12 @@ namespace AffiseDemo
             if (_eventsFactory is null) return;
             foreach (var affiseEvent in _eventsFactory.CreateEvents())
             {
-                view.AddButton(affiseEvent.GetName(), () => { Affise.SendEvent(affiseEvent); });
+                view.AddButton(affiseEvent.GetName(), () => { 
+                    // Send event
+                    affiseEvent.Send();
+                    // or
+                    // Affise.SendEvent(affiseEvent);
+                });
             }
         }
 
@@ -203,10 +231,10 @@ namespace AffiseDemo
         {
             return Enum.GetValues(typeof(ReferrerKey))
                 .Cast<ReferrerKey>()
-                .Select(s => s.ToString() )
+                .Select(s => s.ToString())
                 .ToList();
         }
-        
+
         private ReferrerKey ToReferrer(string referrerName)
         {
             Enum.TryParse(referrerName, out ReferrerKey referrer);

@@ -5,6 +5,7 @@ namespace AffiseAttributionLib.Native
     internal enum AffiseApiMethod
     {
         INIT,
+        IS_INITIALIZED,
         SEND_EVENTS,
         SEND_EVENT,
         ADD_PUSH_TOKEN,
@@ -29,6 +30,8 @@ namespace AffiseAttributionLib.Native
         GET_REFERRER_VALUE_CALLBACK,
         GET_STATUS_CALLBACK,
         REGISTER_DEEPLINK_CALLBACK,
+        SKAD_REGISTER_ERROR_CALLBACK,
+        SKAD_POSTBACK_ERROR_CALLBACK,
     }
     
     internal static class AffiseApiMethodExt
@@ -48,6 +51,7 @@ namespace AffiseAttributionLib.Native
             return method switch
             {
                 AffiseApiMethod.INIT => "init",
+                AffiseApiMethod.IS_INITIALIZED => "is_initialized",
                 AffiseApiMethod.SEND_EVENTS => "send_events",
                 AffiseApiMethod.SEND_EVENT => "send_event",
                 AffiseApiMethod.ADD_PUSH_TOKEN => "add_push_token",
@@ -71,6 +75,8 @@ namespace AffiseAttributionLib.Native
                 AffiseApiMethod.GET_REFERRER_VALUE_CALLBACK => "get_referrer_value_callback",
                 AffiseApiMethod.GET_STATUS_CALLBACK => "get_status_callback",
                 AffiseApiMethod.REGISTER_DEEPLINK_CALLBACK => "register_deeplink_callback",
+                AffiseApiMethod.SKAD_REGISTER_ERROR_CALLBACK => "skad_register_error_callback",
+                AffiseApiMethod.SKAD_POSTBACK_ERROR_CALLBACK => "skad_postback_error_callback",
                 _ => null
             };
         }

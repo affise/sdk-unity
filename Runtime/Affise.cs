@@ -6,6 +6,7 @@ using AffiseAttributionLib.Events;
 using AffiseAttributionLib.Init;
 using AffiseAttributionLib.Modules;
 using AffiseAttributionLib.Referrer;
+using AffiseAttributionLib.SKAd;
 using AffiseAttributionLib.Utils;
 #if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
 using AffiseAttributionLib.Native;
@@ -21,7 +22,7 @@ namespace AffiseAttributionLib
         private static AffiseComponent? _api;
 #endif
 
-        public static bool IsInit
+        internal static bool IsInit
         {
             get
             {
@@ -41,6 +42,15 @@ namespace AffiseAttributionLib
 #else
             if (_api is not null) return;
             _api = new AffiseComponent(initProperties);
+#endif
+        }
+        
+        public static bool IsInitialized()
+        {
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+            return _native?.IsInitialized() ?? false;
+#else
+            return _api?.IsInitialized() ?? false;
 #endif
         }
 
@@ -176,7 +186,10 @@ namespace AffiseAttributionLib
 #if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
             _native?.GetStatus(module, onComplete);
 #else
-            onComplete.Invoke(new List<AffiseKeyValue>());
+            onComplete.Invoke(new List<AffiseKeyValue>
+            {
+                new("error", NotSupported)
+            });
 #endif
         }
 
@@ -205,7 +218,7 @@ namespace AffiseAttributionLib
              */
             public static void SetAutoCatchingTypes(List<AutoCatchingType> types)
             {
-#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+#if (UNITY_ANDROID) && !UNITY_EDITOR
                 _native?.SetAutoCatchingTypes(types);
 #endif
             }
@@ -215,7 +228,7 @@ namespace AffiseAttributionLib
              */
             public static void Forget(string userData)
             {
-#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+#if (UNITY_ANDROID) && !UNITY_EDITOR
                 _native?.Forget(userData);
 #endif
             }
@@ -225,14 +238,14 @@ namespace AffiseAttributionLib
              */
             public static void SetEnabledMetrics(bool enabled)
             {
-#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+#if (UNITY_ANDROID) && !UNITY_EDITOR
                 _native?.SetEnabledMetrics(enabled);
 #endif
             }
 
             public static void CrashApplication()
             {
-#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+#if (UNITY_ANDROID) && !UNITY_EDITOR
                 _native?.CrashApplication();
 #endif
             }
@@ -242,10 +255,10 @@ namespace AffiseAttributionLib
              */
             public static void GetReferrer(ReferrerCallback callback)
             {
-#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+#if (UNITY_ANDROID) && !UNITY_EDITOR
                 _native?.GetReferrer(callback);
 #else
-                callback.Invoke("");
+                callback.Invoke(NotSupported);
 #endif
             }
 
@@ -254,12 +267,41 @@ namespace AffiseAttributionLib
              */
             public static void GetReferrerValue(ReferrerKey key, ReferrerCallback callback)
             {
-#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+#if (UNITY_ANDROID) && !UNITY_EDITOR
                 _native?.GetReferrerValue(key, callback);
 #else
-                callback.Invoke("");
+                callback.Invoke(NotSupported);
 #endif
             }
         }
+        
+        public static class IOS
+        {
+            /**
+             * StoreKit Ad Network register app
+             */
+            public static void RegisterAppForAdNetworkAttribution(ErrorCallback completionHandler)
+            {
+#if (UNITY_IOS) && !UNITY_EDITOR
+                _native?.RegisterAppForAdNetworkAttribution(completionHandler);
+#else
+                completionHandler.Invoke(NotSupported);
+#endif
+            }
+
+            /**
+             * StoreKit Ad Network updatePostbackConversionValue
+             */
+            public static void UpdatePostbackConversionValue(int fineValue, CoarseValue coarseValue, ErrorCallback completionHandler)
+            {
+#if (UNITY_IOS) && !UNITY_EDITOR
+                _native?.UpdatePostbackConversionValue(fineValue, coarseValue, completionHandler);
+#else
+                completionHandler.Invoke(NotSupported);
+#endif
+            }
+        }
+
+        private static string NotSupported = "[Affise] platform not supported";
     }
 }

@@ -4,7 +4,7 @@ using SimpleJSON;
 
 namespace AffiseAttributionLib.Events
 {
-    public abstract class AffiseEvent : IPredefinedParameter
+    public abstract class AffiseEvent : IPredefinedParameter<AffiseEvent>
     {
         /**
          * Event predefined parameters
@@ -62,7 +62,7 @@ namespace AffiseAttributionLib.Events
         /**
          * Add predefined [parameter] with [value] of string to event
          */
-        public IPredefinedParameter AddPredefinedParameter(PredefinedString parameter, string value)
+        public AffiseEvent AddPredefinedParameter(PredefinedString parameter, string value)
         {
             _predefinedParameters.Add(parameter.ToValue(), value);
             return this;
@@ -71,7 +71,7 @@ namespace AffiseAttributionLib.Events
         /**
          * Add predefined [parameter] with [value] of List string to event
          */
-        public IPredefinedParameter AddPredefinedParameter(PredefinedListString parameter, List<string> value)
+        public AffiseEvent AddPredefinedParameter(PredefinedListString parameter, List<string> value)
         {
             _predefinedParameters.Add(parameter.ToValue(), value);
             return this;
@@ -80,7 +80,7 @@ namespace AffiseAttributionLib.Events
         /**
          * Add predefined [parameter] with [value] of long to event
          */
-        public IPredefinedParameter AddPredefinedParameter(PredefinedLong parameter, long value)
+        public AffiseEvent AddPredefinedParameter(PredefinedLong parameter, long value)
         {
             _predefinedParameters.Add(parameter.ToValue(), value);
             return this;
@@ -89,7 +89,7 @@ namespace AffiseAttributionLib.Events
         /**
          * Add predefined [parameter] with [value] of float to event
          */
-        public IPredefinedParameter AddPredefinedParameter(PredefinedFloat parameter, float value)
+        public AffiseEvent AddPredefinedParameter(PredefinedFloat parameter, float value)
         {
             _predefinedParameters.Add(parameter.ToValue(), value);
             return this;
@@ -98,7 +98,7 @@ namespace AffiseAttributionLib.Events
         /**
          * Add predefined [parameter] with [value] of JSONObject to event
          */
-        public IPredefinedParameter AddPredefinedParameter(PredefinedObject parameter, JSONObject value)
+        public AffiseEvent AddPredefinedParameter(PredefinedObject parameter, JSONObject value)
         {
             _predefinedParameters.Add(parameter.ToValue(), value);
             return this;
@@ -107,7 +107,7 @@ namespace AffiseAttributionLib.Events
         /**
          * Add predefined [parameter] with [value] of List<JSONObject> to event
          */
-        public IPredefinedParameter AddPredefinedParameter(PredefinedListObject parameter, List<JSONObject> value)
+        public AffiseEvent AddPredefinedParameter(PredefinedListObject parameter, List<JSONObject> value)
         {
             _predefinedParameters.Add(parameter.ToValue(), value);
             return this;
@@ -117,7 +117,7 @@ namespace AffiseAttributionLib.Events
          * Add predefined ListGroup [value] of List<PredefinedGroup> to event
          */
         // TODO PredefinedGroup
-        // public IPredefinedParameter AddPredefinedListGroup(List<PredefinedGroup> value)
+        // public AffiseEvent AddPredefinedListGroup(List<PredefinedGroup> value)
         // {
         //     if (!_predefinedParameters.ContainsKey(PredefinedGroup.NAME))
         //     {
@@ -133,6 +133,13 @@ namespace AffiseAttributionLib.Events
         //     }
         //     return this;
         // }
+
+        /**
+         * Store and send this events
+         */
+        public void Send() {
+            Affise.SendEvent(this);
+        }
 
         /**
          * Get map of predefined parameter
