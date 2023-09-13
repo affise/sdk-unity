@@ -15,7 +15,7 @@
       - [Android](#android)
       - [iOS](#ios)
   - [Build](#build)
-    - [iOS](#ios)
+    - [iOS](#ios-1)
 - [Features](#features)
   - [Device identifiers collection](#device-identifiers-collection)
   - [Events tracking](#events-tracking)
@@ -30,7 +30,8 @@
   - [Events buffering](#events-buffering)
   - [Push token tracking](#push-token-tracking)
   - [Deeplinks](#deeplinks)
-    - [Android](#android)
+    - [Android](#android-1)
+    - [iOS](#ios-2)
   - [Get random user Id](#get-random-user-id)
   - [Get random device Id](#get-random-device-id)
   - [Get module state](#get-module-state)
@@ -40,7 +41,7 @@
       - [Referrer keys](#referrer-keys)
     - [StoreKit Ad Network](#storekit-ad-network)
 - [Troubleshoots](#troubleshoots)
-  - [iOS](#ios-1)
+  - [iOS](#ios-3)
 
 # Description
 
@@ -530,10 +531,10 @@ First add firebase integration to your app completing these steps: Firebase [iOS
 
 ## Deeplinks
 
-- register applink callback right after Affise.init(..)
+- register applink callback right after Affise.Init(..)
 
 ```c#
-RegisterDeeplinkCallback((uri) =>
+Affise.RegisterDeeplinkCallback((uri) =>
 {
     string screen = uri.Query.GetValueByKeyExt("");
     if (screen == "special_offer") {
@@ -548,18 +549,43 @@ RegisterDeeplinkCallback((uri) =>
 
 ### Android
 
-To integrate applink support you need:
+To integrate deeplink support in android you need:
 
-- add intent filter to one of your activities, replacing YOUR_AFFISE_APP_ID with id from your affise personal cabinet
+Add intent filter to `AndroidManifest.xml`. For more info read [Unity docs](https://docs.unity3d.com/Manual/android-manifest.html)
 
 ```xml
 <intent-filter android:autoVerify="true">
-  <action android:name="android.intent.action.VIEW" />
-  <category android:name="android.intent.category.DEFAULT" />
-  <category android:name="android.intent.category.BROWSABLE" />
-  <data android:scheme="https" />
-  <data android:host="YOUR_AFFISE_APP_ID.affattr.com" />
+    <action android:name="android.intent.action.VIEW" />
+    
+    <category android:name="android.intent.category.DEFAULT" />
+    <category android:name="android.intent.category.BROWSABLE" />
+    
+    <data
+        android:host="YOUR_AFFISE_APP_ID.affattr.com"
+        android:scheme="unity" />
 </intent-filter>
+```
+
+### iOS
+
+To integrate deeplink support in iOS you need:
+
+Add key `CFBundleURLTypes` to `Info.plist` file in Xcode project folder
+
+```xml
+<key>CFBundleURLTypes</key>
+<array>
+    <dict>
+        <key>CFBundleTypeRole</key>
+        <string>Editor</string>
+        <key>CFBundleURLName</key>
+        <string>YOUR_AFFISE_APP_ID.affattr.com</string>
+        <key>CFBundleURLSchemes</key>
+        <array>
+            <string>unity</string>
+        </array>
+    </dict>
+</array>
 ```
 
 ## Get random user Id
@@ -688,7 +714,7 @@ Set key value to `https://affise-skadnetwork.com/`
 ## iOS
 
 > This app has crashed because it attempted to access privacy-sensitive data without a usage description.
-> The app's Info.plist must contain an NSUserTrackingUsageDescription key with a string value explaining
+> The app's `Info.plist` must contain an `NSUserTrackingUsageDescription` key with a string value explaining
 > to the user how the app uses this data.
 
-Open info.plist and add key `NSUserTrackingUsageDescription` with string value
+Open `info.plist` and add key `NSUserTrackingUsageDescription` with string value

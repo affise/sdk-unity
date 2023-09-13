@@ -131,7 +131,16 @@ namespace AffiseDemo
         {
             if (view is null) return;
 
-            view?.AddButton("Get Referrer", () =>
+            view.AddButton("RegisterDeeplinkCallback", () =>
+            {
+                Affise.RegisterDeeplinkCallback(uri =>
+                {
+                    Output($"Deeplink: {uri}");
+                    return true;
+                });
+            });
+            
+            view.AddButton("Get Referrer", () =>
             {
                 Affise.Android.GetReferrer(value =>
                 {
@@ -139,12 +148,12 @@ namespace AffiseDemo
                 });
             });
 
-            view?.AddDropdown("", ReferrerValues(), refName =>
+            view.AddDropdown("", ReferrerValues(), refName =>
             {
                 _refKey = ToReferrer(refName);
             });
 
-            view?.AddButton("Get Referrer Value", () => 
+            view.AddButton("Get Referrer Value", () => 
             {
                 Affise.Android.GetReferrerValue(_refKey, value =>
                 {
@@ -152,7 +161,7 @@ namespace AffiseDemo
                 });
             });
 
-            view?.AddButton("Get Status", () =>
+            view.AddButton("Get Status", () =>
             {
                 Affise.GetStatus(AffiseModules.Status, value =>
                 {
@@ -165,7 +174,7 @@ namespace AffiseDemo
             });
 
 #if UNITY_IOS
-            view?.AddButton("SKAd Register", () =>
+            view.AddButton("SKAd Register", () =>
             {
                 Affise.IOS.RegisterAppForAdNetworkAttribution(error =>
                 {
@@ -173,7 +182,7 @@ namespace AffiseDemo
                 });
             });
             
-            view?.AddButton("SKAd Postback", () =>
+            view.AddButton("SKAd Postback", () =>
             {
                 Affise.IOS.UpdatePostbackConversionValue(
                     1,
@@ -185,26 +194,26 @@ namespace AffiseDemo
             });
 #endif
 
-            view?.AddButton("Random push Token", () =>
+            view.AddButton("Random push Token", () =>
             {
                 var token = Uuid.Generate();
                 Affise.AddPushToken(token);
                 Output($"AddPushToken: {token}");
             });
 
-            view?.AddButton("Is Offline Mode", () =>
+            view.AddButton("Is Offline Mode", () =>
             {
                 var value = Affise.IsOfflineModeEnabled() ?? false;
                 Output($"IsOfflineModeEnabled: {(value ? "true" : "false")}");
             });
 
-            view?.AddButton("Get Random User Id", () =>
+            view.AddButton("Get Random User Id", () =>
             {
                 var value = Affise.GetRandomUserId();
                 Output($"GetRandomUserId: {value}");
             });
 
-            view?.AddButton("Get Random Device Id", () =>
+            view.AddButton("Get Random Device Id", () =>
             {
                 var value = Affise.GetRandomDeviceId();
                 Output($"GetRandomDeviceId: {value}");
