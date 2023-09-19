@@ -17,6 +17,6 @@ namespace AffiseAttributionLib.AffiseParameters
             _initProperties = initProperties;
         }
 
-        public override string Provide() => _initProperties.GetProperties().partParamNameToken;
+        public override string Provide() => _initProperties.GetProperties().PartParamNameToken;
     }
 }

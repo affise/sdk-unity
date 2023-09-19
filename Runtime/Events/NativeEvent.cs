@@ -1,4 +1,5 @@
-﻿using AffiseAttributionLib.Events.Property;
+﻿#nullable enable
+using AffiseAttributionLib.Events.Property;
 using AffiseAttributionLib.Utils;
 using SimpleJSON;
 
@@ -6,17 +7,16 @@ namespace AffiseAttributionLib.Events
 {
     public abstract class NativeEvent: AffiseEvent
     {
-        private readonly string _userData;
+        private readonly string? _userData;
         private readonly long _timeStampMillis;
-        protected object AnyData = null;
 
-        protected NativeEvent(string userData, long timeStampMillis)
+        protected NativeEvent(string? userData, long timeStampMillis)
         {
             _userData = userData;
             _timeStampMillis = timeStampMillis;
         }
         
-        protected NativeEvent(string userData): this(userData: userData,timeStampMillis: Timestamp.New())
+        protected NativeEvent(string? userData): this(userData: userData, timeStampMillis: Timestamp.New())
         {}
         
         protected NativeEvent(): this(userData: null)
@@ -34,7 +34,7 @@ namespace AffiseAttributionLib.Events
          *
          * @return userData
          */
-        public override string GetUserData() => _userData;
+        public override string? GetUserData() => _userData;
         
         /**
          * Serialize Event to JSONObject
@@ -46,7 +46,7 @@ namespace AffiseAttributionLib.Events
         protected virtual AffisePropertyBuilder SerializeBuilder()
         {
             return new AffisePropertyBuilder()
-                .Init(GetName(), AnyData)
+                .Init(GetName())
                 .Add(AffiseProperty.TIMESTAMP, _timeStampMillis);
         }
     }

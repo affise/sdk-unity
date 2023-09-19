@@ -63,6 +63,9 @@
         VIEW_CONTENT,
         VIEW_ITEM,
         VIEW_ITEMS,
+        AD_REVENUE,
+        ORDER_ITEM_ADDED,
+        ORDER_ITEM_REMOVE,
     }
     
     internal static class EventNameExt
@@ -132,6 +135,9 @@
                 EventName.VIEW_CONTENT => "ViewContent",
                 EventName.VIEW_ITEM => "ViewItem",
                 EventName.VIEW_ITEMS => "ViewItems",
+                EventName.AD_REVENUE => "AdRevenue",
+                EventName.ORDER_ITEM_ADDED => "OrderItemAdded",
+                EventName.ORDER_ITEM_REMOVE => "OrderItemRemove",
                 _ => null
             };
         }

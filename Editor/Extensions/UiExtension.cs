@@ -2,7 +2,7 @@
 
 namespace AffiseAttributionLib.Editor.Extensions
 {
-    public static class UiExtension
+    internal static class UiExtension
     {
         public static VisualElement ToRoot(this VisualTreeAsset input, VisualElement root)
         {
@@ -17,5 +17,18 @@ namespace AffiseAttributionLib.Editor.Extensions
         }
         
         public static VisualElement Show(this VisualElement input, bool show = true) => input.Hide(!show);
+        
+        public static VisualElement ToggleClass(this VisualElement input, string style, bool active = true)
+        {
+            if (active)
+            {
+                input.AddToClassList(style);
+            }
+            else
+            {
+                input.RemoveFromClassList(style);
+            }
+            return input;
+        }
     }
 }

@@ -12,12 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d500e5498104aed973b230240920e2c, type: 3}
   m_Name: Affise Settings
   m_EditorClassIdentifier: 
-  appId: AffiseDemoApp
+  appId: 129
   partParamName: 
   partParamNameToken: 
   appToken: 
-  secretId: be07d122-3f3c-11ec-9bbc-0242ac130002
+  secretId: 93a40b54-6f12-443f-a250-ebf67c5ee4d2
   isProduction: 1
-  buildInfo:
-    version: 0.2.0
-    timestamp: 1654188113070
+  isActive: 1

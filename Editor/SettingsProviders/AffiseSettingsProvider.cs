@@ -1,9 +1,6 @@
 ﻿#nullable enable
 using System;
-using System.Collections.Generic;
-using System.IO;
 using AffiseAttributionLib.Editor.Extensions;
-using AffiseAttributionLib.Editor.Menu;
 using AffiseAttributionLib.Editor.Ui;
 using AffiseAttributionLib.Editor.Utils;
 using UnityEditor;
@@ -12,41 +9,135 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using UnityObject = UnityEngine.Object;
 
-namespace AffiseAttributionLib.Editor
+namespace AffiseAttributionLib.Editor.SettingsProviders
 {
-    public class AffiseSettingsProvider : AssetSettingsProvider
+    internal class AffiseSettingsProvider : AssetSettingsProvider
     {
-        const string WindowPath = "Project/Affise";
+        #region UI const
+
+        internal const string WindowPath = "Project/Affise";
+        private const string TextNoSettings = "You have no active Affise Settings. Would you like to create one?";
+        private const string TextSettings = "Settings";
+
+        private const string TextSettingsTooltip =
+            "Settings that will be used by this project and included into any builds.";
+
+        #endregion UI const
+
+        #region UI Variables
+
+        private VisualElement? _root;
+        private VisualElement? _settingsNewView;
+        private VisualElement? _settingsView;
+        private VisualElement? _inspectorView;
+        private Label? _settingsMewMessage;
+        private Button? _settingsNewBtn;
+        private ObjectField? _settingsAsset;
+
+        private Label? _version;
+        private Button? _site;
+        private Button? _email;
+
+        #endregion UI Variables
+
+        #region Instance
 
         [SettingsProvider]
         private static SettingsProvider CreateProjectSettingsProvider() => new AffiseSettingsProvider();
 
-        private AffiseSettingsProvider() : base(WindowPath, () => AffiseEditorSettings.ActiveSettings)
+        private AffiseSettingsProvider() : base(WindowPath, () => AffiseEditorSettings.Active)
         {
         }
 
-        private class Text
-        {
-            public const string k_NoSettingsMsg = "You have no Affise Settings. Would you like to create one?";
-            public const string k_ActiveSettings = "Settings";
+        #endregion Instance
 
-            public const string k_ActiveSettingsTooltip =
-                "Settings that will be used by this project and included into any builds.";
+        private void BindAssetWithoutNotify(AffiseSettings? settings)
+        {
+            _settingsAsset?.SetValueWithoutNotify(settings);
         }
 
-        private VisualElement? _root = null;
-        private VisualElement? _settingsNewView = null;
-        private VisualElement? _settingsView = null;
-        private InspectorElement? _settingsInspector = null;
-        private Label? _settingsMewMessage = null;
-        private Button? _settingsNewBtn = null;
-        private Button? _settingsFindBtn = null;
-        private ObjectField? _settingsAsset = null;
-        
-        private Label? _version = null;
-        private Button? _site = null;
-        private Button? _email = null;
+        private void BindInspector(AffiseSettings? settings)
+        {
+            if (_inspectorView is null) return;
+            _inspectorView.Clear();
+            if (settings is null) return;
 
+            _inspectorView.Add(new InspectorElement(settings));
+        }
+
+        #region Callback
+
+        private void OnSettingsChange(AffiseSettings? active)
+        {
+            SettingsModeView(active);
+            BindAssetWithoutNotify(active);
+            BindInspector(active);
+        }
+
+        private void OnAssetSelect(ChangeEvent<UnityObject> evt)
+        {
+            AffiseEditorSettings.Set(evt.newValue as AffiseSettings);
+        }
+
+        #endregion Callback
+
+        #region Unregister Callback
+
+        private void UnbindView()
+        {
+            if (_settingsNewBtn is not null) _settingsNewBtn.clickable.clicked -= CreateNewSettings;
+        }
+
+        private void UnbindDate()
+        {
+            AffiseEditorSettings.OnChange -= OnSettingsChange;
+            _settingsAsset?.UnregisterValueChangedCallback(OnAssetSelect);
+        }
+
+        #endregion Unregister Callback
+
+        #region AffiseSetting.asset
+
+        private void CreateNewSettings()
+        {
+            AffiseEditorSettings.Set(AssetSettingUtils.Create());
+        }
+
+        #endregion AffiseSetting.asset
+
+        #region UI Metadata
+
+        private void SetMetadata()
+        {
+            SetVersion(PackageData.GetVersion());
+            SetSite(PackageData.GetUrl());
+            SetMail(PackageData.GetEmail());
+        }
+
+        private void SetVersion(string version)
+        {
+            if (_version is null) return;
+            _version.text = version;
+        }
+
+        private void SetSite(string link)
+        {
+            if (_site is null) return;
+            var url = new Uri(link);
+            _site.text = url.Authority;
+            _site.tooltip = url.AbsoluteUri;
+        }
+
+        private void SetMail(string mail)
+        {
+            if (_email is null) return;
+            _email.text = mail;
+            _email.tooltip = $"mailto:{mail}";
+        }
+
+        #endregion UI Metadata
+
+        #region UI setup
 
         public override void OnActivate(string searchContext, VisualElement rootElement)
         {
@@ -54,14 +145,14 @@ namespace AffiseAttributionLib.Editor
             _root = rootElement;
 
             BindView();
-            BindDate(AffiseEditorSettings.ActiveSettings);
+            BindData();
         }
 
         public override void OnDeactivate()
         {
-            base.OnDeactivate();
             UnbindDate();
             UnbindView();
+            base.OnDeactivate();
         }
 
         private void BindView()
@@ -75,70 +166,29 @@ namespace AffiseAttributionLib.Editor
 
             _settingsNewView = _root.Q<VisualElement>("settings-new-view");
             _settingsView = _root.Q<VisualElement>("setting-view");
-            _settingsInspector = _root.Q<InspectorElement>("settings-inspector");
             _settingsMewMessage = _root.Q<Label>("settings-new-message");
-            _settingsMewMessage.text = Text.k_NoSettingsMsg;
+            _settingsMewMessage.text = TextNoSettings;
 
             _settingsAsset = _root.Q<ObjectField>("settings-asset");
             _settingsAsset.objectType = typeof(AffiseSettings);
-            _settingsAsset.label = Text.k_ActiveSettings;
-            _settingsAsset.tooltip = Text.k_ActiveSettingsTooltip;
+            _settingsAsset.label = TextSettings;
+            _settingsAsset.tooltip = TextSettingsTooltip;
 
-            _settingsAsset.RegisterValueChangedCallback(OnSettingsChange);
+            _settingsAsset.RegisterValueChangedCallback(OnAssetSelect);
 
             _settingsNewBtn = _root.Q<Button>("settings-new-btn");
             _settingsNewBtn.clickable.clicked += CreateNewSettings;
-            _settingsFindBtn = _root.Q<Button>("settings-find");
-            _settingsFindBtn.clickable.clicked += FindSettings;
 
+            _inspectorView = _root.Q<VisualElement>("inspector-view");
+        }
+
+        private void BindData()
+        {
             BindLinks();
-        }
+            SetMetadata();
 
-        private void UnbindView()
-        {
-            if (_settingsNewBtn is not null)
-            {
-                _settingsNewBtn.clickable.clicked -= CreateNewSettings;
-            }
-
-            if (_settingsFindBtn is not null)
-            {
-                _settingsFindBtn.clickable.clicked -= FindSettings;
-            }
-        }
-
-        private void BindDate(AffiseSettings? settings)
-        {
-            AffiseEditorSettings.ActiveSettings = settings;
-            _settingsAsset?.SetValueWithoutNotify(AffiseEditorSettings.ActiveSettings);
-            var hasSettings = settings is not null;
-            _settingsNewView?.Hide(hasSettings);
-            _settingsView?.Show(hasSettings);
-
-            if (AffiseEditorSettings.ActiveSettings is not null)
-            {
-                var obj = new SerializedObject(AffiseEditorSettings.ActiveSettings);
-                _settingsInspector?.Bind(obj);
-            }
-
-            if (_version is not null)
-            {
-                _version.text = PackageData.GetVersion();
-            }
-            
-            if (_site is not null)
-            {
-                var url = new Uri(PackageData.GetUrl());
-                _site.text = url.Authority;
-                _site.tooltip = url.AbsoluteUri;
-            }
-            
-            if (_email is not null)
-            {
-                var mail = PackageData.GetEmail();
-                _email.text = mail;
-                _email.tooltip = $"mailto:{mail}";
-            }
+            AffiseEditorSettings.OnChange += OnSettingsChange;
+            OnSettingsChange(AffiseEditorSettings.Active);
         }
 
         private void BindLinks()
@@ -150,62 +200,13 @@ namespace AffiseAttributionLib.Editor
             }
         }
 
-        private void UnbindDate()
-        {
-            _settingsAsset?.UnregisterValueChangedCallback(OnSettingsChange);
-        }
+        #endregion setup
 
-        private void CreateNewSettings()
+        private void SettingsModeView(AffiseSettings? settings)
         {
-            var asset = CreateNewSettingsAsset();
-            BindDate(asset);
-        }
-
-        private AffiseSettings? CreateNewSettingsAsset()
-        {
-            var created = AffiseSettingsMenuItems.CreateAsset();
-            return created;
-        }
-
-        private void FindSettings()
-        {
-            var asset = AssetSettings();
-            BindDate(asset);
-        }
-
-        private AffiseSettings? AssetSettings()
-        {
-            if (AffiseEditorSettings.ActiveSettings is not null) return null;
-            var assets = Resources.FindObjectsOfTypeAll<AffiseSettings>();
-            if (assets is null) return null;
-            if (assets.Length == 0) return null;
-            var settings = new List<AffiseSettings>();
-            foreach (var affiseSettings in assets)
-            {
-                var path = AssetDatabase.GetAssetPath(affiseSettings);
-                var name = Path.GetFileNameWithoutExtension(path);
-                if (!name.Equals(AffiseSettings.DefaultName)) continue;
-                settings.Add(affiseSettings);
-            }
-            if (settings.Count == 0) return null;
-            if (settings.Count == 1) return settings[0];
-            Debug.LogWarning(
-                "Too many Affise Settings found in project. Please leave only one. With name \"Affise Settings\"");
-
-            var i = 1;
-            foreach (var affiseSettings in settings)
-            {
-                var path = AssetDatabase.GetAssetPath(affiseSettings);
-                Debug.LogWarning($"{i}: {path}");
-                i++;
-            }
-            Debug.LogWarning($"Using settings: {AssetDatabase.GetAssetPath(settings[0])}");
-            return settings[0];
-        }
-
-        private void OnSettingsChange(ChangeEvent<UnityObject> e)
-        {
-            BindDate(e.newValue as AffiseSettings);
+            var hasSettings = settings is not null;
+            _settingsNewView?.Hide(hasSettings);
+            _settingsView?.Show(hasSettings);
         }
     }
 }

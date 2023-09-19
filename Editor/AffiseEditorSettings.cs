@@ -1,33 +1,35 @@
-﻿using UnityEditor;
+﻿#nullable enable
+using AffiseAttributionLib.Editor.Utils;
+using UnityEditor;
 
 namespace AffiseAttributionLib.Editor
 {
-    public class AffiseEditorSettings
+    internal class AffiseEditorSettings
     {
-        private static AffiseEditorSettings _instance;
+        public delegate void SettingsChange(AffiseSettings? active);
 
-        internal static AffiseEditorSettings Instance
+        public static event SettingsChange? OnChange;
+
+        public static AffiseSettings? Active => Instance.AffiseSettingsInternal;
+
+        public static void Set(AffiseSettings? settings)
         {
-            get => _instance ??= new AffiseEditorSettings();
-            set => _instance = value;
+            if (Instance.AffiseSettingsInternal == settings) return;
+            AssetSettingUtils.SetActive(settings);
+            Instance.AffiseSettingsInternal = settings;
+            OnChange?.Invoke(settings);
         }
 
-        public static AffiseSettings ActiveSettings
-        {
-            get => Instance.AffiseSettingsInternal;
-            set => Instance.AffiseSettingsInternal = value;
-        }
-
-        protected virtual AffiseSettings AffiseSettingsInternal
+        private AffiseSettings? AffiseSettingsInternal
         {
             get
             {
-                EditorBuildSettings.TryGetConfigObject(AffiseSettings.ConfigName, out AffiseSettings settings);
+                EditorBuildSettings.TryGetConfigObject(AffiseSettings.ConfigName, out AffiseSettings? settings);
                 return settings;
             }
             set
             {
-                if (value == null)
+                if (value is null)
                 {
                     EditorBuildSettings.RemoveConfigObject(AffiseSettings.ConfigName);
                 }
@@ -37,5 +39,9 @@ namespace AffiseAttributionLib.Editor
                 }
             }
         }
+
+        private static AffiseEditorSettings? _instance;
+
+        private static AffiseEditorSettings Instance => _instance ??= new AffiseEditorSettings();
     }
 }

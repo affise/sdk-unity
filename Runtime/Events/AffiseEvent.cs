@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿#nullable enable
+using System.Collections.Generic;
 using AffiseAttributionLib.Events.Parameters;
 using SimpleJSON;
 
@@ -42,7 +43,7 @@ namespace AffiseAttributionLib.Events
          *
          * @return userData
          */
-        public abstract string GetUserData();
+        public abstract string? GetUserData();
 
         /**
          * Is first for user, default false

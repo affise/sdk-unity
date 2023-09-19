@@ -8,14 +8,9 @@ namespace AffiseAttributionLib.Editor.Utils
 {
     internal static class PackageData
     {
-        private static JSONObject? _package;
-        public static JSONObject? Get() => GetPackage();
-        static PackageData()
-        {
-            _package = GetPackage();
-        }
+        private static JSONObject? Get() => GetPackage();
 
-        public static JSONObject? GetPackage()
+        private static JSONObject? GetPackage()
         {
             var package = AssetDatabase
                 .FindAssets("package")

@@ -9,7 +9,7 @@ namespace AffiseAttributionLib.AffiseParameters.Factory
 {
     internal class PostBackModelFactory
     {
-        private List<Provider> _providers;
+        private readonly List<Provider> _providers;
         public PostBackModelFactory(
             List<Provider> providers
         )

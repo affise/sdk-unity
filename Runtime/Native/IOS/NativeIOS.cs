@@ -1,10 +1,10 @@
-﻿using System;
+﻿#if UNITY_IOS && !UNITY_EDITOR
+using System;
 using AffiseAttributionLib.Native.Base;
 using UnityEngine;
 
 namespace AffiseAttributionLib.Native.IOS
 {
-#if UNITY_IOS && !UNITY_EDITOR
     internal class NativeIOS : INative
     {
         private static event INative.AffiseNativeCallback OnAffiseCallback;
@@ -90,5 +90,5 @@ namespace AffiseAttributionLib.Native.IOS
             Native(apiName, "{}");
         }
     }
-#endif
 }
+#endif

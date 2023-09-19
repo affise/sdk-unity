@@ -410,6 +410,7 @@
 
 .msg-box {
     border-width: 1px;
+    border-left-width: 8px;
     border-radius: 4px;
     border-color: rgba(0, 0, 0, 0.2);
     background-color: rgba(0, 0, 0, 0.1);
@@ -463,17 +464,12 @@
     display: none;
 }
 
-
 .logo {
     height: 100px;
     width: 100px;
     border-radius: 4px;
     background-color: white;
     background-image: resource('Images/affise_logo');
-}
-
-.affise-info {
-    padding: 10px;
 }
 
 .link {

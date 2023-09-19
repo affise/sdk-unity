@@ -55,7 +55,6 @@ namespace AffiseAttributionLib.Logs
          */
         public void DeleteLogs(IEnumerable<string> ids, string url)
         {
-            List<string> subKeys = new List<string>();
             _logsStorage.DeleteLogs(
                 _converterToBase64.Convert(url),
                 AffiseLogTypeExtensions.Values().Select(type => _converterToBase64.Convert(type.Type())),

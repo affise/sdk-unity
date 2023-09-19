@@ -1,4 +1,5 @@
 ﻿#nullable enable
+using System;
 using System.Collections.Generic;
 using AffiseAttributionLib.AffiseParameters;
 using AffiseAttributionLib.Deeplink;
@@ -34,6 +35,9 @@ namespace AffiseAttributionLib
             }
         }
 
+        /**
+         * Init [AffiseComponent] with [initProperties]
+         */
         public static void Init(AffiseInitProperties initProperties)
         {
 #if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
@@ -67,7 +71,7 @@ namespace AffiseAttributionLib
         }
 
         /**
-         * Store and send [event]
+         * Store and send [affiseEvent]
          */
         public static void SendEvent(AffiseEvent affiseEvent)
         {
@@ -103,12 +107,23 @@ namespace AffiseAttributionLib
         }
 
         /**
-         * Set [pushToken]
+         * Set new SDK [secretKey]
          */
+        [Obsolete("use SetSecretKey(secretKey)")]
         public static void SetSecretId(string secretId)
         {
+            SetSecretKey(secretId);
+        }
+        
+        /**
+         * Set new SDK [secretKey]
+         */
+        public static void SetSecretKey(string secretKey)
+        {
 #if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
-            _native?.SetSecretKey(secretId);
+            _native?.SetSecretKey(secretKey);
+#else
+            _api?.InitPropertiesStorage?.UpdateSecretKey(secretKey);
 #endif
         }
 

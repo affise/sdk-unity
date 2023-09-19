@@ -9,7 +9,6 @@
     -unity-font-style: bold;
 }
 
-
-.hide-info  .affise-info {
+.hide-info #affise-info {
     display:none;
 }

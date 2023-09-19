@@ -18,6 +18,6 @@ namespace AffiseAttributionLib.AffiseParameters
             _initProperties = initProperties;
         }
 
-        public override string Provide() => _initProperties.GetProperties().affiseAppId;
+        public override string Provide() => _initProperties.GetProperties().AffiseAppId;
     }
 }

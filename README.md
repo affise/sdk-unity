@@ -1,8 +1,8 @@
 # Affise Unity package
 
-| Artifact      | Version            |
-| ------------- | ------------------ |
-| `attribution` | [`1.6.4`](/releases) |
+| Artifact      | Version              |
+|---------------|----------------------|
+| `attribution` | [`1.6.5`](/releases) |
 
 - [Affise Unity package](#affise-unity-package)
 - [Description](#description)
@@ -11,6 +11,8 @@
     - [Integrate unity package](#integrate-unity-package)
     - [Integrate unitypackage file](#integrate-unitypackage-file)
     - [Initialize](#initialize)
+      - [Unity asset](#unity-asset)
+      - [Manual](#manual)
     - [Add platform modules](#add-platform-modules)
       - [Android](#android)
       - [iOS](#ios)
@@ -40,6 +42,7 @@
     - [Get referrer value](#get-referrer-value)
       - [Referrer keys](#referrer-keys)
     - [StoreKit Ad Network](#storekit-ad-network)
+- [SDK to SDK integrations](#sdk-to-sdk-integrations)
 - [Troubleshoots](#troubleshoots)
   - [iOS](#ios-3)
 
@@ -64,10 +67,12 @@ Add package from git url `https://github.com/affise/sdk-unity.git`
 
 ### Integrate unitypackage file
 
-Download latest Affise SDK [`attribution-1.6.3.unitypackage`](https://github.com/affise/sdk-unity/releases/download/1.6.3/attribution-1.6.3.unitypackage)
+Download latest Affise SDK [`attribution-1.6.5.unitypackage`](https://github.com/affise/sdk-unity/releases/download/1.6.5/attribution-1.6.5.unitypackage)
 from [releases page](https://github.com/affise/sdk-unity/releases) and drop this file to unity editor
 
 ### Initialize
+
+#### Unity asset
 
 After package is added to unity project, initialize affise settings.
 
@@ -79,28 +84,44 @@ On Affise tab click `Create` button.
 
 This will create `Affise Settings.asset` in `Assets / Affise / Resources` directory.
 
-> Affise is using settings file with exact name `Affise Settings.asset`
+> **Note**
+> Settings set in `Edit / Project Settings / Affise` are marked as `Active Settings`
 >
-> in root of folder `Resources` which can be located in any folder
+> Affise is using settings marked as `Active Settings`
 >
-> `<Any folder> / Resources`
+> located in root of folder `Resources` which can be located in any folder
 >
-> except `Editor` folder
+> Example `<Any folder> / Resources / <Your affise settings>.asset`
+
+> **Warning**
+> Settings located in `Editor` folder are **invalid**. Example: `Editor / Resources / <Your affise settings>.asset`
 
 Fill all required fields
 
 ![affise_settings](https://github.com/affise/sdk-unity/blob/assets/affise_settings.png?raw=true)
 
+#### Manual
+
+> Demo app [AffiseDemo.cs](Samples~/AffiseDemoApp/Scripts/AffiseDemo.cs)
+
+```c#
+var properties = new AffiseInitProperties(
+    affiseAppId: "Your appId", //Change to your app id
+    secretKey: "Your SDK secretKey" //Change to your SDK secretKey
+);
+Affise.Init(properties);
+```
+
 ### Add platform modules
 
 #### Android
 
-Expord Unity project as Android project
+Exported Unity project as Android project
 
 Add modules to Android project gradle file `unityLibrary/build.gradle`
 
-| Module             | Version                                      |
-|--------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Module               | Version                                                                                                                                                                      |
+|----------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `module-advertising` | [![module-advertising](https://img.shields.io/maven-central/v/com.affise/module-advertising?label=latest)](https://mvnrepository.com/artifact/com.affise/module-advertising) |
 | `module-network`     | [![module-network](https://img.shields.io/maven-central/v/com.affise/module-network?label=latest)](https://mvnrepository.com/artifact/com.affise/module-network)             |
 | `module-phone`       | [![module-phone](https://img.shields.io/maven-central/v/com.affise/module-phone?label=latest)](https://mvnrepository.com/artifact/com.affise/module-phone)                   |
@@ -123,18 +144,18 @@ Open `Podfile` in XCode project folder
 
 Add modules to iOS project
 
-| Module                | Version |
-|-----------------------|:-------:|
-| `AffiseModule/Status` | `1.6.9` |
+| Module                | Version  |
+|-----------------------|:--------:|
+| `AffiseModule/Status` | `1.6.11` |
 
 ```rb
 platform :ios, '11.0'
 
 target 'UnityFramework' do
-  pod 'AffiseInternal', '~> 1.6.9'
+  pod 'AffiseInternal', '~> 1.6.11'
 
   # Affise Modules
-  pod 'AffiseModule/Status', `~> 1.6.9`
+  pod 'AffiseModule/Status', `~> 1.6.11`
 end
 
 target 'Unity-iPhone' do
@@ -163,10 +184,10 @@ Podfile:
 platform :ios, '11.0'
 
 target 'UnityFramework' do
-  pod 'AffiseInternal', '~> 1.6.9'
+  pod 'AffiseInternal', '~> 1.6.11'
 
   # Affise Modules
-  # pod 'AffiseModule/Status', `~> 1.6.9`
+  # pod 'AffiseModule/Status', `~> 1.6.11`
 end
 
 target 'Unity-iPhone' do
@@ -284,6 +305,7 @@ With above example you can implement other events:
 - `AddPaymentInfo`
 - `AddToCart`
 - `AddToWishlist`
+- `AdRevenue`
 - `ClickAdv`
 - `CompleteRegistration`
 - `CompleteStream`
@@ -305,6 +327,8 @@ With above example you can implement other events:
 - `Login`
 - `OpenedFromPushNotification`
 - `Order`
+- `OrderItemAdded`
+- `OrderItemRemove`
 - `OrderCancel`
 - `OrderReturnRequest`
 - `OrderReturnRequestCancel`
@@ -536,11 +560,9 @@ First add firebase integration to your app completing these steps: Firebase [iOS
 ```c#
 Affise.RegisterDeeplinkCallback((uri) =>
 {
-    string screen = uri.Query.GetValueByKeyExt("");
-    if (screen == "special_offer") {
-        // open special offer screen
-    } else {
-        // open another activity
+    string value = uri.Query.GetValueByKeyExt("<your_uri_key>");
+    if (value == "your_uri_key_value") {
+        // handle value
     }
     // return true if deeplink is handled successfully
     return true;
@@ -614,7 +636,8 @@ Affise.GetStatus(AffiseModules.Status, response => {
 
 > `Android Only`
 
-> **Warning** Don't call this method directly in `Awake()` it may cause `NullReferenceException`
+> **Warning**
+> Don't call this method directly in `Awake()` it may cause `NullReferenceException`
 
 Use the next public method of SDK to get referrer
 
@@ -709,10 +732,23 @@ Set key value to `https://affise-skadnetwork.com/`
 </array>
 ```
 
+# SDK to SDK integrations
+
+```c#
+// Send AdRevenue info
+new AffiseAdRevenue(AffiseAdSource.ADMOB)
+        .SetRevenue(2.5f, "ImpressionData_Currency")
+        .SetNetwork("ImpressionData_Network")
+        .SetUnit("ImpressionData_Unit")
+        .SetPlacement("ImpressionData_Placement")
+        .Send();
+```
+
 # Troubleshoots
 
 ## iOS
 
+> **Warning**
 > This app has crashed because it attempted to access privacy-sensitive data without a usage description.
 > The app's `Info.plist` must contain an `NSUserTrackingUsageDescription` key with a string value explaining
 > to the user how the app uses this data.

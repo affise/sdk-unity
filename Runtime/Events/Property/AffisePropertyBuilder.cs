@@ -9,19 +9,11 @@ namespace AffiseAttributionLib.Events.Property
         private const string PREFIX = "affise_event";
         
         private string _name;
-        private JSONObject _data = new JSONObject();
+        private readonly JSONObject _data = new();
         
         public AffisePropertyBuilder Init(string name)
         {
             _name = name.ToSnakeCase();
-            return this;
-        }
-        
-        public AffisePropertyBuilder Init(string name, object value)
-        {
-            Init(name);
-            if (value is null) return this;
-            _data.AddAny(EventName(), value);
             return this;
         }
 

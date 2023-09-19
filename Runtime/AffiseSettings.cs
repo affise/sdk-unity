@@ -1,7 +1,7 @@
-﻿using AffiseAttributionLib.Init;
+﻿#nullable enable
+using AffiseAttributionLib.Init;
 using UnityEngine;
 #if UNITY_EDITOR
-using UnityEditor;
 #endif
 
 namespace AffiseAttributionLib
@@ -9,86 +9,54 @@ namespace AffiseAttributionLib
     public class AffiseSettings : ScriptableObject
     {
         internal const string ConfigName = "affise.settings";
-        public const string DefaultName = "Affise Settings";
 
         #region Variables
 
-        [SerializeField]
+        [SerializeField] 
         private string appId = "";
 
-        [SerializeField]
+        [SerializeField] 
         private string partParamName = "";
 
-        [SerializeField]
+        [SerializeField] 
         private string partParamNameToken = "";
 
-        [SerializeField]
+        [SerializeField] 
         private string appToken = "";
 
-        [SerializeField]
+        [SerializeField] 
         private string secretId = "";
 
-        [SerializeField]
+        [SerializeField] 
         private bool isProduction = true;
 
-        [HideInInspector]
-        [SerializeField]
-        public AffiseBuildInfo buildInfo;
+        [SerializeField] 
+        public bool isActive;
 
         #endregion Variables
 
         #region Init settings
 
-        private void OnEnable()
+        private static AffiseSettings? _instance;
+
+        private static AffiseSettings? Instance => _instance ??= GetSettingsAsset();
+
+        private static AffiseSettings? GetSettingsAsset()
         {
-            _instance ??= this;
-        }
-
-        private static AffiseSettings _instance;
-
-        public static AffiseSettings Instance
-        {
-            get => _instance ? _instance : (_instance = GetOrCreateSettings());
-            set => _instance = value;
-        }
-
-        private static AffiseSettings GetInstanceDontCreateDefault()
-        {
-            if (_instance is not null) return _instance;
-
-            AffiseSettings settings;
-#if UNITY_EDITOR
-            EditorBuildSettings.TryGetConfigObject(ConfigName, out settings);
-#else
-            LoadFromResources(out settings);
-#endif
+            LoadFromResources(out var settings);
             return settings;
         }
 
-        private static void LoadFromResources(out AffiseSettings settings)
+        private static void LoadFromResources(out AffiseSettings? settings)
         {
-            settings = Resources.Load<AffiseSettings>(DefaultName);
-            if (settings is null) return;
-            
-            var allSettings = Resources.FindObjectsOfTypeAll<AffiseSettings>();
-            foreach (var affiseSettings in allSettings)
+            foreach (var asset in Resources.LoadAll<AffiseSettings>(""))
             {
-                settings = affiseSettings;
+                if (asset.isActive == false) continue;
+                settings = asset;
                 return;
             }
-        }
 
-        static AffiseSettings GetOrCreateSettings()
-        {
-            var settings = GetInstanceDontCreateDefault();
-            if (settings is not null) return settings;
-
-            Debug.LogWarning("Could not find affise settings. Default will be used.");
-
-            settings = CreateInstance<AffiseSettings>();
-            settings.name = $"Default {DefaultName}";
-
-            return settings;
+            settings = null;
         }
 
         #endregion Init settings
@@ -99,6 +67,9 @@ namespace AffiseAttributionLib
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         public static void OnSceneLoadInitialize()
         {
+            if (_instance is not null) return;
+            if (Instance is null) return;
+
             Instance.Init();
         }
 
@@ -108,12 +79,11 @@ namespace AffiseAttributionLib
 
             var props = new AffiseInitProperties(
                 appId,
+                secretId,
                 partParamName,
                 partParamNameToken,
                 appToken,
-                secretId,
-                isProduction,
-                buildInfo
+                isProduction
             );
 
             Affise.Init(props);

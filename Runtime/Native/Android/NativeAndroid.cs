@@ -1,10 +1,10 @@
-﻿using System;
+﻿#if UNITY_ANDROID && !UNITY_EDITOR
+using System;
 using AffiseAttributionLib.Native.Base;
 using UnityEngine;
 
 namespace AffiseAttributionLib.Native.Android
 {
-#if UNITY_ANDROID && !UNITY_EDITOR
     internal class NativeAndroid : AndroidJavaProxy, INative
     {
         private const string JavaModule = "com.affise.attribution.unity.AffiseNativeModule";
@@ -84,5 +84,5 @@ namespace AffiseAttributionLib.Native.Android
             Native(apiName, "{}");
         }
     }
-#endif
 }
+#endif

@@ -5,9 +5,9 @@ using UnityEngine;
 using Debug = UnityEngine.Debug;
 
 
-namespace AffiseAttributionLib.Editor
+namespace AffiseAttributionLib.Editor.Build
 {
-    public static class AffisePostProcessBuild
+    internal static class AffisePostProcessBuild
     {
         private const string PodfileName = "Podfile";
 

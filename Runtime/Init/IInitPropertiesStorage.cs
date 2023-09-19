@@ -4,7 +4,7 @@
     {
         AffiseInitProperties GetProperties();
 
-        void SetProperties(AffiseInitProperties model);
+        void SetProperties(AffiseInitProperties properties);
 
         void UpdateSecretKey(string secretKey);
     }

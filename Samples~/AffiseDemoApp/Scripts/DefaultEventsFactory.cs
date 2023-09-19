@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using AffiseAttributionLib.Ad;
 using AffiseAttributionLib.Events;
 using AffiseAttributionLib.Events.Parameters;
 using AffiseAttributionLib.Events.Predefined;
@@ -22,6 +23,7 @@ namespace AffiseDemo
                 CreateAddPaymentInfoEvent(),
                 CreateAddToCartEvent(),
                 CreateAddToWishlistEvent(),
+                CreateAdRevenueEvent(),
                 CreateClickAdvEvent(),
                 CreateCompleteRegistrationEvent(),
                 CreateCompleteStreamEvent(),
@@ -53,6 +55,8 @@ namespace AffiseDemo
                 CreateLoginEvent(),
                 CreateOpenedFromPushNotificationEvent(),
                 CreateOrderEvent(),
+                CreateOrderItemAddedEvent(),
+                CreateOrderItemRemoveEvent(),
                 CreateOrderCancelEvent(),
                 CreateOrderReturnRequestEvent(),
                 CreateOrderReturnRequestCancelEvent(),
@@ -183,6 +187,23 @@ namespace AffiseDemo
             return affiseEvent;
         }
 
+        private AffiseEvent CreateAdRevenueEvent()
+        {
+            var affiseEvent = new AdRevenueEvent(
+                userData: "next year"
+            );
+
+            affiseEvent
+                .AddPredefinedParameter(PredefinedString.SOURCE, AffiseAdSource.ADMOB.Type())
+                .AddPredefinedParameter(PredefinedFloat.REVENUE, 42.0f)
+                .AddPredefinedParameter(PredefinedString.CURRENCY, "USD")
+                .AddPredefinedParameter(PredefinedString.NETWORK, "test")
+                .AddPredefinedParameter(PredefinedString.UNIT, "m")
+                .AddPredefinedParameter(PredefinedString.PLACEMENT, "end");
+
+            return affiseEvent;
+        }
+
         private AffiseEvent CreateClickAdvEvent()
         {
             var affiseEvent = new ClickAdvEvent(
@@ -294,17 +315,6 @@ namespace AffiseDemo
         private AffiseEvent CreateContentItemsViewEvent()
         {
             var affiseEvent = new ContentItemsViewEvent(
-                objects: new List<JSONObject>()
-                {
-                    new()
-                    {
-                        ["item"] = "book",
-                    },
-                    new()
-                    {
-                        ["item"] = "book",
-                    },
-                },
                 userData: "intro"
             );
 
@@ -699,6 +709,35 @@ namespace AffiseDemo
 
             return affiseEvent;
         }
+
+        private AffiseEvent CreateOrderItemAddedEvent()
+        {
+            var affiseEvent = new OrderItemAddedEvent(
+                userData: "apple"
+            );
+
+            affiseEvent
+                .AddPredefinedParameter(PredefinedString.ORDER_ID, "23123")
+                .AddPredefinedParameter(PredefinedFloat.PRICE, 2.19f)
+                .AddPredefinedParameter(PredefinedLong.QUANTITY, 1L);
+
+            return affiseEvent;
+        }
+        
+        private AffiseEvent CreateOrderItemRemoveEvent()
+        {
+            var affiseEvent = new OrderItemRemoveEvent(
+                userData: "apple"
+            );
+
+            affiseEvent
+                .AddPredefinedParameter(PredefinedString.ORDER_ID, "23123")
+                .AddPredefinedParameter(PredefinedFloat.PRICE, 2.19f)
+                .AddPredefinedParameter(PredefinedLong.QUANTITY, 1L);
+
+            return affiseEvent;
+        }
+        
 
         private AffiseEvent CreateOrderCancelEvent()
         {

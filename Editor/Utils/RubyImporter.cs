@@ -5,7 +5,7 @@ using UnityEngine;
 namespace AffiseAttributionLib.Editor.Utils
 {
     [ScriptedImporter(1, "rb")]
-    public class RubyImporter : ScriptedImporter
+    internal class RubyImporter : ScriptedImporter
     {
         public override void OnImportAsset(AssetImportContext ctx)
         {

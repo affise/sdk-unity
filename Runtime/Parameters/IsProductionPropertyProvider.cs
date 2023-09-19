@@ -23,7 +23,7 @@ namespace AffiseAttributionLib.AffiseParameters
 
         public override string Provide()
         {
-            return _initProperties.GetProperties().isProduction ? TYPE_PRODUCTION : TYPE_SANDBOX;
+            return _initProperties.GetProperties().IsProduction ? TYPE_PRODUCTION : TYPE_SANDBOX;
         }
     }
 }

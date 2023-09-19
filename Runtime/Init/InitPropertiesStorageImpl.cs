@@ -2,19 +2,19 @@
 {
     public class InitPropertiesStorageImpl : IInitPropertiesStorage
     {
-        private AffiseInitProperties properties;
+        private AffiseInitProperties _properties;
 
-        public AffiseInitProperties GetProperties() => properties;
+        public AffiseInitProperties GetProperties() => _properties;
 
-        public void SetProperties(AffiseInitProperties model)
+        public void SetProperties(AffiseInitProperties properties)
         {
-            properties = model;
+            _properties = properties;
         }
 
         public void UpdateSecretKey(string secretKey)
         {
-            properties = properties.Copy();
-            properties.secretKey = secretKey;
+            _properties = _properties.Copy();
+            _properties.SecretKey = secretKey;
         }
     }
 }

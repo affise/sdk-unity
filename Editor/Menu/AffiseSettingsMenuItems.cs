@@ -4,17 +4,16 @@ using UnityEngine;
 
 namespace AffiseAttributionLib.Editor.Menu
 {
-    public static class AffiseSettingsMenuItems
+    internal static class AffiseSettingsMenuItems
     {
-        private const string k_Name = "Affise Settings";
-        private const string k_Dir = "Assets/Affise/Resources";
+        private const string FileName = "Affise Settings";
+        private const string FileFolder = "Assets/Affise/Resources";
 
-        [MenuItem("Assets/Create/Affise/" + k_Name, false)]
+        [MenuItem("Assets/Create/Affise/" + FileName, false)]
         public static void CreateAssetWithMakeActiveDialog()
         {
-            var ls = CreateAsset();
-            if (ls == null)
-                return;
+            var settings = CreateAsset();
+            if (settings is null) return;
 
             if (EditorUtility.DisplayDialog(
                     "Active affise settings",
@@ -25,16 +24,16 @@ namespace AffiseAttributionLib.Editor.Menu
                     "No"
                 ))
             {
-                AffiseEditorSettings.ActiveSettings = ls;
+                AffiseEditorSettings.Set(settings);
             }
         }
 
         public static AffiseSettings CreateAsset()
         {
-            var folder = Directory.CreateDirectory(k_Dir);
+            var folder = Directory.CreateDirectory(FileFolder);
             var path = EditorUtility.SaveFilePanelInProject(
                 "Save Settings",
-                k_Name,
+                FileName,
                 "asset",
                 "Please enter a filename to save the projects settings to.",
                 folder.FullName

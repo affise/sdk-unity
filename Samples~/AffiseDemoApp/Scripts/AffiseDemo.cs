@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AffiseAttributionLib;
+using AffiseAttributionLib.Init;
 using AffiseAttributionLib.Modules;
 using AffiseAttributionLib.Referrer;
 using AffiseAttributionLib.SKAd;
@@ -37,6 +38,13 @@ namespace AffiseDemo
         private void Start()
         {
             BindView();
+            
+            // For manual init delete "Affise Settings.asset"   
+            // var properties = new AffiseInitProperties(
+            //     affiseAppId: "129",
+            //     secretKey: "93a40b54-6f12-443f-a250-ebf67c5ee4d2"
+            // );
+            // Affise.Init(properties);
 
             InitApi(_apiScrollView);
             InitEvents(_eventScrollView);

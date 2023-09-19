@@ -27,7 +27,7 @@ namespace AffiseAttributionLib.Modules
             var result = new List<AffiseKeyValue>();
             var jsonArray = json?.AsArray;
             if (jsonArray is null) return result;
-            foreach (var (key, jsonNode) in jsonArray)
+            foreach (var (_, jsonNode) in jsonArray)
             {
                 var jsonObject = jsonNode?.AsObject;
                 if (jsonObject is null) continue;

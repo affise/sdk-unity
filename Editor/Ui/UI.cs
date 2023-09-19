@@ -4,11 +4,11 @@ using UnityEngine.UIElements;
 
 namespace AffiseAttributionLib.Editor.Ui
 {
-    public static class UI
+    internal static class UI
     {
-        private const string k_ResourceRoot = "Layouts";
+        private const string ResourceRoot = "Layouts";
         
-        private static string ResourcePath(string filename) => Path.Combine(k_ResourceRoot, filename); 
+        private static string ResourcePath(string filename) => Path.Combine(ResourceRoot, filename); 
         
         public static VisualTreeAsset Get(string uxmlFile)
         {

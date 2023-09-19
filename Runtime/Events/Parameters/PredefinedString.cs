@@ -66,6 +66,10 @@
         CONVERSION_ID,
         CONTENT_NAME,
         PRODUCT_NAME,
+        SOURCE,
+        NETWORK,
+        UNIT,
+        PLACEMENT,
     }
     
     public static class PredefinedStringExt
@@ -143,6 +147,10 @@
                 PredefinedString.CONVERSION_ID => "conversion_id",
                 PredefinedString.CONTENT_NAME => "content_name",
                 PredefinedString.PRODUCT_NAME => "product_name",
+                PredefinedString.SOURCE => "source",
+                PredefinedString.NETWORK => "network",
+                PredefinedString.UNIT => "unit",
+                PredefinedString.PLACEMENT => "placement",
                 _ => null
             };
         }

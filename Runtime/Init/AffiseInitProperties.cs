@@ -4,57 +4,67 @@ namespace AffiseAttributionLib.Init
 {
     public class AffiseInitProperties
     {
-        public readonly string affiseAppId = "";
-
-        public readonly string partParamName = "";
-
-        public readonly string partParamNameToken = "";
-
-        public readonly string appToken = "";
-
-        public string secretKey = "";
-
-        public readonly bool isProduction = true;
+        public string AffiseAppId { get; }
         
-        public readonly AffiseBuildInfo buildInfo;
+        public string SecretKey { get; set; }
 
-        public AffiseInitProperties(
-            string affiseAppId, string partParamName,
-            string partParamNameToken, string appToken,
-            string secretKey, bool isProduction, AffiseBuildInfo buildInfo = null
+        public string PartParamName { get; }
+
+        public string PartParamNameToken { get; }
+
+        public string AppToken { get; }
+
+        public bool IsProduction { get; }
+
+        public AffiseInitProperties(string affiseAppId, string secretKey) : this(
+            affiseAppId: affiseAppId,
+            secretKey: secretKey,
+            partParamName: "",
+            partParamNameToken: "",
+            appToken: "",
+            isProduction: true
         )
         {
-            this.affiseAppId = affiseAppId;
-            this.partParamName = partParamName;
-            this.partParamNameToken = partParamNameToken;
-            this.appToken = appToken;
-            this.secretKey = secretKey;
-            this.isProduction = isProduction;
-            this.buildInfo = buildInfo;
+        }
+
+        public AffiseInitProperties(
+            string affiseAppId,
+            string secretKey,
+            string partParamName = "",
+            string partParamNameToken = "",
+            string appToken = "",
+            bool isProduction = true
+        )
+        {
+            AffiseAppId = affiseAppId;
+            PartParamName = partParamName;
+            PartParamNameToken = partParamNameToken;
+            AppToken = appToken;
+            SecretKey = secretKey;
+            IsProduction = isProduction;
         }
 
         private AffiseInitProperties(AffiseInitProperties props)
         {
-            affiseAppId = props.affiseAppId;
-            partParamName = props.partParamName;
-            partParamNameToken = props.partParamNameToken;
-            appToken = props.appToken;
-            secretKey = props.secretKey;
-            isProduction = props.isProduction;
-            buildInfo = props.buildInfo;
+            AffiseAppId = props.AffiseAppId;
+            PartParamName = props.PartParamName;
+            PartParamNameToken = props.PartParamNameToken;
+            AppToken = props.AppToken;
+            SecretKey = props.SecretKey;
+            IsProduction = props.IsProduction;
         }
 
         public AffiseInitProperties Copy() => new(this);
-        
+
         public JSONObject ToJson =>
             new()
             {
-                ["affiseAppId"] = affiseAppId,
-                ["isProduction"] = isProduction,
-                ["partParamName"] = partParamName,
-                ["partParamNameToken"] = partParamNameToken,
-                ["appToken"] = appToken,
-                ["secretId"] = secretKey,
+                ["affiseAppId"] = AffiseAppId,
+                ["isProduction"] = IsProduction,
+                ["partParamName"] = PartParamName,
+                ["partParamNameToken"] = PartParamNameToken,
+                ["appToken"] = AppToken,
+                ["secretId"] = SecretKey,
             };
     }
 }

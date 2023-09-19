@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
-using AffiseAttributionLib.Exceptions;
 using AffiseAttributionLib.AffiseParameters;
+using AffiseAttributionLib.Exceptions;
 using SimpleJSON;
-using UnityEngine;
 
 namespace AffiseAttributionLib.Logs
 {

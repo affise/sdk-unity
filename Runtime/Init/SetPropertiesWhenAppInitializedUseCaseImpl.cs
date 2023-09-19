@@ -14,5 +14,4 @@
             _storage.SetProperties(initProperties);
         }
     }
-
 }

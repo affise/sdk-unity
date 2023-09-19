@@ -13,3 +13,31 @@
     border-radius: 2px;
     background-color: rgba(0, 0, 0, 0.1);
 }
+
+.active {
+    -unity-font-style: bold;
+    padding: 4px;
+    border-radius: 4px;
+    margin-right: -2px;
+    border-width: 1px;
+    -unity-text-align: middle-center;
+}
+
+.btn-active {
+    background-color: rgba(255, 0, 0, 0.2);
+    border-color: darkred;
+}
+
+.btn-active:hover {
+    background-color: rgba(255, 0, 0, 0.4);
+}
+
+.not-active {
+    color: rgb(0, 192, 0);
+    background-color: rgba(0, 128, 0, 0.2);
+    border-color: darkgreen;
+}
+
+.text-wrap {
+    white-space: normal;
+}
