@@ -9,6 +9,6 @@
         public InitiatePurchaseEvent(string userData, long timeStampMillis) : base(userData, timeStampMillis)
         {}
 
-        public override string GetName() => EventName.INITIATE_PURCHASE.ToValue();
+        public override string GetName() => EventName.INITIATE_PURCHASE.ToEventName();
     }
 }

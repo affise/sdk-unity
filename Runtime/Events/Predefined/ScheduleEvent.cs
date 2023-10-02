@@ -9,6 +9,6 @@
         public ScheduleEvent(string userData, long timeStampMillis) : base(userData, timeStampMillis)
         {}
 
-        public override string GetName() => EventName.SCHEDULE.ToValue();
+        public override string GetName() => EventName.SCHEDULE.ToEventName();
     }
 }

@@ -8,8 +8,8 @@ namespace AffiseAttributionLib.Session
         private const long TIME_TO_START_SESSION = 15 * 1000L;
 
         private SessionData _sessionData = new(
-            lifetimeSessionCount: PrefUtils.GetLong(Parameters.LIFETIME_SESSION_COUNT),
-            affiseSessionCount: PrefUtils.GetLong(Parameters.AFFISE_SESSION_COUNT)
+            lifetimeSessionCount: PrefUtils.GetLong(ProviderType.LIFETIME_SESSION_COUNT.Provider()),
+            affiseSessionCount: PrefUtils.GetLong(ProviderType.AFFISE_SESSION_COUNT.Provider())
         );
 
         /**
@@ -208,7 +208,7 @@ namespace AffiseAttributionLib.Session
         {
             var lifetimeSessionTime = GetLifetimeSessionTime();
             _sessionData = _sessionData.Copy(lifetimeSessionCount: lifetimeSessionTime);
-            PrefUtils.SaveLong(Parameters.LIFETIME_SESSION_COUNT, lifetimeSessionTime);
+            PrefUtils.SaveLong(ProviderType.LIFETIME_SESSION_COUNT.Provider(), lifetimeSessionTime);
         }
 
         /**
@@ -223,7 +223,7 @@ namespace AffiseAttributionLib.Session
         {
             var count = _sessionData.AffiseSessionCount + 1;
             _sessionData = _sessionData.Copy(affiseSessionCount: count);
-            PrefUtils.SaveLong(Parameters.AFFISE_SESSION_COUNT, count);
+            PrefUtils.SaveLong(ProviderType.AFFISE_SESSION_COUNT.Provider(), count);
         }
 
         private long GetTimeMillis()

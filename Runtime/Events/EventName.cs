@@ -70,7 +70,7 @@
     
     internal static class EventNameExt
     {
-        public static string ToValue(this EventName type)
+        public static string ToEventName(this EventName type)
         {
             return type switch
             {

@@ -9,6 +9,6 @@
         public SpendCreditsEvent(string userData, long timeStampMillis) : base(userData, timeStampMillis)
         {}
 
-        public override string GetName() => EventName.SPEND_CREDITS.ToValue();
+        public override string GetName() => EventName.SPEND_CREDITS.ToEventName();
     }
 }

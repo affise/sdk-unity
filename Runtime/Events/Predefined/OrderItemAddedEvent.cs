@@ -9,6 +9,6 @@
         public OrderItemAddedEvent(string userData, long timeStampMillis) : base(userData, timeStampMillis)
         {}
 
-        public override string GetName() => EventName.ORDER_ITEM_ADDED.ToValue();
+        public override string GetName() => EventName.ORDER_ITEM_ADDED.ToEventName();
     }
 }

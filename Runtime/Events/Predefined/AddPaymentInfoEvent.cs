@@ -9,6 +9,6 @@
         public AddPaymentInfoEvent(string userData, long timeStampMillis) : base(userData, timeStampMillis)
         {}
 
-        public override string GetName() => EventName.ADD_PAYMENT_INFO.ToValue();
+        public override string GetName() => EventName.ADD_PAYMENT_INFO.ToEventName();
     }
 }

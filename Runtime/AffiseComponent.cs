@@ -1,5 +1,4 @@
-﻿using AffiseAttributionLib.AffiseParameters;
-using AffiseAttributionLib.Converter;
+﻿using AffiseAttributionLib.Converter;
 using AffiseAttributionLib.Events;
 using AffiseAttributionLib.Executors;
 using AffiseAttributionLib.Init;
@@ -7,6 +6,7 @@ using AffiseAttributionLib.Logs;
 using AffiseAttributionLib.Network;
 using AffiseAttributionLib.AffiseParameters.Base;
 using AffiseAttributionLib.AffiseParameters.Factory;
+using AffiseAttributionLib.AffiseParameters.Providers;
 using AffiseAttributionLib.Deeplink;
 using AffiseAttributionLib.Session;
 using AffiseAttributionLib.Storages;

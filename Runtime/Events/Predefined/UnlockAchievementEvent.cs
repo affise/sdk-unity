@@ -9,6 +9,6 @@
         public UnlockAchievementEvent(string userData, long timeStampMillis) : base(userData, timeStampMillis)
         {}
 
-        public override string GetName() => EventName.UNLOCK_ACHIEVEMENT.ToValue();
+        public override string GetName() => EventName.UNLOCK_ACHIEVEMENT.ToEventName();
     }
 }

@@ -1,12 +1,14 @@
-﻿using System.Collections.Generic;
+﻿#nullable enable
+using System.Collections.Generic;
 using System.Globalization;
 using SimpleJSON;
+using UnityEngine;
 
 namespace AffiseAttributionLib.Extensions
 {
     internal static class JSONObjectExt
     {
-        public static JSONNode ToJsonNode(this object value)
+        public static JSONNode? ToJsonNode(this object value)
         {
             var json = value switch
             {
@@ -30,16 +32,16 @@ namespace AffiseAttributionLib.Extensions
             };
             return json;
         }
-        
-        public static JSONObject AddAny(this JSONObject json, string key, object value)
+
+        public static JSONObject AddAny(this JSONObject json, string key, object? value)
         {
-            json[key] = value.ToJsonNode();
+            json[key] = value?.ToJsonNode();
             return json;
         }
-        
-        public static JSONArray AddAny(this JSONArray json, object value)
+
+        public static JSONArray AddAny(this JSONArray json, object? value)
         {
-            json.Add(value.ToJsonNode());
+            json.Add(value?.ToJsonNode());
             return json;
         }
 
@@ -51,6 +53,7 @@ namespace AffiseAttributionLib.Extensions
                 if (item is null) continue;
                 result.Add(item.ToJsonNode());
             }
+
             return result;
         }
 
@@ -63,6 +66,7 @@ namespace AffiseAttributionLib.Extensions
                 if (value is null) continue;
                 result[key] = value.ToJsonNode();
             }
+
             return result;
         }
     }

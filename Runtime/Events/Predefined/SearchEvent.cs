@@ -9,6 +9,6 @@
         public SearchEvent(string userData, long timeStampMillis) : base(userData, timeStampMillis)
         {}
 
-        public override string GetName() => EventName.SEARCH.ToValue();
+        public override string GetName() => EventName.SEARCH.ToEventName();
     }
 }

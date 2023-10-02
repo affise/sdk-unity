@@ -9,6 +9,6 @@
         public InitiateCheckoutEvent(string userData, long timeStampMillis) : base(userData, timeStampMillis)
         {}
 
-        public override string GetName() => EventName.INITIATE_CHECKOUT.ToValue();
+        public override string GetName() => EventName.INITIATE_CHECKOUT.ToEventName();
     }
 }

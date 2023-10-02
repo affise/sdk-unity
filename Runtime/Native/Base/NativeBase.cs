@@ -68,6 +68,34 @@ namespace AffiseAttributionLib.Native
             _native?.Native(api.ToValue());
         }
 
+        protected JSONObject? NativeMap(AffiseApiMethod api)
+        {
+            try
+            {
+                var data = Native<string>(api);
+                return JSON.Parse(data).AsObject;
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"Api [ {api.ToValue()} ] error: {e}");
+            }
+            return null;
+        }
+
+        protected JSONArray? NativeList(AffiseApiMethod api)
+        {
+            try
+            {
+                var data = Native<string>(api);
+                return JSON.Parse(data).AsArray;
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"Api [ {api.ToValue()} ] error: {e}");
+            }
+            return null;
+        }
+
         protected void NativeCallback(AffiseApiMethod api, object callback, object? data = null)
         {
             var uuid = Uuid.Generate();

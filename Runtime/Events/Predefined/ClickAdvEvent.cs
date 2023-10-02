@@ -9,6 +9,6 @@
         public ClickAdvEvent(string userData, long timeStampMillis) : base(userData, timeStampMillis)
         {}
 
-        public override string GetName() => EventName.CLICK_ADV.ToValue();
+        public override string GetName() => EventName.CLICK_ADV.ToEventName();
     }
 }

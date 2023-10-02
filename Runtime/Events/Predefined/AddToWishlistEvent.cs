@@ -9,6 +9,6 @@
         public AddToWishlistEvent(string userData, long timeStampMillis) : base(userData, timeStampMillis)
         {}
 
-        public override string GetName() => EventName.ADD_TO_WISHLIST.ToValue();
+        public override string GetName() => EventName.ADD_TO_WISHLIST.ToEventName();
     }
 }

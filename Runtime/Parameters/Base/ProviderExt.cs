@@ -1,28 +1,31 @@
-﻿using System.Collections.Generic;
+﻿#nullable enable
+using System.Collections.Generic;
 using System.Linq;
+using AffiseAttributionLib.AffiseParameters.Providers;
 
 namespace AffiseAttributionLib.AffiseParameters.Base
 {
     internal static class ProviderExt
     {
-        public static Dictionary<string, object> MapProviders(this List<Provider> providers)
+        public static Dictionary<ProviderType, object?> MapProviders(this List<Provider> providers)
         {
             providers.RemoveAll(item => item == null);
             var createdTime = providers.GetProvider<CreatedTimeProvider>()?.ProvideWithDefault();
             var sorted = providers.OrderBy(p => p.Order).ToList();
-            var result = new Dictionary<string, object>();
+            var result = new Dictionary<ProviderType, object?>();
             foreach (var provider in sorted)
             {
-                if (provider is null) continue;
-                if (result.ContainsKey(provider.Key)) continue;
+                if (provider?.Key is null) continue;
+                var key = (ProviderType)provider.Key;
+                if (result.ContainsKey(key)) continue;
 
-                result.Add(provider.Key, provider.GetValue(createdTime));
+                result.Add(key, provider.GetValue(createdTime));
             }
 
             return result;
         }
 
-        public static T GetProvider<T>(this List<Provider> providers) where T : Provider
+        public static T? GetProvider<T>(this List<Provider> providers) where T : Provider
         {
             foreach (var provider in providers)
             {
@@ -35,7 +38,7 @@ namespace AffiseAttributionLib.AffiseParameters.Base
             return null;
         }
 
-        public static object GetValue(this Provider provider, long? createdTime)
+        public static object? GetValue(this Provider provider, long? createdTime)
         {
             return provider switch
             {

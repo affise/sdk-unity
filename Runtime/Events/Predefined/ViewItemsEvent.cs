@@ -9,6 +9,6 @@
         public ViewItemsEvent(string userData, long timeStampMillis) : base(userData, timeStampMillis)
         {}
 
-        public override string GetName() => EventName.VIEW_ITEMS.ToValue();
+        public override string GetName() => EventName.VIEW_ITEMS.ToEventName();
     }
 }

@@ -9,6 +9,6 @@
         public OpenedFromPushNotificationEvent(string userData, long timeStampMillis) : base(userData, timeStampMillis)
         {}
 
-        public override string GetName() => EventName.OPENED_FROM_PUSH_NOTIFICATION.ToValue();
+        public override string GetName() => EventName.OPENED_FROM_PUSH_NOTIFICATION.ToEventName();
     }
 }

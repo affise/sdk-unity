@@ -9,6 +9,6 @@
         public InitiateStreamEvent(string userData, long timeStampMillis) : base(userData, timeStampMillis)
         {}
 
-        public override string GetName() => EventName.INITIATE_STREAM.ToValue();
+        public override string GetName() => EventName.INITIATE_STREAM.ToEventName();
     }
 }

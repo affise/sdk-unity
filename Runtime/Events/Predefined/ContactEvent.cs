@@ -9,6 +9,6 @@
         public ContactEvent(string userData, long timeStampMillis) : base(userData, timeStampMillis)
         {}
 
-        public override string GetName() => EventName.CONTACT.ToValue();
+        public override string GetName() => EventName.CONTACT.ToEventName();
     }
 }

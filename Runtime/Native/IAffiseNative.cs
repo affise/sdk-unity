@@ -1,5 +1,6 @@
 ﻿#nullable enable
 using System.Collections.Generic;
+using AffiseAttributionLib.AffiseParameters;
 using AffiseAttributionLib.Deeplink;
 using AffiseAttributionLib.Events;
 using AffiseAttributionLib.Init;
@@ -54,6 +55,8 @@ namespace AffiseAttributionLib.Native
         string? GetRandomUserId();
 
         string? GetRandomDeviceId();
+
+        Dictionary<ProviderType, object?> GetProviders();
 
         void RegisterAppForAdNetworkAttribution(ErrorCallback completionHandler);
         

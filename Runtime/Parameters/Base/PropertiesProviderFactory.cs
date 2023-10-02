@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using AffiseAttributionLib.AffiseParameters.Factory;
+using AffiseAttributionLib.AffiseParameters.Providers;
 using AffiseAttributionLib.Converter;
 using AffiseAttributionLib.Deeplink;
 using AffiseAttributionLib.Init;
@@ -62,7 +63,7 @@ namespace AffiseAttributionLib.AffiseParameters.Base
                     createdTimeProvider,
                     new CreatedTimeMilliProvider(),
                     new CreatedTimeHourProvider(),
-                    new CustomLongProvider(Parameters.LAST_TIME_SESSION, 54.0f, () =>
+                    new CustomLongProvider(ProviderType.LAST_TIME_SESSION, 54.0f, () =>
                     {
                         var lastTimeSession = lastSessionTimeProvider.ProvideWithDefault();
                         if (lastTimeSession > 0)
@@ -99,8 +100,8 @@ namespace AffiseAttributionLib.AffiseParameters.Base
                     new RandomUserIdProvider(_firstAppOpenUseCase),
                     new IsProductionPropertyProvider(_initPropertiesStorage),
                     new TimezoneDeviceProvider(),
-                    // new EmptyStringProvider(Parameters.AFFISE_EVENT_TOKEN, 52.0f),
-                    // new EmptyStringProvider(Parameters.AFFISE_EVENT_NAME, 53.0f),
+                    // new EmptyStringProvider(ProviderType.AFFISE_EVENT_TOKEN, 52.0f),
+                    // new EmptyStringProvider(ProviderType.AFFISE_EVENT_NAME, 53.0f),
                     lastSessionTimeProvider,
                     new TimeSessionProvider(_sessionManager),
                     new AffiseSessionCountProvider(_sessionManager),
@@ -110,7 +111,7 @@ namespace AffiseAttributionLib.AffiseParameters.Base
                     new AffPartParamNamePropertyProvider(_initPropertiesStorage),
                     new AffPartParamNameTokenPropertyProvider(_initPropertiesStorage),
                     new AffAppTokenPropertyProvider(_initPropertiesStorage, _stringToSHA256Converter),
-                    // new EmptyStringProvider(Parameters.LABEL, 62.0f),
+                    // new EmptyStringProvider(ProviderType.LABEL, 62.0f),
                     // new AffSDKSecretIdProvider(_initPropertiesStorage),
                     new PushTokenProvider()
                 }

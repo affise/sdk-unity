@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿#nullable enable
+using System.Collections.Generic;
 using AffiseAttributionLib.AffiseParameters;
 using AffiseAttributionLib.Extensions;
 using AffiseAttributionLib.Network.Entity;
@@ -43,7 +44,7 @@ namespace AffiseAttributionLib.Converter
 
             foreach (var parameter in obj.Parameters)
             {
-                result.AddAny(parameter.Key, parameter.Value);
+                result.AddAny(parameter.Key.Provider(), parameter.Value);
             }
 
             result[Parameters.AFFISE_EVENTS_COUNT] = eventsArray.Count;

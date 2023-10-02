@@ -9,6 +9,6 @@
         public UnsubscribeEvent(string userData, long timeStampMillis) : base(userData, timeStampMillis)
         {}
 
-        public override string GetName() => EventName.UNSUBSCRIBE.ToValue();
+        public override string GetName() => EventName.UNSUBSCRIBE.ToEventName();
     }
 }

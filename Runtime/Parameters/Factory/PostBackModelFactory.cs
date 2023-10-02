@@ -20,7 +20,7 @@ namespace AffiseAttributionLib.AffiseParameters.Factory
         public PostBackModel Create(List<SerializedEvent> events, List<SerializedLog> logs)
         {
             return new PostBackModel(
-                parameters: MapProviders(),
+                parameters: GetProvidersMap(),
                 events: events,
                 logs: logs
             );
@@ -33,7 +33,7 @@ namespace AffiseAttributionLib.AffiseParameters.Factory
 
         public List<Provider> GetProviders() => _providers;
 
-        private Dictionary<string, object> MapProviders()
+        public Dictionary<ProviderType, object?> GetProvidersMap()
         {
             return _providers.MapProviders();
         }

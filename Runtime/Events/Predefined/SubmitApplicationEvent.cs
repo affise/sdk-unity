@@ -9,6 +9,6 @@
         public SubmitApplicationEvent(string userData, long timeStampMillis) : base(userData, timeStampMillis)
         {}
 
-        public override string GetName() => EventName.SUBMIT_APPLICATION.ToValue();
+        public override string GetName() => EventName.SUBMIT_APPLICATION.ToEventName();
     }
 }

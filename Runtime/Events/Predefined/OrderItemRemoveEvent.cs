@@ -9,6 +9,6 @@
         public OrderItemRemoveEvent(string userData, long timeStampMillis) : base(userData, timeStampMillis)
         {}
 
-        public override string GetName() => EventName.ORDER_ITEM_REMOVE.ToValue();
+        public override string GetName() => EventName.ORDER_ITEM_REMOVE.ToEventName();
     }
 }

@@ -1,4 +1,4 @@
-using AffiseAttributionLib.AffiseParameters;
+using AffiseAttributionLib.AffiseParameters.Logs;
 
 namespace AffiseAttributionLib.Logs
 {

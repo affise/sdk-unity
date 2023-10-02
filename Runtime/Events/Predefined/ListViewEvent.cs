@@ -9,6 +9,6 @@
         public ListViewEvent(string userData, long timeStampMillis) : base(userData, timeStampMillis)
         {}
 
-        public override string GetName() => EventName.LIST_VIEW.ToValue();
+        public override string GetName() => EventName.LIST_VIEW.ToEventName();
     }
 }

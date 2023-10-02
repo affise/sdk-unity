@@ -9,6 +9,6 @@
         public StartRegistrationEvent(string userData, long timeStampMillis) : base(userData, timeStampMillis)
         {}
 
-        public override string GetName() => EventName.START_REGISTRATION.ToValue();
+        public override string GetName() => EventName.START_REGISTRATION.ToEventName();
     }
 }

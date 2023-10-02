@@ -9,6 +9,6 @@
         public SalesEvent(string userData, long timeStampMillis) : base(userData, timeStampMillis)
         {}
 
-        public override string GetName() => EventName.SALES.ToValue();
+        public override string GetName() => EventName.SALES.ToEventName();
     }
 }

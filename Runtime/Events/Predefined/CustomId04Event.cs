@@ -9,6 +9,6 @@
         public CustomId04Event(string userData, long timeStampMillis) : base(userData, timeStampMillis)
         {}
 
-        public override string GetName() => EventName.CUSTOM_ID_04.ToValue();
+        public override string GetName() => EventName.CUSTOM_ID_04.ToEventName();
     }
 }

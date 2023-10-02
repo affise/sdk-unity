@@ -9,6 +9,6 @@
         public TravelBookingEvent(string userData, long timeStampMillis) : base(userData, timeStampMillis)
         {}
 
-        public override string GetName() => EventName.TRAVEL_BOOKING.ToValue();
+        public override string GetName() => EventName.TRAVEL_BOOKING.ToEventName();
     }
 }

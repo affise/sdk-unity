@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using AffiseAttributionLib.AffiseParameters;
+using AffiseAttributionLib.AffiseParameters.Providers;
 using AffiseAttributionLib.Converter;
 using AffiseAttributionLib.Executors;
 using AffiseAttributionLib.Network.Entity;

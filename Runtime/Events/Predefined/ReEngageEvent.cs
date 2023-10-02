@@ -9,6 +9,6 @@
         public ReEngageEvent(string userData, long timeStampMillis) : base(userData, timeStampMillis)
         {}
 
-        public override string GetName() => EventName.RE_ENGAGE.ToValue();
+        public override string GetName() => EventName.RE_ENGAGE.ToEventName();
     }
 }

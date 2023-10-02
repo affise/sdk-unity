@@ -44,7 +44,23 @@ public class NativeCallHandler: NSObject {
             return nil
         }
 
-        return (result as? ApiResult)?.getResult()
+        return asNativeData(result)
+    }
+    
+    private func asNativeData(_ result: AffiseResult) -> Any? {
+        guard let result = result as? ApiResult else { return nil }
+        guard let data = result.getResult() else { return nil }
+                
+        switch data {
+        case is [String:Any?]:
+            guard let data = data as? [String:Any?] else { return "{}" }
+            return data.toJson()
+        case is [Any?]:
+            guard let data = data as? [Any?] else { return "[]" }
+            return data.toJson()
+        default:
+            return data
+        }
     }
 
     private func apiCallToType<T>(_ apiName: String, json: String) -> T? {

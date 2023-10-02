@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using AffiseAttributionLib.Converter;
-using AffiseAttributionLib.AffiseParameters;
+using AffiseAttributionLib.AffiseParameters.Logs;
 using AffiseAttributionLib.Storages;
 
 namespace AffiseAttributionLib.Logs

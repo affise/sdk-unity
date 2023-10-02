@@ -26,7 +26,7 @@
     
     internal static class SubscriptionSubTypeExt
     {
-        public static string ToValue(this SubscriptionSubType type)
+        public static string TypeName(this SubscriptionSubType type)
         {
             return type switch
             {

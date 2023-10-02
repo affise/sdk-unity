@@ -9,6 +9,6 @@
         public OrderEvent(string userData, long timeStampMillis) : base(userData, timeStampMillis)
         {}
 
-        public override string GetName() => EventName.ORDER.ToValue();
+        public override string GetName() => EventName.ORDER.ToEventName();
     }
 }

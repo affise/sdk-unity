@@ -9,6 +9,6 @@
         public UpdateEvent(string userData, long timeStampMillis) : base(userData, timeStampMillis)
         {}
 
-        public override string GetName() => EventName.UPDATE.ToValue();
+        public override string GetName() => EventName.UPDATE.ToEventName();
     }
 }

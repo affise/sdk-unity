@@ -1,4 +1,5 @@
-﻿using AffiseAttributionLib.Events.Property;
+﻿#nullable enable
+using AffiseAttributionLib.Events.Property;
 using SimpleJSON;
 
 namespace AffiseAttributionLib.Events.Subscription
@@ -6,8 +7,13 @@ namespace AffiseAttributionLib.Events.Subscription
     public abstract class BaseSubscriptionEvent : NativeEvent
     {
         private readonly JSONObject _data;
-
-        protected BaseSubscriptionEvent(JSONObject data, string userData) 
+        
+        protected BaseSubscriptionEvent(JSONObject data)
+        {
+            _data = data;
+        }
+        
+        protected BaseSubscriptionEvent(JSONObject data, string? userData) 
             : base(userData)
         {
             _data = data;

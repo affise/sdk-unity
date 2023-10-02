@@ -9,6 +9,6 @@
         public ReserveEvent(string userData, long timeStampMillis) : base(userData, timeStampMillis)
         {}
 
-        public override string GetName() => EventName.RESERVE.ToValue();
+        public override string GetName() => EventName.RESERVE.ToEventName();
     }
 }

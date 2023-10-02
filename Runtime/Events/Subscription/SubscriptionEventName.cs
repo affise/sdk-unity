@@ -16,7 +16,7 @@ namespace AffiseAttributionLib.Events.Subscription
     
     internal static class SubscriptionEventNameExt
     {
-        public static string ToValue(this SubscriptionEventName type)
+        public static string EventName(this SubscriptionEventName type)
         {
             return type switch
             {

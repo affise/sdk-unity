@@ -1,8 +1,10 @@
-﻿namespace AffiseAttributionLib.AffiseParameters.Base
+﻿#nullable enable
+
+namespace AffiseAttributionLib.AffiseParameters.Base
 {
     public abstract class Provider
     {
         public virtual float Order => 0.0f;
-        public virtual string Key => null;
+        public virtual ProviderType? Key => null;
     }
 }

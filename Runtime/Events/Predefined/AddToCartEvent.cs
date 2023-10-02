@@ -9,6 +9,6 @@
         public AddToCartEvent(string userData, long timeStampMillis) : base(userData, timeStampMillis)
         {}
 
-        public override string GetName() => EventName.ADD_TO_CART.ToValue();
+        public override string GetName() => EventName.ADD_TO_CART.ToEventName();
     }
 }

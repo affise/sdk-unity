@@ -9,6 +9,6 @@
         public InviteEvent(string userData, long timeStampMillis) : base(userData, timeStampMillis)
         {}
 
-        public override string GetName() => EventName.INVITE.ToValue();
+        public override string GetName() => EventName.INVITE.ToEventName();
     }
 }

@@ -9,6 +9,6 @@
         public CompleteStreamEvent(string userData, long timeStampMillis) : base(userData, timeStampMillis)
         {}
 
-        public override string GetName() => EventName.COMPLETE_STREAM.ToValue();
+        public override string GetName() => EventName.COMPLETE_STREAM.ToEventName();
     }
 }

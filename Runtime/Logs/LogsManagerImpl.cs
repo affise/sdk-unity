@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using AffiseAttributionLib.AffiseParameters;
+using AffiseAttributionLib.AffiseParameters.Logs;
 using AffiseAttributionLib.Exceptions;
 using SimpleJSON;
 

@@ -9,6 +9,6 @@
         public CustomizeProductEvent(string userData, long timeStampMillis) : base(userData, timeStampMillis)
         {}
 
-        public override string GetName() => EventName.CUSTOMIZE_PRODUCT.ToValue();
+        public override string GetName() => EventName.CUSTOMIZE_PRODUCT.ToEventName();
     }
 }

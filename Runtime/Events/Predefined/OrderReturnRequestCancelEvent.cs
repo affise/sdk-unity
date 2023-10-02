@@ -9,6 +9,6 @@
         public OrderReturnRequestCancelEvent(string userData, long timeStampMillis) : base(userData, timeStampMillis)
         {}
 
-        public override string GetName() => EventName.ORDER_RETURN_REQUEST_CANCEL.ToValue();
+        public override string GetName() => EventName.ORDER_RETURN_REQUEST_CANCEL.ToEventName();
     }
 }

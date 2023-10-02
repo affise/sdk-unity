@@ -58,7 +58,7 @@ namespace AffiseAttributionLib.Usecase
             //Create affAltDevId
             PrefUtils.CheckSaveString(AFF_ALT_DEVICE_ID, Uuid.Generate);
             //Create randomUserId
-            PrefUtils.CheckSaveString(Parameters.RANDOM_USER_ID, Uuid.Generate);
+            PrefUtils.CheckSaveString(ProviderType.RANDOM_USER_ID.Provider(), Uuid.Generate);
         }
 
         /**
@@ -102,6 +102,6 @@ namespace AffiseAttributionLib.Usecase
          * Get random user id
          * @return random user id
          */
-        public string GetRandomUserId() => PrefUtils.GetString(Parameters.RANDOM_USER_ID, "");
+        public string GetRandomUserId() => PrefUtils.GetString(ProviderType.RANDOM_USER_ID.Provider(), "");
     }
 }

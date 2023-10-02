@@ -9,6 +9,6 @@
         public CompleteTrialEvent(string userData, long timeStampMillis) : base(userData, timeStampMillis)
         {}
 
-        public override string GetName() => EventName.COMPLETE_TRIAL.ToValue();
+        public override string GetName() => EventName.COMPLETE_TRIAL.ToEventName();
     }
 }

@@ -1,11 +1,13 @@
 ﻿#nullable enable
 using System;
 using System.Collections.Generic;
+using AffiseAttributionLib.AffiseParameters;
 using AffiseAttributionLib.Converter;
 using AffiseAttributionLib.Deeplink;
 using AffiseAttributionLib.Events;
 using AffiseAttributionLib.Init;
 using AffiseAttributionLib.Modules;
+using AffiseAttributionLib.Native.Utils;
 using AffiseAttributionLib.Referrer;
 using AffiseAttributionLib.SKAd;
 using SimpleJSON;
@@ -130,6 +132,11 @@ namespace AffiseAttributionLib.Native
         public string? GetRandomDeviceId()
         {
             return Native<string>(AffiseApiMethod.GET_RANDOM_DEVICE_ID);
+        }
+
+        public Dictionary<ProviderType, object?> GetProviders()
+        {
+            return NativeMap(AffiseApiMethod.GET_PROVIDERS).ToProviderMap();
         }
 
         public void RegisterAppForAdNetworkAttribution(ErrorCallback completionHandler)

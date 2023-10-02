@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using AffiseAttributionLib.AffiseParameters;
+using AffiseAttributionLib.AffiseParameters.Providers;
 using AffiseAttributionLib.Deeplink;
 using AffiseAttributionLib.Events;
 using AffiseAttributionLib.Init;
@@ -226,6 +227,15 @@ namespace AffiseAttributionLib
 #endif
         }
 
+        public static Dictionary<ProviderType, object?> GetProviders()
+        {
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+            return _native?.GetProviders() ?? new Dictionary<ProviderType, object?>();
+#else
+            return _api?.PostBackModelFactory.GetProvidersMap() ?? new Dictionary<ProviderType, object?>();
+#endif
+        }
+        
         public static class Android
         {
             /**

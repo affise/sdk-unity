@@ -9,6 +9,6 @@
         public OrderCancelEvent(string userData, long timeStampMillis) : base(userData, timeStampMillis)
         {}
 
-        public override string GetName() => EventName.ORDER_CANCEL.ToValue();
+        public override string GetName() => EventName.ORDER_CANCEL.ToEventName();
     }
 }

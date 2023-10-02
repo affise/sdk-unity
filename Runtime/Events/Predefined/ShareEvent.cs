@@ -9,6 +9,6 @@
         public ShareEvent(string userData, long timeStampMillis) : base(userData, timeStampMillis)
         {}
 
-        public override string GetName() => EventName.SHARE.ToValue();
+        public override string GetName() => EventName.SHARE.ToEventName();
     }
 }

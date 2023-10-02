@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿#nullable enable
+using System.Collections.Generic;
 using SimpleJSON;
 
 namespace AffiseAttributionLib.Modules

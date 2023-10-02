@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AffiseAttributionLib;
+using AffiseAttributionLib.AffiseParameters;
 using AffiseAttributionLib.Init;
 using AffiseAttributionLib.Modules;
 using AffiseAttributionLib.Referrer;
@@ -225,6 +226,20 @@ namespace AffiseDemo
             {
                 var value = Affise.GetRandomDeviceId();
                 Output($"GetRandomDeviceId: {value}");
+            });
+
+            view.AddButton("Get Providers", () =>
+            {
+                var providers = Affise.GetProviders();
+                var key = ProviderType.AFFISE_APP_TOKEN;
+                if (providers.ContainsKey(key))
+                {
+                    Output($"GetProviders: {key.Provider()} = {providers[key]}");
+                }
+                else
+                {
+                    Output($"GetProviders: key = {key.Provider()} not found");
+                }
             });
         }
 
