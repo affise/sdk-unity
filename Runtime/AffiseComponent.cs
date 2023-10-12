@@ -1,4 +1,6 @@
-﻿using AffiseAttributionLib.Converter;
+﻿#nullable enable
+using System.Collections.Generic;
+using AffiseAttributionLib.Converter;
 using AffiseAttributionLib.Events;
 using AffiseAttributionLib.Executors;
 using AffiseAttributionLib.Init;
@@ -7,7 +9,10 @@ using AffiseAttributionLib.Network;
 using AffiseAttributionLib.AffiseParameters.Base;
 using AffiseAttributionLib.AffiseParameters.Factory;
 using AffiseAttributionLib.AffiseParameters.Providers;
+using AffiseAttributionLib.Debugger.Network;
+using AffiseAttributionLib.Debugger.Validate;
 using AffiseAttributionLib.Deeplink;
+using AffiseAttributionLib.Modules;
 using AffiseAttributionLib.Session;
 using AffiseAttributionLib.Storages;
 using AffiseAttributionLib.Usecase;
@@ -30,6 +35,12 @@ namespace AffiseAttributionLib
         public IDeeplinkManager DeeplinkManager { get; }
 
         public PostBackModelFactory PostBackModelFactory { get; }
+
+        public AffiseModuleManager ModuleManager { get; }
+        
+        public IDebugNetworkUseCase DebugNetworkUseCase { get; }
+        
+        public IDebugValidateUseCase DebugValidateUseCase { get; }
 
         private readonly ConverterToBase64 _converterToBase64;
         
@@ -60,17 +71,23 @@ namespace AffiseAttributionLib
         private readonly IIsFirstForUserStorage _isFirstForUserStorage;
         
         private readonly IIsFirstForUserUseCase _isFirstForUserUseCase;
+        
+        private readonly IHttpClient _httpClient;
+        
+        private readonly ProvidersToJsonStringConverter _providersToJsonStringConverter;
 
         private readonly bool _isReady = false;
         
         public AffiseComponent(AffiseInitProperties initProperties)
         {
             _converterToBase64 = new ConverterToBase64();
+            _providersToJsonStringConverter = new ProvidersToJsonStringConverter();
 
             _logStorage = new LogsStorageImpl();
             _logsRepository = new LogsRepositoryImpl(_converterToBase64, new LogToSerializedLogConverter(), _logStorage);
             _storeLogsUseCase = new StoreLogsUseCaseImpl(_logsRepository);
             _logsManager = new LogsManagerImpl(_storeLogsUseCase);
+            _httpClient = new HttpClientImpl();
             
             _activityActionsManager = new ActivityActionsManagerImpl();
             _activityCountProvider = new CurrentActiveActivityCountProviderImpl(_activityActionsManager);
@@ -107,10 +124,35 @@ namespace AffiseAttributionLib
                 stringToMd5Converter: new StringToMD5Converter(),
                 deeplinkClickRepository: _isDeeplinkClickRepository
             ).Create();
+
+            ModuleManager = new AffiseModuleManager(
+                logsManager: _logsManager,
+                postBackModelFactory: PostBackModelFactory
+            );
+            ModuleManager.Init(
+                new List<object>
+                {
+                    _httpClient,
+                    _providersToJsonStringConverter
+                }
+            );
+            
+            DebugNetworkUseCase = new DebugNetworkUseCaseImpl(
+                initProperties: initProperties,
+                httpClient: _httpClient
+            );
+            DebugValidateUseCase = new DebugValidateUseCaseImpl(
+                initProperties: initProperties,
+                postBackModelFactory: PostBackModelFactory,
+                logsManager: _logsManager,
+                httpClient:_httpClient,
+                executorServiceProvider: new ExecutorServiceProviderImpl(),
+                converter: _providersToJsonStringConverter
+            );
             
             _cloudRepository = new CloudRepositoryImpl(
                 executorServiceProvider: new ExecutorServiceProviderImpl(),
-                httpClientImpl: new HttpClientImpl(),
+                httpClient: _httpClient,
                 userAgentProvider: PostBackModelFactory.GetProvider<UserAgentProvider>(),
                 postBackModelToJsonStringConverter: new PostBackModelToJsonStringConverter()
             );

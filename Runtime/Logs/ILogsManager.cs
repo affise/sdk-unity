@@ -5,7 +5,7 @@ namespace AffiseAttributionLib.Logs
     /**
      * Manager logs interface
      */
-    internal interface ILogsManager
+    public interface ILogsManager
     {
         /**
          * Add [throwable] of network

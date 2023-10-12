@@ -1,4 +1,5 @@
 ﻿#nullable enable
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using AffiseAttributionLib.AffiseParameters.Providers;
@@ -9,7 +10,6 @@ namespace AffiseAttributionLib.AffiseParameters.Base
     {
         public static Dictionary<ProviderType, object?> MapProviders(this List<Provider> providers)
         {
-            providers.RemoveAll(item => item == null);
             var createdTime = providers.GetProvider<CreatedTimeProvider>()?.ProvideWithDefault();
             var sorted = providers.OrderBy(p => p.Order).ToList();
             var result = new Dictionary<ProviderType, object?>();
@@ -50,6 +50,24 @@ namespace AffiseAttributionLib.AffiseParameters.Base
                     .ProvideWithParamAndDefault(createdTime?.ToString() ?? ""),
                 _ => null
             };
+        }
+        
+        public static List<Provider> GetProviders(this IEnumerable<Provider> providers, List<Type> types)
+        {
+            return (from provider in providers from type in types where provider.GetType() == type select provider).ToList();
+        }
+
+        public static List<Provider> GetRequestProviders(this IEnumerable<Provider> providers)
+        {
+            return providers.GetProviders(new List<Type>
+            {
+                typeof(CreatedTimeProvider),
+                typeof(AffiseAppIdProvider),
+                typeof(AffisePackageAppNameProvider),
+                typeof(AffAppTokenPropertyProvider),
+                typeof(AffiseDeviceIdProvider),
+                typeof(RandomUserIdProvider),
+            });
         }
     }
 }

@@ -1,14 +1,15 @@
+#nullable enable
 using System;
 
 namespace AffiseAttributionLib.Exceptions
 {
     public class NetworkException : Exception
     {
-        public long Status { get; }
+        public long Code { get; }
 
-        public NetworkException(string message, long status) : base(message)
+        public NetworkException(long code, string message) : base(message)
         {
-            Status = status;
+            Code = code;
         }
     }
 }

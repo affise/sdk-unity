@@ -38,7 +38,7 @@ namespace AffiseAttributionLib.Events.Parameters
         /**
          * Add predefined ListGroup [value] of List<PredefinedGroup>
          */
-        // TODO PredefinedGroup
+        // PredefinedGroup
         // T AddPredefinedListGroup(List<PredefinedGroup> value);
     }
 }

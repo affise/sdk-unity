@@ -682,7 +682,7 @@ namespace AffiseDemo
                 .AddPredefinedParameter(PredefinedFloat.PRICE, 2.19f)
                 .AddPredefinedParameter(PredefinedLong.QUANTITY, 1L);
 
-            // TODO PredefinedGroup example
+            // PredefinedGroup example
             // affiseEvent.AddPredefinedListGroup(new List<PredefinedGroup>
             // {
             //     new PredefinedGroup()

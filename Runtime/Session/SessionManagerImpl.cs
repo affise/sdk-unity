@@ -94,7 +94,7 @@ namespace AffiseAttributionLib.Session
                 _openAppTime = GetTimeMillis();
             }
 
-            // TODO send InternalEvent
+            // Send InternalEvent
             // Delay.Run(TIME_TO_START_SESSION, () =>
             // {
             //     if (SessionTime() == 0L) return;

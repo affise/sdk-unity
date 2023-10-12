@@ -1,7 +1,10 @@
 ﻿using AffiseAttributionLib.AffiseParameters.Factory;
+using AffiseAttributionLib.Debugger.Network;
+using AffiseAttributionLib.Debugger.Validate;
 using AffiseAttributionLib.Deeplink;
 using AffiseAttributionLib.Events;
 using AffiseAttributionLib.Init;
+using AffiseAttributionLib.Modules;
 using AffiseAttributionLib.Usecase;
 
 namespace AffiseAttributionLib
@@ -15,6 +18,9 @@ namespace AffiseAttributionLib
         public IInitPropertiesStorage InitPropertiesStorage { get; }
         public IDeeplinkManager DeeplinkManager { get; }
         public PostBackModelFactory PostBackModelFactory { get; }
+        public AffiseModuleManager ModuleManager { get; }
+        public IDebugNetworkUseCase DebugNetworkUseCase { get; }
+        public IDebugValidateUseCase DebugValidateUseCase { get; }
 
         public bool IsInitialized();
     }

@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using AffiseAttributionLib.AffiseParameters;
 using AffiseAttributionLib.AffiseParameters.Providers;
+using AffiseAttributionLib.Debugger.Network;
+using AffiseAttributionLib.Debugger.Validate;
 using AffiseAttributionLib.Deeplink;
 using AffiseAttributionLib.Events;
 using AffiseAttributionLib.Init;
@@ -202,10 +204,7 @@ namespace AffiseAttributionLib
 #if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
             _native?.GetStatus(module, onComplete);
 #else
-            onComplete.Invoke(new List<AffiseKeyValue>
-            {
-                new("error", NotSupported)
-            });
+            _api?.ModuleManager.Status(module, onComplete);
 #endif
         }
 
@@ -323,6 +322,37 @@ namespace AffiseAttributionLib
                 _native?.UpdatePostbackConversionValue(fineValue, coarseValue, completionHandler);
 #else
                 completionHandler.Invoke(NotSupported);
+#endif
+            }
+        }
+
+        public static class Debug
+        {
+            /**
+             * Won't work on Production
+             *
+             * Validate credentials
+             */
+            public static void Validate(DebugOnValidateCallback callback)
+            {
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+                _native?.Validate(callback);
+#else
+                _api?.DebugValidateUseCase.Validate(callback);
+#endif
+            }
+            
+            /**
+             * Won't work on Production
+             *
+             * Show request/response data
+             */
+            public static void Network(DebugOnNetworkCallback callback)
+            {
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+                _native?.Network(callback);
+#else
+                _api?.DebugNetworkUseCase.OnRequest(callback);
 #endif
             }
         }

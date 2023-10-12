@@ -16,13 +16,17 @@ namespace AffiseAttributionLib.Init
 
         public bool IsProduction { get; }
 
-        public AffiseInitProperties(string affiseAppId, string secretKey) : this(
+        public AffiseInitProperties(
+            string affiseAppId, 
+            string secretKey,
+            bool isProduction = true
+        ) : this(
             affiseAppId: affiseAppId,
             secretKey: secretKey,
             partParamName: "",
             partParamNameToken: "",
             appToken: "",
-            isProduction: true
+            isProduction: isProduction
         )
         {
         }

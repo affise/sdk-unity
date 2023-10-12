@@ -1,7 +1,7 @@
-﻿using System;
+﻿#nullable enable
+using System;
 using System.Collections.Generic;
 using AffiseAttributionLib.Network.Entity;
-using AffiseAttributionLib.Network.Response;
 
 namespace AffiseAttributionLib.Network
 {
@@ -10,8 +10,7 @@ namespace AffiseAttributionLib.Network
         void Send(
             List<PostBackModel> data,
             string url,
-            Action<string> onSuccess = null,
-            Action<ErrorResponse> onError = null
+            Action<HttpResponse>? onComplete = null
         );
     }
 }

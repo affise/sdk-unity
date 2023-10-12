@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using AffiseAttributionLib.AffiseParameters;
 using AffiseAttributionLib.Converter;
+using AffiseAttributionLib.Debugger.Network;
+using AffiseAttributionLib.Debugger.Validate;
 using AffiseAttributionLib.Deeplink;
 using AffiseAttributionLib.Events;
 using AffiseAttributionLib.Init;
@@ -51,7 +53,7 @@ namespace AffiseAttributionLib.Native
 
         public void RegisterDeeplinkCallback(DeeplinkCallback callback)
         {
-            NativeCallback(AffiseApiMethod.REGISTER_DEEPLINK_CALLBACK, callback: callback);
+            NativeCallbackOnce(AffiseApiMethod.REGISTER_DEEPLINK_CALLBACK, callback: callback);
         }
 
         public void SetSecretKey(string secretKey)
@@ -111,17 +113,17 @@ namespace AffiseAttributionLib.Native
 
         public void GetReferrer(ReferrerCallback callback)
         {
-            NativeCallback(AffiseApiMethod.GET_REFERRER_CALLBACK, callback: callback);
+            NativeCallbackOnce(AffiseApiMethod.GET_REFERRER_CALLBACK, callback: callback);
         }
 
         public void GetReferrerValue(ReferrerKey key, ReferrerCallback callback)
         {
-            NativeCallback(AffiseApiMethod.GET_REFERRER_VALUE_CALLBACK, callback: callback, data: key.ToValue());
+            NativeCallbackOnce(AffiseApiMethod.GET_REFERRER_VALUE_CALLBACK, callback: callback, data: key.ToValue());
         }
 
         public void GetStatus(AffiseModules module, OnKeyValueCallback callback)
         {
-            NativeCallback(AffiseApiMethod.GET_STATUS_CALLBACK, callback: callback, data: module.ToValue());
+            NativeCallbackOnce(AffiseApiMethod.GET_STATUS_CALLBACK, callback: callback, data: module.Module());
         }
 
         public string? GetRandomUserId()
@@ -141,7 +143,7 @@ namespace AffiseAttributionLib.Native
 
         public void RegisterAppForAdNetworkAttribution(ErrorCallback completionHandler)
         {
-            NativeCallback(AffiseApiMethod.SKAD_REGISTER_ERROR_CALLBACK, callback: completionHandler); 
+            NativeCallbackOnce(AffiseApiMethod.SKAD_REGISTER_ERROR_CALLBACK, callback: completionHandler); 
         }
 
         public void UpdatePostbackConversionValue(int fineValue, CoarseValue coarseValue, ErrorCallback completionHandler)
@@ -151,31 +153,49 @@ namespace AffiseAttributionLib.Native
                 { "fineValue", fineValue },
                 { "coarseValue", coarseValue.Value }
             };
-            NativeCallback(AffiseApiMethod.SKAD_POSTBACK_ERROR_CALLBACK, callback: completionHandler, data: data);
+            NativeCallbackOnce(AffiseApiMethod.SKAD_POSTBACK_ERROR_CALLBACK, callback: completionHandler, data: data);
         }
 
-        protected override void HandleCallback(AffiseApiMethod? api, object callback, JSONNode? json)
+        public void Validate(DebugOnValidateCallback callback)
+        {
+            NativeCallbackOnce(AffiseApiMethod.DEBUG_VALIDATE_CALLBACK, callback: callback);
+        }
+
+        public void Network(DebugOnNetworkCallback callback)
+        {
+            NativeCallback(AffiseApiMethod.DEBUG_NETWORK_CALLBACK, callback: callback);
+        }
+
+        protected override void HandleCallback(AffiseApiMethod api, object callback, JSONNode? json)
         {
             switch (api)
             {
                 case AffiseApiMethod.REGISTER_DEEPLINK_CALLBACK:
-                    (callback as DeeplinkCallback)?.Invoke(new Uri(json?.ToString() ?? ""));
+                    (callback as DeeplinkCallback)?.Invoke(new Uri(json?.Value ?? ""));
                     break;
                 case AffiseApiMethod.GET_REFERRER_CALLBACK:
-                    (callback as ReferrerCallback)?.Invoke(json?.ToString());
+                    (callback as ReferrerCallback)?.Invoke(json?.Value);
                     break;
                 case AffiseApiMethod.GET_REFERRER_VALUE_CALLBACK:
-                    (callback as ReferrerCallback)?.Invoke(json?.ToString());
+                    (callback as ReferrerCallback)?.Invoke(json?.Value);
                     break;
                 case AffiseApiMethod.GET_STATUS_CALLBACK:
                     var values = json?.ToAffiseKeyValueList() ?? new List<AffiseKeyValue>();
                     (callback as OnKeyValueCallback)?.Invoke(values);
                     break;
                 case AffiseApiMethod.SKAD_REGISTER_ERROR_CALLBACK:
-                    (callback as ErrorCallback)?.Invoke(json?.ToString());
+                    (callback as ErrorCallback)?.Invoke(json?.Value);
                     break;
                 case AffiseApiMethod.SKAD_POSTBACK_ERROR_CALLBACK:
-                    (callback as ErrorCallback)?.Invoke(json?.ToString());
+                    (callback as ErrorCallback)?.Invoke(json?.Value);
+                    break;
+                case AffiseApiMethod.DEBUG_VALIDATE_CALLBACK:
+                    var status = DebugUtils.GetValidationStatus(json?.Value);
+                    (callback as DebugOnValidateCallback)?.Invoke(status);
+                    break;
+                case AffiseApiMethod.DEBUG_NETWORK_CALLBACK:
+                    var (request, response) = DebugUtils.ParseRequestResponse(json?.AsObject);
+                    (callback as DebugOnNetworkCallback)?.Invoke(request, response);
                     break;
             }
         }

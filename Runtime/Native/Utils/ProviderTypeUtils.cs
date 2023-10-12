@@ -29,7 +29,7 @@ namespace AffiseAttributionLib.Native.Utils
             if (json.IsNull) return null;
             if (json.IsString)
             {
-                return json.ToString();
+                return json.Value;
             }
 
             if (json.IsNumber)
@@ -92,7 +92,7 @@ namespace AffiseAttributionLib.Native.Utils
                 case ProviderType.UUID:
                     if (json.IsString)
                     {
-                        return json.ToString();
+                        return json.Value;
                     }
 
                     break;

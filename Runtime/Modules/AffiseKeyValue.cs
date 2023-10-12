@@ -19,6 +19,11 @@ namespace AffiseAttributionLib.Modules
             Key = key;
             Value = value;
         }
+
+        public override string ToString()
+        {
+            return $"AffiseKeyValue(key={Key}, value={Value})";
+        }
     }
 
     internal static class AffiseKeyValueExt
@@ -26,7 +31,7 @@ namespace AffiseAttributionLib.Modules
         public static List<AffiseKeyValue> ToAffiseKeyValueList(this JSONNode json)
         {
             var result = new List<AffiseKeyValue>();
-            var jsonArray = json?.AsArray;
+            var jsonArray = json.AsArray;
             if (jsonArray is null) return result;
             foreach (var (_, jsonNode) in jsonArray)
             {

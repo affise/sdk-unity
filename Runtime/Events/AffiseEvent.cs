@@ -117,7 +117,7 @@ namespace AffiseAttributionLib.Events
         /**
          * Add predefined ListGroup [value] of List<PredefinedGroup> to event
          */
-        // TODO PredefinedGroup
+        // PredefinedGroup
         // public AffiseEvent AddPredefinedListGroup(List<PredefinedGroup> value)
         // {
         //     if (!_predefinedParameters.ContainsKey(PredefinedGroup.NAME))

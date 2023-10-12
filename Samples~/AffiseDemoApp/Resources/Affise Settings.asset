@@ -17,5 +17,5 @@ MonoBehaviour:
   partParamNameToken: 
   appToken: 
   secretId: 93a40b54-6f12-443f-a250-ebf67c5ee4d2
-  isProduction: 1
+  isProduction: 0
   isActive: 1

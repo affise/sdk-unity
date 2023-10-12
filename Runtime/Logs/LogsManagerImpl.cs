@@ -90,7 +90,7 @@ namespace AffiseAttributionLib.Logs
 
             if (cloudException.Exception.GetType() == typeof(NetworkException))
             {
-                code = (cloudException.Exception as NetworkException)?.Status;
+                code = (cloudException.Exception as NetworkException)?.Code;
             }
 
             return new JSONObject

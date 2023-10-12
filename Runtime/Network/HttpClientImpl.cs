@@ -1,25 +1,34 @@
-﻿using System;
+﻿#nullable enable
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using AffiseAttributionLib.Network.Response;
+using AffiseAttributionLib.Debugger.Network;
 using UnityEngine.Networking;
 
 namespace AffiseAttributionLib.Network
 {
     public class HttpClientImpl : IHttpClient
     {
+        private DebugOnNetworkCallback? _debugRequest;
+
+        public void SetDebug(DebugOnNetworkCallback debugNetwork)
+        {
+            _debugRequest = debugNetwork;
+        }
+
         public IEnumerator ExecuteRequest(
             string httpsUrl,
             IHttpClient.Method method,
             string data,
             Dictionary<string, string> headers,
-            Action<string> onSuccess = null,
-            Action<ErrorResponse> onError = null
+            Action<HttpResponse>? onComplete = null
         )
         {
+            //Create data bytes
             var encodedData = Encoding.UTF8.GetBytes(data);
-
+            
+            //Create connection
             var request = new UnityWebRequest(httpsUrl);
             request.uploadHandler = new UploadHandlerRaw(encodedData);
             request.downloadHandler = new DownloadHandlerBuffer();
@@ -30,30 +39,46 @@ namespace AffiseAttributionLib.Network
             {
                 request.SetRequestHeader(key, value);
             }
-
+            
+            //Send request
             yield return request.SendWebRequest();
 
-            if (request.result == UnityWebRequest.Result.Success && request.responseCode == 200)
-            {
-                onSuccess?.Invoke(request.downloadHandler.text);
-            }
-            else
-            {
-                onError?.Invoke(new ErrorResponse(request.error, request.responseCode));
-            }
+            var responseCode = request.responseCode;
+            var responseMessage = request.error ?? "";
+            var responseBody = request.downloadHandler.text;
 
+            var response = new HttpResponse(
+                code: responseCode,
+                message: responseMessage,
+                body: responseBody
+            );
+            
+            // Complete request
+            onComplete?.Invoke(response);
+            
+            // Debug network
+            _debugRequest?.Invoke(
+                request: new HttpRequest(
+                    url: httpsUrl, 
+                    method: method, 
+                    headers: headers,
+                    body: data
+                ), 
+                response: response
+            );
+            
+            //Disconnect
             request.Dispose();
         }
 
-        private string RequestMethod(IHttpClient.Method method)
+        private static string RequestMethod(IHttpClient.Method method)
         {
-            var result = UnityWebRequest.kHttpVerbGET;
-            if (method == IHttpClient.Method.Post)
+            return method switch
             {
-                result = UnityWebRequest.kHttpVerbPOST;
-            }
-
-            return result;
+                IHttpClient.Method.GET => UnityWebRequest.kHttpVerbGET,
+                IHttpClient.Method.POST => UnityWebRequest.kHttpVerbPOST,
+                _ => UnityWebRequest.kHttpVerbPOST
+            };
         }
     }
 }

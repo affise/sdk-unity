@@ -1,6 +1,8 @@
 ﻿#nullable enable
 using System.Collections.Generic;
 using AffiseAttributionLib.AffiseParameters;
+using AffiseAttributionLib.Debugger.Network;
+using AffiseAttributionLib.Debugger.Validate;
 using AffiseAttributionLib.Deeplink;
 using AffiseAttributionLib.Events;
 using AffiseAttributionLib.Init;
@@ -61,5 +63,9 @@ namespace AffiseAttributionLib.Native
         void RegisterAppForAdNetworkAttribution(ErrorCallback completionHandler);
         
         void UpdatePostbackConversionValue(int fineValue, CoarseValue coarseValue, ErrorCallback completionHandler);
+
+        void Validate(DebugOnValidateCallback callback);
+
+        void Network(DebugOnNetworkCallback callback);
     }
 }

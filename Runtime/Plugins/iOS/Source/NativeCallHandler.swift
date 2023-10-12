@@ -21,7 +21,7 @@ public class NativeCallHandler: NSObject {
         var result: AffiseResult = ApiResult()
 
         guard let api = AffiseApiMethod.from(apiName) else {
-            print("error: [\(apiName)] AffiseApiMethod not found")
+            print("AffiseApi [\(apiName)] error: method not found")
             return nil
         }
 
@@ -30,17 +30,17 @@ public class NativeCallHandler: NSObject {
                 apiCall(api, data: dict, result: &result)
             }
         } catch {
-            print("error: \(error.localizedDescription)")
+            print("AffiseApi [\(apiName)] error: \(error.localizedDescription)")
             return nil
         }
 
         if (result as? ApiResult)?.isNotImplemented() == true {
-            print("error: api [\(api.method)] not implemented")
+            print("AffiseApi [\(apiName)] error: api not implemented")
             return nil
         }
 
         if let error = (result as? ApiResult)?.getError() {
-            print("error: \(error)")
+            print("AffiseApi [\(apiName)] error: \(error)")
             return nil
         }
 
@@ -73,12 +73,12 @@ public class NativeCallHandler: NSObject {
         case is String:
             return result as? T
         default:
-            print("error: api [\(apiName)] unsupported return type")
+            print("AffiseApi [\(apiName)] error: unsupported return type")
             return nil
         }
     }
 
     func apiCall(_ api: AffiseApiMethod, data: [String: Any?], result _: inout AffiseResult) {
-        print("error: api [\(api.method)] methods not implemented")
+        print("AffiseApi [\(api.method)] error: methods not implemented")
     }
 }

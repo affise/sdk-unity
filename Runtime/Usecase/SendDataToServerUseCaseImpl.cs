@@ -1,4 +1,5 @@
-﻿using System;
+﻿#nullable enable
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using AffiseAttributionLib.AffiseParameters.Factory;
@@ -8,6 +9,7 @@ using AffiseAttributionLib.Executors;
 using AffiseAttributionLib.Logs;
 using AffiseAttributionLib.Network;
 using AffiseAttributionLib.Network.Entity;
+using AffiseAttributionLib.Utils;
 
 namespace AffiseAttributionLib.Usecase
 {
@@ -93,26 +95,37 @@ namespace AffiseAttributionLib.Usecase
             _cloudRepository.Send(
                 PostBackModelsData(events, logs),
                 url,
-                success =>
+                response =>
                 {
-                    DeleteEvent(events, url);
-                    DeleteLog(logs, url);
-
-                    if (IsToSendWithDelay(url))
+                    if (HttpUtils.IsHttpValid(response.Code))
                     {
-                        SendWithDelay(url, onComplete);
+                        DeleteEvent(events, url);
+                        DeleteLog(logs, url);
+
+                        if (IsToSendWithDelay(url))
+                        {
+                            SendWithDelay(url, onComplete);
+                        }
+                        else
+                        {
+                            onComplete.Invoke();
+                        }
                     }
                     else
                     {
-                        onComplete?.Invoke();
+                        //Log error
+                        _logsManager.AddNetworkError(new CloudException(
+                            url: url,
+                            exception: new NetworkException(
+                                code: response.Code, 
+                                message: response.Body ?? ""
+                            ), 
+                            attempts: _attemptSend[url], 
+                            retry: true
+                        ));
+                        _attemptSend[url] += 1;
+                        SendWithDelay(url, onComplete);  
                     }
-                }, error =>
-                {
-                    //Log error
-                    _logsManager.AddNetworkError(new CloudException(url,
-                        new NetworkException(error.Message, error.Status), _attemptSend[url], true));
-                    _attemptSend[url] += 1;
-                    SendWithDelay(url, onComplete);
                 }
             );
         }

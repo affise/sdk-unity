@@ -10,7 +10,7 @@
     
     internal static class AffiseModulesExt
     {
-        public static string ToValue(this AffiseModules key)
+        public static string Module(this AffiseModules key)
         {
             return key switch
             {

@@ -56,7 +56,7 @@ namespace AffiseAttributionLib.Native.Android
             }
             catch (Exception e)
             {
-                Debug.LogError($"Api [ {apiName} ] error: {json}:\n {e}");
+                Debug.LogError($"AffiseApi [ {apiName} ] error: {json}:\n {e}");
             }
 
             return default;
@@ -75,7 +75,7 @@ namespace AffiseAttributionLib.Native.Android
             }
             catch (Exception e)
             {
-                Debug.LogError($"Api [ {apiName} ] error: {json}:\n {e}");
+                Debug.LogError($"AffiseApi [ {apiName} ] error: {json}:\n {e}");
             }
         }
 

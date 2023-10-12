@@ -1,4 +1,5 @@
 ﻿#nullable enable
+using System;
 using System.Collections.Generic;
 using AffiseAttributionLib.AffiseParameters.Base;
 using AffiseAttributionLib.Events;
@@ -29,6 +30,11 @@ namespace AffiseAttributionLib.AffiseParameters.Factory
         public T? GetProvider<T>() where T : Provider
         {
             return _providers.GetProvider<T>();
+        }
+        
+        public List<Provider> GetProviders(List<Type> types)
+        {
+            return _providers.GetProviders(types);
         }
 
         public List<Provider> GetProviders() => _providers;

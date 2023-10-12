@@ -2,7 +2,7 @@
 
 | Artifact      | Version              |
 |---------------|----------------------|
-| `attribution` | [`1.6.6`](/releases) |
+| `attribution` | [`1.6.7`](/releases) |
 
 - [Affise Unity package](#affise-unity-package)
 - [Description](#description)
@@ -38,6 +38,9 @@
   - [Deeplinks](#deeplinks)
     - [Android](#android-1)
     - [iOS](#ios-2)
+  - [Offline mode](#offline-mode)
+  - [Disable tracking](#disable-tracking)
+  - [Disable background tracking](#disable-background-tracking)
   - [Get random user Id](#get-random-user-id)
   - [Get random device Id](#get-random-device-id)
   - [Get providers](#get-providers)
@@ -48,6 +51,8 @@
       - [Referrer keys](#referrer-keys)
     - [StoreKit Ad Network](#storekit-ad-network)
 - [SDK to SDK integrations](#sdk-to-sdk-integrations)
+- [Debug](#debug)
+  - [Validate credentials](#validate-credentials)
 - [Troubleshoots](#troubleshoots)
   - [iOS](#ios-3)
 
@@ -72,7 +77,7 @@ Add package from git url `https://github.com/affise/sdk-unity.git`
 
 ### Integrate unitypackage file
 
-Download latest Affise SDK [`attribution-1.6.6.unitypackage`](https://github.com/affise/sdk-unity/releases/download/1.6.6/attribution-1.6.6.unitypackage)
+Download latest Affise SDK [`attribution-1.6.7.unitypackage`](https://github.com/affise/sdk-unity/releases/download/1.6.7/attribution-1.6.7.unitypackage)
 from [releases page](https://github.com/affise/sdk-unity/releases) and drop this file to unity editor
 
 ### Initialize
@@ -151,16 +156,16 @@ Add modules to iOS project
 
 | Module                | Version  |
 |-----------------------|:--------:|
-| `AffiseModule/Status` | `1.6.12` |
+| `AffiseModule/Status` | `1.6.13` |
 
 ```rb
 platform :ios, '11.0'
 
 target 'UnityFramework' do
-  pod 'AffiseInternal', '~> 1.6.12'
+  pod 'AffiseInternal', '1.6.13'
 
   # Affise Modules
-  pod 'AffiseModule/Status', `~> 1.6.12`
+  pod 'AffiseModule/Status', `1.6.13`
 end
 
 target 'Unity-iPhone' do
@@ -189,10 +194,10 @@ Podfile:
 platform :ios, '11.0'
 
 target 'UnityFramework' do
-  pod 'AffiseInternal', '~> 1.6.12'
+  pod 'AffiseInternal', '1.6.13'
 
   # Affise Modules
-  # pod 'AffiseModule/Status', `~> 1.6.12`
+  # pod 'AffiseModule/Status', `1.6.13`
 end
 
 target 'Unity-iPhone' do
@@ -587,6 +592,10 @@ but if there is no network connection or device is disabled, events are kept loc
 To let affise track push token you need to receive it from your push service provider, and pass to Affise library.
 First add firebase integration to your app completing these steps: Firebase [iOS](https://firebase.google.com/docs/cloud-messaging/ios/client) or [Android](https://firebase.google.com/docs/cloud-messaging/android/client) Docs
 
+```c#
+Affise.AddPushToken(token);
+```
+
 ## Deeplinks
 
 - register applink callback right after Affise.Init(..)
@@ -642,6 +651,61 @@ Add key `CFBundleURLTypes` to `Info.plist` file in Xcode project folder
         </array>
     </dict>
 </array>
+```
+
+## Offline mode
+
+In some scenarios you would want to limit Affise network usage, to pause that activity call anywhere in your application following code after Affise init:
+
+```c#
+Affise.SetOfflineModeEnabled(true) // to enable offline mode
+Affise.SetOfflineModeEnabled(false) // to disable offline mode
+```
+
+While offline mode is enabled, your metrics and other events are kept locally, and will be delivered once offline mode is disabled.
+Offline mode is persistent as Application lifecycle, and will be disabled with process termination automatically.
+To check current offline mode status call:
+
+```c#
+Affise.IsOfflineModeEnabled() // returns true or false describing current tracking state
+```
+
+## Disable tracking
+
+To disable any tracking activity, storing events and gathering device identifiers and metrics call anywhere in your application following code after Affise init:
+
+```c#
+Affise.SetTrackingEnabled(true) // to enable tracking
+Affise.SetTrackingEnabled(false) // to disable tracking
+```
+
+By default tracking is enabled.
+
+While tracking mode is disabled, metrics and other identifiers is not generated locally.
+Keep in mind that this flag is persistent until app reinstall, and don't forget to reactivate tracking when needed.
+To check current status of tracking call:
+
+```c#
+Affise.IsTrackingEnabled() // returns true or false describing current tracking state
+```
+
+## Disable background tracking
+
+To disable any background tracking activity, storing events and gathering device identifiers and metrics call anywhere in your application following code after Affise init:
+
+```c#
+Affise.SetBackgroundTrackingEnabled(true) // to enable background tracking
+Affise.SetBackgroundTrackingEnabled(false) // to disable background tracking
+```
+
+By default background tracking is enabled.
+
+While background tracking mode is disabled, metrics and other identifiers is not generated locally.
+Background tracking mode is persistent as Application lifecycle, and will be re-enabled with process termination automatically.
+To check current status of background tracking call:
+
+```c#
+Affise.IsBackgroundTrackingEnabled() // returns true or false describing current background tracking state
 ```
 
 ## Get random user Id
@@ -788,6 +852,35 @@ new AffiseAdRevenue(AffiseAdSource.ADMOB)
         .SetUnit("ImpressionData_Unit")
         .SetPlacement("ImpressionData_Placement")
         .Send();
+```
+
+# Debug
+
+## Validate credentials
+
+> **Warning**
+> Debug methods WON'T work on Production
+
+Validate your credentials by receiving `ValidationStatus` values:
+
+- `VALID` - your credentials are valid
+- `INVALID_APP_ID` - your app id is not valid 
+- `INVALID_SECRET_KEY` - your SDK secretKey is not valid
+- `PACKAGE_NAME_NOT_FOUND` - your application package name not found
+- `NOT_WORKING_ON_PRODUCTION` - you using debug method on production
+- `NETWORK_ERROR` - network or server not available (for example `Airoplane mode` is active)
+
+```c#
+Affise.Init(new AffiseInitProperties(
+    affiseAppId: "Your appId",
+    secretKey: "Your SDK secretKey",
+    isProduction: false //To enable debug methods set Production to false
+));
+
+Affise.Debug.Validate(status =>
+{
+    // Handle validation status
+});
 ```
 
 # Troubleshoots

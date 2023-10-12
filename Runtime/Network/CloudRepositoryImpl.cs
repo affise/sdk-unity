@@ -1,29 +1,28 @@
-﻿using System;
+﻿#nullable enable
+using System;
 using System.Collections.Generic;
-using AffiseAttributionLib.AffiseParameters;
 using AffiseAttributionLib.AffiseParameters.Providers;
 using AffiseAttributionLib.Converter;
 using AffiseAttributionLib.Executors;
 using AffiseAttributionLib.Network.Entity;
-using AffiseAttributionLib.Network.Response;
 
 namespace AffiseAttributionLib.Network
 {
     public class CloudRepositoryImpl : ICloudRepository
     {
-        private readonly IHttpClient _httpClientImpl;
-        private readonly UserAgentProvider _userAgentProvider;
+        private readonly IHttpClient _httpClient;
+        private readonly UserAgentProvider? _userAgentProvider;
         private readonly IConverter<List<PostBackModel>, string> _postBackModelToJsonStringConverter;
         private readonly IExecutorServiceProvider _executorServiceProvider;
 
         public CloudRepositoryImpl(
             IExecutorServiceProvider executorServiceProvider,
-            IHttpClient httpClientImpl,
-            UserAgentProvider userAgentProvider,
+            IHttpClient httpClient,
+            UserAgentProvider? userAgentProvider,
             IConverter<List<PostBackModel>, string> postBackModelToJsonStringConverter)
         {
             _executorServiceProvider = executorServiceProvider;
-            _httpClientImpl = httpClientImpl;
+            _httpClient = httpClient;
             _userAgentProvider = userAgentProvider;
             _postBackModelToJsonStringConverter = postBackModelToJsonStringConverter;
         }
@@ -31,28 +30,25 @@ namespace AffiseAttributionLib.Network
         public void Send(
             List<PostBackModel> data,
             string url,
-            Action<string> onSuccess,
-            Action<ErrorResponse> onError
+            Action<HttpResponse>? onComplete = null
         )
         {
-            CreateRequest(url, data, onSuccess, onError);
+            CreateRequest(url, data, onComplete);
         }
 
         private void CreateRequest(
             string url,
             List<PostBackModel> data,
-            Action<string> onSuccess = null,
-            Action<ErrorResponse> onError = null
+            Action<HttpResponse>? onComplete = null
         )
         {
             _executorServiceProvider.Execute(
-                _httpClientImpl.ExecuteRequest(
+                _httpClient.ExecuteRequest(
                     url,
-                    IHttpClient.Method.Post,
+                    IHttpClient.Method.POST,
                     _postBackModelToJsonStringConverter.Convert(data),
                     CreateHeaders(),
-                    onSuccess,
-                    onError
+                    onComplete
                 )
             );
         }
@@ -61,7 +57,7 @@ namespace AffiseAttributionLib.Network
         {
             return new Dictionary<string, string>
             {
-                { "User-Agent", _userAgentProvider.ProvideWithDefault() },
+                { "User-Agent", _userAgentProvider?.ProvideWithDefault() ?? "" },
                 { "Content-Type", "application/json; charset=utf-8" }
             };
         }

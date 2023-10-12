@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Globalization;
 using SimpleJSON;
-using UnityEngine;
 
 namespace AffiseAttributionLib.Extensions
 {
     internal static class JSONObjectExt
     {
-        public static JSONNode? ToJsonNode(this object value)
+        public static JSONNode? ToJsonNode(this object? value)
         {
+            if (value is null) return JSONNull.CreateOrGet();
             var json = value switch
             {
                 string stringValue => new JSONString(stringValue),
@@ -28,7 +28,7 @@ namespace AffiseAttributionLib.Extensions
                 List<float> listValue => listValue.ToJsonArray(),
                 List<double> listValue => listValue.ToJsonArray(),
                 List<bool> listValue => listValue.ToJsonArray(),
-                _ => null
+                _ => JSONNull.CreateOrGet()
             };
             return json;
         }
@@ -65,6 +65,19 @@ namespace AffiseAttributionLib.Extensions
                 if (key is null) continue;
                 if (value is null) continue;
                 result[key] = value.ToJsonNode();
+            }
+
+            return result;
+        }
+
+        public static Dictionary<string, string> ToMapOfStrings(this JSONObject json)
+        {
+            var result = new Dictionary<string, string>();
+            
+            foreach (var (key, value) in json)
+            {
+                if (key is null) continue;
+                result.Add(key, value.Value);
             }
 
             return result;

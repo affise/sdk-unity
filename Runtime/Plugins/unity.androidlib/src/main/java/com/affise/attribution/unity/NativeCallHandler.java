@@ -24,17 +24,17 @@ public abstract class NativeCallHandler {
         );
 
         if (result.isNotImplemented()) {
-            throw new Exception(String.format("error: api [%s]: not implemented", apiName));
+            throw new Exception(String.format("AffiseApi [%s] error: not implemented", apiName));
         }
 
         if (result.isError()) {
-            throw new Exception(String.format("error: [%s]", result.getError()));
+            throw new Exception(String.format("AffiseApi [%s] error: [%s]", apiName, result.getError()));
         }
 
         try {
             return asNativeData(result);
         } catch (Exception e) {
-            throw new Exception(String.format("error: [%s]", e.getLocalizedMessage()));
+            throw new Exception(String.format("AffiseApi [%s] error: [%s]", apiName, e.getLocalizedMessage()));
         }
     }
 

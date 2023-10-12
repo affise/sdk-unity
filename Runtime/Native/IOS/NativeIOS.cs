@@ -63,7 +63,7 @@ namespace AffiseAttributionLib.Native.IOS
             }
             catch (Exception e)
             {
-                Debug.LogError($"Api [ {apiName} ] error: {json}:\n {e}");
+                Debug.LogError($"AffiseApi [ {apiName} ] error: {json}:\n {e}");
             }
             return default;
         }
@@ -81,7 +81,7 @@ namespace AffiseAttributionLib.Native.IOS
             }
             catch (Exception e)
             {
-                Debug.LogError($"Api [ {apiName} ] error: {json}:\n {e}");
+                Debug.LogError($"AffiseApi [ {apiName} ] error: {json}:\n {e}");
             }
         }
 

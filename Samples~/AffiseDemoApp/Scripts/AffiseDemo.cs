@@ -1,16 +1,17 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using AffiseAttributionLib;
 using AffiseAttributionLib.AffiseParameters;
 using AffiseAttributionLib.Init;
 using AffiseAttributionLib.Modules;
 using AffiseAttributionLib.Referrer;
-using AffiseAttributionLib.SKAd;
 using AffiseAttributionLib.Utils;
 using UnityEngine;
 using UnityEngine.UIElements;
+#if UNITY_IOS
+using AffiseAttributionLib.SKAd;
+#endif
 
 namespace AffiseDemo
 {
@@ -18,8 +19,6 @@ namespace AffiseDemo
     [RequireComponent(typeof(UIDocument))]
     public class AffiseDemo : MonoBehaviour
     {
-        #region setup
-
         #region variables
 
         private DefaultEventsFactory? _eventsFactory;
@@ -32,23 +31,17 @@ namespace AffiseDemo
 
         private ReferrerKey _refKey;
 
-        private Dictionary<CallbackEventHandler, EventCallback<ClickEvent>> _ClickCallback = new();
+        private readonly Dictionary<CallbackEventHandler, EventCallback<ClickEvent>> _clickCallback = new();
 
         #endregion variables
 
         private void Start()
         {
             BindView();
-            
-            // For manual init delete "Affise Settings.asset"   
-            // var properties = new AffiseInitProperties(
-            //     affiseAppId: "129",
-            //     secretKey: "93a40b54-6f12-443f-a250-ebf67c5ee4d2"
-            // );
-            // Affise.Init(properties);
-
-            InitApi(_apiScrollView);
-            InitEvents(_eventScrollView);
+        
+            AffiseInit();
+            AffiseApi(_apiScrollView);
+            AffiseEvents(_eventScrollView);
         }
 
         private void OnDestroy()
@@ -56,6 +49,173 @@ namespace AffiseDemo
             UnBindView();
         }
 
+        private void AffiseInit()
+        {
+            // Initialize https://github.com/affise/sdk-unity#manual
+            // For manual init delete "Affise Settings.asset"   
+            // var properties = new AffiseInitProperties(
+            //     affiseAppId: "129",
+            //     secretKey: "93a40b54-6f12-443f-a250-ebf67c5ee4d2",
+            //     isProduction: false //To enable debug methods set Production to false
+            // );
+            // Affise.Init(properties);
+
+            // Debug: network request/response
+            Affise.Debug.Network((request, response) =>
+            {
+                Debug.Log($"Affise: {request}");
+                Debug.Log($"Affise: {response}");
+            });
+        }
+
+        private void AffiseApi(VisualElement? view)
+        {
+            if (view is null) return;
+
+            view.AddButton("Debug: Validate credentials", () =>
+            {
+                // Debug: Validate credentials https://github.com/affise/sdk-unity#validate-credentials
+                Affise.Debug.Validate(status =>
+                {
+                    Output($"Validate: {status}");
+                });
+            });
+            
+            view.AddButton("RegisterDeeplinkCallback", () =>
+            {
+                // Deeplinks https://github.com/affise/sdk-unity#deeplinks
+                Affise.RegisterDeeplinkCallback(uri =>
+                {
+                    Output($"Deeplink: {uri}");
+                    return true;
+                });
+            });
+            
+            view.AddButton("Get Referrer", () =>
+            {
+                // Get referrer https://github.com/affise/sdk-unity#get-referrer
+                Affise.Android.GetReferrer(value =>
+                {
+                    Output($"GetReferrer: {value}");
+                });
+            });
+
+            AddReferrerDropdown(view);
+
+            view.AddButton("Get Referrer Value", () => 
+            {
+                // Get referrer parameter https://github.com/affise/sdk-unity#get-referrer-parameter
+                Affise.Android.GetReferrerValue(_refKey, value =>
+                {
+                    Output($"GetReferrerValue: {_refKey.ToString()} = {value}");
+                });
+            });
+
+            view.AddButton("Get Status", () =>
+            {
+                // Get module status https://github.com/affise/sdk-unity#get-module-state
+                Affise.GetStatus(AffiseModules.Status, value =>
+                {
+                    Output($"GetStatus: Count = {value.Count}");
+                    foreach (var keyValue in value)
+                    {
+                        Output($"GetStatus: {keyValue.Key}: {keyValue.Value}");
+                    }
+                });
+            });
+
+#if UNITY_IOS
+            view.AddButton("SKAd Register", () =>
+            {
+                // StoreKit Ad Network https://github.com/affise/sdk-unity#storekit-ad-network
+                Affise.IOS.RegisterAppForAdNetworkAttribution(error =>
+                {
+                    Output($"SKAd Register: {error}");
+                });
+            });
+            
+            view.AddButton("SKAd Postback", () =>
+            {
+                // StoreKit Ad Network https://github.com/affise/sdk-unity#storekit-ad-network
+                Affise.IOS.UpdatePostbackConversionValue(
+                    1,
+                    SKAdNetwork.CoarseConversionValue.Medium,
+                    error =>
+                    {
+                        Output($"SKAd Postback: {error}");
+                    });
+            });
+#endif
+
+            view.AddButton("Random push Token", () =>
+            {
+                var token = Uuid.Generate();
+                // Push token tracking https://github.com/affise/sdk-unity#push-token-tracking
+                Affise.AddPushToken(token);
+                Output($"AddPushToken: {token}");
+            });
+
+            view.AddButton("Is Offline Mode", () =>
+            {
+                // Offline mode https://github.com/affise/sdk-unity#offline-mode
+                var value = Affise.IsOfflineModeEnabled() ?? false;
+                Output($"IsOfflineModeEnabled: {(value ? "true" : "false")}");
+            });
+
+            view.AddButton("Get Random User Id", () =>
+            {
+                // Get random user Id https://github.com/affise/sdk-unity#get-random-user-id
+                var value = Affise.GetRandomUserId();
+                Output($"GetRandomUserId: {value}");
+            });
+
+            view.AddButton("Get Random Device Id", () =>
+            {
+                // Get random device Id https://github.com/affise/sdk-unity#get-random-device-id
+                var value = Affise.GetRandomDeviceId();
+                Output($"GetRandomDeviceId: {value}");
+            });
+
+            view.AddButton("Get Providers", () =>
+            {
+                // Get providers https://github.com/affise/sdk-unity#get-providers
+                var providers = Affise.GetProviders();
+                var key = ProviderType.AFFISE_APP_TOKEN;
+                if (providers.ContainsKey(key))
+                {
+                    Output($"GetProviders: {key.Provider()} = {providers[key]}");
+                }
+                else
+                {
+                    Output($"GetProviders: key = {key.Provider()} not found");
+                }
+
+                // foreach (var (type, value) in providers)
+                // {
+                //     Console.WriteLine($"{type.Provider()} = {value}");
+                // }
+            });
+        }
+
+        private void AffiseEvents(VisualElement? view)
+        {
+            if (view is null) return;
+            view.Clear();
+            if (_eventsFactory is null) return;
+            foreach (var affiseEvent in _eventsFactory.CreateEvents())
+            {
+                view.AddButton(affiseEvent.GetName(), () => { 
+                    // Events tracking https://github.com/affise/sdk-unity#events-tracking
+                    // Send event
+                    affiseEvent.Send();
+                    // or
+                    // Affise.SendEvent(affiseEvent);
+                });
+            }
+        }
+
+        #region UI utils
+        
         private void BindView()
         {
             _eventsFactory = GetComponent<DefaultEventsFactory>();
@@ -106,12 +266,12 @@ namespace AffiseDemo
 
         private void UnBindButtons()
         {
-            foreach (var (button, callback) in _ClickCallback)
+            foreach (var (button, callback) in _clickCallback)
             {
                 button.UnregisterCallback(callback);
             }
 
-            _ClickCallback.Clear();
+            _clickCallback.Clear();
         }
 
         private Button BindButton(string btnName, Action action)
@@ -124,7 +284,7 @@ namespace AffiseDemo
             var button = _root.Q<Button>(btnName);
             button.RegisterCallback(callback);
 
-            _ClickCallback[button] = callback;
+            _clickCallback[button] = callback;
 
             return button;
         }
@@ -134,143 +294,14 @@ namespace AffiseDemo
             (e.target as VisualElement)?.SafeAreaMargin();
         }
 
-        #endregion setup
-
-        private void InitApi(VisualElement? view)
+        private void AddReferrerDropdown(VisualElement view)
         {
-            if (view is null) return;
-
-            view.AddButton("RegisterDeeplinkCallback", () =>
+            view.AddDropdown("", AffiseDemoUtils.ReferrerValues(), refName =>
             {
-                Affise.RegisterDeeplinkCallback(uri =>
-                {
-                    Output($"Deeplink: {uri}");
-                    return true;
-                });
-            });
-            
-            view.AddButton("Get Referrer", () =>
-            {
-                Affise.Android.GetReferrer(value =>
-                {
-                    Output($"GetReferrer: {value}");
-                });
-            });
-
-            view.AddDropdown("", ReferrerValues(), refName =>
-            {
-                _refKey = ToReferrer(refName);
-            });
-
-            view.AddButton("Get Referrer Value", () => 
-            {
-                Affise.Android.GetReferrerValue(_refKey, value =>
-                {
-                    Output($"GetReferrerValue: {_refKey.ToString()} = {value}");
-                });
-            });
-
-            view.AddButton("Get Status", () =>
-            {
-                Affise.GetStatus(AffiseModules.Status, value =>
-                {
-                    Output($"GetStatus: Count = {value.Count}");
-                    foreach (var keyValue in value)
-                    {
-                        Output($"GetStatus: {keyValue.Key}: {keyValue.Value}");
-                    }
-                });
-            });
-
-#if UNITY_IOS
-            view.AddButton("SKAd Register", () =>
-            {
-                Affise.IOS.RegisterAppForAdNetworkAttribution(error =>
-                {
-                    Output($"SKAd Register: {error}");
-                });
-            });
-            
-            view.AddButton("SKAd Postback", () =>
-            {
-                Affise.IOS.UpdatePostbackConversionValue(
-                    1,
-                    SKAdNetwork.CoarseConversionValue.Medium,
-                    error =>
-                    {
-                        Output($"SKAd Postback: {error}");
-                    });
-            });
-#endif
-
-            view.AddButton("Random push Token", () =>
-            {
-                var token = Uuid.Generate();
-                Affise.AddPushToken(token);
-                Output($"AddPushToken: {token}");
-            });
-
-            view.AddButton("Is Offline Mode", () =>
-            {
-                var value = Affise.IsOfflineModeEnabled() ?? false;
-                Output($"IsOfflineModeEnabled: {(value ? "true" : "false")}");
-            });
-
-            view.AddButton("Get Random User Id", () =>
-            {
-                var value = Affise.GetRandomUserId();
-                Output($"GetRandomUserId: {value}");
-            });
-
-            view.AddButton("Get Random Device Id", () =>
-            {
-                var value = Affise.GetRandomDeviceId();
-                Output($"GetRandomDeviceId: {value}");
-            });
-
-            view.AddButton("Get Providers", () =>
-            {
-                var providers = Affise.GetProviders();
-                var key = ProviderType.AFFISE_APP_TOKEN;
-                if (providers.ContainsKey(key))
-                {
-                    Output($"GetProviders: {key.Provider()} = {providers[key]}");
-                }
-                else
-                {
-                    Output($"GetProviders: key = {key.Provider()} not found");
-                }
+                _refKey = AffiseDemoUtils.ToReferrer(refName);
             });
         }
 
-        private void InitEvents(VisualElement? view)
-        {
-            if (view is null) return;
-            view.Clear();
-            if (_eventsFactory is null) return;
-            foreach (var affiseEvent in _eventsFactory.CreateEvents())
-            {
-                view.AddButton(affiseEvent.GetName(), () => { 
-                    // Send event
-                    affiseEvent.Send();
-                    // or
-                    // Affise.SendEvent(affiseEvent);
-                });
-            }
-        }
-
-        private List<string> ReferrerValues()
-        {
-            return Enum.GetValues(typeof(ReferrerKey))
-                .Cast<ReferrerKey>()
-                .Select(s => s.ToString())
-                .ToList();
-        }
-
-        private ReferrerKey ToReferrer(string referrerName)
-        {
-            Enum.TryParse(referrerName, out ReferrerKey referrer);
-            return referrer;
-        }
+        #endregion UI utils
     }
 }

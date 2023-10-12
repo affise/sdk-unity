@@ -1,4 +1,5 @@
-﻿using System;
+﻿#nullable enable
+using System;
 
 namespace AffiseAttributionLib.Native
 {
@@ -33,21 +34,26 @@ namespace AffiseAttributionLib.Native
         REGISTER_DEEPLINK_CALLBACK,
         SKAD_REGISTER_ERROR_CALLBACK,
         SKAD_POSTBACK_ERROR_CALLBACK,
+        
+        // debug
+        DEBUG_VALIDATE_CALLBACK,
+        DEBUG_NETWORK_CALLBACK,
     }
     
     internal static class AffiseApiMethodExt
     {
-        public static AffiseApiMethod? ToAffiseApiMethod(this string name)
+        public static AffiseApiMethod? ToAffiseApiMethod(this string? name)
         {
+            if (string.IsNullOrWhiteSpace(name)) return null;
             foreach (var value in Enum.GetValues(typeof(AffiseApiMethod)))
             {
                 if (value is not AffiseApiMethod method) continue;
-                if (name == method.ToValue()) return method;
+                if (name == method.ToMethod()) return method;
             }
             return null;
         }
 
-        public static string ToValue(this AffiseApiMethod method)
+        public static string? ToMethod(this AffiseApiMethod method)
         {
             return method switch
             {
@@ -79,6 +85,10 @@ namespace AffiseAttributionLib.Native
                 AffiseApiMethod.REGISTER_DEEPLINK_CALLBACK => "register_deeplink_callback",
                 AffiseApiMethod.SKAD_REGISTER_ERROR_CALLBACK => "skad_register_error_callback",
                 AffiseApiMethod.SKAD_POSTBACK_ERROR_CALLBACK => "skad_postback_error_callback",
+                // debug
+                AffiseApiMethod.DEBUG_VALIDATE_CALLBACK => "debug_validate_callback",
+                AffiseApiMethod.DEBUG_NETWORK_CALLBACK => "debug_network_callback",
+
                 _ => null
             };
         }

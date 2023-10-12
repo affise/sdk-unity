@@ -1,6 +1,7 @@
-﻿using System;
+﻿#nullable enable
+using System;
 using System.Collections.Generic;
-using AffiseAttributionLib.Network.Response;
+using AffiseAttributionLib.Debugger.Network;
 
 namespace AffiseAttributionLib.Network
 {
@@ -8,8 +9,8 @@ namespace AffiseAttributionLib.Network
     {
         public enum Method
         {
-            Get,
-            Post
+            GET,
+            POST
         }
 
         System.Collections.IEnumerator ExecuteRequest(
@@ -17,8 +18,9 @@ namespace AffiseAttributionLib.Network
             Method method,
             string data,
             Dictionary<string, string> headers,
-            Action<string> onSuccess = null,
-            Action<ErrorResponse> onError = null
+            Action<HttpResponse>? onComplete = null
         );
+
+        void SetDebug(DebugOnNetworkCallback debugNetwork);
     }
 }

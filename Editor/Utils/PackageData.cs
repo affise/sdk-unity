@@ -1,4 +1,5 @@
 ﻿#nullable enable
+using System;
 using System.Linq;
 using SimpleJSON;
 using UnityEditor;
@@ -12,16 +13,24 @@ namespace AffiseAttributionLib.Editor.Utils
 
         private static JSONObject? GetPackage()
         {
-            var package = AssetDatabase
-                .FindAssets("package")
-                .Select(AssetDatabase.GUIDToAssetPath)
-                .Where(x => x.EndsWith("package.json"))
-                .Where(x => AssetDatabase.LoadAssetAtPath<TextAsset>(x) is not null)
-                .Select(s => AssetDatabase.LoadAssetAtPath<TextAsset>(s).text)
-                .Select(JSON.Parse)
-                .FirstOrDefault(x => x["name"] == "com.affise.attribution");
+            try
+            {
+                return AssetDatabase
+                    .FindAssets("package")
+                    .Select(AssetDatabase.GUIDToAssetPath)
+                    .Where(x => x.EndsWith("package.json"))
+                    .Where(x => AssetDatabase.LoadAssetAtPath<TextAsset>(x) is not null)
+                    .Select(s => AssetDatabase.LoadAssetAtPath<TextAsset>(s).text)
+                    .Select(JSON.Parse)
+                    .FirstOrDefault(x => x["name"] == "com.affise.attribution")
+                    ?.AsObject;
+            }
+            catch (Exception)
+            {
+                // ignored
+            }
 
-            return package?.AsObject;
+            return null;
         }
 
         public static JSONObject? GetAuthor()
