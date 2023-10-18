@@ -2,7 +2,7 @@
 
 | Artifact      | Version              |
 |---------------|----------------------|
-| `attribution` | [`1.6.7`](/releases) |
+| `attribution` | [`1.6.8`](/releases) |
 
 - [Affise Unity package](#affise-unity-package)
 - [Description](#description)
@@ -77,7 +77,7 @@ Add package from git url `https://github.com/affise/sdk-unity.git`
 
 ### Integrate unitypackage file
 
-Download latest Affise SDK [`attribution-1.6.7.unitypackage`](https://github.com/affise/sdk-unity/releases/download/1.6.7/attribution-1.6.7.unitypackage)
+Download latest Affise SDK [`attribution-1.6.8.unitypackage`](https://github.com/affise/sdk-unity/releases/download/1.6.8/attribution-1.6.8.unitypackage)
 from [releases page](https://github.com/affise/sdk-unity/releases) and drop this file to unity editor
 
 ### Initialize
@@ -156,16 +156,16 @@ Add modules to iOS project
 
 | Module                | Version  |
 |-----------------------|:--------:|
-| `AffiseModule/Status` | `1.6.13` |
+| `AffiseModule/Status` | [`1.6.14`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) |
 
 ```rb
 platform :ios, '11.0'
 
 target 'UnityFramework' do
-  pod 'AffiseInternal', '1.6.13'
+  pod 'AffiseInternal', '1.6.14'
 
   # Affise Modules
-  pod 'AffiseModule/Status', `1.6.13`
+  pod 'AffiseModule/Status', `1.6.14`
 end
 
 target 'Unity-iPhone' do
@@ -194,10 +194,10 @@ Podfile:
 platform :ios, '11.0'
 
 target 'UnityFramework' do
-  pod 'AffiseInternal', '1.6.13'
+  pod 'AffiseInternal', '1.6.14'
 
   # Affise Modules
-  # pod 'AffiseModule/Status', `1.6.13`
+  # pod 'AffiseModule/Status', `1.6.14`
 end
 
 target 'Unity-iPhone' do
