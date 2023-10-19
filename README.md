@@ -13,11 +13,13 @@
     - [Initialize](#initialize)
       - [Unity asset](#unity-asset)
       - [Manual](#manual)
+    - [Requirements](#requirements)
+      - [iOS](#ios)
     - [Add platform modules](#add-platform-modules)
       - [Android](#android)
-      - [iOS](#ios)
+      - [iOS](#ios-1)
   - [Build](#build)
-    - [iOS](#ios-1)
+    - [iOS](#ios-2)
 - [Features](#features)
   - [ProviderType identifiers collection](#providertype-identifiers-collection)
     - [Attribution](#attribution)
@@ -37,7 +39,7 @@
   - [Push token tracking](#push-token-tracking)
   - [Deeplinks](#deeplinks)
     - [Android](#android-1)
-    - [iOS](#ios-2)
+    - [iOS](#ios-3)
   - [Offline mode](#offline-mode)
   - [Disable tracking](#disable-tracking)
   - [Disable background tracking](#disable-background-tracking)
@@ -54,7 +56,7 @@
 - [Debug](#debug)
   - [Validate credentials](#validate-credentials)
 - [Troubleshoots](#troubleshoots)
-  - [iOS](#ios-3)
+  - [iOS](#ios-4)
 
 # Description
 
@@ -120,6 +122,24 @@ var properties = new AffiseInitProperties(
     secretKey: "Your SDK secretKey" //Change to your SDK secretKey
 );
 Affise.Init(properties);
+```
+
+### Requirements
+
+#### iOS
+
+Affise SDK uses `AppTrackingTransparency` framework to get `advertisingIdentifier`
+For working functionality your app needs to declare [`NSUserTrackingUsageDescription` permission](https://developer.apple.com/documentation/bundleresources/information_property_list/nsusertrackingusagedescription):
+
+Open XCode project `info.plist` and add key `NSUserTrackingUsageDescription` with string value
+
+```xml
+<plist version="1.0">
+<dict>
+    ...
+	<key>NSUserTrackingUsageDescription</key>
+	<string>Youre permission text</string>
+</dict>
 ```
 
 ### Add platform modules
@@ -892,4 +912,4 @@ Affise.Debug.Validate(status =>
 > The app's `Info.plist` must contain an `NSUserTrackingUsageDescription` key with a string value explaining
 > to the user how the app uses this data.
 
-Open `info.plist` and add key `NSUserTrackingUsageDescription` with string value
+Open `info.plist` and add key `NSUserTrackingUsageDescription` with string value. For more information [read requirements](#requirements)
