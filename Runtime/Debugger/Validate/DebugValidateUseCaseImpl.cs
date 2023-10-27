@@ -15,7 +15,8 @@ namespace AffiseAttributionLib.Debugger.Validate
 {
     internal class DebugValidateUseCaseImpl : IDebugValidateUseCase
     {
-        private const string URL = "https://tracking.affattr.com/postback/validate";
+        private const string Path = "postback/validate";
+        private readonly string _url = CloudConfig.GetUrl(Path);
 
         private const string KEY = "message";
         private const string INVALID_APP_ID = "Invalid affise_app_id";
@@ -94,7 +95,7 @@ namespace AffiseAttributionLib.Debugger.Validate
         {
             _executorServiceProvider.Execute(
                 _httpClient.ExecuteRequest(
-                    URL,
+                    _url,
                     IHttpClient.Method.POST,
                     _converter.Convert(_providers),
                     CloudConfig.Headers,

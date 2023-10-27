@@ -180,7 +180,7 @@ namespace AffiseAttributionLib.Native
                     (callback as ReferrerCallback)?.Invoke(json?.Value);
                     break;
                 case AffiseApiMethod.GET_STATUS_CALLBACK:
-                    var values = json?.ToAffiseKeyValueList() ?? new List<AffiseKeyValue>();
+                    var values = json.ToAffiseKeyValueList();
                     (callback as OnKeyValueCallback)?.Invoke(values);
                     break;
                 case AffiseApiMethod.SKAD_REGISTER_ERROR_CALLBACK:

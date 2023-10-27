@@ -19,7 +19,7 @@
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
-    <uie:ObjectField name="settings-asset" type="AffiseAttributionLib.AffiseSettings, Affise" allow-scene-objects="false" class="ms-3 no-label mb-2 me-2" style="flex-direction: column; -unity-text-align: upper-center; -unity-font-style: bold;" />
+    <uie:ObjectField name="settings-asset" type="AffiseAttributionLib.Unity.AffiseSettings, Affise" allow-scene-objects="false" class="ms-3 no-label mb-2 me-2" style="flex-direction: column; -unity-text-align: upper-center; -unity-font-style: bold;" />
     <ui:VisualElement name="settings-new-view" class="grow mt-3" style="display: flex; margin-top: 0;">
         <ui:VisualElement class="center grow">
             <ui:VisualElement>

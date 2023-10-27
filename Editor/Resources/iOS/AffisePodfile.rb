@@ -1,10 +1,10 @@
 platform :ios, '11.0'
 
 target 'UnityFramework' do
-   pod 'AffiseInternal', '1.6.14'
+   pod 'AffiseInternal', '1.6.15'
 
    # Affise Modules
-   # pod 'AffiseModule', '1.6.14'
+   # pod 'AffiseModule', '1.6.15'
 end
 
 target 'Unity-iPhone' do

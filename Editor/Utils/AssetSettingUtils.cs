@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using AffiseAttributionLib.Editor.Menu;
+using AffiseAttributionLib.Unity;
 using UnityEditor;
 using UnityEngine;
 

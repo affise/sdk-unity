@@ -28,9 +28,10 @@
             <ui:TextField label="App Id" name="appId" tooltip="Your app id" class="mb-2" style="flex-grow: 1; flex-direction: column;" />
             <ui:TextField label="Secret Key" name="secretId" tooltip="Your SDK secretKey" class="mb-2" style="flex-grow: 1; flex-direction: column;" />
         </ui:VisualElement>
-        <ui:Foldout text="Optional" value="false" style="color: rgba(210, 210, 210, 0.78);">
+        <ui:Foldout text="Optional" value="false" style="color: rgba(210, 210, 210, 0.78); display: flex;">
             <ui:VisualElement class="label-bold pt-2 pb-4" style="align-items: stretch;">
                 <ui:Toggle label="Is Production" name="isProduction" value="true" class="mb-2" style="flex-grow: 1; flex-direction: row; flex-wrap: nowrap;" />
+                <ui:TextField label="Domain (Optional)" name="domain" class="mb-2" style="flex-grow: 1; flex-direction: column;" />
                 <ui:VisualElement name="warning" class="msg-box my-2 p-3 color-alert bg-alert border-alert" style="margin-left: 3px; margin-right: 3px;">
                     <ui:Label text="Leave this fields blank" display-tooltip-when-elided="true" style="-unity-text-align: middle-left;" />
                 </ui:VisualElement>

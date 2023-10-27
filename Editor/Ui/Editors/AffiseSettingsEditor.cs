@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using AffiseAttributionLib.Editor.Extensions;
 using AffiseAttributionLib.Editor.SettingsProviders;
 using AffiseAttributionLib.Editor.Utils;
+using AffiseAttributionLib.Unity;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
@@ -31,11 +32,12 @@ namespace AffiseAttributionLib.Editor.Ui.Editors
         private VisualElement? _root;
         private Button? _settingsBtn;
         private SerializedProperty? _appId;
-        private SerializedProperty? _secretId;
+        private SerializedProperty? _secretKey;
         private SerializedProperty? _partParamName;
         private SerializedProperty? _partParamNameToken;
         private SerializedProperty? _appToken;
         private SerializedProperty? _isProduction;
+        private SerializedProperty? _domain;
         private SerializedProperty? _isActive;
 
         private VisualElement? _warningView;
@@ -44,7 +46,8 @@ namespace AffiseAttributionLib.Editor.Ui.Editors
         private VisualElement? _infoActive;
 
         private TextField? _appIdField;
-        private TextField? _secretIdField;
+        private TextField? _secretKeyField;
+        private TextField? _domainField;
         private Toggle? _isActiveToggle;
 
         private AffiseSettings? _settings;
@@ -58,10 +61,10 @@ namespace AffiseAttributionLib.Editor.Ui.Editors
             AffiseEditorSettings.OnChange -= OnSettingsChange;
 
             _appIdField.UnregisterValueChangedCallback(OnTextChange);
-            _secretIdField.UnregisterValueChangedCallback(OnTextChange);
+            _secretKeyField.UnregisterValueChangedCallback(OnTextChange);
             
             _appIdField?.UnregisterCallback<KeyDownEvent>(OnKeyDown);
-            _secretIdField?.UnregisterCallback<KeyDownEvent>(OnKeyDown);
+            _secretKeyField?.UnregisterCallback<KeyDownEvent>(OnKeyDown);
 
             if (_settingsBtn is not null) _settingsBtn.clickable.clicked -= OnSettingsButton;
             if (_setActive is not null) _setActive.clickable.clicked -= OnSetActiveButton;
@@ -73,7 +76,8 @@ namespace AffiseAttributionLib.Editor.Ui.Editors
             _warning = _root.Q<Label>("warning-text");
 
             _appIdField = _root.Q<TextField>("appId");
-            _secretIdField = _root.Q<TextField>("secretId");
+            _secretKeyField = _root.Q<TextField>("secretId");
+            _domainField = _root.Q<TextField>("domain");
             _isActiveToggle = _root.Q<Toggle>("isActive");
 
             var partParamNameField = _root.Q<TextField>("partParamName");
@@ -89,22 +93,23 @@ namespace AffiseAttributionLib.Editor.Ui.Editors
             _setActive.clickable.clicked += OnSetActiveButton;
 
             _appIdField?.BindProperty(_appId);
-            _secretIdField?.BindProperty(_secretId);
+            _secretKeyField?.BindProperty(_secretKey);
             partParamNameField?.BindProperty(_partParamName);
             partParamNameTokenField?.BindProperty(_partParamNameToken);
             appTokenField?.BindProperty(_appToken);
             isProductionField?.BindProperty(_isProduction);
             _isActiveToggle?.BindProperty(_isActive);
+            _domainField?.BindProperty(_domain);
 
             if (_appIdField is not null) _appIdField.isDelayed = true;
-            if (_secretIdField is not null) _secretIdField.isDelayed = true;
+            if (_secretKeyField is not null) _secretKeyField.isDelayed = true;
             
             _appIdField.RegisterValueChangedCallback(OnTextChange);
-            _secretIdField.RegisterValueChangedCallback(OnTextChange);
+            _secretKeyField.RegisterValueChangedCallback(OnTextChange);
             _isActiveToggle.RegisterValueChangedCallback(OnActiveSettingsChange);
             
             _appIdField?.RegisterCallback<KeyDownEvent>(OnKeyDown);
-            _secretIdField?.RegisterCallback<KeyDownEvent>(OnKeyDown);
+            _secretKeyField?.RegisterCallback<KeyDownEvent>(OnKeyDown);
 
             AffiseEditorSettings.OnChange += OnSettingsChange;
         }
@@ -137,7 +142,7 @@ namespace AffiseAttributionLib.Editor.Ui.Editors
         private string? CheckFieldsWarning()
         {
             if (string.IsNullOrEmpty(_appId?.stringValue)) return AppIdEmpty;
-            if (string.IsNullOrEmpty(_secretId?.stringValue)) return SecretKeyEmpty;
+            if (string.IsNullOrEmpty(_secretKey?.stringValue)) return SecretKeyEmpty;
             return null;
         }
 
@@ -213,7 +218,7 @@ namespace AffiseAttributionLib.Editor.Ui.Editors
             }
 
             var warning = CheckFieldsWarning();
-            if (evt.target == _secretIdField)
+            if (evt.target == _secretKeyField)
             {
                 warning ??= CheckValidSymbols(evt.newValue);
             }
@@ -245,11 +250,12 @@ namespace AffiseAttributionLib.Editor.Ui.Editors
         private void FindAllProperties()
         {
             _appId = serializedObject.FindProperty("appId");
+            _secretKey = serializedObject.FindProperty("secretId");
             _partParamName = serializedObject.FindProperty("partParamName");
             _partParamNameToken = serializedObject.FindProperty("partParamNameToken");
             _appToken = serializedObject.FindProperty("appToken");
             _isProduction = serializedObject.FindProperty("isProduction");
-            _secretId = serializedObject.FindProperty("secretId");
+            _domain = serializedObject.FindProperty("domain");
             _isActive = serializedObject.FindProperty("isActive");
         }
 

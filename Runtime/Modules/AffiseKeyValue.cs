@@ -28,9 +28,10 @@ namespace AffiseAttributionLib.Modules
 
     internal static class AffiseKeyValueExt
     {
-        public static List<AffiseKeyValue> ToAffiseKeyValueList(this JSONNode json)
+        public static List<AffiseKeyValue> ToAffiseKeyValueList(this JSONNode? json)
         {
             var result = new List<AffiseKeyValue>();
+            if (json is null) return result;
             var jsonArray = json.AsArray;
             if (jsonArray is null) return result;
             foreach (var (_, jsonNode) in jsonArray)

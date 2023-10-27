@@ -10,6 +10,7 @@ using AffiseAttributionLib.Events;
 using AffiseAttributionLib.Init;
 using AffiseAttributionLib.Modules;
 using AffiseAttributionLib.Referrer;
+using AffiseAttributionLib.Settings;
 using AffiseAttributionLib.SKAd;
 using AffiseAttributionLib.Utils;
 #if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
@@ -38,10 +39,12 @@ namespace AffiseAttributionLib
             }
         }
 
-        /**
-         * Init [AffiseComponent] with [initProperties]
-         */
-        public static void Init(AffiseInitProperties initProperties)
+        public static AffiseSettings Settings(string affiseAppId, string secretKey)
+        {
+            return new AffiseSettings(affiseAppId, secretKey);
+        }
+
+        internal static void Start(AffiseInitProperties initProperties)
         {
 #if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
             if (_native is not null) return;
@@ -50,6 +53,15 @@ namespace AffiseAttributionLib
             if (_api is not null) return;
             _api = new AffiseComponent(initProperties);
 #endif
+        }
+
+        /**
+         * Init [AffiseComponent] with [initProperties]
+         */
+        [Obsolete("Use Affise.Settings(affiseAppId,secretKey).Start()")]
+        public static void Init(AffiseInitProperties initProperties)
+        {
+            Start(initProperties);
         }
         
         public static bool IsInitialized()

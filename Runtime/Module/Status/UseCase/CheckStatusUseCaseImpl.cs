@@ -13,7 +13,8 @@ namespace AffiseAttributionLib.Module.Status.UseCase
 {
     internal class CheckStatusUseCaseImpl : ICheckStatusUseCase
     {
-        private const string URL = "https://tracking.affattr.com/check_status";
+        private const string Path = "check_status";
+        private readonly string _url = CloudConfig.GetUrl(Path);
 
         private const int ATTEMPTS_TO_SEND = 30;
         private const long TIME_DELAY_SENDING = 5 * 1000;
@@ -81,7 +82,7 @@ namespace AffiseAttributionLib.Module.Status.UseCase
         {
             _executorServiceProvider.Execute(
                 _httpClient.ExecuteRequest(
-                    URL,
+                    _url,
                     IHttpClient.Method.POST,
                     _converter.Convert(_providers),
                     CloudConfig.Headers,

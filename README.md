@@ -2,7 +2,7 @@
 
 | Artifact      | Version              |
 |---------------|----------------------|
-| `attribution` | [`1.6.8`](/releases) |
+| `attribution` | [`1.6.9`](/releases) |
 
 - [Affise Unity package](#affise-unity-package)
 - [Description](#description)
@@ -12,7 +12,9 @@
     - [Integrate unitypackage file](#integrate-unitypackage-file)
     - [Initialize](#initialize)
       - [Unity asset](#unity-asset)
+        - [Domain](#domain)
       - [Manual](#manual)
+        - [Domain](#domain-1)
     - [Requirements](#requirements)
       - [iOS](#ios)
     - [Add platform modules](#add-platform-modules)
@@ -79,7 +81,7 @@ Add package from git url `https://github.com/affise/sdk-unity.git`
 
 ### Integrate unitypackage file
 
-Download latest Affise SDK [`attribution-1.6.8.unitypackage`](https://github.com/affise/sdk-unity/releases/download/1.6.8/attribution-1.6.8.unitypackage)
+Download latest Affise SDK [`attribution-1.6.9.unitypackage`](https://github.com/affise/sdk-unity/releases/download/1.6.9/attribution-1.6.9.unitypackage)
 from [releases page](https://github.com/affise/sdk-unity/releases) and drop this file to unity editor
 
 ### Initialize
@@ -97,6 +99,9 @@ On Affise tab click `Create` button.
 This will create `Affise Settings.asset` in `Assets / Affise / Resources` directory.
 
 > **Note**
+>
+> 🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦
+>
 > Settings set in `Edit / Project Settings / Affise` are marked as `Active Settings`
 >
 > Affise is using settings marked as `Active Settings`
@@ -104,24 +109,56 @@ This will create `Affise Settings.asset` in `Assets / Affise / Resources` direct
 > located in root of folder `Resources` which can be located in any folder
 >
 > Example `<Any folder> / Resources / <Your affise settings>.asset`
+>
+> 🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦
 
 > **Warning**
-> Settings located in `Editor` folder are **invalid**. Example: `Editor / Resources / <Your affise settings>.asset`
+>
+> 🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧
+>
+> Settings located in `Editor` folder are **invalid**.
+>
+> Example: `Editor / Resources / <Your affise settings>.asset`
+>
+> 🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧
 
 Fill all required fields
 
 ![affise_settings](https://github.com/affise/sdk-unity/blob/assets/affise_settings.png?raw=true)
+
+##### Domain
+
+Set SDK server domain:
+
+1. Open `Edit / Project Settings / Affise`
+2. Unfold `Optional` section at the bottom
+3. Fill `Domain` field
 
 #### Manual
 
 > Demo app [AffiseDemo.cs](Samples~/AffiseDemoApp/Scripts/AffiseDemo.cs)
 
 ```c#
-var properties = new AffiseInitProperties(
-    affiseAppId: "Your appId", //Change to your app id
-    secretKey: "Your SDK secretKey" //Change to your SDK secretKey
-);
-Affise.Init(properties);
+Affise
+    .Settings(
+        affiseAppId: "Your appId", //Change to your app id
+        secretKey: "Your SDK secretKey" //Change to your SDK secretKey
+    )
+    .Start(); // Start Affise SDK
+```
+
+##### Domain
+
+Set SDK server domain:
+
+```c#
+Affise
+    .Settings(
+        affiseAppId: "Your appId",
+        secretKey: "Your SDK secretKey"
+    )
+    .setDomain("https://YoureCustomDomain/") // Set custom domain
+    .Start(); // Start Affise SDK
 ```
 
 ### Requirements
@@ -161,10 +198,10 @@ Add modules to Android project gradle file `unityLibrary/build.gradle`
 dependencies {
   // ...
   // Affise modules
-  implementation 'com.affise:module-advertising:1.6.+'
-  implementation 'com.affise:module-network:1.6.+'
-  implementation 'com.affise:module-phone:1.6.+'
-  implementation 'com.affise:module-status:1.6.+'
+  implementation 'com.affise:module-advertising:1.6.19'
+  implementation 'com.affise:module-network:1.6.19'
+  implementation 'com.affise:module-phone:1.6.19'
+  implementation 'com.affise:module-status:1.6.19'
 }
 ```
 
@@ -176,16 +213,16 @@ Add modules to iOS project
 
 | Module                | Version  |
 |-----------------------|:--------:|
-| `AffiseModule/Status` | [`1.6.14`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) |
+| `AffiseModule/Status` | [`1.6.15`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) |
 
 ```rb
 platform :ios, '11.0'
 
 target 'UnityFramework' do
-  pod 'AffiseInternal', '1.6.14'
+  pod 'AffiseInternal', '1.6.15'
 
   # Affise Modules
-  pod 'AffiseModule/Status', `1.6.14`
+  pod 'AffiseModule/Status', `1.6.15`
 end
 
 target 'Unity-iPhone' do
@@ -203,8 +240,19 @@ SDK is using Cocoapods
 1. In `Build setting` select iOS platform and press `Build`
 2. Select build folder (unity will exported iOS project to build folder)
 3. Build folder should contain `Podfile`
-4. In Terminal open build folder and run commend `pod update` or `pod install`
+4. In Terminal open build folder and run commend `pod install`
 5. Open generated `*.worksapce` to build your unity project
+
+> **Warning**
+>
+> 🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧
+>
+> If command `pod install` returns error `CocoaPods could not find compatible versions for pod "AffiseInternal"`
+>
+> Run `pod repo update` and then run `pod install` again
+>
+> 🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧
+
 
 If Podfile hasn't generated you can create it manually using this [Podfile](Editor/Resources/iOS/AffisePodfile.rb) as template
 
@@ -214,10 +262,10 @@ Podfile:
 platform :ios, '11.0'
 
 target 'UnityFramework' do
-  pod 'AffiseInternal', '1.6.14'
+  pod 'AffiseInternal', '1.6.15'
 
   # Affise Modules
-  # pod 'AffiseModule/Status', `1.6.14`
+  # pod 'AffiseModule/Status', `1.6.15`
 end
 
 target 'Unity-iPhone' do
@@ -618,7 +666,7 @@ Affise.AddPushToken(token);
 
 ## Deeplinks
 
-- register applink callback right after Affise.Init(..)
+- register applink callback right after `Affise.Settings(affiseAppId,secretKey).Start()`
 
 ```c#
 Affise.RegisterDeeplinkCallback((uri) =>
@@ -767,7 +815,12 @@ Affise.GetStatus(AffiseModules.Status, response => {
 > `Android Only`
 
 > **Warning**
+>
+> 🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧
+>
 > Don't call this method directly in `Awake()` it may cause `NullReferenceException`
+>
+> 🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧
 
 Use the next public method of SDK to get referrer
 
@@ -879,7 +932,12 @@ new AffiseAdRevenue(AffiseAdSource.ADMOB)
 ## Validate credentials
 
 > **Warning**
-> Debug methods WON'T work on Production
+>
+> 🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥
+>
+> Debug methods WON'T work on Production 
+>
+> 🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥
 
 Validate your credentials by receiving `ValidationStatus` values:
 
@@ -891,11 +949,13 @@ Validate your credentials by receiving `ValidationStatus` values:
 - `NETWORK_ERROR` - network or server not available (for example `Airoplane mode` is active)
 
 ```c#
-Affise.Init(new AffiseInitProperties(
-    affiseAppId: "Your appId",
-    secretKey: "Your SDK secretKey",
-    isProduction: false //To enable debug methods set Production to false
-));
+Affise
+    .Settings(
+        affiseAppId: "Your appId",
+        secretKey: "Your SDK secretKey"
+    )
+    .SetProduction(false) //To enable debug methods set Production to false
+    .Start(); // Start Affise SDK
 
 Affise.Debug.Validate(status =>
 {
@@ -908,8 +968,15 @@ Affise.Debug.Validate(status =>
 ## iOS
 
 > **Warning**
+>
+> 🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥
+>
 > This app has crashed because it attempted to access privacy-sensitive data without a usage description.
+>
 > The app's `Info.plist` must contain an `NSUserTrackingUsageDescription` key with a string value explaining
+>
 > to the user how the app uses this data.
+>
+> 🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥
 
 Open `info.plist` and add key `NSUserTrackingUsageDescription` with string value. For more information [read requirements](#requirements)

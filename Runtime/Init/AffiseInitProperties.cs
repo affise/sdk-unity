@@ -1,4 +1,8 @@
-﻿using SimpleJSON;
+﻿#nullable enable
+using System.Collections.Generic;
+using AffiseAttributionLib.Events;
+using AffiseAttributionLib.Network;
+using SimpleJSON;
 
 namespace AffiseAttributionLib.Init
 {
@@ -8,13 +12,19 @@ namespace AffiseAttributionLib.Init
         
         public string SecretKey { get; set; }
 
-        public string PartParamName { get; }
+        public string? PartParamName { get; }
 
-        public string PartParamNameToken { get; }
+        public string? PartParamNameToken { get; }
 
-        public string AppToken { get; }
+        public string? AppToken { get; }
 
         public bool IsProduction { get; }
+        
+        public bool EnabledMetrics { get; }
+
+        public List<AutoCatchingType> AutoCatchingClickEvents { get; } = new();
+        
+        public string? Domain { get; }
 
         public AffiseInitProperties(
             string affiseAppId, 
@@ -23,10 +33,13 @@ namespace AffiseAttributionLib.Init
         ) : this(
             affiseAppId: affiseAppId,
             secretKey: secretKey,
-            partParamName: "",
-            partParamNameToken: "",
-            appToken: "",
-            isProduction: isProduction
+            isProduction: isProduction,
+            partParamName: null,
+            partParamNameToken: null,
+            appToken: null,
+            enabledMetrics: false,
+            autoCatchingClickEvents: null,
+            domain: null
         )
         {
         }
@@ -34,28 +47,56 @@ namespace AffiseAttributionLib.Init
         public AffiseInitProperties(
             string affiseAppId,
             string secretKey,
-            string partParamName = "",
-            string partParamNameToken = "",
-            string appToken = "",
-            bool isProduction = true
+            string? partParamName = null,
+            string? partParamNameToken = null,
+            string? appToken = null,
+            bool isProduction = true,
+            bool enabledMetrics = false,
+            List<AutoCatchingType>? autoCatchingClickEvents = null,
+            string? domain = null
         )
         {
             AffiseAppId = affiseAppId;
-            PartParamName = partParamName;
-            PartParamNameToken = partParamNameToken;
-            AppToken = appToken;
             SecretKey = secretKey;
+
             IsProduction = isProduction;
+            EnabledMetrics = enabledMetrics;
+            
+            if (!string.IsNullOrWhiteSpace(partParamName))
+            {
+                PartParamName = partParamName;
+            }
+
+            if (!string.IsNullOrWhiteSpace(partParamNameToken))
+            {
+                PartParamNameToken = partParamNameToken;
+            }
+
+            if (!string.IsNullOrWhiteSpace(appToken))
+            {
+                AppToken = appToken;
+            }
+
+            if (!string.IsNullOrWhiteSpace(domain))
+            {
+                Domain = domain;
+                CloudConfig.SetupDomain(domain);
+            }
+            
+            AutoCatchingClickEvents = autoCatchingClickEvents ?? new List<AutoCatchingType>();
         }
 
         private AffiseInitProperties(AffiseInitProperties props)
         {
             AffiseAppId = props.AffiseAppId;
+            SecretKey = props.SecretKey;
+            IsProduction = props.IsProduction;
             PartParamName = props.PartParamName;
             PartParamNameToken = props.PartParamNameToken;
             AppToken = props.AppToken;
-            SecretKey = props.SecretKey;
-            IsProduction = props.IsProduction;
+            EnabledMetrics = props.EnabledMetrics;
+            AutoCatchingClickEvents = props.AutoCatchingClickEvents;
+            Domain = props.Domain;
         }
 
         public AffiseInitProperties Copy() => new(this);
@@ -68,7 +109,10 @@ namespace AffiseAttributionLib.Init
                 ["partParamName"] = PartParamName,
                 ["partParamNameToken"] = PartParamNameToken,
                 ["appToken"] = AppToken,
-                ["secretId"] = SecretKey,
+                ["secretKey"] = SecretKey,
+                ["enabledMetrics"] = EnabledMetrics,
+                ["autoCatchingClickEvents"] = AutoCatchingClickEvents.ToJsonArray(),
+                ["domain"] = Domain,
             };
     }
 }

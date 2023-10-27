@@ -1,5 +1,6 @@
 ﻿#nullable enable
 using AffiseAttributionLib.Editor.Utils;
+using AffiseAttributionLib.Unity;
 using UnityEditor;
 
 namespace AffiseAttributionLib.Editor

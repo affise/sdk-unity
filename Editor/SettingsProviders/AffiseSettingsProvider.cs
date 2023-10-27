@@ -3,6 +3,7 @@ using System;
 using AffiseAttributionLib.Editor.Extensions;
 using AffiseAttributionLib.Editor.Ui;
 using AffiseAttributionLib.Editor.Utils;
+using AffiseAttributionLib.Unity;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;

@@ -2,22 +2,9 @@ import AffiseInternal
 
 @objc
 public class NativeCallHandler: NSObject {
-    @objc(apiCallVoid:json:)
-    public func apiCall(_ apiName: String, json: String) {
-        let _ = apiCallAny(apiName, json: json)
-    }
 
-    @objc(apiCallString:json:)
-    public func apiCall(_ apiName: String, json: String) -> String? {
-        return apiCallToType(apiName, json: json)
-    }
-
-    @objc(apiCallBool:json:)
-    public func apiCall(_ apiName: String, json: String) -> Bool {
-        return apiCallToType(apiName, json: json) ?? false
-    }
-
-    private func apiCallAny(_ apiName: String, json: String) -> Any? {
+    @discardableResult
+    public func apiCallAny(_ apiName: String, json: String) -> Any? {
         var result: AffiseResult = ApiResult()
 
         guard let api = AffiseApiMethod.from(apiName) else {
@@ -63,7 +50,7 @@ public class NativeCallHandler: NSObject {
         }
     }
 
-    private func apiCallToType<T>(_ apiName: String, json: String) -> T? {
+    public func apiCallToType<T>(_ apiName: String, json: String) -> T? {
         guard let result: Any = apiCallAny(apiName, json: json) else {
             return nil
         }

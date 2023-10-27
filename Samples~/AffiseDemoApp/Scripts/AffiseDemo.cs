@@ -1,6 +1,7 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using AffiseAttributionLib;
 using AffiseAttributionLib.AffiseParameters;
 using AffiseAttributionLib.Init;
@@ -33,10 +34,16 @@ namespace AffiseDemo
 
         private readonly Dictionary<CallbackEventHandler, EventCallback<ClickEvent>> _clickCallback = new();
 
+        private SynchronizationContext? _contextThread;
+        private int _contextThreadId;
+
         #endregion variables
 
         private void Start()
         {
+            _contextThread = SynchronizationContext.Current;
+            _contextThreadId = Thread.CurrentThread.ManagedThreadId;
+            
             BindView();
         
             AffiseInit();
@@ -52,13 +59,14 @@ namespace AffiseDemo
         private void AffiseInit()
         {
             // Initialize https://github.com/affise/sdk-unity#manual
-            // For manual init delete "Affise Settings.asset"   
-            // var properties = new AffiseInitProperties(
-            //     affiseAppId: "129",
-            //     secretKey: "93a40b54-6f12-443f-a250-ebf67c5ee4d2",
-            //     isProduction: false //To enable debug methods set Production to false
-            // );
-            // Affise.Init(properties);
+            // For manual init delete "Affise Settings.asset" or disable [isActive] flag  
+            // Affise
+            //     .Settings(
+            //         affiseAppId: "129",
+            //         secretKey: "93a40b54-6f12-443f-a250-ebf67c5ee4d2"
+            //     )
+            //     .SetProduction(false) //To enable debug methods set Production to false
+            //     .Start(); // Start Affise SDK
 
             // Debug: network request/response
             Affise.Debug.Network((request, response) =>
@@ -117,10 +125,7 @@ namespace AffiseDemo
                 Affise.GetStatus(AffiseModules.Status, value =>
                 {
                     Output($"GetStatus: Count = {value.Count}");
-                    foreach (var keyValue in value)
-                    {
-                        Output($"GetStatus: {keyValue.Key}: {keyValue.Value}");
-                    }
+                    Output($"- {string.Join("\n- ", value)}");
                 });
             });
 
@@ -162,6 +167,14 @@ namespace AffiseDemo
                 Output($"IsOfflineModeEnabled: {(value ? "true" : "false")}");
             });
 
+            view.AddButton("Set Offline Mode", () =>
+            {
+                // Offline mode https://github.com/affise/sdk-unity#offline-mode
+                var value = Affise.IsOfflineModeEnabled() ?? false;
+                Affise.SetOfflineModeEnabled(!value);
+                Output($"SetOfflineModeEnabled: {(!value ? "true" : "false")}");
+            });
+            
             view.AddButton("Get Random User Id", () =>
             {
                 // Get random user Id https://github.com/affise/sdk-unity#get-random-user-id
@@ -246,14 +259,29 @@ namespace AffiseDemo
 
         private void Output(string msg)
         {
-            if (_output is null) return;
-            if (string.IsNullOrWhiteSpace(_output.value))
+            // Debug.Log($"Thread: {Thread.CurrentThread.ManagedThreadId}");
+            // If callback result executed on wrong Thread
+            // redirect to context Thread
+            if (_contextThreadId != Thread.CurrentThread.ManagedThreadId)
             {
-                _output.value = msg;
+                _contextThread?.Post(_ => OutputTextUI(msg), null);
             }
             else
             {
-                _output.value = $"{_output.value}\n{msg}";
+                OutputTextUI(msg);
+            }
+        }
+
+        private void OutputTextUI(string msg)
+        {
+            if (_output is null) return;
+            if (string.IsNullOrWhiteSpace(_output.value))
+            {
+                _output.value = $"{msg}";
+            }
+            else
+            {
+                _output.value += $"\n{msg}";
             }
         }
 

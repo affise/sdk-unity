@@ -10,13 +10,13 @@ namespace AffiseAttributionLib.Native.IOS
         private static event INative.AffiseNativeCallback OnAffiseCallback;
         
         [System.Runtime.InteropServices.DllImport("__Internal")]
-        private static extern void _c_void_method_json(string apiName, string json);
+        private static extern void _c_api_call(string apiName, string json);
 
         [System.Runtime.InteropServices.DllImport("__Internal")]
-        private static extern bool _c_bool_method_json(string apiName, string json);
+        private static extern int _c_api_call_bool(string apiName, string json);
 
         [System.Runtime.InteropServices.DllImport("__Internal")]
-        private static extern string _c_string_method_json(string apiName, string json);
+        private static extern string _c_api_call_string(string apiName, string json);
 
         [System.Runtime.InteropServices.DllImport("__Internal")]
         private static extern void _c_register_callback(INative.AffiseNativeCallback callback);
@@ -50,8 +50,8 @@ namespace AffiseAttributionLib.Native.IOS
             {
                 object value = Type.GetTypeCode(typeof(T)) switch
                 {
-                    TypeCode.Boolean => _c_bool_method_json(apiName, json),
-                    TypeCode.String => _c_string_method_json(apiName, json),
+                    TypeCode.Boolean => _c_api_call_bool(apiName, json) != 0,
+                    TypeCode.String => _c_api_call_string(apiName, json),
                     _ => null
                 };
                 
@@ -77,7 +77,7 @@ namespace AffiseAttributionLib.Native.IOS
         {
             try
             {
-                _c_void_method_json(apiName, json);
+                _c_api_call(apiName, json);
             }
             catch (Exception e)
             {

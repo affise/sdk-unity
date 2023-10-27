@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿#nullable enable
+using System.Collections.Generic;
 using SimpleJSON;
 
 namespace AffiseAttributionLib.Events
@@ -27,7 +28,7 @@ namespace AffiseAttributionLib.Events
                 AutoCatchingType.IMAGE => "IMAGE",
                 
                 AutoCatchingType.GROUP => "GROUP",
-                _ => null
+                _ => ""
             };
         }
 

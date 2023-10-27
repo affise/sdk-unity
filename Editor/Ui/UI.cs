@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿#nullable enable
+using System.IO;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -10,24 +11,20 @@ namespace AffiseAttributionLib.Editor.Ui
         
         private static string ResourcePath(string filename) => Path.Combine(ResourceRoot, filename); 
         
-        public static VisualTreeAsset Get(string uxmlFile)
+        public static T? GetResource<T>(string path) where T : Object
         {
-            var path = ResourcePath(uxmlFile);
-            var asset = Resources.Load<VisualTreeAsset>(path);
+            var resourcePath = ResourcePath(path);
+            var asset = Resources.Load<T>(resourcePath);
 
-            if (asset == null)
-                throw new FileNotFoundException("Failed to load UI Template at path " + path);
+            if (asset is null)
+            {
+                Debug.LogWarning($"Failed to load resource: \"{typeof(T).Name}\" at path: \"{resourcePath}\"");
+            }
             return asset;
         }
         
-        public static StyleSheet GetStyle(string ussFile)
-        {
-            var path = ResourcePath(ussFile);
-            var asset = Resources.Load<StyleSheet>(path);
-
-            if (asset == null)
-                throw new FileNotFoundException("Failed to load UI Style at path " + path);
-            return asset;
-        }
+        public static VisualTreeAsset? Get(string path) => GetResource<VisualTreeAsset>(path);
+        
+        public static StyleSheet? GetStyle(string path) => GetResource<StyleSheet>(path);
     }
 }

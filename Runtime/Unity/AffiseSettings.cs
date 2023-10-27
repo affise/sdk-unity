@@ -4,9 +4,9 @@ using UnityEngine;
 #if UNITY_EDITOR
 #endif
 
-namespace AffiseAttributionLib
+namespace AffiseAttributionLib.Unity
 {
-    public class AffiseSettings : ScriptableObject
+    internal sealed class AffiseSettings : ScriptableObject
     {
         internal const string ConfigName = "affise.settings";
 
@@ -16,17 +16,20 @@ namespace AffiseAttributionLib
         private string appId = "";
 
         [SerializeField] 
-        private string partParamName = "";
-
-        [SerializeField] 
-        private string partParamNameToken = "";
-
-        [SerializeField] 
-        private string appToken = "";
-
-        [SerializeField] 
         private string secretId = "";
+        
+        [SerializeField] 
+        private string? partParamName;
 
+        [SerializeField] 
+        private string? partParamNameToken;
+
+        [SerializeField] 
+        private string? appToken;
+
+        [SerializeField] 
+        private string? domain;
+        
         [SerializeField] 
         private bool isProduction = true;
 
@@ -78,15 +81,16 @@ namespace AffiseAttributionLib
             if (Affise.IsInit) return;
 
             var props = new AffiseInitProperties(
-                appId,
-                secretId,
-                partParamName,
-                partParamNameToken,
-                appToken,
-                isProduction
+                affiseAppId: appId,
+                secretKey: secretId,
+                partParamName: partParamName,
+                partParamNameToken: partParamNameToken,
+                appToken: appToken,
+                isProduction: isProduction,
+                domain: domain
             );
 
-            Affise.Init(props);
+            Affise.Start(props);
         }
 
         #endregion Init Affise
