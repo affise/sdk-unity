@@ -694,7 +694,7 @@ Add intent filter to `AndroidManifest.xml`. For more info read [Unity docs](http
     <category android:name="android.intent.category.BROWSABLE" />
     
     <data
-        android:host="YOUR_AFFISE_APP_ID.affattr.com"
+        android:host="YOUR_DOMAIN"
         android:scheme="unity" />
 </intent-filter>
 ```
@@ -712,7 +712,7 @@ Add key `CFBundleURLTypes` to `Info.plist` file in Xcode project folder
         <key>CFBundleTypeRole</key>
         <string>Editor</string>
         <key>CFBundleURLName</key>
-        <string>YOUR_AFFISE_APP_ID.affattr.com</string>
+        <string>YOUR_DOMAIN</string>
         <key>CFBundleURLSchemes</key>
         <array>
             <string>unity</string>
