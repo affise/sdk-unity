@@ -2,7 +2,7 @@
 
 | Artifact      | Version              |
 |---------------|----------------------|
-| `attribution` | [`1.6.9`](/releases) |
+| `attribution` | [`1.6.10`](/releases) |
 
 - [Affise Unity package](#affise-unity-package)
 - [Description](#description)
@@ -81,7 +81,7 @@ Add package from git url `https://github.com/affise/sdk-unity.git`
 
 ### Integrate unitypackage file
 
-Download latest Affise SDK [`attribution-1.6.9.unitypackage`](https://github.com/affise/sdk-unity/releases/download/1.6.9/attribution-1.6.9.unitypackage)
+Download latest Affise SDK [`attribution-1.6.10.unitypackage`](https://github.com/affise/sdk-unity/releases/download/1.6.10/attribution-1.6.10.unitypackage)
 from [releases page](https://github.com/affise/sdk-unity/releases) and drop this file to unity editor
 
 ### Initialize
@@ -198,10 +198,10 @@ Add modules to Android project gradle file `unityLibrary/build.gradle`
 dependencies {
   // ...
   // Affise modules
-  implementation 'com.affise:module-advertising:1.6.19'
-  implementation 'com.affise:module-network:1.6.19'
-  implementation 'com.affise:module-phone:1.6.19'
-  implementation 'com.affise:module-status:1.6.19'
+  implementation 'com.affise:module-advertising:1.6.20'
+  implementation 'com.affise:module-network:1.6.20'
+  implementation 'com.affise:module-phone:1.6.20'
+  implementation 'com.affise:module-status:1.6.20'
 }
 ```
 
@@ -213,16 +213,16 @@ Add modules to iOS project
 
 | Module                | Version  |
 |-----------------------|:--------:|
-| `AffiseModule/Status` | [`1.6.15`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) |
+| `AffiseModule/Status` | [`1.6.17`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) |
 
 ```rb
 platform :ios, '11.0'
 
 target 'UnityFramework' do
-  pod 'AffiseInternal', '1.6.15'
+  pod 'AffiseInternal', '1.6.17'
 
   # Affise Modules
-  pod 'AffiseModule/Status', `1.6.15`
+  pod 'AffiseModule/Status', `1.6.17`
 end
 
 target 'Unity-iPhone' do
@@ -262,10 +262,10 @@ Podfile:
 platform :ios, '11.0'
 
 target 'UnityFramework' do
-  pod 'AffiseInternal', '1.6.15'
+  pod 'AffiseInternal', '1.6.17'
 
   # Affise Modules
-  # pod 'AffiseModule/Status', `1.6.15`
+  # pod 'AffiseModule/Status', `1.6.17`
 end
 
 target 'Unity-iPhone' do

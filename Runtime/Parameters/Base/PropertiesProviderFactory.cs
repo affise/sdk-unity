@@ -78,7 +78,7 @@ namespace AffiseAttributionLib.AffiseParameters.Base
                     new NetworkTypeProvider(),
                     new DeviceManufacturerProvider(),
                     new DeeplinkClickPropertyProvider(_deeplinkClickRepository),
-                    // new EmptyStringProvider(Parameters.DEVICE_ATLAS_ID, 26.0f),
+                    // new EmptyStringProvider(ProviderType.DEVICE_ATLAS_ID, 26.0f),
                     new AffiseDeviceIdProvider(_firstAppOpenUseCase),
                     new AffiseAltDeviceIdProvider(_firstAppOpenUseCase),
                     new AndroidIdProvider(),
@@ -113,7 +113,10 @@ namespace AffiseAttributionLib.AffiseParameters.Base
                     new AffAppTokenPropertyProvider(_initPropertiesStorage, _stringToSHA256Converter),
                     // new EmptyStringProvider(ProviderType.LABEL, 62.0f),
                     // new AffSDKSecretIdProvider(_initPropertiesStorage),
-                    new PushTokenProvider()
+                    new PushTokenProvider(),
+                    // new EmptyStringProvider(ProviderType.OS_AND_VERSION, 68.0f),
+                    // new EmptyStringProvider(ProviderType.DEVICE, 69.0f),
+                    // new EmptyStringProvider(ProviderType.BUILD, 70.0f),
                 }
             );
         }

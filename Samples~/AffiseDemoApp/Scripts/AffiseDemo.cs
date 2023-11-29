@@ -1,9 +1,9 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
-using System.Threading;
 using AffiseAttributionLib;
 using AffiseAttributionLib.AffiseParameters;
+using AffiseAttributionLib.Executors;
 using AffiseAttributionLib.Init;
 using AffiseAttributionLib.Modules;
 using AffiseAttributionLib.Referrer;
@@ -34,15 +34,13 @@ namespace AffiseDemo
 
         private readonly Dictionary<CallbackEventHandler, EventCallback<ClickEvent>> _clickCallback = new();
 
-        private SynchronizationContext? _contextThread;
-        private int _contextThreadId;
+        private ContextThreadExecutor? _contextExecutor;
 
         #endregion variables
 
         private void Start()
         {
-            _contextThread = SynchronizationContext.Current;
-            _contextThreadId = Thread.CurrentThread.ManagedThreadId;
+            _contextExecutor = new ContextThreadExecutor();
             
             BindView();
         
@@ -174,7 +172,7 @@ namespace AffiseDemo
                 Affise.SetOfflineModeEnabled(!value);
                 Output($"SetOfflineModeEnabled: {(!value ? "true" : "false")}");
             });
-            
+
             view.AddButton("Get Random User Id", () =>
             {
                 // Get random user Id https://github.com/affise/sdk-unity#get-random-user-id
@@ -259,17 +257,7 @@ namespace AffiseDemo
 
         private void Output(string msg)
         {
-            // Debug.Log($"Thread: {Thread.CurrentThread.ManagedThreadId}");
-            // If callback result executed on wrong Thread
-            // redirect to context Thread
-            if (_contextThreadId != Thread.CurrentThread.ManagedThreadId)
-            {
-                _contextThread?.Post(_ => OutputTextUI(msg), null);
-            }
-            else
-            {
-                OutputTextUI(msg);
-            }
+            _contextExecutor?.Run(() => OutputTextUI(msg));
         }
 
         private void OutputTextUI(string msg)

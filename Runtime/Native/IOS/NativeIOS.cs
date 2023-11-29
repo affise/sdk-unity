@@ -1,4 +1,5 @@
 ﻿#if UNITY_IOS && !UNITY_EDITOR
+#nullable enable
 using System;
 using AffiseAttributionLib.Native.Base;
 using UnityEngine;
@@ -9,17 +10,17 @@ namespace AffiseAttributionLib.Native.IOS
     {
         private static event INative.AffiseNativeCallback OnAffiseCallback;
         
-        [System.Runtime.InteropServices.DllImport("__Internal")]
-        private static extern void _c_api_call(string apiName, string json);
+        [System.Runtime.InteropServices.DllImport("__Internal", EntryPoint = "_c_affise_api_call")]
+        private static extern void apiCall(string apiName, string json);
 
-        [System.Runtime.InteropServices.DllImport("__Internal")]
-        private static extern int _c_api_call_bool(string apiName, string json);
+        [System.Runtime.InteropServices.DllImport("__Internal", EntryPoint = "_c_affise_api_call_bool")]
+        private static extern int apiCallBool(string apiName, string json);
 
-        [System.Runtime.InteropServices.DllImport("__Internal")]
-        private static extern string _c_api_call_string(string apiName, string json);
+        [System.Runtime.InteropServices.DllImport("__Internal", EntryPoint = "_c_affise_api_call_string")]
+        private static extern string apiCallString(string apiName, string json);
 
-        [System.Runtime.InteropServices.DllImport("__Internal")]
-        private static extern void _c_register_callback(INative.AffiseNativeCallback callback);
+        [System.Runtime.InteropServices.DllImport("__Internal", EntryPoint = "_c_affise_api_set_callback")]
+        private static extern void apiSetCallback(INative.AffiseNativeCallback callback);
         
         [AOT.MonoPInvokeCallback(typeof(INative.AffiseNativeCallback))]
         protected static void NativeCallback(string eventName, string data)
@@ -41,7 +42,7 @@ namespace AffiseAttributionLib.Native.IOS
                     OnAffiseCallback -= (INative.AffiseNativeCallback)onNativeDelegate;
                 }
             }
-            _c_register_callback(NativeCallback);
+            apiSetCallback(NativeCallback);
         }
 
         public T Native<T>(string apiName, string json)
@@ -50,8 +51,8 @@ namespace AffiseAttributionLib.Native.IOS
             {
                 object value = Type.GetTypeCode(typeof(T)) switch
                 {
-                    TypeCode.Boolean => _c_api_call_bool(apiName, json) != 0,
-                    TypeCode.String => _c_api_call_string(apiName, json),
+                    TypeCode.Boolean => apiCallBool(apiName, json) != 0,
+                    TypeCode.String => apiCallString(apiName, json),
                     _ => null
                 };
                 
@@ -77,7 +78,7 @@ namespace AffiseAttributionLib.Native.IOS
         {
             try
             {
-                _c_api_call(apiName, json);
+                apiCall(apiName, json);
             }
             catch (Exception e)
             {
@@ -91,4 +92,4 @@ namespace AffiseAttributionLib.Native.IOS
         }
     }
 }
-#endif
+#endif // UNITY_IOS && !UNITY_EDITOR

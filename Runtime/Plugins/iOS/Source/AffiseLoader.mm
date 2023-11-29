@@ -1,15 +1,27 @@
 #import "AppDelegateListener.h"
 #include "UnityFramework/UnityFramework-Swift.h"
 
-@interface AffiseLoader: NSObject
+@interface AffiseLoader: NSObject<AppDelegateListener>
 @end
 
 @implementation AffiseLoader
 
-// runtime send the load message to each class object
+// The runtime sends the load message to each class object, 
+// very soon after the class object is loaded in the process's address space.
+// For classes that are part of the program's executable file,
+// the runtime sends the load message very early in the process's lifetime. 
 + (void)load {
-    // Init NotificationCenter handler
-    (void)[AffiseAppDelegate shared];
+    @try {
+        // As Objective-C is based on message passing
+        // https://en.wikipedia.org/wiki/Objective-C#Messages
+        // cast shared object with fake objective-c protocol 
+        // to unity AppDelegateListener<LifeCycleListener>
+        // for calling messages with matching names
+        UnityRegisterAppDelegateListener((AffiseLoader*)[AffiseNativeModule shared]);
+    }
+    @catch (NSException *exception) {
+        NSLog (@"Affise cannot start plugin. error: %@", [exception reason]);
+    }
 }
 
 @end
@@ -45,7 +57,7 @@
 //
 //- (void)applicationWillFinishLaunchingWithOptions:(NSNotification*)notification {
 //    NSDictionary* options = notification.userInfo;
-//    [[AffiseNativeModule shared] launchOptions:options];
+//    [[AffiseNativeModule shared] startAffiseWithOptions:options];
 //}
 //
 //- (void)onOpenURL:(NSNotification*)notification {

@@ -87,6 +87,11 @@ namespace AffiseAttributionLib.AffiseParameters
         IS_ROOTED,
         IS_EMULATOR,
 
+        // remarketing
+        OS_AND_VERSION,
+        DEVICE,
+        BUILD,
+        
         // advertising
         GAID_ADID,
         GAID_ADID_MD5,
@@ -196,6 +201,11 @@ namespace AffiseAttributionLib.AffiseParameters
                 ProviderType.IS_ROOTED => "is_rooted",
                 ProviderType.IS_EMULATOR => "is_emulator",
 
+                // remarketing
+                ProviderType.OS_AND_VERSION => "os_and_version",
+                ProviderType.DEVICE => "device",
+                ProviderType.BUILD => "build",
+                
                 // advertising
                 ProviderType.GAID_ADID => "gaid_adid",
                 ProviderType.GAID_ADID_MD5 => "gaid_adid_md5",

@@ -160,6 +160,7 @@ namespace AffiseAttributionLib.Editor.SettingsProviders
         {
             _root?.Clear();
             UI.Get(nameof(AffiseSettingsProvider)).ToRoot(_root);
+            if (_root is null) return;
 
             _version = _root.Q<Label>("version");
             _site = _root.Q<Button>("site");
@@ -168,17 +169,25 @@ namespace AffiseAttributionLib.Editor.SettingsProviders
             _settingsNewView = _root.Q<VisualElement>("settings-new-view");
             _settingsView = _root.Q<VisualElement>("setting-view");
             _settingsMewMessage = _root.Q<Label>("settings-new-message");
-            _settingsMewMessage.text = TextNoSettings;
+            if (_settingsMewMessage is not null)
+            {
+                _settingsMewMessage.text = TextNoSettings;
+            }
 
             _settingsAsset = _root.Q<ObjectField>("settings-asset");
-            _settingsAsset.objectType = typeof(AffiseSettings);
-            _settingsAsset.label = TextSettings;
-            _settingsAsset.tooltip = TextSettingsTooltip;
-
-            _settingsAsset.RegisterValueChangedCallback(OnAssetSelect);
+            if (_settingsAsset is not null)
+            {
+                _settingsAsset.objectType = typeof(AffiseSettings);
+                _settingsAsset.label = TextSettings;
+                _settingsAsset.tooltip = TextSettingsTooltip;
+                _settingsAsset.RegisterValueChangedCallback(OnAssetSelect);
+            }
 
             _settingsNewBtn = _root.Q<Button>("settings-new-btn");
-            _settingsNewBtn.clickable.clicked += CreateNewSettings;
+            if (_settingsNewBtn is not null)
+            {
+                _settingsNewBtn.clickable.clicked += CreateNewSettings;
+            }
 
             _inspectorView = _root.Q<VisualElement>("inspector-view");
         }
