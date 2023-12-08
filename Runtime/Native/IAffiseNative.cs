@@ -53,6 +53,8 @@ namespace AffiseAttributionLib.Native
         void GetReferrerValue(ReferrerKey key, ReferrerCallback callback);
         
         void GetStatus(AffiseModules module, OnKeyValueCallback callback);
+        
+        void ModuleStart(AffiseModules module);
 
         string? GetRandomUserId();
 

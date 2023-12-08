@@ -1,11 +1,11 @@
-﻿using AffiseAttributionLib.Logs;
+﻿#nullable enable
 using AffiseAttributionLib.Modules;
 
 namespace AffiseAttributionLib.Module.Advertising
 {
     public class AdvertisingModule : AffiseModule
     {
-        protected override void Init(ILogsManager logsManager)
+        public override void Start()
         {
         }
     }

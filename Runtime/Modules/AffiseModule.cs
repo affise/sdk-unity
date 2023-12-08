@@ -8,19 +8,25 @@ namespace AffiseAttributionLib.Modules
 {
     public abstract class AffiseModule
     {
-        protected ILogsManager? _logsManager;
-        protected List<object> _dependencies = new();
-        protected List<Provider> _baseProviders = new();
+        protected ILogsManager? LogsManager;
+        private List<object> _dependencies = new();
+        private List<Provider> _baseProviders = new();
 
-        public void Init(ILogsManager logsManager, List<object> dependencies, List<Provider> providers)
+        public virtual bool IsManual => false;
+
+        public void Dependencies(ILogsManager logsManager, List<object> dependencies, List<Provider> providers)
         {
-            _logsManager = logsManager;
+            LogsManager = logsManager;
             _dependencies = dependencies;
             _baseProviders = providers;
-            Init(logsManager);
         }
 
-        protected abstract void Init(ILogsManager logsManager);
+        public abstract void Start();
+
+        public virtual IEnumerable<Provider> Providers()
+        {
+            return new List<Provider>();
+        }
 
         public virtual void Status(OnKeyValueCallback onComplete)
         {
@@ -45,7 +51,7 @@ namespace AffiseAttributionLib.Modules
             return _baseProviders.GetRequestProviders();
         }
 
-        public T? Get<T>() where T : class
+        protected T? Get<T>() where T : class
         {
             foreach (var obj in _dependencies)
             {

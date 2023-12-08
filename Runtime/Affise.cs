@@ -220,6 +220,18 @@ namespace AffiseAttributionLib
 #endif
         }
 
+        /**
+         * Manual module start
+         */
+        public static void ModuleStart(AffiseModules module)
+        {
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+            _native?.ModuleStart(module);
+#else
+            _api?.ModuleManager.ManualStart(module);
+#endif
+        }
+        
         public static string? GetRandomUserId()
         {
 #if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR

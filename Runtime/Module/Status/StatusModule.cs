@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using AffiseAttributionLib.Converter;
 using AffiseAttributionLib.Executors;
-using AffiseAttributionLib.Logs;
 using AffiseAttributionLib.Module.Status.UseCase;
 using AffiseAttributionLib.Modules;
 using AffiseAttributionLib.Network;
@@ -13,16 +12,16 @@ namespace AffiseAttributionLib.Module.Status
     {
         private ICheckStatusUseCase? _checkStatusUseCase;
 
-        protected override void Init(ILogsManager logsManager)
+        public override void Start()
         {
             var httpClient = Get<IHttpClient>();
             if (httpClient is null) return;
             var providersToJsonConverter = Get<ProvidersToJsonStringConverter>();
             if (providersToJsonConverter is null) return;
-            
+
             _checkStatusUseCase = new CheckStatusUseCaseImpl(
                 this,
-                logsManager,
+                LogsManager,
                 httpClient,
                 new ExecutorServiceProviderImpl(),
                 providersToJsonConverter,

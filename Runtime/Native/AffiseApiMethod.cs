@@ -26,6 +26,7 @@ namespace AffiseAttributionLib.Native
         GET_RANDOM_USER_ID,
         GET_RANDOM_DEVICE_ID,
         GET_PROVIDERS,
+        MODULE_START,
 
         // callbacks
         GET_REFERRER_CALLBACK,
@@ -78,6 +79,7 @@ namespace AffiseAttributionLib.Native
                 AffiseApiMethod.GET_RANDOM_USER_ID => "get_random_user_id",
                 AffiseApiMethod.GET_RANDOM_DEVICE_ID => "get_random_device_id",
                 AffiseApiMethod.GET_PROVIDERS => "get_providers",
+                AffiseApiMethod.MODULE_START => "module_start",
                 // callbacks
                 AffiseApiMethod.GET_REFERRER_CALLBACK => "get_referrer_callback",
                 AffiseApiMethod.GET_REFERRER_VALUE_CALLBACK => "get_referrer_value_callback",

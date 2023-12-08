@@ -19,7 +19,7 @@ namespace AffiseAttributionLib.Module.Status.UseCase
         private const int ATTEMPTS_TO_SEND = 30;
         private const long TIME_DELAY_SENDING = 5 * 1000;
 
-        private readonly ILogsManager _logsManager;
+        private readonly ILogsManager? _logsManager;
         private readonly IHttpClient _httpClient;
         private readonly IExecutorServiceProvider _executorServiceProvider;
         private readonly ProvidersToJsonStringConverter _converter;
@@ -29,7 +29,7 @@ namespace AffiseAttributionLib.Module.Status.UseCase
 
         public CheckStatusUseCaseImpl(
             AffiseModule affiseModule,
-            ILogsManager logsManager,
+            ILogsManager? logsManager,
             IHttpClient httpClient,
             IExecutorServiceProvider executorServiceProvider,
             ProvidersToJsonStringConverter converter,

@@ -1,4 +1,5 @@
 ﻿#nullable enable
+using System;
 using System.Collections.Generic;
 using AffiseAttributionLib.AffiseParameters.Factory;
 using AffiseAttributionLib.Logs;
@@ -24,23 +25,27 @@ namespace AffiseAttributionLib.Modules
 
         public void Init(List<object> dependencies)
         {
-            _modules[AffiseModules.Advertising] = InitModule(new AdvertisingModule(), dependencies);
-            _modules[AffiseModules.Network] = InitModule(new NetworkModule(), dependencies);
-            _modules[AffiseModules.Phone] = InitModule(new PhoneModule(), dependencies);
-            _modules[AffiseModules.Status] = InitModule(new StatusModule(), dependencies);
-        }
+            InitAffiseModules((module) =>
+            {
+                module.Dependencies(
+                    _logsManager,
+                    dependencies,
+                    _postBackModelFactory.GetProviders()
+                );
 
-        private AffiseModule InitModule(AffiseModule module, List<object> dependencies)
-        {
-            module.Init(_logsManager, dependencies, _postBackModelFactory.GetProviders());
-            return module;
+                if (module.IsManual == false)
+                {
+                    ModuleStart(module);
+                }
+            });
         }
 
         public void Status(AffiseModules module, OnKeyValueCallback onComplete)
         {
-            if (_modules.ContainsKey(module))
+            var affiseModule = GetModule(module);
+            if (affiseModule is not null)
             {
-                _modules[module].Status(onComplete);
+                affiseModule.Status(onComplete);
             }
             else
             {
@@ -48,6 +53,42 @@ namespace AffiseAttributionLib.Modules
                 {
                     new("error", $"module \"{module.Module()}\" not found")
                 });
+            }
+        }
+
+        public void ManualStart(AffiseModules module)
+        {
+            var affiseModule = GetModule(module);
+            if (affiseModule is null) return;
+            if (affiseModule.IsManual == false) return;
+            ModuleStart(affiseModule);
+        }
+
+        private void ModuleStart(AffiseModule module)
+        {
+            module.Start();
+            _postBackModelFactory.AddProviders(module.Providers());
+        }
+
+        private AffiseModule? GetModule(AffiseModules name)
+        {
+            return _modules.ContainsKey(name) ? _modules[name] : null;
+        }
+
+        private void InitAffiseModules(Action<AffiseModule> callback)
+        {
+            var affiseModules = new Dictionary<AffiseModules, AffiseModule>()
+            {
+                { AffiseModules.Advertising, new AdvertisingModule() },
+                { AffiseModules.Network, new NetworkModule() },
+                { AffiseModules.Phone, new PhoneModule() },
+                { AffiseModules.Status, new StatusModule() },
+            };
+
+            foreach (var (name, module) in affiseModules)
+            {
+                _modules[name] = module;
+                callback(module);
             }
         }
     }

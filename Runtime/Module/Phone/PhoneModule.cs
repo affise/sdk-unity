@@ -1,13 +1,12 @@
-﻿using AffiseAttributionLib.Logs;
+﻿#nullable enable
 using AffiseAttributionLib.Modules;
 
 namespace AffiseAttributionLib.Module.Phone
 {
-    public class PhoneModule: AffiseModule
+    public class PhoneModule : AffiseModule
     {
-        protected override void Init(ILogsManager logsManager)
+        public override void Start()
         {
-            
         }
     }
 }

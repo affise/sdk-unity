@@ -11,6 +11,7 @@ namespace AffiseAttributionLib.AffiseParameters.Factory
     internal class PostBackModelFactory
     {
         private readonly List<Provider> _providers;
+
         public PostBackModelFactory(
             List<Provider> providers
         )
@@ -27,11 +28,16 @@ namespace AffiseAttributionLib.AffiseParameters.Factory
             );
         }
 
+        public void AddProviders(IEnumerable<Provider> providers)
+        {
+            _providers.AddRange(providers);
+        }
+
         public T? GetProvider<T>() where T : Provider
         {
             return _providers.GetProvider<T>();
         }
-        
+
         public List<Provider> GetProviders(List<Type> types)
         {
             return _providers.GetProviders(types);

@@ -1,8 +1,8 @@
 # Affise Unity package
 
-| Artifact      | Version              |
-|---------------|----------------------|
-| `attribution` | [`1.6.10`](/releases) |
+| Artifact      | Version               |
+|---------------|-----------------------|
+| `attribution` | [`1.6.11`](/releases) |
 
 - [Affise Unity package](#affise-unity-package)
 - [Description](#description)
@@ -17,7 +17,7 @@
         - [Domain](#domain-1)
     - [Requirements](#requirements)
       - [iOS](#ios)
-    - [Add platform modules](#add-platform-modules)
+    - [Modules](#modules)
       - [Android](#android)
       - [iOS](#ios-1)
   - [Build](#build)
@@ -81,7 +81,7 @@ Add package from git url `https://github.com/affise/sdk-unity.git`
 
 ### Integrate unitypackage file
 
-Download latest Affise SDK [`attribution-1.6.10.unitypackage`](https://github.com/affise/sdk-unity/releases/download/1.6.10/attribution-1.6.10.unitypackage)
+Download latest Affise SDK [`attribution-1.6.11.unitypackage`](https://github.com/affise/sdk-unity/releases/download/1.6.11/attribution-1.6.11.unitypackage)
 from [releases page](https://github.com/affise/sdk-unity/releases) and drop this file to unity editor
 
 ### Initialize
@@ -165,7 +165,7 @@ Affise
 
 #### iOS
 
-Affise SDK uses `AppTrackingTransparency` framework to get `advertisingIdentifier`
+Affise Advertising module uses `AppTrackingTransparency` framework to get `advertisingIdentifier`
 For working functionality your app needs to declare [`NSUserTrackingUsageDescription` permission](https://developer.apple.com/documentation/bundleresources/information_property_list/nsusertrackingusagedescription):
 
 Open XCode project `info.plist` and add key `NSUserTrackingUsageDescription` with string value
@@ -179,7 +179,13 @@ Open XCode project `info.plist` and add key `NSUserTrackingUsageDescription` wit
 </dict>
 ```
 
-### Add platform modules
+### Modules
+
+If module start type is `manual`, then call
+
+```c#
+Affise.ModuleStart(AffiseModules.Advertising);
+```
 
 #### Android
 
@@ -187,21 +193,21 @@ Exported Unity project as Android project
 
 Add modules to Android project gradle file `unityLibrary/build.gradle`
 
-| Module               | Version                                                                                                                                                                      |
-|----------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `module-advertising` | [![module-advertising](https://img.shields.io/maven-central/v/com.affise/module-advertising?label=latest)](https://mvnrepository.com/artifact/com.affise/module-advertising) |
-| `module-network`     | [![module-network](https://img.shields.io/maven-central/v/com.affise/module-network?label=latest)](https://mvnrepository.com/artifact/com.affise/module-network)             |
-| `module-phone`       | [![module-phone](https://img.shields.io/maven-central/v/com.affise/module-phone?label=latest)](https://mvnrepository.com/artifact/com.affise/module-phone)                   |
-| `module-status`      | [![module-status](https://img.shields.io/maven-central/v/com.affise/module-status?label=latest)](https://mvnrepository.com/artifact/com.affise/module-status)                |
+| Module        | Version                                                                                                                                                                      | Start  |
+|---------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------|
+| `Advertising` | [![module-advertising](https://img.shields.io/maven-central/v/com.affise/module-advertising?label=latest)](https://mvnrepository.com/artifact/com.affise/module-advertising) | `Auto` |
+| `Network`     | [![module-network](https://img.shields.io/maven-central/v/com.affise/module-network?label=latest)](https://mvnrepository.com/artifact/com.affise/module-network)             | `Auto` |
+| `Phone`       | [![module-phone](https://img.shields.io/maven-central/v/com.affise/module-phone?label=latest)](https://mvnrepository.com/artifact/com.affise/module-phone)                   | `Auto` |
+| `Status`      | [![module-status](https://img.shields.io/maven-central/v/com.affise/module-status?label=latest)](https://mvnrepository.com/artifact/com.affise/module-status)                | `Auto` |
 
 ```gradle
 dependencies {
   // ...
   // Affise modules
-  implementation 'com.affise:module-advertising:1.6.20'
-  implementation 'com.affise:module-network:1.6.20'
-  implementation 'com.affise:module-phone:1.6.20'
-  implementation 'com.affise:module-status:1.6.20'
+  implementation 'com.affise:module-advertising:1.6.21'
+  implementation 'com.affise:module-network:1.6.21'
+  implementation 'com.affise:module-phone:1.6.21'
+  implementation 'com.affise:module-status:1.6.21'
 }
 ```
 
@@ -211,18 +217,20 @@ Open `Podfile` in XCode project folder
 
 Add modules to iOS project
 
-| Module                | Version  |
-|-----------------------|:--------:|
-| `AffiseModule/Status` | [`1.6.17`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) |
+| Module        |                                       Version                                        | Start    |
+|---------------|:------------------------------------------------------------------------------------:|----------|
+| `Advertising` | [`1.6.18`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Manual` |
+| `Status`      | [`1.6.18`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
 
 ```rb
 platform :ios, '11.0'
 
 target 'UnityFramework' do
-  pod 'AffiseInternal', '1.6.17'
+  pod 'AffiseInternal', '1.6.18'
 
   # Affise Modules
-  pod 'AffiseModule/Status', `1.6.17`
+  pod 'AffiseModule/Advertising', `1.6.18`
+  pod 'AffiseModule/Status', `1.6.18`
 end
 
 target 'Unity-iPhone' do
@@ -230,6 +238,18 @@ end
 
 use_frameworks! :linkage => :static
 ```
+
+> **Warning**
+>
+> 🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥
+>
+> Module Advertising requires `NSUserTrackingUsageDescription` key in `info.plist`
+>
+> Application **will crash** if key not present
+>
+> 🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥
+
+Open `info.plist` and add key `NSUserTrackingUsageDescription` with string value. For more information [read requirements](#requirements)
 
 ## Build
 
@@ -253,7 +273,6 @@ SDK is using Cocoapods
 >
 > 🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧
 
-
 If Podfile hasn't generated you can create it manually using this [Podfile](Editor/Resources/iOS/AffisePodfile.rb) as template
 
 Podfile:
@@ -262,10 +281,10 @@ Podfile:
 platform :ios, '11.0'
 
 target 'UnityFramework' do
-  pod 'AffiseInternal', '1.6.17'
+  pod 'AffiseInternal', '1.6.18'
 
   # Affise Modules
-  # pod 'AffiseModule/Status', `1.6.17`
+  # pod 'AffiseModule/Status', `1.6.18`
 end
 
 target 'Unity-iPhone' do
@@ -971,7 +990,7 @@ Affise.Debug.Validate(status =>
 >
 > 🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥
 >
-> This app has crashed because it attempted to access privacy-sensitive data without a usage description.
+> This app has crashed because Affise Advertising Module is attempted to access privacy-sensitive data without a usage description.
 >
 > The app's `Info.plist` must contain an `NSUserTrackingUsageDescription` key with a string value explaining
 >

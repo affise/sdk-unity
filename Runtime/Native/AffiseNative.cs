@@ -126,6 +126,11 @@ namespace AffiseAttributionLib.Native
             NativeCallbackOnce(AffiseApiMethod.GET_STATUS_CALLBACK, callback: callback, data: module.Module());
         }
 
+        public void ModuleStart(AffiseModules module)
+        {
+            Native(AffiseApiMethod.MODULE_START, module.Module());
+        }
+
         public string? GetRandomUserId()
         {
             return Native<string>(AffiseApiMethod.GET_RANDOM_USER_ID);
