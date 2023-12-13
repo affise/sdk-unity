@@ -1,4 +1,5 @@
 ﻿#if UNITY_ANDROID && !UNITY_EDITOR
+#nullable enable
 using System;
 using AffiseAttributionLib.Native.Base;
 using UnityEngine;
@@ -14,9 +15,9 @@ namespace AffiseAttributionLib.Native.Android
         private const string JavaApiCall = "apiCall";
         private const string JavaApiCallVoid = "apiCallVoid";
 
-        private readonly AndroidJavaObject _plugin;
+        private readonly AndroidJavaObject? _plugin;
         
-        private event INative.AffiseNativeCallback OnAffiseCallback;
+        private event INative.AffiseNativeCallback? OnAffiseCallback;
 
         public NativeAndroid() : base(JavaAffiseCallback)
         {
@@ -44,8 +45,9 @@ namespace AffiseAttributionLib.Native.Android
             OnAffiseCallback += method;
         }
 
-        public T Native<T>(string apiName, string json)
+        public T? Native<T>(string apiName, string json)
         {
+            if (_plugin is null) return default;
             try
             {
                 return _plugin.Call<T>(JavaApiCall, apiName, json);
@@ -62,13 +64,14 @@ namespace AffiseAttributionLib.Native.Android
             return default;
         }
 
-        public T Native<T>(string apiName)
+        public T? Native<T>(string apiName)
         {
             return Native<T>(apiName, "{}");
         }
 
         public void Native(string apiName, string json)
         {
+            if (_plugin is null) return;
             try
             {
                 _plugin.Call(JavaApiCallVoid, apiName, json);

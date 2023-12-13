@@ -8,7 +8,7 @@ namespace AffiseAttributionLib.Native.IOS
 {
     internal class NativeIOS : INative
     {
-        private static event INative.AffiseNativeCallback OnAffiseCallback;
+        private static event INative.AffiseNativeCallback? OnAffiseCallback;
         
         [System.Runtime.InteropServices.DllImport("__Internal", EntryPoint = "_c_affise_api_call")]
         private static extern void apiCall(string apiName, string json);
@@ -45,20 +45,20 @@ namespace AffiseAttributionLib.Native.IOS
             apiSetCallback(NativeCallback);
         }
 
-        public T Native<T>(string apiName, string json)
+        public T? Native<T>(string apiName, string json)
         {
             try
             {
-                object value = Type.GetTypeCode(typeof(T)) switch
+                object? value = Type.GetTypeCode(typeof(T)) switch
                 {
                     TypeCode.Boolean => apiCallBool(apiName, json) != 0,
                     TypeCode.String => apiCallString(apiName, json),
                     _ => null
                 };
                 
-                if (value is T)
+                if (value is T result)
                 {
-                    return (T)value;
+                    return result;
                 }
                 return default;
             }
@@ -69,7 +69,7 @@ namespace AffiseAttributionLib.Native.IOS
             return default;
         }
 
-        public T Native<T>(string apiName)
+        public T? Native<T>(string apiName)
         {
             return Native<T>(apiName, "{}");
         }

@@ -11,17 +11,12 @@
 // For classes that are part of the program's executable file,
 // the runtime sends the load message very early in the process's lifetime. 
 + (void)load {
-    @try {
-        // As Objective-C is based on message passing
-        // https://en.wikipedia.org/wiki/Objective-C#Messages
-        // cast shared object with fake objective-c protocol 
-        // to unity AppDelegateListener<LifeCycleListener>
-        // for calling messages with matching names
-        UnityRegisterAppDelegateListener((AffiseLoader*)[AffiseNativeModule shared]);
-    }
-    @catch (NSException *exception) {
-        NSLog (@"Affise cannot start plugin. error: %@", [exception reason]);
-    }
+    // As Objective-C is based on message passing
+    // https://en.wikipedia.org/wiki/Objective-C#Messages
+    // cast shared object with fake objective-c protocol 
+    // to unity AppDelegateListener<LifeCycleListener>
+    // for calling messages with matching names
+    UnityRegisterAppDelegateListener((AffiseLoader*)[AffiseNativeModule shared]);
 }
 
 @end
@@ -29,7 +24,7 @@
 //// Alternative Affise loader via AppDelegateListener
 //@interface AffiseAppDelegateListener: NSObject<AppDelegateListener>
 //@end
-
+//
 //@implementation AffiseAppDelegateListener
 //
 ////Loader singleton
@@ -56,13 +51,10 @@
 //}
 //
 //- (void)applicationWillFinishLaunchingWithOptions:(NSNotification*)notification {
-//    NSDictionary* options = notification.userInfo;
-//    [[AffiseNativeModule shared] startAffiseWithOptions:options];
+//    [[AffiseNativeModule shared] applicationWillFinishLaunchingWithOptions:notification];
 //}
 //
 //- (void)onOpenURL:(NSNotification*)notification {
-//    NSDictionary* options = notification.userInfo;
-//    NSURL* url = [options valueForKey:@"url"];
-//    [[AffiseNativeModule shared] handleDeeplink:url];
+//    [[AffiseNativeModule shared] onOpenURL:notification];
 //}
 //@end

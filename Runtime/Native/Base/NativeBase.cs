@@ -19,7 +19,7 @@ namespace AffiseAttributionLib.Native
     {
         private const string UUID = "callback_uuid";
 
-        private INative? _native = null;
+        private readonly INative? _native = null;
 
         private readonly Dictionary<string, object> _callbacksOnce = new();
         
@@ -40,33 +40,41 @@ namespace AffiseAttributionLib.Native
 
         protected T? Native<T>(AffiseApiMethod api, object? data, string? uuid = null)
         {
+            var apiName = api.ToMethod();
+            if (apiName is null) return default;
             var json = new JSONObject
             {
-                [api.ToMethod()] = data?.ToJsonNode(),
+                [apiName] = data?.ToJsonNode(),
                 [UUID] = uuid
             };
             if (_native is null) return default;
-            return _native.Native<T>(api.ToMethod(), json.ToString());
+            return _native.Native<T>(apiName, json.ToString());
         }
 
         protected T? Native<T>(AffiseApiMethod api)
         {
             if (_native is null) return default;
-            return _native.Native<T>(api.ToMethod());
+            var apiName = api.ToMethod();
+            if (apiName is null) return default;
+            return _native.Native<T>(apiName);
         }
 
         protected void Native(AffiseApiMethod api, object? data)
         {
+            var apiName = api.ToMethod();
+            if (apiName is null) return;
             var json = new JSONObject
             {
-                [api.ToMethod()] = data?.ToJsonNode(),
+                [apiName] = data?.ToJsonNode(),
             };
-            _native?.Native(api.ToMethod(), json.ToString());
+            _native?.Native(apiName, json.ToString());
         }
 
         protected void Native(AffiseApiMethod api)
         {
-            _native?.Native(api.ToMethod());
+            var apiName = api.ToMethod();
+            if (apiName is null) return;
+            _native?.Native(apiName);
         }
 
         protected JSONObject? NativeMap(AffiseApiMethod api)
@@ -100,24 +108,28 @@ namespace AffiseAttributionLib.Native
 
         protected void NativeCallbackOnce(AffiseApiMethod api, object callback, object? data = null)
         {
+            var apiName = api.ToMethod();
+            if (apiName is null) return;
             var uuid = Uuid.Generate();
             var json = new JSONObject
             {
-                [api.ToMethod()] = data?.ToJsonNode(),
+                [apiName] = data?.ToJsonNode(),
                 [UUID] = uuid
             };
             _callbacksOnce[uuid] = callback;
-            _native?.Native(api.ToMethod(), json.ToString());
+            _native?.Native(apiName, json.ToString());
         }
         
         protected void NativeCallback(AffiseApiMethod api, object callback, object? data = null)
         {
+            var apiName = api.ToMethod();
+            if (apiName is null) return;
             var json = new JSONObject
             {
-                [api.ToMethod()] = data?.ToJsonNode(),
+                [apiName] = data?.ToJsonNode(),
             };
             _callbacks[api] = callback;
-            _native?.Native(api.ToMethod(), json.ToString());
+            _native?.Native(apiName, json.ToString());
         }
 
         private void AffiseCallback(string apiName, string data)
@@ -154,12 +166,13 @@ namespace AffiseAttributionLib.Native
             {
                 var json = JSON.Parse(data);
                 var uuid = json[UUID];
-                if (api is null)
+                var apiName = api?.ToMethod();
+                if (apiName is null)
                 {
                     return new Tuple<string?, JSONNode?>(uuid, null);
                 }
 
-                var value = json[api?.ToMethod()];
+                var value = json[apiName];
                 return new Tuple<string?, JSONNode?>(uuid, value);
             }
             catch (Exception)

@@ -2,7 +2,7 @@
 
 | Artifact      | Version               |
 |---------------|-----------------------|
-| `attribution` | [`1.6.11`](/releases) |
+| `attribution` | [`1.6.12`](/releases) |
 
 - [Affise Unity package](#affise-unity-package)
 - [Description](#description)
@@ -81,7 +81,7 @@ Add package from git url `https://github.com/affise/sdk-unity.git`
 
 ### Integrate unitypackage file
 
-Download latest Affise SDK [`attribution-1.6.11.unitypackage`](https://github.com/affise/sdk-unity/releases/download/1.6.11/attribution-1.6.11.unitypackage)
+Download latest Affise SDK [`attribution-1.6.12.unitypackage`](https://github.com/affise/sdk-unity/releases/download/1.6.12/attribution-1.6.12.unitypackage)
 from [releases page](https://github.com/affise/sdk-unity/releases) and drop this file to unity editor
 
 ### Initialize
@@ -690,7 +690,7 @@ Affise.AddPushToken(token);
 ```c#
 Affise.RegisterDeeplinkCallback((uri) =>
 {
-    string value = uri.Query.GetValueByKeyExt("<your_uri_key>");
+    string value = System.Web.HttpUtility.ParseQueryString(uri.Query).Get("<your_uri_key>");
     if (value == "your_uri_key_value") {
         // handle value
     }

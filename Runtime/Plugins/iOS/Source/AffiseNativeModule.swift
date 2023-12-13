@@ -37,8 +37,9 @@ public class AffiseNativeModule : NativeCallHandler {
     }
 
     func getDelay() -> Int {
-        let delayKey = Bundle.main.object(forInfoDictionaryKey: KeyDelay) as? NSNumber 
-        let delay = delayKey?.intValue ?? DefaultDelay
+        let delayKey = Bundle.main.object(forInfoDictionaryKey: AffiseNativeModule.KeyDelay) as? NSNumber
+        let delay = delayKey?.intValue ?? AffiseNativeModule.DefaultDelay
+        return delay
     }
 }
 
@@ -46,18 +47,18 @@ public class AffiseNativeModule : NativeCallHandler {
 extension AffiseNativeModule : ModuleAppDelegate {
 
     @objc
-    func applicationWillFinishLaunchingWithOptions(_ notification: Notification) {
+    public func applicationWillFinishLaunchingWithOptions(_ notification: Notification) {
         let options = notification.userInfo as? [UIApplication.LaunchOptionsKey : Any]
         startAffise(options)
         
-        let url = options?[UIApplication.LaunchOptionsKey.url] as? URL
-        DispatchQueue.global().asyncAfter(deadline: .now() + getDelay()) {
+        guard let url = options?[UIApplication.LaunchOptionsKey.url] as? URL else { return }
+        DispatchQueue.global().asyncAfter(deadline: .now() + TimeInterval(getDelay())) {
             self.handleDeeplink(url)
         }
     }
     
     @objc
-    func onOpenURL(_ notification: Notification) {
+    public func onOpenURL(_ notification: Notification) {
         let options = notification.userInfo as? [String:Any?]
         let url: URL? = options?["url"] as? URL
         
