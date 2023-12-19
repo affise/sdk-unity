@@ -2,7 +2,7 @@
 
 | Artifact      | Version               |
 |---------------|-----------------------|
-| `attribution` | [`1.6.12`](/releases) |
+| `attribution` | [`1.6.13`](/releases) |
 
 - [Affise Unity package](#affise-unity-package)
 - [Description](#description)
@@ -48,11 +48,11 @@
   - [Get random user Id](#get-random-user-id)
   - [Get random device Id](#get-random-device-id)
   - [Get providers](#get-providers)
+  - [Get referrer](#get-referrer)
+  - [Get referrer value](#get-referrer-value)
+    - [Referrer keys](#referrer-keys)
   - [Get module state](#get-module-state)
   - [Platform specific](#platform-specific)
-    - [Get referrer](#get-referrer)
-    - [Get referrer value](#get-referrer-value)
-      - [Referrer keys](#referrer-keys)
     - [StoreKit Ad Network](#storekit-ad-network)
 - [SDK to SDK integrations](#sdk-to-sdk-integrations)
 - [Debug](#debug)
@@ -81,7 +81,7 @@ Add package from git url `https://github.com/affise/sdk-unity.git`
 
 ### Integrate unitypackage file
 
-Download latest Affise SDK [`attribution-1.6.12.unitypackage`](https://github.com/affise/sdk-unity/releases/download/1.6.12/attribution-1.6.12.unitypackage)
+Download latest Affise SDK [`attribution-1.6.13.unitypackage`](https://github.com/affise/sdk-unity/releases/download/1.6.13/attribution-1.6.13.unitypackage)
 from [releases page](https://github.com/affise/sdk-unity/releases) and drop this file to unity editor
 
 ### Initialize
@@ -219,18 +219,18 @@ Add modules to iOS project
 
 | Module        |                                       Version                                        | Start    |
 |---------------|:------------------------------------------------------------------------------------:|----------|
-| `Advertising` | [`1.6.18`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Manual` |
-| `Status`      | [`1.6.18`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
+| `Advertising` | [`1.6.19`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Manual` |
+| `Status`      | [`1.6.19`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
 
 ```rb
 platform :ios, '11.0'
 
 target 'UnityFramework' do
-  pod 'AffiseInternal', '1.6.18'
+  pod 'AffiseInternal', '1.6.19'
 
   # Affise Modules
-  pod 'AffiseModule/Advertising', `1.6.18`
-  pod 'AffiseModule/Status', `1.6.18`
+  pod 'AffiseModule/Advertising', `1.6.19`
+  pod 'AffiseModule/Status', `1.6.19`
 end
 
 target 'Unity-iPhone' do
@@ -281,10 +281,10 @@ Podfile:
 platform :ios, '11.0'
 
 target 'UnityFramework' do
-  pod 'AffiseInternal', '1.6.18'
+  pod 'AffiseInternal', '1.6.19'
 
   # Affise Modules
-  # pod 'AffiseModule/Status', `1.6.18`
+  # pod 'AffiseModule/Status', `1.6.19`
 end
 
 target 'Unity-iPhone' do
@@ -742,7 +742,7 @@ Add key `CFBundleURLTypes` to `Info.plist` file in Xcode project folder
 
 ## Offline mode
 
-In some scenarios you would want to limit Affise network usage, to pause that activity call anywhere in your application following code after Affise init:
+In some scenarios you would want to limit Affise network usage, to pause that activity call anywhere in your application following code after Affise start:
 
 ```c#
 Affise.SetOfflineModeEnabled(true) // to enable offline mode
@@ -759,7 +759,7 @@ Affise.IsOfflineModeEnabled() // returns true or false describing current tracki
 
 ## Disable tracking
 
-To disable any tracking activity, storing events and gathering device identifiers and metrics call anywhere in your application following code after Affise init:
+To disable any tracking activity, storing events and gathering device identifiers and metrics call anywhere in your application following code after Affise start:
 
 ```c#
 Affise.SetTrackingEnabled(true) // to enable tracking
@@ -778,7 +778,7 @@ Affise.IsTrackingEnabled() // returns true or false describing current tracking 
 
 ## Disable background tracking
 
-To disable any background tracking activity, storing events and gathering device identifiers and metrics call anywhere in your application following code after Affise init:
+To disable any background tracking activity, storing events and gathering device identifiers and metrics call anywhere in your application following code after Affise start:
 
 ```c#
 Affise.SetBackgroundTrackingEnabled(true) // to enable background tracking
@@ -819,19 +819,7 @@ if (providers.ContainsKey(key)) {
 }
 ```
 
-## Get module state
-
-```C#
-Affise.GetStatus(AffiseModules.Status, response => {
-    // handle response
-});
-```
-
-## Platform specific
-
-### Get referrer
-
-> `Android Only`
+## Get referrer
 
 > **Warning**
 >
@@ -844,24 +832,22 @@ Affise.GetStatus(AffiseModules.Status, response => {
 Use the next public method of SDK to get referrer
 
 ```C#
-Affise.Android.GetReferrer(referrer => {
+Affise.GetReferrer(referrer => {
     // handle referrer
 });
 ```
 
-### Get referrer value
-
-> `Android Only`
+## Get referrer value
 
 Use the next public method of SDK to get referrer value by
 
 ```C#
-Affise.Android.GetReferrerValue(ReferrerKey.CLICK_ID, referrer => {
+Affise.GetReferrerValue(ReferrerKey.CLICK_ID, referrer => {
     // handle referrer value
 });
 ```
 
-#### Referrer keys
+### Referrer keys
 
 In examples above `ReferrerKey.CLICK_ID` is used, but many others is available:
 
@@ -895,6 +881,16 @@ In examples above `ReferrerKey.CLICK_ID` is used, but many others is available:
 - `SUB_3`
 - `SUB_4`
 - `SUB_5`
+
+## Get module state
+
+```C#
+Affise.GetStatus(AffiseModules.Status, response => {
+    // handle response
+});
+```
+
+## Platform specific
 
 ### StoreKit Ad Network
 

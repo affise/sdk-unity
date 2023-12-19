@@ -55,15 +55,6 @@ namespace AffiseAttributionLib
 #endif
         }
 
-        /**
-         * Init [AffiseComponent] with [initProperties]
-         */
-        [Obsolete("Use Affise.Settings(affiseAppId,secretKey).Start()")]
-        public static void Init(AffiseInitProperties initProperties)
-        {
-            Start(initProperties);
-        }
-        
         public static bool IsInitialized()
         {
 #if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
@@ -121,15 +112,6 @@ namespace AffiseAttributionLib
 #endif
         }
 
-        /**
-         * Set new SDK [secretKey]
-         */
-        [Obsolete("use SetSecretKey(secretKey)")]
-        public static void SetSecretId(string secretId)
-        {
-            SetSecretKey(secretId);
-        }
-        
         /**
          * Set new SDK [secretKey]
          */
@@ -259,6 +241,30 @@ namespace AffiseAttributionLib
 #endif
         }
         
+        /**
+         * Get referrer
+         */
+        public static void GetReferrer(ReferrerCallback callback)
+        {
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+            _native?.GetReferrer(callback);
+#else
+            callback.Invoke(NotSupported);
+#endif
+        }
+
+        /**
+         * Get referrer value by key
+         */
+        public static void GetReferrerValue(ReferrerKey key, ReferrerCallback callback)
+        {
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+            _native?.GetReferrerValue(key, callback);
+#else
+            callback.Invoke(NotSupported);
+#endif
+        }
+        
         public static class Android
         {
             /**
@@ -295,30 +301,6 @@ namespace AffiseAttributionLib
             {
 #if (UNITY_ANDROID) && !UNITY_EDITOR
                 _native?.CrashApplication();
-#endif
-            }
-
-            /**
-             * Get referrer
-             */
-            public static void GetReferrer(ReferrerCallback callback)
-            {
-#if (UNITY_ANDROID) && !UNITY_EDITOR
-                _native?.GetReferrer(callback);
-#else
-                callback.Invoke(NotSupported);
-#endif
-            }
-
-            /**
-             * Get referrer value by key
-             */
-            public static void GetReferrerValue(ReferrerKey key, ReferrerCallback callback)
-            {
-#if (UNITY_ANDROID) && !UNITY_EDITOR
-                _native?.GetReferrerValue(key, callback);
-#else
-                callback.Invoke(NotSupported);
 #endif
             }
         }

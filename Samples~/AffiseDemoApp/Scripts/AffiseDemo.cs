@@ -100,7 +100,7 @@ namespace AffiseDemo
             view.AddButton("Get Referrer", () =>
             {
                 // Get referrer https://github.com/affise/sdk-unity#get-referrer
-                Affise.Android.GetReferrer(value =>
+                Affise.GetReferrer(value =>
                 {
                     Output($"GetReferrer: {value}");
                 });
@@ -111,7 +111,7 @@ namespace AffiseDemo
             view.AddButton("Get Referrer Value", () => 
             {
                 // Get referrer parameter https://github.com/affise/sdk-unity#get-referrer-parameter
-                Affise.Android.GetReferrerValue(_refKey, value =>
+                Affise.GetReferrerValue(_refKey, value =>
                 {
                     Output($"GetReferrerValue: {_refKey.ToString()} = {value}");
                 });
