@@ -126,9 +126,24 @@ namespace AffiseAttributionLib.Native
             NativeCallbackOnce(AffiseApiMethod.GET_STATUS_CALLBACK, callback: callback, data: module.Module());
         }
 
-        public void ModuleStart(AffiseModules module)
+        public bool ModuleStart(AffiseModules module)
         {
-            Native(AffiseApiMethod.MODULE_START, module.Module());
+            return Native<bool>(AffiseApiMethod.MODULE_START, module.Module());
+        }
+
+        public List<AffiseModules> GetModules()
+        {
+            var result = new List<AffiseModules>();
+            var data = NativeList(AffiseApiMethod.GET_MODULES_INSTALLED);
+            if (data == null) return result;
+            foreach (var (_, value) in data)
+            {
+                var module = AffiseModulesExt.From(value?.Value);
+                if (module is null) continue;
+                result.Add((AffiseModules)module);
+            }
+
+            return result;
         }
 
         public string? GetRandomUserId()

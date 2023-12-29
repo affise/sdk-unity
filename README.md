@@ -2,7 +2,7 @@
 
 | Artifact      | Version               |
 |---------------|-----------------------|
-| `attribution` | [`1.6.13`](/releases) |
+| `attribution` | [`1.6.14`](/releases) |
 
 - [Affise Unity package](#affise-unity-package)
 - [Description](#description)
@@ -81,7 +81,7 @@ Add package from git url `https://github.com/affise/sdk-unity.git`
 
 ### Integrate unitypackage file
 
-Download latest Affise SDK [`attribution-1.6.13.unitypackage`](https://github.com/affise/sdk-unity/releases/download/1.6.13/attribution-1.6.13.unitypackage)
+Download latest Affise SDK [`attribution-1.6.14.unitypackage`](https://github.com/affise/sdk-unity/releases/download/1.6.14/attribution-1.6.14.unitypackage)
 from [releases page](https://github.com/affise/sdk-unity/releases) and drop this file to unity editor
 
 ### Initialize
@@ -168,30 +168,39 @@ Affise
 Affise Advertising module uses `AppTrackingTransparency` framework to get `advertisingIdentifier`
 For working functionality your app needs to declare [`NSUserTrackingUsageDescription` permission](https://developer.apple.com/documentation/bundleresources/information_property_list/nsusertrackingusagedescription):
 
-Open XCode project `info.plist` and add key `NSUserTrackingUsageDescription` with string value
+Key `NSUserTrackingUsageDescription` value is set in `Edit / Project Settings / Affise / Modules`
 
-```xml
-<plist version="1.0">
-<dict>
-    ...
-	<key>NSUserTrackingUsageDescription</key>
-	<string>Youre permission text</string>
-</dict>
-```
+Key added automatically then module `Advertising` is selected
+
+Default value is empty string ""
 
 ### Modules
 
-If module start type is `manual`, then call
+Open `Edit / Project Settings / Affise`
+
+On `Modules` tab select all required
+
+![affise_modules](https://github.com/affise/sdk-unity/blob/assets/affise_modules.png?raw=true)
+
+If module start `type` is `manual`, then call is code:
 
 ```c#
 Affise.ModuleStart(AffiseModules.Advertising);
 ```
 
+Get list of installed modules:
+
+```c#
+Affise.GetModulesInstalled()
+```
+
 #### Android
 
-Exported Unity project as Android project
+All affise modules is updated automatically on build 
 
-Add modules to Android project gradle file `unityLibrary/build.gradle`
+> **Warning**
+>
+> **No manual editing is reqired**
 
 | Module        | Version                                                                                                                                                                      | Start  |
 |---------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------|
@@ -200,37 +209,43 @@ Add modules to Android project gradle file `unityLibrary/build.gradle`
 | `Phone`       | [![module-phone](https://img.shields.io/maven-central/v/com.affise/module-phone?label=latest)](https://mvnrepository.com/artifact/com.affise/module-phone)                   | `Auto` |
 | `Status`      | [![module-status](https://img.shields.io/maven-central/v/com.affise/module-status?label=latest)](https://mvnrepository.com/artifact/com.affise/module-status)                | `Auto` |
 
+Dependencies located in Android project gradle file `build.gradle`
+
 ```gradle
 dependencies {
   // ...
   // Affise modules
-  implementation 'com.affise:module-advertising:1.6.21'
-  implementation 'com.affise:module-network:1.6.21'
-  implementation 'com.affise:module-phone:1.6.21'
-  implementation 'com.affise:module-status:1.6.21'
+  implementation 'com.affise:module-advertising:1.6.22'
+  implementation 'com.affise:module-network:1.6.22'
+  implementation 'com.affise:module-phone:1.6.22'
+  implementation 'com.affise:module-status:1.6.22'
 }
 ```
 
 #### iOS
 
-Open `Podfile` in XCode project folder
+All affise modules is updated automatically on build
 
-Add modules to iOS project
+> **Warning**
+>
+> **No manual editing is reqired**
 
 | Module        |                                       Version                                        | Start    |
 |---------------|:------------------------------------------------------------------------------------:|----------|
-| `Advertising` | [`1.6.19`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Manual` |
-| `Status`      | [`1.6.19`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
+| `Advertising` | [`1.6.20`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Manual` |
+| `Status`      | [`1.6.20`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
+
+Dependencies located in XCode project folder `Podfile`
 
 ```rb
 platform :ios, '11.0'
 
 target 'UnityFramework' do
-  pod 'AffiseInternal', '1.6.19'
+  pod 'AffiseInternal', '1.6.20'
 
   # Affise Modules
-  pod 'AffiseModule/Advertising', `1.6.19`
-  pod 'AffiseModule/Status', `1.6.19`
+  pod 'AffiseModule/Advertising', `1.6.20`
+  pod 'AffiseModule/Status', `1.6.20`
 end
 
 target 'Unity-iPhone' do
@@ -246,10 +261,14 @@ use_frameworks! :linkage => :static
 > Module Advertising requires `NSUserTrackingUsageDescription` key in `info.plist`
 >
 > Application **will crash** if key not present
+> 
+> Key `NSUserTrackingUsageDescription` value is set in `Edit / Project Settings / Affise / Modules`
+> 
+> Key added automatically then module `Advertising` is selected
+> 
+> Default value is empty string ""
 >
 > 🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥
-
-Open `info.plist` and add key `NSUserTrackingUsageDescription` with string value. For more information [read requirements](#requirements)
 
 ## Build
 
@@ -281,10 +300,10 @@ Podfile:
 platform :ios, '11.0'
 
 target 'UnityFramework' do
-  pod 'AffiseInternal', '1.6.19'
+  pod 'AffiseInternal', '1.6.20'
 
   # Affise Modules
-  # pod 'AffiseModule/Status', `1.6.19`
+  # pod 'AffiseModule/Status', `1.6.20`
 end
 
 target 'Unity-iPhone' do
@@ -874,6 +893,11 @@ In examples above `ReferrerKey.CLICK_ID` is used, but many others is available:
 - `AFFISE_REF`
 - `AFFISE_SITE_ID`
 - `AFFISE_SUB_SITE_ID`
+- `AFFISE_SUB_1`
+- `AFFISE_SUB_2`
+- `AFFISE_SUB_3`
+- `AFFISE_SUB_4`
+- `AFFISE_SUB_5`
 - `AFFC`
 - `PID`
 - `SUB_1`

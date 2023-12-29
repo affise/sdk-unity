@@ -31,7 +31,12 @@
         SUB_2,
         SUB_3,
         SUB_4,
-        SUB_5
+        SUB_5,
+        AFFISE_SUB_1,
+        AFFISE_SUB_2,
+        AFFISE_SUB_3,
+        AFFISE_SUB_4,
+        AFFISE_SUB_5,
     }
     
     public static class ReferrerKeyExtensions
@@ -70,6 +75,11 @@
                 ReferrerKey.SUB_3 => "sub3",
                 ReferrerKey.SUB_4 => "sub4",
                 ReferrerKey.SUB_5 => "sub5",
+                ReferrerKey.AFFISE_SUB_1 => "affise_sub1",
+                ReferrerKey.AFFISE_SUB_2 => "affise_sub2",
+                ReferrerKey.AFFISE_SUB_3 => "affise_sub3",
+                ReferrerKey.AFFISE_SUB_4 => "affise_sub4",
+                ReferrerKey.AFFISE_SUB_5 => "affise_sub5",
                 _ => null
             };
         }

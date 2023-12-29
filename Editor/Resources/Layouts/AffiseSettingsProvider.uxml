@@ -19,26 +19,49 @@
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
-    <uie:ObjectField name="settings-asset" type="AffiseAttributionLib.Unity.AffiseSettings, Affise" allow-scene-objects="false" class="ms-3 no-label mb-2 me-2" style="flex-direction: column; -unity-text-align: upper-center; -unity-font-style: bold;" />
-    <ui:VisualElement name="settings-new-view" class="grow mt-3" style="display: flex; margin-top: 0;">
-        <ui:VisualElement class="center grow">
-            <ui:VisualElement>
-                <ui:VisualElement name="warning-asset" class="msg-box my-2 color-alert bg-alert border-alert p-2" style="margin-left: 3px; margin-right: 3px; display: flex;">
-                    <ui:Label display-tooltip-when-elided="true" name="warning-text" text="No active settings\nUse method Affise.Init(..) or create settings asset." class="text-wrap" style="-unity-text-align: middle-left; -unity-font-style: bold; display: flex;" />
-                </ui:VisualElement>
-                <ui:Label name="settings-new-message" text="Settings" class="text-center bold p-3" />
-                <ui:VisualElement style="flex-direction: row; align-items: auto; justify-content: center;">
-                    <ui:Button name="settings-new-btn" text="Create" class="settings-create" style="flex-grow: 1;" />
-                    <ui:Button name="settings-find" text="Find" class="settings-create" style="flex-grow: 1; display: none;" />
+    <ui:VisualElement name="tabs" style="min-height: 20px;">
+        <uie:Toolbar style="flex-grow: 1; padding-left: 0.5px;">
+            <uie:ToolbarToggle focusable="false" label="Credentials" value="false" name="tab1" />
+            <uie:ToolbarToggle focusable="false" label="Modules" name="tab2" />
+        </uie:Toolbar>
+    </ui:VisualElement>
+    <ui:VisualElement name="tabsView">
+        <ui:VisualElement name="tab-view1">
+            <uie:ObjectField name="settings-asset" type="AffiseAttributionLib.Unity.AffiseSettings, Affise" allow-scene-objects="false" class="ms-3 no-label mb-2 me-2" style="flex-direction: column; -unity-text-align: upper-center; -unity-font-style: bold;" />
+            <ui:VisualElement name="settings-new-view" class="grow mt-3" style="display: flex; margin-top: 0;">
+                <ui:VisualElement class="center grow">
+                    <ui:VisualElement>
+                        <ui:VisualElement name="warning-asset" class="msg-box my-2 color-alert bg-alert border-alert p-2" style="margin-left: 3px; margin-right: 3px; display: flex;">
+                            <ui:Label display-tooltip-when-elided="true" name="warning-text" text="No active settings\nUse method Affise.Settings(..).Start() or create settings asset." class="text-wrap" style="-unity-text-align: middle-left; -unity-font-style: bold; display: flex;" />
+                        </ui:VisualElement>
+                        <ui:Label name="settings-new-message" text="Settings" class="text-center bold p-3" />
+                        <ui:VisualElement style="flex-direction: row; align-items: auto; justify-content: center;">
+                            <ui:Button name="settings-new-btn" text="Create" class="settings-create" style="flex-grow: 1;" />
+                            <ui:Button name="settings-find" text="Find" class="settings-create" style="flex-grow: 1; display: none;" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
                 </ui:VisualElement>
             </ui:VisualElement>
+            <ui:ScrollView scroll-deceleration-rate="0,135" elasticity="0,1" horizontal-scroller-visibility="Hidden" vertical-scroller-visibility="Auto" name="setting-view" style="flex-grow: 1; flex-shrink: 1; display: flex;">
+                <ui:VisualElement class="hide-info me-2" style="align-items: stretch; min-height: auto;">
+                    <ui:VisualElement name="inspector-view" style="align-items: stretch; justify-content: flex-start; display: flex;">
+                        <ui:Label text="inspector" display-tooltip-when-elided="true" style="-unity-text-align: upper-center; -unity-font-style: bold; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px;" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:ScrollView>
+        </ui:VisualElement>
+        <ui:VisualElement name="tab-view2">
+            <ui:ScrollView scroll-deceleration-rate="0,135" elasticity="0,1">
+                <ui:VisualElement style="padding-left: 8px; padding-right: 8px; padding-top: 8px; padding-bottom: 8px;">
+                    <ui:Foldout text="Active modules" name="modules-view" style="-unity-font-style: bold;" />
+                    <ui:Foldout text="ios" name="ios-settings" style="-unity-font-style: bold;">
+                        <ui:VisualElement style="padding-left: 0; padding-right: 0; padding-top: 8px; padding-bottom: 8px;">
+                            <ui:Label text="NSUserTrackingUsageDescription (required by Advertising module)" display-tooltip-when-elided="true" />
+                            <ui:TextField picking-mode="Ignore" name="NSUserTrackingUsageDescription-Edit" />
+                        </ui:VisualElement>
+                    </ui:Foldout>
+                </ui:VisualElement>
+            </ui:ScrollView>
         </ui:VisualElement>
     </ui:VisualElement>
-    <ui:ScrollView scroll-deceleration-rate="0,135" elasticity="0,1" horizontal-scroller-visibility="Hidden" vertical-scroller-visibility="Auto" name="setting-view" style="flex-grow: 1; flex-shrink: 1; display: flex;">
-        <ui:VisualElement class="hide-info me-2" style="align-items: stretch; min-height: auto;">
-            <ui:VisualElement name="inspector-view" style="align-items: stretch; justify-content: flex-start; display: flex;">
-                <ui:Label text="inspector" display-tooltip-when-elided="true" style="-unity-text-align: upper-center; -unity-font-style: bold; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px;" />
-            </ui:VisualElement>
-        </ui:VisualElement>
-    </ui:ScrollView>
 </ui:UXML>

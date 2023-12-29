@@ -67,6 +67,7 @@ namespace AffiseAttributionLib
         /**
          * Send events
          */
+        [Obsolete("This method will be removed")]
         public static void SendEvents()
         {
 #if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
@@ -205,12 +206,24 @@ namespace AffiseAttributionLib
         /**
          * Manual module start
          */
-        public static void ModuleStart(AffiseModules module)
+        public static bool ModuleStart(AffiseModules module)
         {
 #if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
-            _native?.ModuleStart(module);
+            return _native?.ModuleStart(module) ?? true;
 #else
-            _api?.ModuleManager.ManualStart(module);
+            return _api?.ModuleManager.ManualStart(module) ?? true;
+#endif
+        }
+        
+        /**
+         * Get installed modules
+         */
+        public static List<AffiseModules> GetModulesInstalled()
+        {
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+            return _native?.GetModules() ?? new List<AffiseModules>();
+#else
+            return _api?.ModuleManager.GetModules() ?? new List<AffiseModules>();
 #endif
         }
         

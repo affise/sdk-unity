@@ -1,0 +1,7 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement class="list-element" style="justify-content: space-between; align-items: auto; flex-direction: row;">
+        <ui:Label text="Label" display-tooltip-when-elided="true" name="name" style="width: 50%;" />
+        <ui:Toggle name="android" />
+        <ui:Toggle name="ios" style="justify-content: flex-start; align-items: stretch; flex-grow: 0;" />
+    </ui:VisualElement>
+</ui:UXML>

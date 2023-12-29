@@ -1,0 +1,38 @@
+﻿[
+  {
+    "name": "Advertising",
+    "android": {
+      "module": "com.affise:module-advertising",
+      "version": "1.6.22"
+    },
+    "ios": {
+      "module": "AffiseModule/Advertising",
+      "version": "1.6.20"
+    }
+  },
+  {
+    "name": "Status",
+    "android": {
+      "module": "com.affise:module-status",
+      "version": "1.6.22"
+    },
+    "ios": {
+      "module": "AffiseModule/Status",
+      "version": "1.6.20"
+    }
+  },
+  {
+    "name": "Network",
+    "android": {
+      "module": "com.affise:module-network",
+      "version": "1.6.22"
+    }
+  },
+  {
+    "name": "Phone",
+    "android": {
+      "module": "com.affise:module-phone",
+      "version": "1.6.22"
+    }
+  }
+]

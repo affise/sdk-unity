@@ -54,7 +54,9 @@ namespace AffiseAttributionLib.Native
         
         void GetStatus(AffiseModules module, OnKeyValueCallback callback);
         
-        void ModuleStart(AffiseModules module);
+        bool ModuleStart(AffiseModules module);
+        
+        List<AffiseModules> GetModules();
 
         string? GetRandomUserId();
 

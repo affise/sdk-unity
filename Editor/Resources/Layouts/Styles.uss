@@ -545,3 +545,12 @@
 .label-bold Label {
     -unity-font-style: bold;
 }
+
+.list-element {
+    border-bottom-width: 1px;
+    border-bottom-color: dimgray;
+}
+.list-header {
+    border-bottom-width: 3px;
+    border-bottom-color: dimgray;
+}

@@ -1,5 +1,8 @@
 ﻿#nullable enable
 using System;
+using System.Collections.Generic;
+using AffiseAttributionLib.Editor.Config;
+using AffiseAttributionLib.Editor.Elements;
 using AffiseAttributionLib.Editor.Extensions;
 using AffiseAttributionLib.Editor.Ui;
 using AffiseAttributionLib.Editor.Utils;
@@ -28,6 +31,15 @@ namespace AffiseAttributionLib.Editor.SettingsProviders
         #region UI Variables
 
         private VisualElement? _root;
+        
+        private ToolbarToggle? _current;
+        private ToolbarToggle? _tab1;
+        private ToolbarToggle? _tab2;
+        private VisualElement? _tabView1;
+        private VisualElement? _tabView2;
+        private ModuleList? _moduleList;        
+        private TextField? _iosNSUserTracking;
+        
         private VisualElement? _settingsNewView;
         private VisualElement? _settingsView;
         private VisualElement? _inspectorView;
@@ -79,6 +91,49 @@ namespace AffiseAttributionLib.Editor.SettingsProviders
         {
             AffiseEditorSettings.Set(evt.newValue as AffiseSettings);
         }
+        
+        private void OnTextFieldChnabge(ChangeEvent<string> evt)
+        {
+            if (evt.previousValue == evt.newValue) return;
+            if (evt.target == _iosNSUserTracking)
+            {
+                if (AffiseEditorConfig.Instance is not null)
+                {
+                    AffiseEditorConfig.Instance.ios.nsUserTrackingUsageDescription = evt.newValue ?? "";
+                    AffiseEditorConfig.Save();
+                }
+            }
+        }
+        
+        private void OnTabChange(ChangeEvent<bool> evt)
+        {
+            if (_tab1 is null || _tab2 is null) return;
+            if (_tabView1 is null || _tabView2 is null) return;
+
+            if (evt.newValue == true)
+            {
+                _current = evt.target as ToolbarToggle;
+            }
+            
+            if (_current == _tab1)
+            {
+                _tab1.value = true;
+                _tab2.value = false;
+                _tabView1.Show();
+                _tabView2.Hide();
+            } else if (_current == _tab2)
+            {
+                _tab1.value = false;
+                _tab2.value = true;
+                _tabView1.Hide();
+                _tabView2.Show();
+            }
+        }
+        
+        private void OnModuleChange(ChangeEvent<IEnumerable<Modules.Module>> evt)
+        {
+            AffiseEditorConfig.Save(evt.newValue);
+        }
 
         #endregion Callback
 
@@ -86,10 +141,14 @@ namespace AffiseAttributionLib.Editor.SettingsProviders
 
         private void UnbindView()
         {
+            _tab1?.UnregisterValueChangedCallback(OnTabChange);
+            _tab2?.UnregisterValueChangedCallback(OnTabChange);
+            _moduleList?.UnregisterValueChangedCallback(OnModuleChange);
+            _iosNSUserTracking?.UnregisterValueChangedCallback(OnTextFieldChnabge);
             if (_settingsNewBtn is not null) _settingsNewBtn.clickable.clicked -= CreateNewSettings;
         }
 
-        private void UnbindDate()
+        private void UnbindData()
         {
             AffiseEditorSettings.OnChange -= OnSettingsChange;
             _settingsAsset?.UnregisterValueChangedCallback(OnAssetSelect);
@@ -147,11 +206,16 @@ namespace AffiseAttributionLib.Editor.SettingsProviders
 
             BindView();
             BindData();
+
+            if (_tab1 is not null)
+            {
+                _tab1.value = true;
+            }
         }
 
         public override void OnDeactivate()
         {
-            UnbindDate();
+            UnbindData();
             UnbindView();
             base.OnDeactivate();
         }
@@ -165,6 +229,29 @@ namespace AffiseAttributionLib.Editor.SettingsProviders
             _version = _root.Q<Label>("version");
             _site = _root.Q<Button>("site");
             _email = _root.Q<Button>("email");
+
+            _tab1 = _root.Q<ToolbarToggle>("tab1");
+            _tab2 = _root.Q<ToolbarToggle>("tab2");
+            
+            _tab1?.RegisterValueChangedCallback(OnTabChange);
+            _tab2?.RegisterValueChangedCallback(OnTabChange);
+            
+            _tabView1 = _root.Q<VisualElement>("tab-view1");
+            _tabView2 = _root.Q<VisualElement>("tab-view2");
+
+            _moduleList = new ModuleList(AffiseEditorConfig.GetModules());
+            _moduleList?.RegisterValueChangedCallback(OnModuleChange);
+            
+            var modulesView = _root.Q<Foldout>("modules-view");
+            modulesView.Add(_moduleList);
+            
+            _iosNSUserTracking = _root.Q<TextField>("NSUserTrackingUsageDescription-Edit");
+            if (AffiseEditorConfig.Instance is not null)
+            {
+                _iosNSUserTracking.value = AffiseEditorConfig.Instance.ios.nsUserTrackingUsageDescription;
+            }
+            _iosNSUserTracking?.RegisterValueChangedCallback(OnTextFieldChnabge);
+
 
             _settingsNewView = _root.Q<VisualElement>("settings-new-view");
             _settingsView = _root.Q<VisualElement>("setting-view");

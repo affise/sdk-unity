@@ -1,4 +1,7 @@
-﻿namespace AffiseAttributionLib.Modules
+﻿#nullable enable
+using System;
+
+namespace AffiseAttributionLib.Modules
 {
     public enum AffiseModules
     {
@@ -18,8 +21,18 @@
                 AffiseModules.Network => "Network",
                 AffiseModules.Phone => "Phone",
                 AffiseModules.Status => "Status",
-                _ => null
+                _ => ""
             };
+        }
+        public static AffiseModules? From(string? value)
+        {
+            if (value is null) return null;
+            foreach (var type in Enum.GetValues(typeof(AffiseModules)))
+            {
+                if (type is not AffiseModules modules) continue;
+                if (modules.Module() == value) return modules;
+            }
+            return null;
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿#nullable enable
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using AffiseAttributionLib.AffiseParameters.Factory;
 using AffiseAttributionLib.Logs;
 using AffiseAttributionLib.Module.Advertising;
@@ -56,12 +57,18 @@ namespace AffiseAttributionLib.Modules
             }
         }
 
-        public void ManualStart(AffiseModules module)
+        public bool ManualStart(AffiseModules module)
         {
             var affiseModule = GetModule(module);
-            if (affiseModule is null) return;
-            if (affiseModule.IsManual == false) return;
+            if (affiseModule is null) return false;
+            if (affiseModule.IsManual == false) return false;
             ModuleStart(affiseModule);
+            return true;
+        }
+
+        public List<AffiseModules> GetModules()
+        {
+            return _modules.Keys.ToList();
         }
 
         private void ModuleStart(AffiseModule module)

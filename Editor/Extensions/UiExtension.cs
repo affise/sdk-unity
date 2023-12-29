@@ -10,6 +10,7 @@ namespace AffiseAttributionLib.Editor.Extensions
             if (input is null) return null;
             if (root is null) return null;
             
+            // root.Add(input.Instantiate());
             input.CloneTree(root);
 
             return root; 
@@ -21,7 +22,14 @@ namespace AffiseAttributionLib.Editor.Extensions
             input.style.display = hide ? DisplayStyle.None : DisplayStyle.Flex;
             return input;
         }
-        
+
+        public static VisualElement? Visible(this VisualElement? input, bool show = true)
+        {
+            if (input is null) return null;
+            input.style.visibility = show ? Visibility.Visible : Visibility.Hidden;
+            return input;
+        }
+
         public static VisualElement? Show(this VisualElement? input, bool show = true) => input.Hide(!show);
         
         public static VisualElement? ToggleClass(this VisualElement? input, string style, bool active = true)

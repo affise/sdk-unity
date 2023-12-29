@@ -1,0 +1,12 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement style="align-items: center;">
+        <ui:VisualElement style="padding-left: 8px; padding-right: 8px; padding-top: 8px; padding-bottom: 8px; max-width: 300px; align-items: stretch; min-width: 300px;">
+            <ui:VisualElement class="list-header" style="flex-direction: row; justify-content: space-between;">
+                <ui:Label text="Module" display-tooltip-when-elided="true" style="-unity-font-style: bold; width: 50%;" />
+                <ui:Label text="Android" display-tooltip-when-elided="true" style="-unity-font-style: bold; width: auto;" />
+                <ui:Label text="iOS" display-tooltip-when-elided="true" style="-unity-font-style: bold; width: auto;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="modules" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
