@@ -7,7 +7,7 @@ using UnityEditor.Android;
 
 namespace AffiseAttributionLib.Editor.Build
 {
-    internal class AffiseAndroidPostProcessBuild : IPostGenerateGradleAndroidProject
+    internal class ModulesAndroidPostProcessBuild : IPostGenerateGradleAndroidProject
     {
         private const string GradleFile = "build.gradle";
         private const string ModulesComment = "//// BUILD SETTINGS AFFISE MODULES ////";

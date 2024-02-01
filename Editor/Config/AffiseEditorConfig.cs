@@ -17,7 +17,13 @@ namespace AffiseAttributionLib.Editor.Config
         
         [SerializeField] 
         public IOSSettings ios = new();
+   
+        [SerializeField] 
+        public bool deeplinksEnabled = false;
 
+        [SerializeField] 
+        public List<string?> deeplinks = new();
+     
         private static AffiseEditorConfig? _instance;
         public static AffiseEditorConfig? Instance => _instance ??= Load();
 

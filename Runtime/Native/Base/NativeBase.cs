@@ -5,6 +5,7 @@ using AffiseAttributionLib.Extensions;
 using AffiseAttributionLib.Native.Base;
 using AffiseAttributionLib.Utils;
 using SimpleJSON;
+using UnityEngine;
 #if UNITY_ANDROID && !UNITY_EDITOR
 using AffiseAttributionLib.Native.Android;
 #endif
@@ -25,6 +26,8 @@ namespace AffiseAttributionLib.Native
         
         private readonly Dictionary<AffiseApiMethod, object> _callbacks = new();
 
+        private string? _absoluteURL = Application.absoluteURL;
+
         protected NativeBase()
         {
 #if UNITY_ANDROID && !UNITY_EDITOR
@@ -34,6 +37,25 @@ namespace AffiseAttributionLib.Native
             _native = new NativeIOS();
 #endif
             _native?.SetCallback(AffiseCallback);
+            DeeplinkInit();
+        }
+
+        private void NativeHandleDeeplink(string url)
+        {
+            _native?.NativeHandleDeeplink(url);
+        }
+
+        private void DeeplinkInit()
+        {
+            if (_native is null) return;
+            Application.deepLinkActivated += NativeHandleDeeplink;
+        }
+
+        protected void HandleDeeplinkStart()
+        {
+            if (string.IsNullOrEmpty(_absoluteURL)) return;
+            NativeHandleDeeplink(_absoluteURL);
+            _absoluteURL = null;
         }
 
         protected abstract void HandleCallback(AffiseApiMethod api, object callback, JSONNode? json);

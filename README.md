@@ -2,7 +2,7 @@
 
 | Artifact      | Version               |
 |---------------|-----------------------|
-| `attribution` | [`1.6.14`](/releases) |
+| `attribution` | [`1.6.15`](/releases) |
 
 - [Affise Unity package](#affise-unity-package)
 - [Description](#description)
@@ -40,8 +40,9 @@
   - [Events buffering](#events-buffering)
   - [Push token tracking](#push-token-tracking)
   - [Deeplinks](#deeplinks)
-    - [Android](#android-1)
-    - [iOS](#ios-3)
+    - [Config](#config)
+    - [Config Android Manual](#config-android-manual)
+    - [Config iOS Manual](#config-ios-manual)
   - [Offline mode](#offline-mode)
   - [Disable tracking](#disable-tracking)
   - [Disable background tracking](#disable-background-tracking)
@@ -58,7 +59,7 @@
 - [Debug](#debug)
   - [Validate credentials](#validate-credentials)
 - [Troubleshoots](#troubleshoots)
-  - [iOS](#ios-4)
+  - [iOS](#ios-3)
 
 # Description
 
@@ -81,7 +82,7 @@ Add package from git url `https://github.com/affise/sdk-unity.git`
 
 ### Integrate unitypackage file
 
-Download latest Affise SDK [`attribution-1.6.14.unitypackage`](https://github.com/affise/sdk-unity/releases/download/1.6.14/attribution-1.6.14.unitypackage)
+Download latest Affise SDK [`attribution-1.6.15.unitypackage`](https://github.com/affise/sdk-unity/releases/download/1.6.15/attribution-1.6.15.unitypackage)
 from [releases page](https://github.com/affise/sdk-unity/releases) and drop this file to unity editor
 
 ### Initialize
@@ -215,10 +216,10 @@ Dependencies located in Android project gradle file `build.gradle`
 dependencies {
   // ...
   // Affise modules
-  implementation 'com.affise:module-advertising:1.6.22'
-  implementation 'com.affise:module-network:1.6.22'
-  implementation 'com.affise:module-phone:1.6.22'
-  implementation 'com.affise:module-status:1.6.22'
+  implementation 'com.affise:module-advertising:1.6.23'
+  implementation 'com.affise:module-network:1.6.23'
+  implementation 'com.affise:module-phone:1.6.23'
+  implementation 'com.affise:module-status:1.6.23'
 }
 ```
 
@@ -232,8 +233,8 @@ All affise modules is updated automatically on build
 
 | Module        |                                       Version                                        | Start    |
 |---------------|:------------------------------------------------------------------------------------:|----------|
-| `Advertising` | [`1.6.20`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Manual` |
-| `Status`      | [`1.6.20`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
+| `Advertising` | [`1.6.24`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Manual` |
+| `Status`      | [`1.6.24`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
 
 Dependencies located in XCode project folder `Podfile`
 
@@ -241,11 +242,11 @@ Dependencies located in XCode project folder `Podfile`
 platform :ios, '11.0'
 
 target 'UnityFramework' do
-  pod 'AffiseInternal', '1.6.20'
+  pod 'AffiseInternal', '1.6.24'
 
   # Affise Modules
-  pod 'AffiseModule/Advertising', `1.6.20`
-  pod 'AffiseModule/Status', `1.6.20`
+  pod 'AffiseModule/Advertising', `1.6.24`
+  pod 'AffiseModule/Status', `1.6.24`
 end
 
 target 'Unity-iPhone' do
@@ -300,10 +301,10 @@ Podfile:
 platform :ios, '11.0'
 
 target 'UnityFramework' do
-  pod 'AffiseInternal', '1.6.20'
+  pod 'AffiseInternal', '1.6.24'
 
   # Affise Modules
-  # pod 'AffiseModule/Status', `1.6.20`
+  # pod 'AffiseModule/Status', `1.6.24`
 end
 
 target 'Unity-iPhone' do
@@ -704,7 +705,7 @@ Affise.AddPushToken(token);
 
 ## Deeplinks
 
-- register applink callback right after `Affise.Settings(affiseAppId,secretKey).Start()`
+- Register applink callback right after `Affise.Settings(affiseAppId,secretKey).Start()`
 
 ```c#
 Affise.RegisterDeeplinkCallback((uri) =>
@@ -718,7 +719,25 @@ Affise.RegisterDeeplinkCallback((uri) =>
 });
 ```
 
-### Android
+### Config
+
+Open `Edit / Project Settings / Affise`
+
+On `Settings` tab add links
+
+![affise_deeplinks](https://github.com/affise/sdk-unity/blob/assets/affise_deeplinks.png?raw=true)
+
+> **Warning**
+>
+> 🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧
+>
+> For Android deeplink remove is manual
+>
+> Open Android project and remove deeplink `intent-filter` from `AndroidManifest.xml`
+>
+> 🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧
+
+### Config Android Manual
 
 To integrate deeplink support in android you need:
 
@@ -737,7 +756,7 @@ Add intent filter to `AndroidManifest.xml`. For more info read [Unity docs](http
 </intent-filter>
 ```
 
-### iOS
+### Config iOS Manual
 
 To integrate deeplink support in iOS you need:
 

@@ -54,6 +54,7 @@ namespace AffiseAttributionLib.Native
         public void RegisterDeeplinkCallback(DeeplinkCallback callback)
         {
             NativeCallbackOnce(AffiseApiMethod.REGISTER_DEEPLINK_CALLBACK, callback: callback);
+            HandleDeeplinkStart();
         }
 
         public void SetSecretKey(string secretKey)

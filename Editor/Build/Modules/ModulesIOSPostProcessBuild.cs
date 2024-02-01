@@ -1,3 +1,4 @@
+#if UNITY_IOS
 #nullable enable
 using System.Collections.Generic;
 using System.IO;
@@ -7,13 +8,11 @@ using AffiseAttributionLib.Editor.Utils;
 using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEngine;
-#if UNITY_IOS
 using UnityEditor.iOS.Xcode;
-#endif // UNITY_IOS
 
 namespace AffiseAttributionLib.Editor.Build
 {
-    internal static class AffisePostProcessBuild
+    internal static class ModulesIOSPostProcessBuild
     {
         private const string PodfileName = "Podfile";
         private const string TemplateFolder = "Editor/Resources/iOS";
@@ -135,7 +134,6 @@ namespace AffiseAttributionLib.Editor.Build
 
         private static void UpdatePlistDocument(string path)
         {
-#if UNITY_IOS
             // Get plist
             var plistPath = Path.Join(path, "Info.plist");
             if (plistPath is null) return;
@@ -163,7 +161,6 @@ namespace AffiseAttributionLib.Editor.Build
            
             // Write to file
             File.WriteAllText(plistPath, plist.WriteToString());
-#endif // UNITY_IOS
         }
 
         [PostProcessBuild]
@@ -178,3 +175,5 @@ namespace AffiseAttributionLib.Editor.Build
         }
     }
 }
+
+#endif // UNITY_IOS

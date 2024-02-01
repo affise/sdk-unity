@@ -12,3 +12,15 @@
 .hide-info #affise-info {
     display:none;
 }
+
+.list-item  TextInput {
+    margin-top: 0 ;
+}
+
+.settings-section {
+    border-width: 2px;
+    border-color: rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 4px;
+    margin: 4px;
+}

@@ -14,7 +14,10 @@ namespace AffiseAttributionLib.Native.Base
         
         void Native(string name);
 
-        void SetCallback(AffiseNativeCallback method) {
-        }
+        void SetCallback(AffiseNativeCallback method) 
+        { }
+
+        void NativeHandleDeeplink(string url)
+        { }
     }
 }

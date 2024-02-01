@@ -24,4 +24,9 @@ public class AffiseNativeModule extends NativeCallHandler {
         if (apiWrapper == null) return;
         apiWrapper.call(api, data, result);
     }
+    
+    public void nativeHandleDeeplink(String url) {
+        if (apiWrapper == null) return;
+        apiWrapper.handleDeeplink(url);
+    }
 }

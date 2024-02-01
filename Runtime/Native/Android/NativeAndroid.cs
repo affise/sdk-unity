@@ -45,6 +45,19 @@ namespace AffiseAttributionLib.Native.Android
             OnAffiseCallback += method;
         }
 
+        public void NativeHandleDeeplink(string url)
+        {
+            if (_plugin is null) return;
+            try
+            {
+                _plugin.Call("nativeHandleDeeplink", url);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"AffiseApi [ nativeHandleDeeplink ] error: \n {e}");
+            }
+        }
+
         public T? Native<T>(string apiName, string json)
         {
             if (_plugin is null) return default;

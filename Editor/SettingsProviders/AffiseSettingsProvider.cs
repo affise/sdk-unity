@@ -31,15 +31,14 @@ namespace AffiseAttributionLib.Editor.SettingsProviders
         #region UI Variables
 
         private VisualElement? _root;
-        
+
         private ToolbarToggle? _current;
-        private ToolbarToggle? _tab1;
-        private ToolbarToggle? _tab2;
-        private VisualElement? _tabView1;
-        private VisualElement? _tabView2;
-        private ModuleList? _moduleList;        
+        private Dictionary<ToolbarToggle, VisualElement> _tabs = new();
+        private ModuleList? _moduleList;
         private TextField? _iosNSUserTracking;
-        
+        private ListView? _deepLinks;
+        private Toggle? _deeplinkToggle;
+
         private VisualElement? _settingsNewView;
         private VisualElement? _settingsView;
         private VisualElement? _inspectorView;
@@ -91,8 +90,8 @@ namespace AffiseAttributionLib.Editor.SettingsProviders
         {
             AffiseEditorSettings.Set(evt.newValue as AffiseSettings);
         }
-        
-        private void OnTextFieldChnabge(ChangeEvent<string> evt)
+
+        private void OnTextFieldChange(ChangeEvent<string> evt)
         {
             if (evt.previousValue == evt.newValue) return;
             if (evt.target == _iosNSUserTracking)
@@ -104,35 +103,37 @@ namespace AffiseAttributionLib.Editor.SettingsProviders
                 }
             }
         }
-        
+
         private void OnTabChange(ChangeEvent<bool> evt)
         {
-            if (_tab1 is null || _tab2 is null) return;
-            if (_tabView1 is null || _tabView2 is null) return;
-
             if (evt.newValue == true)
             {
                 _current = evt.target as ToolbarToggle;
             }
-            
-            if (_current == _tab1)
+
+            foreach (var (tab, view) in _tabs)
             {
-                _tab1.value = true;
-                _tab2.value = false;
-                _tabView1.Show();
-                _tabView2.Hide();
-            } else if (_current == _tab2)
-            {
-                _tab1.value = false;
-                _tab2.value = true;
-                _tabView1.Hide();
-                _tabView2.Show();
+                tab.value = _current == tab;
+                view.Show(_current == tab);
             }
         }
-        
+
         private void OnModuleChange(ChangeEvent<IEnumerable<Modules.Module>> evt)
         {
             AffiseEditorConfig.Save(evt.newValue);
+        }
+
+        private void OnToggleChange(ChangeEvent<bool> evt)
+        {
+            if (evt.previousValue == evt.newValue) return;
+            if (evt.target == _deeplinkToggle)
+            {
+                if (AffiseEditorConfig.Instance is not null)
+                {
+                    AffiseEditorConfig.Instance.deeplinksEnabled = evt.newValue;
+                    AffiseEditorConfig.Save();
+                }
+            }
         }
 
         #endregion Callback
@@ -141,10 +142,11 @@ namespace AffiseAttributionLib.Editor.SettingsProviders
 
         private void UnbindView()
         {
-            _tab1?.UnregisterValueChangedCallback(OnTabChange);
-            _tab2?.UnregisterValueChangedCallback(OnTabChange);
+            TabUnregister();
+
             _moduleList?.UnregisterValueChangedCallback(OnModuleChange);
-            _iosNSUserTracking?.UnregisterValueChangedCallback(OnTextFieldChnabge);
+            _iosNSUserTracking?.UnregisterValueChangedCallback(OnTextFieldChange);
+            _deeplinkToggle?.UnregisterValueChangedCallback(OnToggleChange);
             if (_settingsNewBtn is not null) _settingsNewBtn.clickable.clicked -= CreateNewSettings;
         }
 
@@ -206,11 +208,6 @@ namespace AffiseAttributionLib.Editor.SettingsProviders
 
             BindView();
             BindData();
-
-            if (_tab1 is not null)
-            {
-                _tab1.value = true;
-            }
         }
 
         public override void OnDeactivate()
@@ -230,28 +227,36 @@ namespace AffiseAttributionLib.Editor.SettingsProviders
             _site = _root.Q<Button>("site");
             _email = _root.Q<Button>("email");
 
-            _tab1 = _root.Q<ToolbarToggle>("tab1");
-            _tab2 = _root.Q<ToolbarToggle>("tab2");
-            
-            _tab1?.RegisterValueChangedCallback(OnTabChange);
-            _tab2?.RegisterValueChangedCallback(OnTabChange);
-            
-            _tabView1 = _root.Q<VisualElement>("tab-view1");
-            _tabView2 = _root.Q<VisualElement>("tab-view2");
+            _deeplinkToggle = _root.Q<Toggle>("deeplink-toggle");
+            if (AffiseEditorConfig.Instance is not null)
+            {
+                _deeplinkToggle.value = AffiseEditorConfig.Instance.deeplinksEnabled;
+            }
+
+            _deeplinkToggle?.RegisterValueChangedCallback(OnToggleChange);
+
+            var deeplink = _root.Q<Foldout>("deeplink");
+            DeeplinkList(deeplink);
+
+            TabInit();
+            TabAdd("tab1", "tab-view1");
+            TabAdd("tab2", "tab-view2");
+            TabAdd("tab3", "tab-view3");
+            TabDefault(2);
 
             _moduleList = new ModuleList(AffiseEditorConfig.GetModules());
             _moduleList?.RegisterValueChangedCallback(OnModuleChange);
-            
+
             var modulesView = _root.Q<Foldout>("modules-view");
             modulesView.Add(_moduleList);
-            
+
             _iosNSUserTracking = _root.Q<TextField>("NSUserTrackingUsageDescription-Edit");
             if (AffiseEditorConfig.Instance is not null)
             {
                 _iosNSUserTracking.value = AffiseEditorConfig.Instance.ios.nsUserTrackingUsageDescription;
             }
-            _iosNSUserTracking?.RegisterValueChangedCallback(OnTextFieldChnabge);
 
+            _iosNSUserTracking?.RegisterValueChangedCallback(OnTextFieldChange);
 
             _settingsNewView = _root.Q<VisualElement>("settings-new-view");
             _settingsView = _root.Q<VisualElement>("setting-view");
@@ -305,5 +310,105 @@ namespace AffiseAttributionLib.Editor.SettingsProviders
             _settingsNewView?.Hide(hasSettings);
             _settingsView?.Show(hasSettings);
         }
+
+        #region Tabs
+
+        private void TabInit()
+        {
+            _tabs = new Dictionary<ToolbarToggle, VisualElement>();
+        }
+
+        private void TabAdd(string tabName, string viewName)
+        {
+            var tab = _root.Q<ToolbarToggle>(tabName);
+            if (tab is null) return;
+            var view = _root.Q<VisualElement>(viewName);
+            if (view is null) return;
+            tab.RegisterValueChangedCallback(OnTabChange);
+            _tabs.Add(tab, view);
+        }
+
+        private void TabUnregister()
+        {
+            foreach (var (tab, _) in _tabs)
+            {
+                tab.UnregisterValueChangedCallback(OnTabChange);
+            }
+        }
+
+        private void TabDefault(int index = 0)
+        {
+            var idx = -1;
+            foreach (var (tab, view) in _tabs)
+            {
+                idx++;
+                if (idx != index) continue;
+                var evt = ChangeEvent<bool>.GetPooled(false, true);
+                evt.target = tab;
+                OnTabChange(evt);
+                return;
+            }
+        }
+
+        #endregion Tabs
+
+        #region ListView
+
+        private void DeeplinkList(VisualElement container)
+        {
+            if (AffiseEditorConfig.Instance is null) return;
+
+            Func<VisualElement> makeItem = () =>
+            {
+                var item = new VisualElement()
+                {
+                    style =
+                    {
+                        flexDirection = FlexDirection.Row,
+                    }
+                };
+                var textField = new TextField()
+                {
+                    style =
+                    {
+                        flexGrow = 1,
+                    }
+                };
+                textField.RegisterValueChangedCallback(OnListItemChange);
+                item.Add(textField);
+                item.AddToClassList("list-item");
+                return item;
+            };
+
+            Action<VisualElement, int> bindItem = (elm, index) =>
+            {
+                var field = elm.Q<TextField>();
+
+                if (field is null) return;
+                field.value = AffiseEditorConfig.Instance.deeplinks[index];
+                field.name = $"{index}";
+            };
+
+            _deepLinks = container.Q<ListView>();
+            _deepLinks.makeItem = makeItem;
+            _deepLinks.bindItem = bindItem;
+            _deepLinks.itemsSource = AffiseEditorConfig.Instance.deeplinks;
+            _deepLinks.selectionType = SelectionType.Multiple;
+
+            _deepLinks.itemsRemoved += e => { AffiseEditorConfig.Save(); };
+        }
+
+        private void OnListItemChange(ChangeEvent<string> evt)
+        {
+            var name = (evt.target as TextField)?.name;
+            if (name is null) return;
+            if (int.TryParse(name, out var index) == false) return;
+            if (AffiseEditorConfig.Instance is null) return;
+
+            AffiseEditorConfig.Instance.deeplinks[index] = evt.newValue;
+            AffiseEditorConfig.Save();
+        }
+
+        #endregion ListView
     }
 }
