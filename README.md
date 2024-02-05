@@ -2,7 +2,7 @@
 
 | Artifact      | Version               |
 |---------------|-----------------------|
-| `attribution` | [`1.6.15`](/releases) |
+| `attribution` | [`1.6.16`](/releases) |
 
 - [Affise Unity package](#affise-unity-package)
 - [Description](#description)
@@ -82,7 +82,7 @@ Add package from git url `https://github.com/affise/sdk-unity.git`
 
 ### Integrate unitypackage file
 
-Download latest Affise SDK [`attribution-1.6.15.unitypackage`](https://github.com/affise/sdk-unity/releases/download/1.6.15/attribution-1.6.15.unitypackage)
+Download latest Affise SDK [`attribution-1.6.16.unitypackage`](https://github.com/affise/sdk-unity/releases/download/1.6.16/attribution-1.6.16.unitypackage)
 from [releases page](https://github.com/affise/sdk-unity/releases) and drop this file to unity editor
 
 ### Initialize
@@ -233,8 +233,8 @@ All affise modules is updated automatically on build
 
 | Module        |                                       Version                                        | Start    |
 |---------------|:------------------------------------------------------------------------------------:|----------|
-| `Advertising` | [`1.6.24`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Manual` |
-| `Status`      | [`1.6.24`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
+| `Advertising` | [`1.6.25`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Manual` |
+| `Status`      | [`1.6.25`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
 
 Dependencies located in XCode project folder `Podfile`
 
@@ -242,11 +242,11 @@ Dependencies located in XCode project folder `Podfile`
 platform :ios, '11.0'
 
 target 'UnityFramework' do
-  pod 'AffiseInternal', '1.6.24'
+  pod 'AffiseInternal', '1.6.25'
 
   # Affise Modules
-  pod 'AffiseModule/Advertising', `1.6.24`
-  pod 'AffiseModule/Status', `1.6.24`
+  pod 'AffiseModule/Advertising', `1.6.25`
+  pod 'AffiseModule/Status', `1.6.25`
 end
 
 target 'Unity-iPhone' do
@@ -301,10 +301,10 @@ Podfile:
 platform :ios, '11.0'
 
 target 'UnityFramework' do
-  pod 'AffiseInternal', '1.6.24'
+  pod 'AffiseInternal', '1.6.25'
 
   # Affise Modules
-  # pod 'AffiseModule/Status', `1.6.24`
+  # pod 'AffiseModule/Status', `1.6.25`
 end
 
 target 'Unity-iPhone' do
@@ -540,6 +540,13 @@ Use any of custom events if default doesn't fit your scenario:
 - `CustomId08Event`
 - `CustomId09Event`
 - `CustomId10Event`
+
+If above event functionality still limits your usecase, you can use `UserCustomEvent`
+
+```c#
+new UserCustomEvent(eventName: "MyCustomEvent")
+    .Send();  
+```
 
 ## Predefined event parameters
 

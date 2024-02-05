@@ -7,7 +7,7 @@
     },
     "ios": {
       "module": "AffiseModule/Advertising",
-      "version": "1.6.24"
+      "version": "1.6.25"
     }
   },
   {
@@ -18,7 +18,7 @@
     },
     "ios": {
       "module": "AffiseModule/Status",
-      "version": "1.6.24"
+      "version": "1.6.25"
     }
   },
   {

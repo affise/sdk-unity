@@ -35,7 +35,7 @@ namespace AffiseAttributionLib.Editor.SettingsProviders
         private ToolbarToggle? _current;
         private Dictionary<ToolbarToggle, VisualElement> _tabs = new();
         private ModuleList? _moduleList;
-        private TextField? _iosNSUserTracking;
+        private TextField? _iosNsUserTracking;
         private ListView? _deepLinks;
         private Toggle? _deeplinkToggle;
 
@@ -94,7 +94,7 @@ namespace AffiseAttributionLib.Editor.SettingsProviders
         private void OnTextFieldChange(ChangeEvent<string> evt)
         {
             if (evt.previousValue == evt.newValue) return;
-            if (evt.target == _iosNSUserTracking)
+            if (evt.target == _iosNsUserTracking)
             {
                 if (AffiseEditorConfig.Instance is not null)
                 {
@@ -145,7 +145,7 @@ namespace AffiseAttributionLib.Editor.SettingsProviders
             TabUnregister();
 
             _moduleList?.UnregisterValueChangedCallback(OnModuleChange);
-            _iosNSUserTracking?.UnregisterValueChangedCallback(OnTextFieldChange);
+            _iosNsUserTracking?.UnregisterValueChangedCallback(OnTextFieldChange);
             _deeplinkToggle?.UnregisterValueChangedCallback(OnToggleChange);
             if (_settingsNewBtn is not null) _settingsNewBtn.clickable.clicked -= CreateNewSettings;
         }
@@ -242,7 +242,7 @@ namespace AffiseAttributionLib.Editor.SettingsProviders
             TabAdd("tab1", "tab-view1");
             TabAdd("tab2", "tab-view2");
             TabAdd("tab3", "tab-view3");
-            TabDefault(2);
+            TabDefault(0);
 
             _moduleList = new ModuleList(AffiseEditorConfig.GetModules());
             _moduleList?.RegisterValueChangedCallback(OnModuleChange);
@@ -250,13 +250,13 @@ namespace AffiseAttributionLib.Editor.SettingsProviders
             var modulesView = _root.Q<Foldout>("modules-view");
             modulesView.Add(_moduleList);
 
-            _iosNSUserTracking = _root.Q<TextField>("NSUserTrackingUsageDescription-Edit");
+            _iosNsUserTracking = _root.Q<TextField>("NSUserTrackingUsageDescription-Edit");
             if (AffiseEditorConfig.Instance is not null)
             {
-                _iosNSUserTracking.value = AffiseEditorConfig.Instance.ios.nsUserTrackingUsageDescription;
+                _iosNsUserTracking.value = AffiseEditorConfig.Instance.ios.nsUserTrackingUsageDescription;
             }
 
-            _iosNSUserTracking?.RegisterValueChangedCallback(OnTextFieldChange);
+            _iosNsUserTracking?.RegisterValueChangedCallback(OnTextFieldChange);
 
             _settingsNewView = _root.Q<VisualElement>("settings-new-view");
             _settingsView = _root.Q<VisualElement>("setting-view");

@@ -376,6 +376,6 @@ namespace AffiseAttributionLib
             }
         }
 
-        private static string NotSupported = "[Affise] platform not supported";
+        private const string NotSupported = "[Affise] platform not supported";
     }
 }
