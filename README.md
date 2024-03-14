@@ -2,7 +2,7 @@
 
 | Artifact      | Version               |
 |---------------|-----------------------|
-| `attribution` | [`1.6.16`](/releases) |
+| `attribution` | [`1.6.17`](/releases) |
 
 - [Affise Unity package](#affise-unity-package)
 - [Description](#description)
@@ -49,6 +49,7 @@
   - [Get random user Id](#get-random-user-id)
   - [Get random device Id](#get-random-device-id)
   - [Get providers](#get-providers)
+  - [Is first run](#is-first-run)
   - [Get referrer](#get-referrer)
   - [Get referrer value](#get-referrer-value)
     - [Referrer keys](#referrer-keys)
@@ -82,7 +83,7 @@ Add package from git url `https://github.com/affise/sdk-unity.git`
 
 ### Integrate unitypackage file
 
-Download latest Affise SDK [`attribution-1.6.16.unitypackage`](https://github.com/affise/sdk-unity/releases/download/1.6.16/attribution-1.6.16.unitypackage)
+Download latest Affise SDK [`attribution-1.6.17.unitypackage`](https://github.com/affise/sdk-unity/releases/download/1.6.17/attribution-1.6.17.unitypackage)
 from [releases page](https://github.com/affise/sdk-unity/releases) and drop this file to unity editor
 
 ### Initialize
@@ -216,10 +217,10 @@ Dependencies located in Android project gradle file `build.gradle`
 dependencies {
   // ...
   // Affise modules
-  implementation 'com.affise:module-advertising:1.6.23'
-  implementation 'com.affise:module-network:1.6.23'
-  implementation 'com.affise:module-phone:1.6.23'
-  implementation 'com.affise:module-status:1.6.23'
+  implementation 'com.affise:module-advertising:1.6.26'
+  implementation 'com.affise:module-network:1.6.26'
+  implementation 'com.affise:module-phone:1.6.26'
+  implementation 'com.affise:module-status:1.6.26'
 }
 ```
 
@@ -233,8 +234,8 @@ All affise modules is updated automatically on build
 
 | Module        |                                       Version                                        | Start    |
 |---------------|:------------------------------------------------------------------------------------:|----------|
-| `Advertising` | [`1.6.25`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Manual` |
-| `Status`      | [`1.6.25`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
+| `Advertising` | [`1.6.27`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Manual` |
+| `Status`      | [`1.6.27`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
 
 Dependencies located in XCode project folder `Podfile`
 
@@ -242,11 +243,11 @@ Dependencies located in XCode project folder `Podfile`
 platform :ios, '11.0'
 
 target 'UnityFramework' do
-  pod 'AffiseInternal', '1.6.25'
+  pod 'AffiseInternal', '1.6.27'
 
   # Affise Modules
-  pod 'AffiseModule/Advertising', `1.6.25`
-  pod 'AffiseModule/Status', `1.6.25`
+  pod 'AffiseModule/Advertising', `1.6.27`
+  pod 'AffiseModule/Status', `1.6.27`
 end
 
 target 'Unity-iPhone' do
@@ -301,10 +302,10 @@ Podfile:
 platform :ios, '11.0'
 
 target 'UnityFramework' do
-  pod 'AffiseInternal', '1.6.25'
+  pod 'AffiseInternal', '1.6.27'
 
   # Affise Modules
-  # pod 'AffiseModule/Status', `1.6.25`
+  # pod 'AffiseModule/Status', `1.6.27`
 end
 
 target 'Unity-iPhone' do
@@ -862,6 +863,12 @@ var key = ProviderType.AFFISE_APP_TOKEN;
 if (providers.ContainsKey(key)) {
     var value = providers[key];
 }
+```
+
+## Is first run
+
+```c#
+Affise.IsFirstRun();
 ```
 
 ## Get referrer

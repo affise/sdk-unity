@@ -28,6 +28,7 @@ namespace AffiseAttributionLib.Native
         GET_PROVIDERS,
         MODULE_START,
         GET_MODULES_INSTALLED,
+        IS_FIRST_RUN,
 
         // callbacks
         GET_REFERRER_CALLBACK,
@@ -82,6 +83,7 @@ namespace AffiseAttributionLib.Native
                 AffiseApiMethod.GET_PROVIDERS => "get_providers",
                 AffiseApiMethod.MODULE_START => "module_start",
                 AffiseApiMethod.GET_MODULES_INSTALLED => "get_modules_installed",
+                AffiseApiMethod.IS_FIRST_RUN => "is_first_run",
                 // callbacks
                 AffiseApiMethod.GET_REFERRER_CALLBACK => "get_referrer_callback",
                 AffiseApiMethod.GET_REFERRER_VALUE_CALLBACK => "get_referrer_value_callback",

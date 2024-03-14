@@ -14,6 +14,7 @@ namespace AffiseAttributionLib.Native.Android
         private const string JavaUnityPlayer = "com.unity3d.player.UnityPlayer";
         private const string JavaApiCall = "apiCall";
         private const string JavaApiCallVoid = "apiCallVoid";
+        private const string JavaApiCallBool = "apiCallBool";
 
         private readonly AndroidJavaObject? _plugin;
         
@@ -63,7 +64,16 @@ namespace AffiseAttributionLib.Native.Android
             if (_plugin is null) return default;
             try
             {
-                return _plugin.Call<T>(JavaApiCall, apiName, json);
+                object? value = Type.GetTypeCode(typeof(T)) switch
+                {
+                    TypeCode.Boolean => _plugin.Call<int>(JavaApiCallBool, apiName, json) != 0,
+                    _ => _plugin.Call<T>(JavaApiCall, apiName, json)
+                };
+
+                if (value is T result)
+                {
+                    return result;
+                }
             }
             catch (AndroidJavaException e)
             {

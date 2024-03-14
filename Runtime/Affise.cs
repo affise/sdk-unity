@@ -254,6 +254,15 @@ namespace AffiseAttributionLib
 #endif
         }
         
+        public static bool IsFirstRun()
+        {
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+            return _native?.IsFirstRun() ?? true; 
+#else
+            return _api?.FirstAppOpenUseCase.IsFirstRun() ?? true;
+#endif
+        }
+        
         /**
          * Get referrer
          */

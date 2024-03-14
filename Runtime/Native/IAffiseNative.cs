@@ -64,6 +64,8 @@ namespace AffiseAttributionLib.Native
 
         Dictionary<ProviderType, object?> GetProviders();
 
+        bool IsFirstRun();
+
         void RegisterAppForAdNetworkAttribution(ErrorCallback completionHandler);
         
         void UpdatePostbackConversionValue(int fineValue, CoarseValue coarseValue, ErrorCallback completionHandler);

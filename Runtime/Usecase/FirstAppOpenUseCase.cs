@@ -9,6 +9,7 @@ namespace AffiseAttributionLib.Usecase
     internal class FirstAppOpenUseCase
     {
         private readonly ICurrentActiveActivityCountProvider _activityCountProvider;
+        private bool _firstRun = false;
 
         public FirstAppOpenUseCase(ICurrentActiveActivityCountProvider activityCountProvider)
         {
@@ -31,6 +32,8 @@ namespace AffiseAttributionLib.Usecase
             }
 
             CheckSaveUUIDs();
+            
+            _firstRun = PrefUtils.GetBoolean(FIRST_OPENED, true);
 
             //init session observer
             _activityCountProvider.Init();
@@ -72,7 +75,12 @@ namespace AffiseAttributionLib.Usecase
             PrefUtils.SaveBoolean(FIRST_OPENED, false);
             return true;
         }
-        
+
+        public bool IsFirstRun()
+        {
+            return _firstRun;
+        }
+
         /**
          * Get first open date
          * @return first open date

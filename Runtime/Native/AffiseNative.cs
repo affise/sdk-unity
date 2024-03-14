@@ -147,6 +147,11 @@ namespace AffiseAttributionLib.Native
             return result;
         }
 
+        public bool IsFirstRun()
+        {
+            return Native<bool>(AffiseApiMethod.IS_FIRST_RUN);
+        }
+        
         public string? GetRandomUserId()
         {
             return Native<string>(AffiseApiMethod.GET_RANDOM_USER_ID);

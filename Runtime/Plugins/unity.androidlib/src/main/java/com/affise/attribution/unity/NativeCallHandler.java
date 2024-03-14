@@ -37,7 +37,12 @@ public abstract class NativeCallHandler {
             throw new Exception(String.format("AffiseApi [%s] error: [%s]", apiName, e.getLocalizedMessage()));
         }
     }
-
+    
+    public int apiCallBool(String apiName, String json) throws Exception {
+        Boolean value = apiCall(apiName, json);
+        return value ? 1 : 0;
+    }
+    
     private <T> T asNativeData(ApiResult result) {
         Object data = result.getResult();
 
