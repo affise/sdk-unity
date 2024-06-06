@@ -18,6 +18,9 @@ namespace AffiseAttributionLib.Native
 {
     internal class AffiseNative : NativeBase, IAffiseNative
     {
+        private const string SUCCESS = "success";
+        private const string FAILED = "failed";
+
         private readonly EventToSerializedEventConverter _converter = new();
 
         public AffiseNative(AffiseInitProperties initProperties)
@@ -35,15 +38,24 @@ namespace AffiseAttributionLib.Native
             return Native<bool>(AffiseApiMethod.IS_INITIALIZED);
         }
 
-        public void SendEvents()
-        {
-            Native(AffiseApiMethod.SEND_EVENTS);
-        }
-
         public void SendEvent(AffiseEvent affiseEvent)
         {
             var data = _converter.Convert(affiseEvent).Data;
             Native(AffiseApiMethod.SEND_EVENT, data);
+        }
+
+        public void SendEventNow(AffiseEvent affiseEvent, OnSendSuccessCallback success, OnSendFailedCallback failed)
+        {
+            var data = _converter.Convert(affiseEvent).Data;
+            NativeCallbackGroup(
+                AffiseApiMethod.SEND_EVENT_NOW,
+                new Dictionary<string, object>()
+                {
+                    { SUCCESS, success },
+                    { FAILED, failed }
+                },
+                data
+            );
         }
 
         public void AddPushToken(string pushToken)
@@ -151,7 +163,7 @@ namespace AffiseAttributionLib.Native
         {
             return Native<bool>(AffiseApiMethod.IS_FIRST_RUN);
         }
-        
+
         public string? GetRandomUserId()
         {
             return Native<string>(AffiseApiMethod.GET_RANDOM_USER_ID);
@@ -169,10 +181,14 @@ namespace AffiseAttributionLib.Native
 
         public void RegisterAppForAdNetworkAttribution(ErrorCallback completionHandler)
         {
-            NativeCallbackOnce(AffiseApiMethod.SKAD_REGISTER_ERROR_CALLBACK, callback: completionHandler); 
+            NativeCallbackOnce(AffiseApiMethod.SKAD_REGISTER_ERROR_CALLBACK, callback: completionHandler);
         }
 
-        public void UpdatePostbackConversionValue(int fineValue, CoarseValue coarseValue, ErrorCallback completionHandler)
+        public void UpdatePostbackConversionValue(
+            int fineValue,
+            CoarseValue coarseValue,
+            ErrorCallback completionHandler
+        )
         {
             var data = new Dictionary<string, object>
             {
@@ -192,10 +208,22 @@ namespace AffiseAttributionLib.Native
             NativeCallback(AffiseApiMethod.DEBUG_NETWORK_CALLBACK, callback: callback);
         }
 
-        protected override void HandleCallback(AffiseApiMethod api, object callback, JSONNode? json)
+        protected override void HandleCallback(AffiseApiMethod api, object callback, JSONNode? json, string? tag)
         {
             switch (api)
             {
+                case AffiseApiMethod.SEND_EVENT_NOW:
+                    switch (tag)
+                    {
+                        case SUCCESS:
+                            (callback as OnSendSuccessCallback)?.Invoke();
+                            break;
+                        case FAILED:
+                            var failedResponse = DebugUtils.ParseResponse(json);
+                            (callback as OnSendFailedCallback)?.Invoke(failedResponse);
+                            break;
+                    }
+                    break;
                 case AffiseApiMethod.REGISTER_DEEPLINK_CALLBACK:
                     (callback as DeeplinkCallback)?.Invoke(new Uri(json?.Value ?? ""));
                     break;
@@ -220,7 +248,7 @@ namespace AffiseAttributionLib.Native
                     (callback as DebugOnValidateCallback)?.Invoke(status);
                     break;
                 case AffiseApiMethod.DEBUG_NETWORK_CALLBACK:
-                    var (request, response) = DebugUtils.ParseRequestResponse(json?.AsObject);
+                    var (request, response) = DebugUtils.ParseRequestResponse(json);
                     (callback as DebugOnNetworkCallback)?.Invoke(request, response);
                     break;
             }

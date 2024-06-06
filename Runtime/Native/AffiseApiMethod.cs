@@ -7,8 +7,8 @@ namespace AffiseAttributionLib.Native
     {
         INIT,
         IS_INITIALIZED,
-        SEND_EVENTS,
         SEND_EVENT,
+        SEND_EVENT_NOW,
         ADD_PUSH_TOKEN,
         REGISTER_WEB_VIEW,
         UNREGISTER_WEB_VIEW,
@@ -62,8 +62,8 @@ namespace AffiseAttributionLib.Native
             {
                 AffiseApiMethod.INIT => "init",
                 AffiseApiMethod.IS_INITIALIZED => "is_initialized",
-                AffiseApiMethod.SEND_EVENTS => "send_events",
                 AffiseApiMethod.SEND_EVENT => "send_event",
+                AffiseApiMethod.SEND_EVENT_NOW => "send_event_now",
                 AffiseApiMethod.ADD_PUSH_TOKEN => "add_push_token",
                 AffiseApiMethod.REGISTER_WEB_VIEW => "register_web_view",
                 AffiseApiMethod.UNREGISTER_WEB_VIEW => "unregister_web_view",

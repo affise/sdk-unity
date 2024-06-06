@@ -15,12 +15,12 @@ namespace AffiseAttributionLib.Native
     internal interface IAffiseNative
     {
         void Init(AffiseInitProperties initProperties);
-        
+
         bool IsInitialized();
-        
-        void SendEvents();
 
         void SendEvent(AffiseEvent affiseEvent);
+
+        void SendEventNow(AffiseEvent affiseEvent, OnSendSuccessCallback success, OnSendFailedCallback failed);
 
         void AddPushToken(string pushToken);
 
@@ -51,11 +51,11 @@ namespace AffiseAttributionLib.Native
         void GetReferrer(ReferrerCallback callback);
 
         void GetReferrerValue(ReferrerKey key, ReferrerCallback callback);
-        
+
         void GetStatus(AffiseModules module, OnKeyValueCallback callback);
-        
+
         bool ModuleStart(AffiseModules module);
-        
+
         List<AffiseModules> GetModules();
 
         string? GetRandomUserId();
@@ -67,7 +67,7 @@ namespace AffiseAttributionLib.Native
         bool IsFirstRun();
 
         void RegisterAppForAdNetworkAttribution(ErrorCallback completionHandler);
-        
+
         void UpdatePostbackConversionValue(int fineValue, CoarseValue coarseValue, ErrorCallback completionHandler);
 
         void Validate(DebugOnValidateCallback callback);

@@ -19,39 +19,35 @@ namespace AffiseAttributionLib.Native.Utils
         private const string CODE = "code";
         private const string MESSAGE = "message";
 
-        public static Tuple<HttpRequest, HttpResponse> ParseRequestResponse(JSONObject? json)
+        public static HttpRequest ParseRequest(JSONNode? node)
         {
-            if (json is null)
-            {
-                return new Tuple<HttpRequest, HttpResponse>(
-                    new HttpRequest(
-                        url: "",
-                        method: IHttpClient.Method.POST,
-                        headers: new Dictionary<string, string>(),
-                        body: null
-                    ),
-                    new HttpResponse(
-                        code: 0,
-                        message: "",
-                        body: null
-                    )
-                );
-            }
+            var json = node?.AsObject;
+            
+            var reqUrl = json?[URL]?.Value ?? "";
+            var reqMethod = json?[METHOD]?.Value.ToHttpClientMethod() ?? IHttpClient.Method.POST;
+            var reqBody = json?[BODY]?.ToString();
+            var reqHeaders = json?[HEADERS]?.AsObject?.ToMapOfStrings() ?? new Dictionary<string, string>();
 
-            var req = json[REQUEST]?.AsObject;
-            var reqUrl = req?[URL]?.Value ?? "";
-            var reqMethod = req?[METHOD]?.Value.ToHttpClientMethod() ?? IHttpClient.Method.POST;
-            var reqBody = req?[BODY]?.ToString();
-            var reqHeaders = req?[HEADERS]?.AsObject?.ToMapOfStrings() ?? new Dictionary<string, string>();
+            return new HttpRequest(reqUrl, reqMethod, reqHeaders, reqBody);
+        }
 
-            var res = json[RESPONSE]?.AsObject;
-            var resCode = res?[CODE]?.AsLong ?? 0L;
-            var resMessage = res?[MESSAGE]?.Value ?? "";
-            var resBody = res?[BODY]?.ToString();
+        public static HttpResponse ParseResponse(JSONNode? node)
+        {
+            var json = node?.AsObject;
+            
+            var resCode = json?[CODE]?.AsLong ?? 0L;
+            var resMessage = json?[MESSAGE]?.Value ?? "";
+            var resBody = json?[BODY]?.ToString();
 
+            return new HttpResponse(resCode, resMessage, resBody);
+        }
+
+        public static Tuple<HttpRequest, HttpResponse> ParseRequestResponse(JSONNode? node)
+        {
+            var json = node?.AsObject;
             return new Tuple<HttpRequest, HttpResponse>(
-                new HttpRequest(reqUrl, reqMethod, reqHeaders, reqBody),
-                new HttpResponse(resCode, resMessage, resBody)
+                ParseRequest(json?[REQUEST]),
+                ParseResponse(json?[RESPONSE])
             );
         }
 

@@ -77,7 +77,16 @@ namespace AffiseDemo
         private void AffiseApi(VisualElement? view)
         {
             if (view is null) return;
-
+            view.AddButton("Debug: Reset", () =>
+            {
+                PlayerPrefs.DeleteAll();
+            });
+            
+            view.AddButton("Debug: IsFirstRun", () =>
+            {
+                Output($"IsFirstRun: {Affise.IsFirstRun()}");
+            });
+            
             view.AddButton("Debug: Validate credentials", () =>
             {
                 // Debug: Validate credentials https://github.com/affise/sdk-unity#validate-credentials
@@ -221,6 +230,18 @@ namespace AffiseDemo
                     affiseEvent.Send();
                     // or
                     // Affise.SendEvent(affiseEvent);
+                    // or
+                    // affiseEvent.SendNow(() =>
+                    // {
+                    //     var msg = $"Send {affiseEvent.GetName()} success";
+                    //     Debug.Log(msg);
+                    //     Output(msg);
+                    // }, (status) =>
+                    // {
+                    //     var msg = $"Send {affiseEvent.GetName()} failed {status}";
+                    //     Debug.Log(msg);
+                    //     Output(msg);
+                    // });
                 });
             }
         }

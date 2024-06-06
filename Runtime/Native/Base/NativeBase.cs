@@ -19,10 +19,13 @@ namespace AffiseAttributionLib.Native
     internal abstract class NativeBase
     {
         private const string UUID = "callback_uuid";
+        private const string TAG = "callback_tag";
 
         private readonly INative? _native = null;
 
         private readonly Dictionary<string, object> _callbacksOnce = new();
+        
+        private readonly Dictionary<string, Dictionary<string, object>> _callbacksGroup = new();
         
         private readonly Dictionary<AffiseApiMethod, object> _callbacks = new();
 
@@ -58,7 +61,7 @@ namespace AffiseAttributionLib.Native
             _absoluteURL = null;
         }
 
-        protected abstract void HandleCallback(AffiseApiMethod api, object callback, JSONNode? json);
+        protected abstract void HandleCallback(AffiseApiMethod api, object callback, JSONNode? json, string? tag);
 
         protected T? Native<T>(AffiseApiMethod api, object? data, string? uuid = null)
         {
@@ -142,6 +145,20 @@ namespace AffiseAttributionLib.Native
             _native?.Native(apiName, json.ToString());
         }
         
+        protected void NativeCallbackGroup(AffiseApiMethod api, Dictionary<string, object> callbackGroup, object? data = null)
+        {
+            var apiName = api.ToMethod();
+            if (apiName is null) return;
+            var uuid = Uuid.Generate();
+            var json = new JSONObject
+            {
+                [apiName] = data?.ToJsonNode(),
+                [UUID] = uuid
+            };
+            _callbacksGroup[uuid] = callbackGroup;
+            _native?.Native(apiName, json.ToString());
+        }
+        
         protected void NativeCallback(AffiseApiMethod api, object callback, object? data = null)
         {
             var apiName = api.ToMethod();
@@ -158,50 +175,58 @@ namespace AffiseAttributionLib.Native
         {
             var api = apiName.ToAffiseApiMethod();
             if (api is null) return;
-            var (uuid, json) = GetCallbackValue(data, api);
+            var (uuid, tag, json) = GetCallbackValue(data, api);
             if (uuid is null)
             {
                 GetCallback(api, callback =>
                 {
-                    OnCallbackCall(api, callback, json);
+                    OnCallbackCall(api, callback, json, tag);
+                });
+            }
+            else if (!string.IsNullOrWhiteSpace(tag))
+            {
+                GetCallbackGroup(uuid, tag, callback =>
+                {
+                    OnCallbackCall(api, callback, json, tag);
                 });
             }
             else
             {
                 GetCallbackOnce(uuid, callback =>
                 {
-                    OnCallbackCall(api, callback, json);
+                    OnCallbackCall(api, callback, json, tag);
                 });
             }
         }
 
-        private void OnCallbackCall(AffiseApiMethod? api, object? callback, JSONNode? json)
+        private void OnCallbackCall(AffiseApiMethod? api, object? callback, JSONNode? json, string? tag)
         {
             if (api is null)  return;
             if (callback is null)  return;
-            HandleCallback((AffiseApiMethod)api, callback, json);
+            HandleCallback((AffiseApiMethod)api, callback, json, tag);
         }
 
-        private Tuple<string?, JSONNode?> GetCallbackValue(string data, AffiseApiMethod? api)
+        private Tuple<string?, string?, JSONNode?> GetCallbackValue(string data, AffiseApiMethod? api)
         {
             try
             {
                 var json = JSON.Parse(data);
                 var uuid = json[UUID];
+                var tag = json[TAG];
                 var apiName = api?.ToMethod();
                 if (apiName is null)
                 {
-                    return new Tuple<string?, JSONNode?>(uuid, null);
+                    return new Tuple<string?, string?, JSONNode?>(uuid, tag, null);
                 }
 
                 var value = json[apiName];
-                return new Tuple<string?, JSONNode?>(uuid, value);
+                return new Tuple<string?, string?, JSONNode?>(uuid, tag, value);
             }
             catch (Exception)
             {
                 // ignored
             }
-            return new Tuple<string?, JSONNode?>(null, null);
+            return new Tuple<string?, string?, JSONNode?>(null, null, null);
         }
 
         private void GetCallbackOnce(string? uuid, Action<object?> action)
@@ -210,6 +235,18 @@ namespace AffiseAttributionLib.Native
             if (!_callbacksOnce.ContainsKey(uuid)) return;
             action.Invoke(_callbacksOnce[uuid]);
             _callbacksOnce.Remove(uuid);
+        }
+        
+        private void GetCallbackGroup(string? uuid, string? tag, Action<object?> action)
+        {
+            if (uuid is null) return;
+            if (!_callbacksGroup.ContainsKey(uuid)) return;
+            var callbackTag = _callbacksGroup[uuid];
+            if (tag is not null && callbackTag.ContainsKey(tag))
+            {
+                action.Invoke(callbackTag[tag]);
+            }
+            _callbacksGroup.Remove(uuid);
         }
         
         private void GetCallback(AffiseApiMethod? api, Action<object?> action)

@@ -1,8 +1,10 @@
 # Affise Unity package
 
+[Change Log](CHANGELOG.md)
+
 | Artifact      | Version               |
 |---------------|-----------------------|
-| `attribution` | [`1.6.17`](/releases) |
+| `attribution` | [`1.6.18`](/releases) |
 
 - [Affise Unity package](#affise-unity-package)
 - [Description](#description)
@@ -28,6 +30,7 @@
     - [Advertising](#advertising)
     - [Network](#network)
     - [Phone](#phone)
+  - [Event send control](#event-send-control)
   - [Events tracking](#events-tracking)
     - [Custom events tracking](#custom-events-tracking)
   - [Predefined event parameters](#predefined-event-parameters)
@@ -61,6 +64,7 @@
   - [Validate credentials](#validate-credentials)
 - [Troubleshoots](#troubleshoots)
   - [iOS](#ios-3)
+  - [Android](#android-1)
 
 # Description
 
@@ -83,7 +87,7 @@ Add package from git url `https://github.com/affise/sdk-unity.git`
 
 ### Integrate unitypackage file
 
-Download latest Affise SDK [`attribution-1.6.17.unitypackage`](https://github.com/affise/sdk-unity/releases/download/1.6.17/attribution-1.6.17.unitypackage)
+Download latest Affise SDK [`attribution-1.6.18.unitypackage`](https://github.com/affise/sdk-unity/releases/download/1.6.18/attribution-1.6.18.unitypackage)
 from [releases page](https://github.com/affise/sdk-unity/releases) and drop this file to unity editor
 
 ### Initialize
@@ -217,10 +221,10 @@ Dependencies located in Android project gradle file `build.gradle`
 dependencies {
   // ...
   // Affise modules
-  implementation 'com.affise:module-advertising:1.6.26'
-  implementation 'com.affise:module-network:1.6.26'
-  implementation 'com.affise:module-phone:1.6.26'
-  implementation 'com.affise:module-status:1.6.26'
+  implementation 'com.affise:module-advertising:1.6.34'
+  implementation 'com.affise:module-network:1.6.34'
+  implementation 'com.affise:module-phone:1.6.34'
+  implementation 'com.affise:module-status:1.6.34'
 }
 ```
 
@@ -234,8 +238,8 @@ All affise modules is updated automatically on build
 
 | Module        |                                       Version                                        | Start    |
 |---------------|:------------------------------------------------------------------------------------:|----------|
-| `Advertising` | [`1.6.27`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Manual` |
-| `Status`      | [`1.6.27`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
+| `Advertising` | [`1.6.32`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Manual` |
+| `Status`      | [`1.6.32`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
 
 Dependencies located in XCode project folder `Podfile`
 
@@ -243,11 +247,11 @@ Dependencies located in XCode project folder `Podfile`
 platform :ios, '11.0'
 
 target 'UnityFramework' do
-  pod 'AffiseInternal', '1.6.27'
+  pod 'AffiseInternal', '1.6.32'
 
   # Affise Modules
-  pod 'AffiseModule/Advertising', `1.6.27`
-  pod 'AffiseModule/Status', `1.6.27`
+  pod 'AffiseModule/Advertising', `1.6.32`
+  pod 'AffiseModule/Status', `1.6.32`
 end
 
 target 'Unity-iPhone' do
@@ -302,10 +306,10 @@ Podfile:
 platform :ios, '11.0'
 
 target 'UnityFramework' do
-  pod 'AffiseInternal', '1.6.27'
+  pod 'AffiseInternal', '1.6.32'
 
   # Affise Modules
-  # pod 'AffiseModule/Status', `1.6.27`
+  # pod 'AffiseModule/Status', `1.6.32`
 end
 
 target 'Unity-iPhone' do
@@ -426,6 +430,32 @@ To match users with events and data library is sending, these `ProviderType` ide
 
 - `NETWORK_TYPE`
 - `ISP`
+
+## Event send control
+
+There are two ways to send events
+
+1. Cache event to later scheduled send in batch
+
+```c#
+AddToCartEvent()
+    .Send();
+```
+
+2. Send event right now
+
+```c#
+AddToCartEvent()
+    .SendNow(() =>
+        {
+            // handle event send success
+        }, (errorResponse) =>
+        {
+            // handle event send failed
+            // 🟥Warning:🟥 event is NOT cached for later send
+        }
+    );
+```
 
 ## Events tracking
 
@@ -1052,3 +1082,22 @@ Affise.Debug.Validate(status =>
 > 🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥
 
 Open `info.plist` and add key `NSUserTrackingUsageDescription` with string value. For more information [read requirements](#requirements)
+
+## Android
+
+> **Warning**
+>
+> 🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥
+>
+> Application has crashed on Android 14 (API level 34) with error
+>
+> `java.lang.SecurityException: One of RECEIVER_EXPORTED or RECEIVER_NOT_EXPORTED should be specified when a receiver isn't being registered exclusively for system broadcasts`
+>
+> Cause: Google enforced new security policy for Android 14 (API level 34).
+>
+> 🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥
+
+Update `Unity` minimum version for  `2023.3.0a4`, `2022.3.14f1`, `2021.3.33f1`
+[Related Unity issue](https://issuetracker.unity3d.com/issues/android-targetapi-34-crash-on-launch)
+
+Earlier versions are not supported

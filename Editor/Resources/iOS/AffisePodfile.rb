@@ -1,7 +1,7 @@
 platform :ios, '11.0'
 
 target 'UnityFramework' do
-   pod 'AffiseInternal', '1.6.27'
+   pod 'AffiseInternal', '1.6.32'
    
 end
 

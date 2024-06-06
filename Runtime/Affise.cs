@@ -65,19 +65,6 @@ namespace AffiseAttributionLib
         }
 
         /**
-         * Send events
-         */
-        [Obsolete("This method will be removed")]
-        public static void SendEvents()
-        {
-#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
-            _native?.SendEvents();
-#else
-            _api?.EventsManager.SendEvents();
-#endif
-        }
-
-        /**
          * Store and send [affiseEvent]
          */
         public static void SendEvent(AffiseEvent affiseEvent)
@@ -89,6 +76,18 @@ namespace AffiseAttributionLib
 #endif
         }
 
+        /**
+         * Send [affiseEvent] now
+         */
+        public static void SendEventNow(AffiseEvent affiseEvent, OnSendSuccessCallback success, OnSendFailedCallback failed)
+        {
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+            _native?.SendEventNow(affiseEvent, success, failed);
+#else
+            _api?.ImmediateSendToServerUseCase.SendNow(affiseEvent, success, failed);
+#endif
+        }
+        
         /**
          * Add [pushToken]
          */

@@ -141,6 +141,13 @@ namespace AffiseAttributionLib.Events
         public void Send() {
             Affise.SendEvent(this);
         }
+        
+        /**
+         * Send this event now
+         */
+        public void SendNow(OnSendSuccessCallback success, OnSendFailedCallback failed) {
+            Affise.SendEventNow(this, success, failed);
+        }
 
         /**
          * Get map of predefined parameter

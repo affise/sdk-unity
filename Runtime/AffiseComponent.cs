@@ -41,6 +41,8 @@ namespace AffiseAttributionLib
         public IDebugNetworkUseCase DebugNetworkUseCase { get; }
         
         public IDebugValidateUseCase DebugValidateUseCase { get; }
+        
+        public IImmediateSendToServerUseCase ImmediateSendToServerUseCase { get; }
 
         private readonly ConverterToBase64 _converterToBase64;
         
@@ -108,11 +110,13 @@ namespace AffiseAttributionLib
             FirstAppOpenUseCase.OnAppCreated();
             SetPropertiesWhenInitUseCase.Init(initProperties);
             _sessionManager.Init();
+            
+            var _eventToSerializedEventConverter = new EventToSerializedEventConverter();
 
             _eventsStorage = new EventsStorageImpl(_logsManager);
             _eventsRepository = new EventsRepositoryImpl(
                 converterToBase64: _converterToBase64,
-                eventToSerializedEventConverter: new EventToSerializedEventConverter(),
+                eventToSerializedEventConverter: _eventToSerializedEventConverter,
                 eventsStorage: _eventsStorage
             );
 
@@ -163,6 +167,14 @@ namespace AffiseAttributionLib
                 cloudRepository: _cloudRepository,
                 eventsRepository: _eventsRepository,
                 logsRepository: _logsRepository,
+                logsManager: _logsManager
+            );
+
+            ImmediateSendToServerUseCase = new ImmediateSendToServerUseCaseImpl(
+                executorServiceProvider: new ExecutorServiceProviderImpl(),
+                cloudRepository: _cloudRepository,
+                postBackModelFactory: PostBackModelFactory,
+                eventToSerializedEventConverter: _eventToSerializedEventConverter,
                 logsManager: _logsManager
             );
 
