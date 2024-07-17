@@ -1,5 +1,4 @@
 ﻿#nullable enable
-using System;
 using System.Collections.Generic;
 using AffiseAttributionLib.Debugger.Validate;
 using AffiseAttributionLib.Extensions;
@@ -19,41 +18,42 @@ namespace AffiseAttributionLib.Native.Utils
         private const string CODE = "code";
         private const string MESSAGE = "message";
 
-        public static HttpRequest ParseRequest(JSONNode? node)
+        public static HttpRequest ToRequest(JSONNode? node)
         {
             var json = node?.AsObject;
             
-            var reqUrl = json?[URL]?.Value ?? "";
-            var reqMethod = json?[METHOD]?.Value.ToHttpClientMethod() ?? IHttpClient.Method.POST;
-            var reqBody = json?[BODY]?.ToString();
-            var reqHeaders = json?[HEADERS]?.AsObject?.ToMapOfStrings() ?? new Dictionary<string, string>();
+            var url = json?[URL]?.Value ?? "";
+            var method = json?[METHOD]?.Value.ToHttpClientMethod() ?? IHttpClient.Method.POST;
+            var body = json?[BODY]?.ToString();
+            var headers = json?[HEADERS]?.AsObject?.ToMapOfStrings() ?? new Dictionary<string, string>();
 
-            return new HttpRequest(reqUrl, reqMethod, reqHeaders, reqBody);
+            return new HttpRequest(url, method, headers, body);
         }
 
-        public static HttpResponse ParseResponse(JSONNode? node)
+        public static HttpResponse ToResponse(JSONNode? node)
         {
             var json = node?.AsObject;
             
-            var resCode = json?[CODE]?.AsLong ?? 0L;
-            var resMessage = json?[MESSAGE]?.Value ?? "";
-            var resBody = json?[BODY]?.ToString();
+            var code = json?[CODE]?.AsLong ?? 0L;
+            var message = json?[MESSAGE]?.Value ?? "";
+            var body = json?[BODY]?.ToString();
+            var headers = json?[HEADERS]?.AsObject?.ToMapOfStringList() ?? new Dictionary<string, List<string>>();
 
-            return new HttpResponse(resCode, resMessage, resBody);
+            return new HttpResponse(code, message, body, headers);
         }
 
-        public static Tuple<HttpRequest, HttpResponse> ParseRequestResponse(JSONNode? node)
+        public static (HttpRequest, HttpResponse) ParseRequestResponse(JSONNode? node)
         {
             var json = node?.AsObject;
-            return new Tuple<HttpRequest, HttpResponse>(
-                ParseRequest(json?[REQUEST]),
-                ParseResponse(json?[RESPONSE])
+            return (
+                ToRequest(json?[REQUEST]),
+                ToResponse(json?[RESPONSE])
             );
         }
 
-        public static ValidationStatus GetValidationStatus(string? value)
+        public static ValidationStatus GetValidationStatus(JSONNode? node)
         {
-            return value.ToValidationStatus() ?? ValidationStatus.UNKNOWN_ERROR;
+            return node?.Value.ToValidationStatus() ?? ValidationStatus.UNKNOWN_ERROR;
         }
     }
 }

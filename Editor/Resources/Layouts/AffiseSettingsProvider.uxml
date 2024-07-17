@@ -72,13 +72,16 @@
             <ui:ScrollView scroll-deceleration-rate="0,135" elasticity="0,1">
                 <ui:VisualElement>
                     <ui:VisualElement class="settings-section">
-                        <ui:Foldout text="Deeplinks" name="deeplink" style="-unity-font-style: bold;">
+                        <ui:Foldout text="Deeplinks / Applinks" name="deeplink" style="-unity-font-style: bold;">
                             <ui:Toggle label="Enable" name="deeplink-toggle" class="mt-2" />
                             <ui:VisualElement class="msg-box color-alert bg-alert border-alert mt-2">
                                 <ui:Label text="This option will rewrite all deeplinks&#10;&#10;For Android in &quot;Assets/Plugins/Android/AndroidManifest.xml&quot;&#10;For iOS in &quot;&lt;xcode_project_path&gt;/Info.plist&quot;" display-tooltip-when-elided="true" style="margin-left: 8px; margin-right: 8px; margin-top: 8px; margin-bottom: 8px;" />
                             </ui:VisualElement>
                             <ui:VisualElement class="msg-box color-alert bg-alert border-alert mt-2">
-                                <ui:Label text="Example: shema://domain.dev" display-tooltip-when-elided="true" style="margin-left: 8px; margin-right: 8px; margin-top: 8px; margin-bottom: 8px;" />
+                                <ui:Label text="Deeplink Example: shema://domain.dev" display-tooltip-when-elided="true" style="margin-left: 8px; margin-right: 8px; margin-top: 8px; margin-bottom: 8px;" />
+                            </ui:VisualElement>
+                            <ui:VisualElement class="msg-box color-alert bg-alert border-alert mt-2">
+                                <ui:Label text="Applink Example: https://domain.dev" display-tooltip-when-elided="true" style="margin-left: 8px; margin-right: 8px; margin-top: 8px; margin-bottom: 8px;" />
                             </ui:VisualElement>
                             <ui:ListView focusable="true" show-border="true" selection-type="Multiple" show-alternating-row-backgrounds="All" show-add-remove-footer="true" show-foldout-header="false" reorderable="true" reorder-mode="Animated" class="mt-3" />
                         </ui:Foldout>

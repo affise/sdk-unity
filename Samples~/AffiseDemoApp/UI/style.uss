@@ -7,3 +7,28 @@
 .no-label > Label {
     display: none;
 }
+
+.affise-button {
+    border-radius: 10px;
+    border-width: 0;
+    -unity-font-style: bold;
+    color: white;
+    background-color: #002984;
+}
+
+.affise-button:focus {
+    background-color: #081e62;
+}
+
+.border {
+    border-radius: 10px;
+    border-width: 0;
+}
+
+.affise-subscription-event {
+    background-color: #9c0000;
+}
+
+.affise-subscription-event:focus {
+    background-color: #4e0000;
+}

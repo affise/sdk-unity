@@ -20,19 +20,28 @@ namespace AffiseAttributionLib.Network
         public IEnumerator ExecuteRequest(
             string httpsUrl,
             IHttpClient.Method method,
-            string data,
+            string? data,
             Dictionary<string, string> headers,
-            Action<HttpResponse>? onComplete = null
+            Action<HttpResponse>? onComplete = null,
+            bool redirect = true
         )
         {
-            //Create data bytes
-            var encodedData = Encoding.UTF8.GetBytes(data);
-            
             //Create connection
             var request = new UnityWebRequest(httpsUrl);
-            request.uploadHandler = new UploadHandlerRaw(encodedData);
+
+            if (data is not null)
+            {
+                //Create data bytes
+                var encodedData = Encoding.UTF8.GetBytes(data);
+                request.uploadHandler = new UploadHandlerRaw(encodedData);
+            }
+
             request.downloadHandler = new DownloadHandlerBuffer();
             request.method = RequestMethod(method);
+            if (redirect == false)
+            {
+                request.redirectLimit = 0;
+            }
 
             //Add headers
             foreach (var (key, value) in headers)
@@ -46,11 +55,19 @@ namespace AffiseAttributionLib.Network
             var responseCode = request.responseCode;
             var responseMessage = request.error ?? "";
             var responseBody = request.downloadHandler.text;
+            var responseHeaders = new Dictionary<string, List<string>>();
+            
+            foreach (var (key, value) in request.GetResponseHeaders())
+            {
+                if (key is null) continue;
+                responseHeaders[key] = new List<string>((value ?? "").Split(';'));;
+            }
 
             var response = new HttpResponse(
                 code: responseCode,
                 message: responseMessage,
-                body: responseBody
+                body: responseBody,
+                headers: responseHeaders
             );
             
             // Complete request

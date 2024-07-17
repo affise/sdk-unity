@@ -6,6 +6,7 @@ using AffiseAttributionLib.Debugger.Validate;
 using AffiseAttributionLib.Deeplink;
 using AffiseAttributionLib.Events;
 using AffiseAttributionLib.Init;
+using AffiseAttributionLib.Module.Link;
 using AffiseAttributionLib.Modules;
 using AffiseAttributionLib.Referrer;
 using AffiseAttributionLib.SKAd;
@@ -52,12 +53,6 @@ namespace AffiseAttributionLib.Native
 
         void GetReferrerValue(ReferrerKey key, ReferrerCallback callback);
 
-        void GetStatus(AffiseModules module, OnKeyValueCallback callback);
-
-        bool ModuleStart(AffiseModules module);
-
-        List<AffiseModules> GetModules();
-
         string? GetRandomUserId();
 
         string? GetRandomDeviceId();
@@ -73,5 +68,19 @@ namespace AffiseAttributionLib.Native
         void Validate(DebugOnValidateCallback callback);
 
         void Network(DebugOnNetworkCallback callback);
+
+        ////////////////////////////////////////
+        // modules
+        ////////////////////////////////////////
+        void GetStatus(AffiseModules module, OnKeyValueCallback callback);
+
+        bool ModuleStart(AffiseModules module);
+
+        List<AffiseModules> GetModules();
+        
+        void LinkResolve(string uri, AffiseLinkCallback callback);
+        ////////////////////////////////////////
+        // modules
+        ////////////////////////////////////////
     }
 }

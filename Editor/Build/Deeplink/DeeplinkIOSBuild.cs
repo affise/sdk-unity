@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using AffiseAttributionLib.Editor.Config;
 using UnityEditor;
 using UnityEditor.Callbacks;
@@ -23,10 +24,14 @@ namespace AffiseAttributionLib.Editor.Build.Deeplink
         }
         
         private const string InfoPlist = "Info.plist";
+        // Deelinks
         private const string CFBundleURLTypes = "CFBundleURLTypes";
         private const string CFBundleTypeRole = "CFBundleTypeRole";
         private const string CFBundleURLName = "CFBundleURLName";
         private const string CFBundleURLSchemes = "CFBundleURLSchemes";
+        // Applinks
+        private const string ApplinksKey = "com.apple.developer.associated-domains";
+        private const string ApplinkPrefix = "applinks:";
 
         private void UpdatePlistDocument(string plistPath)
         {
@@ -42,51 +47,88 @@ namespace AffiseAttributionLib.Editor.Build.Deeplink
 
             var hasChanged = false;
 
+            var links = AffiseEditorConfig.Instance.deeplinks
+	            .Where(x => !string.IsNullOrWhiteSpace(x))
+	            .Select(x => x! )
+	            .ToList();
+
+            var deeplinks = links.Where(f => f?.StartsWith("http") == false).ToList();
+            var applinks = links.Where(f => f?.StartsWith("http") == true).ToList();
+
             hasChanged |= RemoveDeeplinks(rootDict);
-            hasChanged |= AddDeeplinks(rootDict, AffiseEditorConfig.Instance.deeplinks);
+            hasChanged |= RemoveApplinks(rootDict);
+            hasChanged |= AddDeeplinks(rootDict, deeplinks);
+            hasChanged |= AddApplinks(rootDict, applinks);
 
             if (!hasChanged) return;
             // Write to file
             File.WriteAllText(plistPath, plist.WriteToString());
         }
 
+        #region Deeplinks
+        
         private bool RemoveDeeplinks(PlistElementDict root)
         {
-            root.values.Remove(CFBundleURLTypes);
-            return true;
+	        root.values.Remove(CFBundleURLTypes);
+	        return true;
         }
 
-        private bool AddDeeplinks(PlistElementDict root, List<string?> deeplinks)
+        private bool AddDeeplinks(PlistElementDict root, List<string> deeplinks)
         {
-            var array = root.CreateArray(CFBundleURLTypes);
+	        var array = root.CreateArray(CFBundleURLTypes);
             
-            var hasChanged = false;
-            foreach (var deeplink in deeplinks)
-            {
-	            var (scheme, host) = GetSchemeAndHost(deeplink);
-	            if (string.IsNullOrWhiteSpace(scheme) || string.IsNullOrWhiteSpace(host)) continue;
+	        var hasChanged = false;
+	        foreach (var deeplink in deeplinks)
+	        {
+		        var (scheme, host) = GetSchemeAndHost(deeplink);
+		        if (string.IsNullOrWhiteSpace(scheme) || string.IsNullOrWhiteSpace(host)) continue;
 	            
-	            var dict = array.AddDict();
+		        var dict = array.AddDict();
 	            
-	            dict.SetString(CFBundleTypeRole, "Editor");
-	            dict.SetString(CFBundleURLName, host);
+		        dict.SetString(CFBundleTypeRole, "Editor");
+		        dict.SetString(CFBundleURLName, host);
 
-	            var schemes = dict.CreateArray(CFBundleURLSchemes);
-	            schemes.AddString(scheme);
+		        var schemes = dict.CreateArray(CFBundleURLSchemes);
+		        schemes.AddString(scheme);
 
-	            hasChanged = true;
-            }
+		        hasChanged = true;
+	        }
 
-            return hasChanged;
+	        return hasChanged;
         }
         
-        private Tuple<string, string>? GetSchemeAndHost(string? deeplink)
+        #endregion // Deeplinks
+
+        #region Applinks
+
+        private bool RemoveApplinks(PlistElementDict root)
         {
-	        if (string.IsNullOrWhiteSpace(deeplink)) return null;
-	        var parts = deeplink?.Split("://");
-	        if (parts is null) return null;
-	        if (parts.Length != 2) return null;
-	        return new Tuple<string, string>(parts[0], parts[1]);
+	        root.values.Remove(ApplinksKey);
+	        return true;
+        }
+        
+        private bool AddApplinks(PlistElementDict root, List<string> applinks)
+        {
+	        var array = root.CreateArray(ApplinksKey);
+            
+	        var hasChanged = false;
+	        foreach (var applink in applinks)
+	        {
+		        array.AddString($"{ApplinkPrefix}{applink}");
+
+		        hasChanged = true;
+	        }
+
+	        return hasChanged;
+        }
+
+        #endregion // Applinks
+        
+        private (string?, string?) GetSchemeAndHost(string deeplink)
+        {
+	        var parts = deeplink.Split("://");
+	        if (parts?.Length != 2) return (null, null);
+	        return (parts[0], parts[1]);
         }
     }
 }

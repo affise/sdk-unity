@@ -1,3 +1,4 @@
+#nullable enable
 using System;
 using AffiseAttributionLib.Utils;
 using UnityEngine;
@@ -12,12 +13,12 @@ namespace AffiseAttributionLib.Deeplink
         /**
          * Callback that is going to be triggered when deeplink is received by application
          */
-        private DeeplinkCallback _deeplinkCallback;
+        private DeeplinkCallback? _deeplinkCallback;
         
         /**
          * Listener for resume activities
          */
-        private Action<string> _onDeepLinkActivated;
+        private Action<string>? _onDeepLinkActivated;
 
         public DeeplinkManagerImpl(
             IDeeplinkClickRepository deeplinkClickRepository,
@@ -50,12 +51,11 @@ namespace AffiseAttributionLib.Deeplink
             _deeplinkCallback = callback;
         }
 
-        public bool HandleDeeplink(Uri uri)
+        public void HandleDeeplink(Uri uri)
         {
             _deeplinkClickRepository.SetDeeplinkClick(true);
             _deeplinkClickRepository.SetDeeplink(uri.ToString());
-            if (_deeplinkCallback is null) return false;
-            return _deeplinkCallback(uri);
+            _deeplinkCallback?.Invoke(uri.ToDeeplinkValue());
         }
     }
 }

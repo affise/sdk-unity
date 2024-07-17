@@ -1,5 +1,4 @@
 ﻿#nullable enable
-using System;
 using System.Collections.Generic;
 using AffiseAttributionLib.AffiseParameters;
 using AffiseAttributionLib.Converter;
@@ -8,6 +7,7 @@ using AffiseAttributionLib.Debugger.Validate;
 using AffiseAttributionLib.Deeplink;
 using AffiseAttributionLib.Events;
 using AffiseAttributionLib.Init;
+using AffiseAttributionLib.Module.Link;
 using AffiseAttributionLib.Modules;
 using AffiseAttributionLib.Native.Utils;
 using AffiseAttributionLib.Referrer;
@@ -65,8 +65,8 @@ namespace AffiseAttributionLib.Native
 
         public void RegisterDeeplinkCallback(DeeplinkCallback callback)
         {
-            NativeCallbackOnce(AffiseApiMethod.REGISTER_DEEPLINK_CALLBACK, callback: callback);
-            HandleDeeplinkStart();
+            NativeCallback(AffiseApiMethod.REGISTER_DEEPLINK_CALLBACK, callback: callback);
+            InitialLink();
         }
 
         public void SetSecretKey(string secretKey)
@@ -134,31 +134,6 @@ namespace AffiseAttributionLib.Native
             NativeCallbackOnce(AffiseApiMethod.GET_REFERRER_VALUE_CALLBACK, callback: callback, data: key.ToValue());
         }
 
-        public void GetStatus(AffiseModules module, OnKeyValueCallback callback)
-        {
-            NativeCallbackOnce(AffiseApiMethod.GET_STATUS_CALLBACK, callback: callback, data: module.Module());
-        }
-
-        public bool ModuleStart(AffiseModules module)
-        {
-            return Native<bool>(AffiseApiMethod.MODULE_START, module.Module());
-        }
-
-        public List<AffiseModules> GetModules()
-        {
-            var result = new List<AffiseModules>();
-            var data = NativeList(AffiseApiMethod.GET_MODULES_INSTALLED);
-            if (data == null) return result;
-            foreach (var (_, value) in data)
-            {
-                var module = AffiseModulesExt.From(value?.Value);
-                if (module is null) continue;
-                result.Add((AffiseModules)module);
-            }
-
-            return result;
-        }
-
         public bool IsFirstRun()
         {
             return Native<bool>(AffiseApiMethod.IS_FIRST_RUN);
@@ -195,7 +170,11 @@ namespace AffiseAttributionLib.Native
                 { "fineValue", fineValue },
                 { "coarseValue", coarseValue.Value }
             };
-            NativeCallbackOnce(AffiseApiMethod.SKAD_POSTBACK_ERROR_CALLBACK, callback: completionHandler, data: data);
+            NativeCallbackOnce(
+                api: AffiseApiMethod.SKAD_POSTBACK_ERROR_CALLBACK,
+                callback: completionHandler, 
+                data: data
+            );
         }
 
         public void Validate(DebugOnValidateCallback callback)
@@ -207,6 +186,50 @@ namespace AffiseAttributionLib.Native
         {
             NativeCallback(AffiseApiMethod.DEBUG_NETWORK_CALLBACK, callback: callback);
         }
+        
+        ////////////////////////////////////////
+        // modules
+        ////////////////////////////////////////
+        public void GetStatus(AffiseModules module, OnKeyValueCallback callback)
+        {
+            NativeCallbackOnce(
+                api: AffiseApiMethod.GET_STATUS_CALLBACK, 
+                callback: callback, 
+                data: module.Module()
+            );
+        }
+
+        public bool ModuleStart(AffiseModules module)
+        {
+            return Native<bool>(AffiseApiMethod.MODULE_START, module.Module());
+        }
+
+        public List<AffiseModules> GetModules()
+        {
+            var result = new List<AffiseModules>();
+            var data = NativeList(AffiseApiMethod.GET_MODULES_INSTALLED);
+            if (data == null) return result;
+            foreach (var (_, value) in data)
+            {
+                var module = AffiseModulesExt.From(value?.Value);
+                if (module is null) continue;
+                result.Add((AffiseModules)module);
+            }
+
+            return result;
+        }
+
+        public void LinkResolve(string uri, AffiseLinkCallback callback)
+        {
+            NativeCallbackOnce(
+                api: AffiseApiMethod.MODULE_LINK_LINK_RESOLVE_CALLBACK,
+                callback: callback,
+                data: uri
+            );
+        }
+        ////////////////////////////////////////
+        // modules
+        ////////////////////////////////////////
 
         protected override void HandleCallback(AffiseApiMethod api, object callback, JSONNode? json, string? tag)
         {
@@ -219,38 +242,44 @@ namespace AffiseAttributionLib.Native
                             (callback as OnSendSuccessCallback)?.Invoke();
                             break;
                         case FAILED:
-                            var failedResponse = DebugUtils.ParseResponse(json);
-                            (callback as OnSendFailedCallback)?.Invoke(failedResponse);
+                            (callback as OnSendFailedCallback)?.Invoke(DebugUtils.ToResponse(json));
                             break;
                     }
                     break;
                 case AffiseApiMethod.REGISTER_DEEPLINK_CALLBACK:
-                    (callback as DeeplinkCallback)?.Invoke(new Uri(json?.Value ?? ""));
+                    (callback as DeeplinkCallback)?.Invoke(DataMapper.ToDeeplinkValue(json));
                     break;
                 case AffiseApiMethod.GET_REFERRER_CALLBACK:
-                    (callback as ReferrerCallback)?.Invoke(json?.Value);
+                    (callback as ReferrerCallback)?.Invoke(DataMapper.ToNonNullString(json));
                     break;
                 case AffiseApiMethod.GET_REFERRER_VALUE_CALLBACK:
-                    (callback as ReferrerCallback)?.Invoke(json?.Value);
-                    break;
-                case AffiseApiMethod.GET_STATUS_CALLBACK:
-                    var values = json.ToAffiseKeyValueList();
-                    (callback as OnKeyValueCallback)?.Invoke(values);
+                    (callback as ReferrerCallback)?.Invoke(DataMapper.ToNonNullString(json));
                     break;
                 case AffiseApiMethod.SKAD_REGISTER_ERROR_CALLBACK:
-                    (callback as ErrorCallback)?.Invoke(json?.Value);
+                    (callback as ErrorCallback)?.Invoke(DataMapper.ToNonNullString(json));
                     break;
                 case AffiseApiMethod.SKAD_POSTBACK_ERROR_CALLBACK:
-                    (callback as ErrorCallback)?.Invoke(json?.Value);
+                    (callback as ErrorCallback)?.Invoke(DataMapper.ToNonNullString(json));
                     break;
                 case AffiseApiMethod.DEBUG_VALIDATE_CALLBACK:
-                    var status = DebugUtils.GetValidationStatus(json?.Value);
-                    (callback as DebugOnValidateCallback)?.Invoke(status);
+                    (callback as DebugOnValidateCallback)?.Invoke(DebugUtils.GetValidationStatus(json));
                     break;
                 case AffiseApiMethod.DEBUG_NETWORK_CALLBACK:
                     var (request, response) = DebugUtils.ParseRequestResponse(json);
                     (callback as DebugOnNetworkCallback)?.Invoke(request, response);
                     break;
+                ////////////////////////////////////////
+                // modules
+                ////////////////////////////////////////
+                case AffiseApiMethod.GET_STATUS_CALLBACK:
+                    (callback as OnKeyValueCallback)?.Invoke(DataMapper.ToAffiseKeyValueList(json));
+                    break;
+                case AffiseApiMethod.MODULE_LINK_LINK_RESOLVE_CALLBACK:
+                    (callback as AffiseLinkCallback)?.Invoke(DataMapper.ToNonNullString(json));
+                    break;
+                ////////////////////////////////////////
+                // modules
+                ////////////////////////////////////////
             }
         }
     }

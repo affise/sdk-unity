@@ -26,14 +26,11 @@ namespace AffiseAttributionLib.Native
         GET_RANDOM_USER_ID,
         GET_RANDOM_DEVICE_ID,
         GET_PROVIDERS,
-        MODULE_START,
-        GET_MODULES_INSTALLED,
         IS_FIRST_RUN,
 
         // callbacks
         GET_REFERRER_CALLBACK,
         GET_REFERRER_VALUE_CALLBACK,
-        GET_STATUS_CALLBACK,
         REGISTER_DEEPLINK_CALLBACK,
         SKAD_REGISTER_ERROR_CALLBACK,
         SKAD_POSTBACK_ERROR_CALLBACK,
@@ -41,6 +38,17 @@ namespace AffiseAttributionLib.Native
         // debug
         DEBUG_VALIDATE_CALLBACK,
         DEBUG_NETWORK_CALLBACK,
+        ////////////////////////////////////////
+        // modules
+        ////////////////////////////////////////
+        MODULE_START,
+        GET_MODULES_INSTALLED,
+        GET_STATUS_CALLBACK,
+        // Link Module
+        MODULE_LINK_LINK_RESOLVE_CALLBACK,
+        ////////////////////////////////////////
+        // modules
+        ////////////////////////////////////////
     }
     
     internal static class AffiseApiMethodExt
@@ -81,13 +89,10 @@ namespace AffiseAttributionLib.Native
                 AffiseApiMethod.GET_RANDOM_USER_ID => "get_random_user_id",
                 AffiseApiMethod.GET_RANDOM_DEVICE_ID => "get_random_device_id",
                 AffiseApiMethod.GET_PROVIDERS => "get_providers",
-                AffiseApiMethod.MODULE_START => "module_start",
-                AffiseApiMethod.GET_MODULES_INSTALLED => "get_modules_installed",
                 AffiseApiMethod.IS_FIRST_RUN => "is_first_run",
                 // callbacks
                 AffiseApiMethod.GET_REFERRER_CALLBACK => "get_referrer_callback",
                 AffiseApiMethod.GET_REFERRER_VALUE_CALLBACK => "get_referrer_value_callback",
-                AffiseApiMethod.GET_STATUS_CALLBACK => "get_status_callback",
                 AffiseApiMethod.REGISTER_DEEPLINK_CALLBACK => "register_deeplink_callback",
                 AffiseApiMethod.SKAD_REGISTER_ERROR_CALLBACK => "skad_register_error_callback",
                 AffiseApiMethod.SKAD_POSTBACK_ERROR_CALLBACK => "skad_postback_error_callback",
@@ -95,6 +100,17 @@ namespace AffiseAttributionLib.Native
                 AffiseApiMethod.DEBUG_VALIDATE_CALLBACK => "debug_validate_callback",
                 AffiseApiMethod.DEBUG_NETWORK_CALLBACK => "debug_network_callback",
 
+                ////////////////////////////////////////
+                // modules
+                ////////////////////////////////////////
+                AffiseApiMethod.MODULE_START => "module_start",
+                AffiseApiMethod.GET_MODULES_INSTALLED => "get_modules_installed",
+                AffiseApiMethod.GET_STATUS_CALLBACK => "get_status_callback",
+                // Link Module
+                AffiseApiMethod.MODULE_LINK_LINK_RESOLVE_CALLBACK => "module_link_link_resolve_callback",
+                ////////////////////////////////////////
+                // modules
+                ////////////////////////////////////////
                 _ => null
             };
         }

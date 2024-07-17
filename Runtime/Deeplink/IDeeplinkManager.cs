@@ -17,6 +17,6 @@ namespace AffiseAttributionLib.Deeplink
         /**
          * Process [uri] as deeplink, returns [Boolean] indicating if deeplink is processed successfully
          */
-        bool HandleDeeplink(Uri uri);
+        void HandleDeeplink(Uri uri);
     }
 }

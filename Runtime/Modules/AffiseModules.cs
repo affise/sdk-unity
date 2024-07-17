@@ -6,6 +6,8 @@ namespace AffiseAttributionLib.Modules
     public enum AffiseModules
     {
         Advertising,
+        AndroidId,
+        Link,
         Network,
         Phone,
         Status,
@@ -18,6 +20,8 @@ namespace AffiseAttributionLib.Modules
             return key switch
             {
                 AffiseModules.Advertising => "Advertising",
+                AffiseModules.AndroidId => "AndroidId",
+                AffiseModules.Link => "Link",
                 AffiseModules.Network => "Network",
                 AffiseModules.Phone => "Phone",
                 AffiseModules.Status => "Status",

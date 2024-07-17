@@ -52,7 +52,7 @@ namespace AffiseAttributionLib.Module.Status.UseCase
         {
             CreateRequest((response) =>
             {
-                if (HttpUtils.IsHttpValid(response.Code))
+                if (response.IsValid())
                 {
                     onComplete(_keyValueConverter.Convert(response.Body));
                 }

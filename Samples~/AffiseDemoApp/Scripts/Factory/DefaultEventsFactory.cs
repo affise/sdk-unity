@@ -1,4 +1,5 @@
-﻿using System;
+﻿#nullable enable
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using AffiseAttributionLib.Ad;
@@ -8,12 +9,11 @@ using AffiseAttributionLib.Events.Predefined;
 using AffiseAttributionLib.Events.Subscription;
 using AffiseAttributionLib.Utils;
 using SimpleJSON;
-using UnityEngine;
 using TouchType = AffiseAttributionLib.Events.Predefined.TouchType;
 
 namespace AffiseDemo
 {
-    public class DefaultEventsFactory : MonoBehaviour
+    public class DefaultEventsFactory
     {
         public List<AffiseEvent> CreateEvents()
         {

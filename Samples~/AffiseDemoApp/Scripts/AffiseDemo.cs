@@ -1,57 +1,25 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using AffiseAttributionLib;
-using AffiseAttributionLib.AffiseParameters;
-using AffiseAttributionLib.Executors;
-using AffiseAttributionLib.Init;
-using AffiseAttributionLib.Modules;
+using AffiseAttributionLib.Events.Subscription;
 using AffiseAttributionLib.Referrer;
-using AffiseAttributionLib.Utils;
 using UnityEngine;
 using UnityEngine.UIElements;
-#if UNITY_IOS
-using AffiseAttributionLib.SKAd;
-#endif
 
 namespace AffiseDemo
 {
-    [RequireComponent(typeof(DefaultEventsFactory))]
-    [RequireComponent(typeof(UIDocument))]
-    public class AffiseDemo : MonoBehaviour
+    public class AffiseDemo : BaseUi
     {
-        #region variables
+        private readonly DefaultEventsFactory _eventsFactory = new ();
+        private readonly AffiseApiFactory _apiFactory = new();
 
-        private DefaultEventsFactory? _eventsFactory;
-        private ScrollView? _eventScrollView;
-        private ScrollView? _apiScrollView;
-        private VisualElement? _root;
-        private VisualElement? _safeZone;
-        private TextField? _output;
-        private bool _isApi = true;
-
-        private ReferrerKey _refKey;
-
-        private readonly Dictionary<CallbackEventHandler, EventCallback<ClickEvent>> _clickCallback = new();
-
-        private ContextThreadExecutor? _contextExecutor;
-
-        #endregion variables
-
-        private void Start()
+        protected override void Init()
         {
-            _contextExecutor = new ContextThreadExecutor();
-            
-            BindView();
+            _apiFactory.Output = Output;
         
             AffiseInit();
-            AffiseApi(_apiScrollView);
-            AffiseEvents(_eventScrollView);
-        }
-
-        private void OnDestroy()
-        {
-            UnBindView();
         }
 
         private void AffiseInit()
@@ -69,162 +37,53 @@ namespace AffiseDemo
             // Debug: network request/response
             Affise.Debug.Network((request, response) =>
             {
-                Debug.Log($"Affise: {request}");
+                // Debug.Log($"Affise: {request}");
                 Debug.Log($"Affise: {response}");
             });
-        }
 
-        private void AffiseApi(VisualElement? view)
-        {
-            if (view is null) return;
-            view.AddButton("Debug: Reset", () =>
+            // Deeplinks https://github.com/affise/sdk-unity#deeplinks
+            Affise.RegisterDeeplinkCallback(value =>
             {
-                PlayerPrefs.DeleteAll();
-            });
-            
-            view.AddButton("Debug: IsFirstRun", () =>
-            {
-                Output($"IsFirstRun: {Affise.IsFirstRun()}");
-            });
-            
-            view.AddButton("Debug: Validate credentials", () =>
-            {
-                // Debug: Validate credentials https://github.com/affise/sdk-unity#validate-credentials
-                Affise.Debug.Validate(status =>
-                {
-                    Output($"Validate: {status}");
-                });
-            });
-            
-            view.AddButton("RegisterDeeplinkCallback", () =>
-            {
-                // Deeplinks https://github.com/affise/sdk-unity#deeplinks
-                Affise.RegisterDeeplinkCallback(uri =>
-                {
-                    Output($"Deeplink: {uri}");
-                    return true;
-                });
-            });
-            
-            view.AddButton("Get Referrer", () =>
-            {
-                // Get referrer https://github.com/affise/sdk-unity#get-referrer
-                Affise.GetReferrer(value =>
-                {
-                    Output($"GetReferrer: {value}");
-                });
-            });
-
-            AddReferrerDropdown(view);
-
-            view.AddButton("Get Referrer Value", () => 
-            {
-                // Get referrer parameter https://github.com/affise/sdk-unity#get-referrer-parameter
-                Affise.GetReferrerValue(_refKey, value =>
-                {
-                    Output($"GetReferrerValue: {_refKey.ToString()} = {value}");
-                });
-            });
-
-            view.AddButton("Get Status", () =>
-            {
-                // Get module status https://github.com/affise/sdk-unity#get-module-state
-                Affise.GetStatus(AffiseModules.Status, value =>
-                {
-                    Output($"GetStatus: Count = {value.Count}");
-                    Output($"- {string.Join("\n- ", value)}");
-                });
-            });
-
-#if UNITY_IOS
-            view.AddButton("SKAd Register", () =>
-            {
-                // StoreKit Ad Network https://github.com/affise/sdk-unity#storekit-ad-network
-                Affise.IOS.RegisterAppForAdNetworkAttribution(error =>
-                {
-                    Output($"SKAd Register: {error}");
-                });
-            });
-            
-            view.AddButton("SKAd Postback", () =>
-            {
-                // StoreKit Ad Network https://github.com/affise/sdk-unity#storekit-ad-network
-                Affise.IOS.UpdatePostbackConversionValue(
-                    1,
-                    SKAdNetwork.CoarseConversionValue.Medium,
-                    error =>
-                    {
-                        Output($"SKAd Postback: {error}");
-                    });
-            });
-#endif
-
-            view.AddButton("Random push Token", () =>
-            {
-                var token = Uuid.Generate();
-                // Push token tracking https://github.com/affise/sdk-unity#push-token-tracking
-                Affise.AddPushToken(token);
-                Output($"AddPushToken: {token}");
-            });
-
-            view.AddButton("Is Offline Mode", () =>
-            {
-                // Offline mode https://github.com/affise/sdk-unity#offline-mode
-                var value = Affise.IsOfflineModeEnabled() ?? false;
-                Output($"IsOfflineModeEnabled: {(value ? "true" : "false")}");
-            });
-
-            view.AddButton("Set Offline Mode", () =>
-            {
-                // Offline mode https://github.com/affise/sdk-unity#offline-mode
-                var value = Affise.IsOfflineModeEnabled() ?? false;
-                Affise.SetOfflineModeEnabled(!value);
-                Output($"SetOfflineModeEnabled: {(!value ? "true" : "false")}");
-            });
-
-            view.AddButton("Get Random User Id", () =>
-            {
-                // Get random user Id https://github.com/affise/sdk-unity#get-random-user-id
-                var value = Affise.GetRandomUserId();
-                Output($"GetRandomUserId: {value}");
-            });
-
-            view.AddButton("Get Random Device Id", () =>
-            {
-                // Get random device Id https://github.com/affise/sdk-unity#get-random-device-id
-                var value = Affise.GetRandomDeviceId();
-                Output($"GetRandomDeviceId: {value}");
-            });
-
-            view.AddButton("Get Providers", () =>
-            {
-                // Get providers https://github.com/affise/sdk-unity#get-providers
-                var providers = Affise.GetProviders();
-                var key = ProviderType.AFFISE_APP_TOKEN;
-                if (providers.ContainsKey(key))
-                {
-                    Output($"GetProviders: {key.Provider()} = {providers[key]}");
-                }
-                else
-                {
-                    Output($"GetProviders: key = {key.Provider()} not found");
-                }
-
-                // foreach (var (type, value) in providers)
-                // {
-                //     Console.WriteLine($"{type.Provider()} = {value}");
-                // }
+                var list = value.Parameters.Select(h => $"{h.Key}=[{string.Join(", ", h.Value)}]").ToList();
+                var parameters = string.Join(", ", list);
+                Output($"Deeplink: {value.Deeplink}\n\n" +
+                       $"scheme={value.Scheme}\n" +
+                       $"host={value.Host}\n" +
+                       $"path={value.Path}\n" +
+                       $"parameters=[{parameters}]"
+                );
             });
         }
 
-        private void AffiseEvents(VisualElement? view)
+        protected override void ApiView(VisualElement view)
         {
-            if (view is null) return;
             view.Clear();
-            if (_eventsFactory is null) return;
+            
+            foreach (var (apiName, apiCall) in _apiFactory.Create())
+            {
+                if (apiName == "Get Referrer Value")
+                {
+                    AddDropdown(view, "", ReferrerValues(), value =>
+                    {
+                        _apiFactory.ReferrerValue = value;
+                    });
+                }
+
+                AddButton(view, apiName,null, apiCall);
+            }
+        }
+
+        protected override void EventsView(VisualElement view)
+        {
+            view.Clear();
+            
             foreach (var affiseEvent in _eventsFactory.CreateEvents())
             {
-                view.AddButton(affiseEvent.GetName(), () => { 
+                var styleClass = (affiseEvent is BaseSubscriptionEvent) 
+                    ? "affise-subscription-event"
+                    : null;
+
+                AddButton(view, ToCamelCase(affiseEvent.GetName()), styleClass, () => { 
                     // Events tracking https://github.com/affise/sdk-unity#events-tracking
                     // Send event
                     affiseEvent.Send();
@@ -233,112 +92,21 @@ namespace AffiseDemo
                     // or
                     // affiseEvent.SendNow(() =>
                     // {
-                    //     var msg = $"Send {affiseEvent.GetName()} success";
-                    //     Debug.Log(msg);
-                    //     Output(msg);
+                    //     Output($"Send {affiseEvent.GetName()} success");
                     // }, (status) =>
                     // {
-                    //     var msg = $"Send {affiseEvent.GetName()} failed {status}";
-                    //     Debug.Log(msg);
-                    //     Output(msg);
+                    //     Output($"Send {affiseEvent.GetName()} failed {status}");
                     // });
                 });
             }
         }
 
-        #region UI utils
-        
-        private void BindView()
+        private static List<string> ReferrerValues()
         {
-            _eventsFactory = GetComponent<DefaultEventsFactory>();
-
-            _root = GetComponent<UIDocument>().rootVisualElement;
-
-            _safeZone = _root.Q<VisualElement>("safe-zone");
-            _safeZone.RegisterCallback<GeometryChangedEvent>(LayoutChanged);
-
-            _eventScrollView = _root.Q<ScrollView>("events");
-            _apiScrollView = _root.Q<ScrollView>("api");
-
-            _output = _root.Q<TextField>("output");
-
-            BindButton("toggle-btn", ToggleMode);
-
-            BindButton("output-clear", () =>
-            {
-                _output.value = "";
-            });
+            return Enum.GetValues(typeof(ReferrerKey))
+                .Cast<ReferrerKey>()
+                .Select(s => s.ToString())
+                .ToList();
         }
-
-        private void UnBindView()
-        {
-            _safeZone?.UnregisterCallback<GeometryChangedEvent>(LayoutChanged);
-            UnBindButtons();
-        }
-
-        private void Output(string msg)
-        {
-            _contextExecutor?.Run(() => OutputTextUI(msg));
-        }
-
-        private void OutputTextUI(string msg)
-        {
-            if (_output is null) return;
-            if (string.IsNullOrWhiteSpace(_output.value))
-            {
-                _output.value = $"{msg}";
-            }
-            else
-            {
-                _output.value += $"\n{msg}";
-            }
-        }
-
-        private void ToggleMode()
-        {
-            _isApi = !_isApi;
-            _apiScrollView.Show(_isApi);
-            _eventScrollView.Hide(_isApi);
-        }
-
-        private void UnBindButtons()
-        {
-            foreach (var (button, callback) in _clickCallback)
-            {
-                button.UnregisterCallback(callback);
-            }
-
-            _clickCallback.Clear();
-        }
-
-        private Button BindButton(string btnName, Action action)
-        {
-            EventCallback<ClickEvent> callback = (_) => 
-            {
-                action.Invoke();
-            };
-
-            var button = _root.Q<Button>(btnName);
-            button.RegisterCallback(callback);
-
-            _clickCallback[button] = callback;
-
-            return button;
-        }
-
-        private void LayoutChanged(GeometryChangedEvent e)
-        {
-            (e.target as VisualElement)?.SafeAreaMargin();
-        }
-
-        private void AddReferrerDropdown(VisualElement view)
-        {
-            view.AddDropdown("", AffiseDemoUtils.ReferrerValues(), refName =>
-            {
-                _refKey = AffiseDemoUtils.ToReferrer(refName);
-            });
-        }
-
-        #endregion UI utils
     }
 }

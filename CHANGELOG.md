@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.6.19] - 2024-07-17
+
+### Added
+
+- Module `Link`
+- Module `AndroidId`
+
+### Changed
+
+- Update native iOS to [`1.6.33`](https://github.com/affise/sdk-ios/blob/1.6.33/CHANGELOG.md).
+- Update native Android to [`1.6.38`](https://github.com/affise/sdk-android/blob/v1.6.38/CHANGELOG.md).
+- Update `RegisterDeeplinkCallback` change uri to convenient values.
+- Update api `Affise.GetStatus` moved to `Affise.Module.GetStatus`.
+- Update api `Affise.ModuleStart` moved to `Affise.Module.ModuleStart`.
+- Update api `Affise.GetModulesInstalled` moved to `Affise.Module.GetModulesInstalled`.
+
 ## [1.6.18] - 2024-06-06
 
 ### Added
@@ -61,6 +77,7 @@
 - Update native iOS to `1.6.20`.
 - Update native Android to `1.6.22`.
   
+[1.6.19]: https://github.com/affise/sdk-unity/compare/1.6.18...1.6.19
 [1.6.18]: https://github.com/affise/sdk-unity/compare/1.6.17...1.6.18
 [1.6.17]: https://github.com/affise/sdk-unity/compare/1.6.16...1.6.17
 [1.6.16]: https://github.com/affise/sdk-unity/compare/1.6.15...1.6.16

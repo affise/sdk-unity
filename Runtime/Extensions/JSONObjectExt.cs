@@ -82,5 +82,29 @@ namespace AffiseAttributionLib.Extensions
 
             return result;
         }
+        
+        public static Dictionary<string, List<string>> ToMapOfStringList(this JSONObject json)
+        {
+            var result = new Dictionary<string, List<string>>();
+            
+            foreach (var (key, value) in json)
+            {
+                if (key is null) continue;
+                result.Add(key, value.AsArray?.ToListOfStrings() ?? new List<string>());
+            }
+
+            return result;
+        }
+        
+        public static List<string> ToListOfStrings(this JSONArray data)
+        {
+            var result = new List<string>();
+            foreach (var (key, value) in data)
+            {
+                result.Add(value.Value);
+            }
+
+            return result;
+        }
     }
 }

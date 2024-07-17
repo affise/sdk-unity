@@ -16,9 +16,10 @@ namespace AffiseAttributionLib.Network
         System.Collections.IEnumerator ExecuteRequest(
             string httpsUrl,
             Method method,
-            string data,
+            string? data,
             Dictionary<string, string> headers,
-            Action<HttpResponse>? onComplete = null
+            Action<HttpResponse>? onComplete = null,
+            bool redirect = true
         );
 
         void SetDebug(DebugOnNetworkCallback debugNetwork);

@@ -14,8 +14,10 @@ android {
     }
 }
 
+final affise_version = "1.6.38"
+
 dependencies {
     implementation "com.android.installreferrer:installreferrer:2.2"
     // Affise SDK
-    implementation "com.affise:internal:1.6.34"
+    implementation "com.affise:internal:$affise_version"
 }

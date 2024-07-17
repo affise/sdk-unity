@@ -1,5 +1,6 @@
 ﻿#nullable enable
 using System.Collections.Generic;
+using System.Linq;
 using AffiseAttributionLib.Editor.Extensions;
 using AffiseAttributionLib.Editor.Ui;
 using UnityEngine;
@@ -39,7 +40,7 @@ namespace AffiseAttributionLib.Editor.Elements
             UI.Get(nameof(ModuleList)).ToRoot(this);
             var modulesView = this.Q<VisualElement>("modules");
 
-            value = modules;
+            value = modules.OrderBy(o => o.name);
 
             foreach (var module in value)
             {

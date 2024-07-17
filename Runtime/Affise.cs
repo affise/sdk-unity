@@ -8,6 +8,7 @@ using AffiseAttributionLib.Debugger.Validate;
 using AffiseAttributionLib.Deeplink;
 using AffiseAttributionLib.Events;
 using AffiseAttributionLib.Init;
+using AffiseAttributionLib.Module.Link;
 using AffiseAttributionLib.Modules;
 using AffiseAttributionLib.Referrer;
 using AffiseAttributionLib.Settings;
@@ -193,37 +194,28 @@ namespace AffiseAttributionLib
         /**
          * Get module status
          */
+        [Obsolete("Affise.GetStatus is deprecated, please use Affise.Module.GetStatus instead.")]
         public static void GetStatus(AffiseModules module, OnKeyValueCallback onComplete)
         {
-#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
-            _native?.GetStatus(module, onComplete);
-#else
-            _api?.ModuleManager.Status(module, onComplete);
-#endif
+            Module.GetStatus(module, onComplete);
         }
-
+        
         /**
          * Manual module start
          */
+        [Obsolete("Affise.ModuleStart is deprecated, please use Affise.Module.ModuleStart instead.")]
         public static bool ModuleStart(AffiseModules module)
         {
-#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
-            return _native?.ModuleStart(module) ?? true;
-#else
-            return _api?.ModuleManager.ManualStart(module) ?? true;
-#endif
+            return Module.ModuleStart(module);
         }
         
         /**
          * Get installed modules
          */
+        [Obsolete("Affise.GetModulesInstalled is deprecated, please use Affise.Module.GetModulesInstalled instead.")]
         public static List<AffiseModules> GetModulesInstalled()
         {
-#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
-            return _native?.GetModules() ?? new List<AffiseModules>();
-#else
-            return _api?.ModuleManager.GetModules() ?? new List<AffiseModules>();
-#endif
+            return Module.GetModulesInstalled();
         }
         
         public static string? GetRandomUserId()
@@ -349,6 +341,69 @@ namespace AffiseAttributionLib
                 _native?.UpdatePostbackConversionValue(fineValue, coarseValue, completionHandler);
 #else
                 completionHandler.Invoke(NotSupported);
+#endif
+            }
+        }
+
+        public static class Module
+        {
+            /**
+             * Get module status
+             */
+            public static void GetStatus(AffiseModules module, OnKeyValueCallback onComplete)
+            {
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+                _native?.GetStatus(module, onComplete);
+#else
+                _api?.ModuleManager.Status(module, onComplete);
+#endif
+            }
+
+            /**
+             * Manual module start
+             */
+            public static bool ModuleStart(AffiseModules module)
+            {
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+                return _native?.ModuleStart(module) ?? true;
+#else
+                return _api?.ModuleManager.ManualStart(module) ?? true;
+#endif
+            }
+        
+            /**
+             * Get installed modules
+             */
+            public static List<AffiseModules> GetModulesInstalled()
+            {
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+                return _native?.GetModules() ?? new List<AffiseModules>();
+#else
+                return _api?.ModuleManager.GetModules() ?? new List<AffiseModules>();
+#endif
+            }
+            
+            /**
+             * Module Link url Resolve
+             */
+            public static void LinkResolve(string uri, AffiseLinkCallback callback)
+            {
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+                _native?.LinkResolve(uri, callback);
+#else
+                Api<IAffiseLinkApi>(AffiseModules.Link)?.LinkResolve(uri, callback);
+#endif
+            }
+            
+          
+            
+            private static T? Api<T>(AffiseModules module) where T : IAffiseModuleApi
+            {
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+                return default;
+#else
+                if ( _api?.ModuleManager.GetModule(module) is T result) return result;
+                return default;
 #endif
             }
         }

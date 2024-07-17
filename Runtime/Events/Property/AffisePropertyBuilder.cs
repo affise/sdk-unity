@@ -31,7 +31,7 @@ namespace AffiseAttributionLib.Events.Property
         public AffisePropertyBuilder AddRaw(string key, object value)
         {
             if (string.IsNullOrEmpty(key)) return this;
-            _data.AddAny(key, value);
+            _data.AddAny(key.ToLower(), value);
             return this;
         }
 

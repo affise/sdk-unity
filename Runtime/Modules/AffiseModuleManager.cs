@@ -5,6 +5,7 @@ using System.Linq;
 using AffiseAttributionLib.AffiseParameters.Factory;
 using AffiseAttributionLib.Logs;
 using AffiseAttributionLib.Module.Advertising;
+using AffiseAttributionLib.Module.Link;
 using AffiseAttributionLib.Module.Network;
 using AffiseAttributionLib.Module.Phone;
 using AffiseAttributionLib.Module.Status;
@@ -77,18 +78,19 @@ namespace AffiseAttributionLib.Modules
             _postBackModelFactory.AddProviders(module.Providers());
         }
 
-        private AffiseModule? GetModule(AffiseModules name)
+        public AffiseModule? GetModule(AffiseModules name)
         {
             return _modules.ContainsKey(name) ? _modules[name] : null;
         }
 
         private void InitAffiseModules(Action<AffiseModule> callback)
         {
-            var affiseModules = new Dictionary<AffiseModules, AffiseModule>()
+            var affiseModules = new Dictionary<AffiseModules, AffiseModule>
             {
-                { AffiseModules.Advertising, new AdvertisingModule() },
-                { AffiseModules.Network, new NetworkModule() },
-                { AffiseModules.Phone, new PhoneModule() },
+                // { AffiseModules.Advertising, new AdvertisingModule() },
+                { AffiseModules.Link, new LinkModule() },
+                // { AffiseModules.Network, new NetworkModule() },
+                // { AffiseModules.Phone, new PhoneModule() },
                 { AffiseModules.Status, new StatusModule() },
             };
 
@@ -97,6 +99,12 @@ namespace AffiseAttributionLib.Modules
                 _modules[name] = module;
                 callback(module);
             }
+        }
+        
+        public T? Api<T>(AffiseModules module)  where T : IAffiseModuleApi
+        {
+            if (GetModule(module) is T result) return result;
+            return default;
         }
     }
 }

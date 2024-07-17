@@ -21,9 +21,9 @@ namespace AffiseAttributionLib.Network
 
         public override string ToString()
         {
-            var arrayHeaders = Headers.Select(h => $"{h.Key}={h.Value}").ToList();
-            var headers = string.Join("; ", arrayHeaders);
-            return $"HttpRequest(url={Url}, method={Method}, headers={{{headers}}}, body={Body ?? ""})";
+            var list = Headers.Select(h => $"{h.Key}={h.Value}").ToList();
+            var headers = string.Join("; ", list);
+            return $"HttpRequest(url={Url}, method={Method}, headers=[{headers}], body={Body ?? ""})";
         }
     }
 }

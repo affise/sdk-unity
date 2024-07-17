@@ -66,7 +66,7 @@ namespace AffiseAttributionLib.Usecase
                 url,
                 response =>
                 {
-                    if (HttpUtils.IsHttpValid(response.Code))
+                    if (response.IsValid())
                     {
                         success.Invoke();
                     }

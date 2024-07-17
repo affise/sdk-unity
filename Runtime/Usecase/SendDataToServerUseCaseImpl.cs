@@ -97,7 +97,7 @@ namespace AffiseAttributionLib.Usecase
                 url,
                 response =>
                 {
-                    if (HttpUtils.IsHttpValid(response.Code))
+                    if (response.IsValid())
                     {
                         DeleteEvent(events, url);
                         DeleteLog(logs, url);

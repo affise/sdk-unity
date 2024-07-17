@@ -29,8 +29,6 @@ namespace AffiseAttributionLib.Native
         
         private readonly Dictionary<AffiseApiMethod, object> _callbacks = new();
 
-        private string? _absoluteURL = Application.absoluteURL;
-
         protected NativeBase()
         {
 #if UNITY_ANDROID && !UNITY_EDITOR
@@ -40,25 +38,17 @@ namespace AffiseAttributionLib.Native
             _native = new NativeIOS();
 #endif
             _native?.SetCallback(AffiseCallback);
-            DeeplinkInit();
         }
 
-        private void NativeHandleDeeplink(string url)
+        private void NativeHandleDeeplink(string? url)
         {
+            if (string.IsNullOrWhiteSpace(url)) return;
             _native?.NativeHandleDeeplink(url);
         }
 
-        private void DeeplinkInit()
+        protected void InitialLink()
         {
-            if (_native is null) return;
-            Application.deepLinkActivated += NativeHandleDeeplink;
-        }
-
-        protected void HandleDeeplinkStart()
-        {
-            if (string.IsNullOrEmpty(_absoluteURL)) return;
-            NativeHandleDeeplink(_absoluteURL);
-            _absoluteURL = null;
+            NativeHandleDeeplink(Application.absoluteURL);
         }
 
         protected abstract void HandleCallback(AffiseApiMethod api, object callback, JSONNode? json, string? tag);

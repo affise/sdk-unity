@@ -13,6 +13,11 @@
     display:none;
 }
 
+.unity-list-view__reorderable-item__container  {
+    justify-content: center;
+    align-content: center;
+}
+
 .list-item  TextInput {
     margin-top: 0 ;
 }
