@@ -22,8 +22,11 @@
     - [Modules](#modules)
       - [Android](#android)
       - [iOS](#ios-1)
+      - [Module Advertising](#module-advertising)
+        - [iOS](#ios-2)
+      - [Module Link](#module-link)
   - [Build](#build)
-    - [iOS](#ios-2)
+    - [iOS](#ios-3)
 - [Features](#features)
   - [ProviderType identifiers collection](#providertype-identifiers-collection)
     - [Attribution](#attribution)
@@ -46,10 +49,10 @@
     - [Config](#config)
     - [Config Deeplink Manual](#config-deeplink-manual)
       - [Android](#android-1)
-      - [iOS](#ios-3)
+      - [iOS](#ios-4)
     - [Config Applink Manual](#config-applink-manual)
       - [Android](#android-2)
-      - [iOS](#ios-4)
+      - [iOS](#ios-5)
   - [Offline mode](#offline-mode)
   - [Disable tracking](#disable-tracking)
   - [Disable background tracking](#disable-background-tracking)
@@ -67,7 +70,7 @@
 - [Debug](#debug)
   - [Validate credentials](#validate-credentials)
 - [Troubleshoots](#troubleshoots)
-  - [iOS](#ios-5)
+  - [iOS](#ios-6)
   - [Android](#android-3)
 
 # Description
@@ -206,7 +209,7 @@ Affise.Module.GetModulesInstalled()
 
 #### Android
 
-All affise modules is updated automatically on build 
+All affise modules is updated automatically on build
 
 > **Warning**
 >
@@ -270,6 +273,12 @@ end
 use_frameworks! :linkage => :static
 ```
 
+#### Module Advertising
+
+##### iOS
+
+This module required to Use [`IDFA`](https://developer.apple.com/documentation/adsupport/asidentifiermanager/advertisingidentifier) (Identifier for advertisers)
+
 > **Warning**
 >
 > 🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥
@@ -285,6 +294,20 @@ use_frameworks! :linkage => :static
 > Default value is empty string ""
 >
 > 🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥
+
+Or Manual open `info.plist` and add key `NSUserTrackingUsageDescription` with string value. For more information [read requirements](#requirements)
+
+#### Module Link
+
+Return last url in chan of redirection
+
+🟥Support MAX 10 redirections🟥
+
+```C#
+Affise.Module.LinkResolve("SITE_WITH_REDIRECTION", (redirectUrl) => {  
+    // handle redirect url
+});
+```
 
 ## Build
 
