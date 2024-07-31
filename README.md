@@ -4,7 +4,7 @@
 
 | Artifact      | Version               |
 |---------------|-----------------------|
-| `attribution` | [`1.6.19`](/releases/tag/1.6.19) |
+| `attribution` | [`1.6.20`](/releases/tag/1.6.20) |
 
 - [Affise Unity package](#affise-unity-package)
 - [Description](#description)
@@ -94,7 +94,7 @@ Add package from git url `https://github.com/affise/sdk-unity.git`
 
 ### Integrate unitypackage file
 
-Download latest Affise SDK [`attribution-1.6.19.unitypackage`](https://github.com/affise/sdk-unity/releases/download/1.6.19/attribution-1.6.19.unitypackage)
+Download latest Affise SDK [`attribution-1.6.20.unitypackage`](https://github.com/affise/sdk-unity/releases/download/1.6.20/attribution-1.6.20.unitypackage)
 from [releases page](https://github.com/affise/sdk-unity/releases) and drop this file to unity editor
 
 ### Initialize
@@ -230,12 +230,12 @@ Dependencies located in Android project gradle file `build.gradle`
 dependencies {
   // ...
   // Affise modules
-  implementation 'com.affise:module-advertising:1.6.38'
-  implementation 'com.affise:module-androidid:1.6.38'
-  implementation 'com.affise:module-link:1.6.38'
-  implementation 'com.affise:module-network:1.6.38'
-  implementation 'com.affise:module-phone:1.6.38'
-  implementation 'com.affise:module-status:1.6.38'
+  implementation 'com.affise:module-advertising:1.6.40'
+  implementation 'com.affise:module-androidid:1.6.40'
+  implementation 'com.affise:module-link:1.6.40'
+  implementation 'com.affise:module-network:1.6.40'
+  implementation 'com.affise:module-phone:1.6.40'
+  implementation 'com.affise:module-status:1.6.40'
 }
 ```
 
@@ -249,9 +249,9 @@ All affise modules is updated automatically on build
 
 | Module        |                                       Version                                        | Start    |
 |---------------|:------------------------------------------------------------------------------------:|----------|
-| `Advertising` | [`1.6.33`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Manual` |
-| `Link`        | [`1.6.33`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
-| `Status`      | [`1.6.33`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
+| `Advertising` | [`1.6.36`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Manual` |
+| `Link`        | [`1.6.36`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
+| `Status`      | [`1.6.36`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
 
 Dependencies located in XCode project folder `Podfile`
 
@@ -259,12 +259,12 @@ Dependencies located in XCode project folder `Podfile`
 platform :ios, '11.0'
 
 target 'UnityFramework' do
-  pod 'AffiseInternal', '1.6.33'
+  pod 'AffiseInternal', '1.6.36'
 
   # Affise Modules
-  pod 'AffiseModule/Advertising', `1.6.33`
-  pod 'AffiseModule/Link', '~> 1.6.33'
-  pod 'AffiseModule/Status', `1.6.33`
+  pod 'AffiseModule/Advertising', `1.6.36`
+  pod 'AffiseModule/Link', '~> 1.6.36'
+  pod 'AffiseModule/Status', `1.6.36`
 end
 
 target 'Unity-iPhone' do
@@ -339,10 +339,10 @@ Podfile:
 platform :ios, '11.0'
 
 target 'UnityFramework' do
-  pod 'AffiseInternal', '1.6.33'
+  pod 'AffiseInternal', '1.6.36'
 
   # Affise Modules
-  # pod 'AffiseModule', `1.6.33`
+  # pod 'AffiseModule', `1.6.36`
 end
 
 target 'Unity-iPhone' do

@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.6.20] - 2024-07-31
+
+### Added
+
+- Modules compatibility check.
+
+### Fixed
+
+- Api `Affise.Module.GetStatus`.
+
+### Changed
+
+- Update native iOS to [`1.6.36`](https://github.com/affise/sdk-ios/blob/1.6.36/CHANGELOG.md).
+- Update native Android to [`1.6.40`](https://github.com/affise/sdk-android/blob/v1.6.40/CHANGELOG.md).
+
 ## [1.6.19] - 2024-07-17
 
 ### Added
@@ -77,6 +92,7 @@
 - Update native iOS to `1.6.20`.
 - Update native Android to `1.6.22`.
   
+[1.6.20]: https://github.com/affise/sdk-unity/compare/1.6.19...1.6.20
 [1.6.19]: https://github.com/affise/sdk-unity/compare/1.6.18...1.6.19
 [1.6.18]: https://github.com/affise/sdk-unity/compare/1.6.17...1.6.18
 [1.6.17]: https://github.com/affise/sdk-unity/compare/1.6.16...1.6.17
