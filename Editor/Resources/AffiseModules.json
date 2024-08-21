@@ -3,54 +3,54 @@
     "name": "Advertising",
     "android": {
       "module": "com.affise:module-advertising",
-      "version": "1.6.40"
+      "version": "1.6.42"
     },
     "ios": {
       "module": "AffiseModule/Advertising",
-      "version": "1.6.36"
+      "version": "1.6.39"
     }
   },
   {
     "name": "AndroidId",
     "android": {
       "module": "com.affise:module-androidid",
-      "version": "1.6.40"
+      "version": "1.6.42"
     }
   },
   {
     "name": "Link",
     "android": {
       "module": "com.affise:module-link",
-      "version": "1.6.40"
+      "version": "1.6.42"
     },
     "ios": {
       "module": "AffiseModule/Link",
-      "version": "1.6.36"
+      "version": "1.6.39"
     }
   },
   {
     "name": "Status",
     "android": {
       "module": "com.affise:module-status",
-      "version": "1.6.40"
+      "version": "1.6.42"
     },
     "ios": {
       "module": "AffiseModule/Status",
-      "version": "1.6.36"
+      "version": "1.6.39"
     }
   },
   {
     "name": "Network",
     "android": {
       "module": "com.affise:module-network",
-      "version": "1.6.40"
+      "version": "1.6.42"
     }
   },
   {
     "name": "Phone",
     "android": {
       "module": "com.affise:module-phone",
-      "version": "1.6.40"
+      "version": "1.6.42"
     }
   }
 ]

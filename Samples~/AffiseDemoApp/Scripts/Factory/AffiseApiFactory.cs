@@ -56,17 +56,17 @@ namespace AffiseDemo
                     }
                 },
                 {
-                    "Get Referrer", () =>
+                    "Get Referrer Url", () =>
                     {
                         // Get referrer https://github.com/affise/sdk-unity#get-referrer
-                        Affise.GetReferrer(value => { Print($"GetReferrer: {value}"); });
+                        Affise.GetReferrerUrl(value => { Print($"GetReferrer: {value}"); });
                     }
                 },
                 {
-                    "Get Referrer Value", () =>
+                    "Get Referrer Url Value", () =>
                     {
                         // Get referrer parameter https://github.com/affise/sdk-unity#get-referrer-parameter
-                        Affise.GetReferrerValue(ToReferrer(ReferrerValue),
+                        Affise.GetReferrerUrlValue(ToReferrer(ReferrerValue),
                             value => { Print($"GetReferrerValue: {ReferrerValue} = {value}"); });
                     }
                 },
@@ -89,17 +89,31 @@ namespace AffiseDemo
                         Print($"Modules: [{string.Join(',', value)}]");
                     }
                 },
-
 #if UNITY_IOS
                 {
-                    "SKAd Register", () =>
+                    "iOS: Get Referrer On Server", () =>
+                    {
+                        // Get referrer https://github.com/affise/sdk-unity#get-referrer-on-server
+                        Affise.IOS.GetReferrerOnServer(value => { Print($"GetReferrerOnServer: {value}"); });
+                    }
+                },
+                {
+                    "iOS: Get Referrer On Server Value", () =>
+                    {
+                        // Get referrer parameter https://github.com/affise/sdk-unity#get-referrer-on-server-parameter
+                        Affise.IOS.GetReferrerOnServerValue(ToReferrer(ReferrerValue),
+                            value => { Print($"GetReferrerOnServerValue: {ReferrerValue} = {value}"); });
+                    }
+                },
+                {
+                    "iOS: SKAd Register", () =>
                     {
                         // StoreKit Ad Network https://github.com/affise/sdk-unity#storekit-ad-network
                         Affise.IOS.RegisterAppForAdNetworkAttribution(error => { Print($"SKAd Register: {error}"); });
                     }
                 },
                 {
-                    "SKAd Postback", () =>
+                    "iOS: SKAd Postback", () =>
                     {
                         // StoreKit Ad Network https://github.com/affise/sdk-unity#storekit-ad-network
                         Affise.IOS.UpdatePostbackConversionValue(

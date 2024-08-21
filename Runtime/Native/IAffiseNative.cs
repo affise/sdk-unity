@@ -49,9 +49,13 @@ namespace AffiseAttributionLib.Native
 
         void CrashApplication();
 
-        void GetReferrer(ReferrerCallback callback);
+        void GetReferrerUrl(ReferrerCallback callback);
 
-        void GetReferrerValue(ReferrerKey key, ReferrerCallback callback);
+        void GetReferrerUrlValue(ReferrerKey key, ReferrerCallback callback);
+        
+        void GetReferrerOnServer(ReferrerCallback callback);
+
+        void GetReferrerOnServerValue(ReferrerKey key, ReferrerCallback callback);
 
         string? GetRandomUserId();
 

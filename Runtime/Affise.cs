@@ -257,10 +257,28 @@ namespace AffiseAttributionLib
         /**
          * Get referrer
          */
+        [Obsolete("Affise.GetReferrer is deprecated, please use Affise.GetReferrerUrl instead.")]
         public static void GetReferrer(ReferrerCallback callback)
         {
+            GetReferrerUrl(callback);
+        }
+
+        /**
+         * Get referrer value by key
+         */
+        [Obsolete("Affise.GetReferrerValue is deprecated, please use Affise.GetReferrerUrlValue instead.")]
+        public static void GetReferrerValue(ReferrerKey key, ReferrerCallback callback)
+        {
+            GetReferrerUrlValue(key, callback);
+        }
+
+        /**
+         * Get referrer url
+         */
+        public static void GetReferrerUrl(ReferrerCallback callback)
+        {
 #if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
-            _native?.GetReferrer(callback);
+            _native?.GetReferrerUrl(callback);
 #else
             callback.Invoke(NotSupported);
 #endif
@@ -269,10 +287,10 @@ namespace AffiseAttributionLib
         /**
          * Get referrer value by key
          */
-        public static void GetReferrerValue(ReferrerKey key, ReferrerCallback callback)
+        public static void GetReferrerUrlValue(ReferrerKey key, ReferrerCallback callback)
         {
 #if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
-            _native?.GetReferrerValue(key, callback);
+            _native?.GetReferrerUrlValue(key, callback);
 #else
             callback.Invoke(NotSupported);
 #endif
@@ -287,6 +305,8 @@ namespace AffiseAttributionLib
             {
 #if (UNITY_ANDROID) && !UNITY_EDITOR
                 _native?.SetAutoCatchingTypes(types);
+#else
+                UnityEngine.Debug.LogWarning($"{NotSupported} - SetAutoCatchingTypes");
 #endif
             }
 
@@ -297,6 +317,8 @@ namespace AffiseAttributionLib
             {
 #if (UNITY_ANDROID) && !UNITY_EDITOR
                 _native?.Forget(userData);
+#else
+                UnityEngine.Debug.LogWarning($"{NotSupported} - Forget");
 #endif
             }
 
@@ -307,6 +329,8 @@ namespace AffiseAttributionLib
             {
 #if (UNITY_ANDROID) && !UNITY_EDITOR
                 _native?.SetEnabledMetrics(enabled);
+#else
+                UnityEngine.Debug.LogWarning($"{NotSupported} - SetEnabledMetrics");
 #endif
             }
 
@@ -314,6 +338,8 @@ namespace AffiseAttributionLib
             {
 #if (UNITY_ANDROID) && !UNITY_EDITOR
                 _native?.CrashApplication();
+#else
+                UnityEngine.Debug.LogWarning($"{NotSupported} - CrashApplication");
 #endif
             }
         }
@@ -341,6 +367,30 @@ namespace AffiseAttributionLib
                 _native?.UpdatePostbackConversionValue(fineValue, coarseValue, completionHandler);
 #else
                 completionHandler.Invoke(NotSupported);
+#endif
+            }
+            
+            /**
+             * Get referrer url
+             */
+            public static void GetReferrerOnServer(ReferrerCallback callback)
+            {
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+                _native?.GetReferrerOnServer(callback);
+#else
+                callback.Invoke(NotSupported);
+#endif
+            }
+
+            /**
+             * Get referrer value by key
+             */
+            public static void GetReferrerOnServerValue(ReferrerKey key, ReferrerCallback callback)
+            {
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+                _native?.GetReferrerOnServerValue(key, callback);
+#else
+                callback.Invoke(NotSupported);
 #endif
             }
         }

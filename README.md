@@ -4,7 +4,7 @@
 
 | Artifact      | Version               |
 |---------------|-----------------------|
-| `attribution` | [`1.6.20`](/releases/tag/1.6.20) |
+| `attribution` | [`1.6.21`](/releases/tag/1.6.21) |
 
 - [Affise Unity package](#affise-unity-package)
 - [Description](#description)
@@ -62,7 +62,9 @@
   - [Is first run](#is-first-run)
   - [Get referrer](#get-referrer)
   - [Get referrer value](#get-referrer-value)
-    - [Referrer keys](#referrer-keys)
+  - [Get referrer on server](#get-referrer-on-server)
+  - [Get referrer on server parameter](#get-referrer-on-server-parameter)
+  - [Referrer keys](#referrer-keys)
   - [Get module state](#get-module-state)
   - [Platform specific](#platform-specific)
     - [StoreKit Ad Network](#storekit-ad-network)
@@ -94,7 +96,7 @@ Add package from git url `https://github.com/affise/sdk-unity.git`
 
 ### Integrate unitypackage file
 
-Download latest Affise SDK [`attribution-1.6.20.unitypackage`](https://github.com/affise/sdk-unity/releases/download/1.6.20/attribution-1.6.20.unitypackage)
+Download latest Affise SDK [`attribution-1.6.21.unitypackage`](https://github.com/affise/sdk-unity/releases/download/1.6.21/attribution-1.6.21.unitypackage)
 from [releases page](https://github.com/affise/sdk-unity/releases) and drop this file to unity editor
 
 ### Initialize
@@ -230,12 +232,12 @@ Dependencies located in Android project gradle file `build.gradle`
 dependencies {
   // ...
   // Affise modules
-  implementation 'com.affise:module-advertising:1.6.40'
-  implementation 'com.affise:module-androidid:1.6.40'
-  implementation 'com.affise:module-link:1.6.40'
-  implementation 'com.affise:module-network:1.6.40'
-  implementation 'com.affise:module-phone:1.6.40'
-  implementation 'com.affise:module-status:1.6.40'
+  implementation 'com.affise:module-advertising:1.6.42'
+  implementation 'com.affise:module-androidid:1.6.42'
+  implementation 'com.affise:module-link:1.6.42'
+  implementation 'com.affise:module-network:1.6.42'
+  implementation 'com.affise:module-phone:1.6.42'
+  implementation 'com.affise:module-status:1.6.42'
 }
 ```
 
@@ -249,9 +251,9 @@ All affise modules is updated automatically on build
 
 | Module        |                                       Version                                        | Start    |
 |---------------|:------------------------------------------------------------------------------------:|----------|
-| `Advertising` | [`1.6.36`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Manual` |
-| `Link`        | [`1.6.36`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
-| `Status`      | [`1.6.36`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
+| `Advertising` | [`1.6.39`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Manual` |
+| `Link`        | [`1.6.39`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
+| `Status`      | [`1.6.39`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
 
 Dependencies located in XCode project folder `Podfile`
 
@@ -259,12 +261,12 @@ Dependencies located in XCode project folder `Podfile`
 platform :ios, '11.0'
 
 target 'UnityFramework' do
-  pod 'AffiseInternal', '1.6.36'
+  pod 'AffiseInternal', '1.6.39'
 
   # Affise Modules
-  pod 'AffiseModule/Advertising', `1.6.36`
-  pod 'AffiseModule/Link', '~> 1.6.36'
-  pod 'AffiseModule/Status', `1.6.36`
+  pod 'AffiseModule/Advertising', `1.6.39`
+  pod 'AffiseModule/Link', '~> 1.6.39'
+  pod 'AffiseModule/Status', `1.6.39`
 end
 
 target 'Unity-iPhone' do
@@ -339,10 +341,10 @@ Podfile:
 platform :ios, '11.0'
 
 target 'UnityFramework' do
-  pod 'AffiseInternal', '1.6.36'
+  pod 'AffiseInternal', '1.6.39'
 
   # Affise Modules
-  # pod 'AffiseModule', `1.6.36`
+  # pod 'AffiseModule', `1.6.39`
 end
 
 target 'Unity-iPhone' do
@@ -1089,7 +1091,7 @@ Affise.IsFirstRun();
 Use the next public method of SDK to get referrer
 
 ```C#
-Affise.GetReferrer(referrer => {
+Affise.GetReferrerUrl(referrer => {
     // handle referrer
 });
 ```
@@ -1099,12 +1101,44 @@ Affise.GetReferrer(referrer => {
 Use the next public method of SDK to get referrer value by
 
 ```C#
-Affise.GetReferrerValue(ReferrerKey.CLICK_ID, referrer => {
+Affise.GetReferrerUrlValue(ReferrerKey.CLICK_ID, referrer => {
     // handle referrer value
 });
 ```
 
-### Referrer keys
+## Get referrer on server
+
+> `iOS Only`
+
+> **Note**
+>
+> Requires [Affise Status Module](#modules) for [ios](#ios-1)
+
+Use the next public method of SDK
+
+```C#
+Affise.IOS.GetReferrerOnServer(referrer => {
+    // handle referrer
+});
+```
+
+## Get referrer on server parameter
+
+> `iOS Only`
+
+> **Note**
+>
+> Requires [Affise Status Module](#modules) for [ios](#ios)
+
+Use the next public method of SDK to get referrer parameter by
+
+```C#
+Affise.IOS.GetReferrerOnServerValue(ReferrerKey.CLICK_ID, referrer => {
+    // handle referrer value
+});
+```
+
+## Referrer keys
 
 In examples above `ReferrerKey.CLICK_ID` is used, but many others is available:
 

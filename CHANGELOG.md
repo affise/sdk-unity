@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.6.21] - 2024-08-21
+
+### Added
+
+- iOS only api `Affise.IOS.GetReferrerOnServer`.
+- iOS only api `Affise.IOS.GetReferrerOnServerValue`.
+
+### Changed
+
+- Api `Affise.GetReferrer` to `Affise.GetReferrerUrl`.
+- Api `Affise.GetReferrerValue` to `Affise.GetReferrerUrlValue`.
+- Update native iOS to [`1.6.39`](https://github.com/affise/sdk-ios/blob/1.6.39/CHANGELOG.md).
+- Update native Android to [`1.6.42`](https://github.com/affise/sdk-android/blob/v1.6.42/CHANGELOG.md).
+
 ## [1.6.20] - 2024-07-31
 
 ### Added
@@ -92,6 +106,7 @@
 - Update native iOS to `1.6.20`.
 - Update native Android to `1.6.22`.
   
+[1.6.21]: https://github.com/affise/sdk-unity/compare/1.6.20...1.6.21
 [1.6.20]: https://github.com/affise/sdk-unity/compare/1.6.19...1.6.20
 [1.6.19]: https://github.com/affise/sdk-unity/compare/1.6.18...1.6.19
 [1.6.18]: https://github.com/affise/sdk-unity/compare/1.6.17...1.6.18

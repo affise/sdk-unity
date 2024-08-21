@@ -29,8 +29,10 @@ namespace AffiseAttributionLib.Native
         IS_FIRST_RUN,
 
         // callbacks
-        GET_REFERRER_CALLBACK,
-        GET_REFERRER_VALUE_CALLBACK,
+        GET_REFERRER_URL_CALLBACK,
+        GET_REFERRER_URL_VALUE_CALLBACK,
+        GET_REFERRER_ON_SERVER_CALLBACK,
+        GET_REFERRER_ON_SERVER_VALUE_CALLBACK,
         REGISTER_DEEPLINK_CALLBACK,
         SKAD_REGISTER_ERROR_CALLBACK,
         SKAD_POSTBACK_ERROR_CALLBACK,
@@ -91,8 +93,10 @@ namespace AffiseAttributionLib.Native
                 AffiseApiMethod.GET_PROVIDERS => "get_providers",
                 AffiseApiMethod.IS_FIRST_RUN => "is_first_run",
                 // callbacks
-                AffiseApiMethod.GET_REFERRER_CALLBACK => "get_referrer_callback",
-                AffiseApiMethod.GET_REFERRER_VALUE_CALLBACK => "get_referrer_value_callback",
+                AffiseApiMethod.GET_REFERRER_URL_CALLBACK => "get_referrer_url_callback",
+                AffiseApiMethod.GET_REFERRER_URL_VALUE_CALLBACK => "get_referrer_url_value_callback",
+                AffiseApiMethod.GET_REFERRER_ON_SERVER_CALLBACK => "get_referrer_on_server_callback",
+                AffiseApiMethod.GET_REFERRER_ON_SERVER_VALUE_CALLBACK => "get_referrer_on_server_value_callback",
                 AffiseApiMethod.REGISTER_DEEPLINK_CALLBACK => "register_deeplink_callback",
                 AffiseApiMethod.SKAD_REGISTER_ERROR_CALLBACK => "skad_register_error_callback",
                 AffiseApiMethod.SKAD_POSTBACK_ERROR_CALLBACK => "skad_postback_error_callback",
