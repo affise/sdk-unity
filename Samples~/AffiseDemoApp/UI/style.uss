@@ -32,3 +32,18 @@
 .affise-subscription-event:focus {
     background-color: #4e0000;
 }
+
+.affise-alert {
+    border-radius: 8px;
+    border-color: black;
+    border-width: 2px;
+    background-color: #313131;
+    margin: auto;
+    padding: 8px;
+    overflow: hidden;
+}
+
+.affise-alert Label {
+    color: #f0f0f0;
+    flex-wrap: wrap;
+}

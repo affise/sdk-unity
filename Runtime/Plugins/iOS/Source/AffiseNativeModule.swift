@@ -14,7 +14,7 @@ public class AffiseNativeModule : NativeCallHandler {
     public func setCallback(callback: @escaping (String, String) -> Void) {
         apiWrapper?.setCallback { (apiName: String, data: [String: Any?]) in
             DispatchQueue.main.async {
-                callback(apiName, data.toArray().jsonString())
+                callback(apiName, data.toArray().toJson())
             }
         }
     }
@@ -32,7 +32,7 @@ public class AffiseNativeModule : NativeCallHandler {
         apiWrapper?.handleDeeplink(link)
     }
 
-    override func apiCall(_ api: AffiseApiMethod, data: [String: Any?], result: inout AffiseResult) {
+    override func apiCall(_ api: AffiseApiMethod, data: [String: Any?], result: inout InternalResult) {
         apiWrapper?.call(api, map: data, result: result)
     }
 

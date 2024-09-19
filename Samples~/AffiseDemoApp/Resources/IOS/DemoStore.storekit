@@ -1,0 +1,135 @@
+{
+  "identifier" : "2DC8A1EC",
+  "nonRenewingSubscriptions" : [
+    {
+      "displayPrice" : "0.11",
+      "familyShareable" : false,
+      "internalID" : "48B1F49A",
+      "localizations" : [
+        {
+          "description" : "non renew",
+          "displayName" : "Sub 1",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.test.sub_1",
+      "referenceName" : "Sub 1",
+      "type" : "NonRenewingSubscription"
+    }
+  ],
+  "products" : [
+    {
+      "displayPrice" : "0.01",
+      "familyShareable" : false,
+      "internalID" : "FFD21BCA",
+      "localizations" : [
+        {
+          "description" : "prod 1 desc consumable",
+          "displayName" : "Prod 1",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.test.prod_1",
+      "referenceName" : "Prod 1",
+      "type" : "Consumable"
+    },
+    {
+      "displayPrice" : "0.02",
+      "familyShareable" : false,
+      "internalID" : "FC0D25E3",
+      "localizations" : [
+        {
+          "description" : "consumable",
+          "displayName" : "Prod 2",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.test.prod_2",
+      "referenceName" : "Prod 2",
+      "type" : "Consumable"
+    },
+    {
+      "displayPrice" : "0.03",
+      "familyShareable" : false,
+      "internalID" : "46F11261",
+      "localizations" : [
+        {
+          "description" : "non consumable",
+          "displayName" : "Prod 3",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.test.prod_3",
+      "referenceName" : "Prod 3 (non consume)",
+      "type" : "NonConsumable"
+    }
+  ],
+  "settings" : {
+
+  },
+  "subscriptionGroups" : [
+    {
+      "id" : "2DD637F6",
+      "localizations" : [
+
+      ],
+      "name" : "auto-renew",
+      "subscriptions" : [
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "0.12",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "E9CEE882",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "auto renew",
+              "displayName" : "Sub 2",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "com.test.sub_2",
+          "recurringSubscriptionPeriod" : "P1W",
+          "referenceName" : "Sub 2",
+          "subscriptionGroupID" : "2DD637F6",
+          "type" : "RecurringSubscription"
+        },
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "0.13",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "7B9F10D8",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "auto renew",
+              "displayName" : "Sub 3",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "com.test.sub_3",
+          "recurringSubscriptionPeriod" : "P1Y",
+          "referenceName" : "Sub 3",
+          "subscriptionGroupID" : "2DD637F6",
+          "type" : "RecurringSubscription"
+        }
+      ]
+    }
+  ],
+  "version" : {
+    "major" : 2,
+    "minor" : 0
+  }
+}

@@ -43,12 +43,16 @@ internal extension Array where Element == (String, Any?) {
                 return "\"\(key)\":[\"\(value.joined(separator: "\",\""))\"]"
             } else if let value = value as? [String] {
                 return "\"\(key)\":[\(value.joined(separator: ","))]"
+            } else if let value = value as? (String, Any?) {
+                return "\"\(key)\":\([value].toJson())"
+            } else if let value = value as? [String: Any?] {
+                return "\"\(key)\":\(value.toJson())"
             } else if let value = value as? [(String, Any?)] {
-                return "\"\(key)\":\(value.jsonString())"
+                return "\"\(key)\":\(value.toJson())"
             } else if let value = value as? [[(String, Any?)]] {
-                return "\"\(key)\":[\(value.map { $0.jsonString() }.joined(separator: ","))]"
+                return "\"\(key)\":[\(value.map { $0.toJson() }.joined(separator: ","))]"
             } else if let value = value as? [[String: Any?]] {
-                return "\"\(key)\":[\(value.map { $0.map { ($0, $1) }.jsonString() }.joined(separator: ","))]"
+                return "\"\(key)\":[\(value.map { $0.map { ($0, $1) }.toJson() }.joined(separator: ","))]"
             } else {
                 return "\"\(key)\":\(value)"
             }

@@ -8,7 +8,9 @@ using AffiseAttributionLib.Debugger.Validate;
 using AffiseAttributionLib.Deeplink;
 using AffiseAttributionLib.Events;
 using AffiseAttributionLib.Init;
+using AffiseAttributionLib.Module;
 using AffiseAttributionLib.Module.Link;
+using AffiseAttributionLib.Module.Subscription;
 using AffiseAttributionLib.Modules;
 using AffiseAttributionLib.Referrer;
 using AffiseAttributionLib.Settings;
@@ -16,6 +18,7 @@ using AffiseAttributionLib.SKAd;
 using AffiseAttributionLib.Utils;
 #if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
 using AffiseAttributionLib.Native;
+using AffiseAttributionLib.Executors;
 #endif
 
 namespace AffiseAttributionLib
@@ -83,7 +86,17 @@ namespace AffiseAttributionLib
         public static void SendEventNow(AffiseEvent affiseEvent, OnSendSuccessCallback success, OnSendFailedCallback failed)
         {
 #if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
-            _native?.SendEventNow(affiseEvent, success, failed);
+            var contextExecutor = new ContextThreadExecutor();
+            _native?.SendEventNow(affiseEvent, () =>
+            {
+                contextExecutor.Run(success.Invoke);
+            }, (status) =>
+            {
+                contextExecutor.Run(() =>
+                {
+                    failed.Invoke(status);
+                });
+            });
 #else
             _api?.ImmediateSendToServerUseCase.SendNow(affiseEvent, success, failed);
 #endif
@@ -107,9 +120,16 @@ namespace AffiseAttributionLib
         public static void RegisterDeeplinkCallback(DeeplinkCallback callback)
         {
 #if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
-            _native?.RegisterDeeplinkCallback(callback);
+            var contextExecutor = new ContextThreadExecutor();
+            _native?.RegisterDeeplinkCallback((value) =>
+            {
+                contextExecutor.Run(() =>
+                {
+                    callback.Invoke(value);
+                });
+            });
 #else
-            _api?.DeeplinkManager?.SetDeeplinkCallback(callback);
+            _api?.DeeplinkManager.SetDeeplinkCallback(callback);
 #endif
         }
 
@@ -278,7 +298,14 @@ namespace AffiseAttributionLib
         public static void GetReferrerUrl(ReferrerCallback callback)
         {
 #if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
-            _native?.GetReferrerUrl(callback);
+            var contextExecutor = new ContextThreadExecutor();
+            _native?.GetReferrerUrl((value) =>
+            {
+                contextExecutor.Run(() =>
+                {
+                    callback.Invoke(value);
+                });
+            });
 #else
             callback.Invoke(NotSupported);
 #endif
@@ -290,7 +317,14 @@ namespace AffiseAttributionLib
         public static void GetReferrerUrlValue(ReferrerKey key, ReferrerCallback callback)
         {
 #if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
-            _native?.GetReferrerUrlValue(key, callback);
+            var contextExecutor = new ContextThreadExecutor();
+            _native?.GetReferrerUrlValue(key, (value) =>
+            {
+                contextExecutor.Run(() =>
+                {
+                    callback.Invoke(value);
+                });
+            });
 #else
             callback.Invoke(NotSupported);
 #endif
@@ -352,7 +386,14 @@ namespace AffiseAttributionLib
             public static void RegisterAppForAdNetworkAttribution(ErrorCallback completionHandler)
             {
 #if (UNITY_IOS) && !UNITY_EDITOR
-                _native?.RegisterAppForAdNetworkAttribution(completionHandler);
+                var contextExecutor = new ContextThreadExecutor();
+                _native?.RegisterAppForAdNetworkAttribution((error) =>
+                {
+                    contextExecutor.Run(() =>
+                    {
+                        completionHandler.Invoke(error);
+                    });
+                });
 #else
                 completionHandler.Invoke(NotSupported);
 #endif
@@ -364,7 +405,14 @@ namespace AffiseAttributionLib
             public static void UpdatePostbackConversionValue(int fineValue, CoarseValue coarseValue, ErrorCallback completionHandler)
             {
 #if (UNITY_IOS) && !UNITY_EDITOR
-                _native?.UpdatePostbackConversionValue(fineValue, coarseValue, completionHandler);
+                var contextExecutor = new ContextThreadExecutor();
+                _native?.UpdatePostbackConversionValue(fineValue, coarseValue, (error) =>
+                {
+                    contextExecutor.Run(() =>
+                    {
+                        completionHandler.Invoke(error);
+                    });
+                });
 #else
                 completionHandler.Invoke(NotSupported);
 #endif
@@ -376,7 +424,14 @@ namespace AffiseAttributionLib
             public static void GetReferrerOnServer(ReferrerCallback callback)
             {
 #if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
-                _native?.GetReferrerOnServer(callback);
+                var contextExecutor = new ContextThreadExecutor();
+                _native?.GetReferrerOnServer((result) =>
+                {
+                    contextExecutor.Run(() =>
+                    {
+                        callback.Invoke(result);
+                    });
+                });
 #else
                 callback.Invoke(NotSupported);
 #endif
@@ -388,7 +443,14 @@ namespace AffiseAttributionLib
             public static void GetReferrerOnServerValue(ReferrerKey key, ReferrerCallback callback)
             {
 #if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
-                _native?.GetReferrerOnServerValue(key, callback);
+                var contextExecutor = new ContextThreadExecutor();
+                _native?.GetReferrerOnServerValue(key, (result) =>
+                {
+                    contextExecutor.Run(() =>
+                    {
+                        callback.Invoke(result);
+                    });
+                });
 #else
                 callback.Invoke(NotSupported);
 #endif
@@ -403,7 +465,14 @@ namespace AffiseAttributionLib
             public static void GetStatus(AffiseModules module, OnKeyValueCallback onComplete)
             {
 #if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
-                _native?.GetStatus(module, onComplete);
+                var contextExecutor = new ContextThreadExecutor();
+                _native?.GetStatus(module, (result) =>
+                {
+                    contextExecutor.Run(() =>
+                    {
+                        onComplete.Invoke(result);
+                    });
+                });
 #else
                 _api?.ModuleManager.Status(module, onComplete);
 #endif
@@ -439,13 +508,62 @@ namespace AffiseAttributionLib
             public static void LinkResolve(string uri, AffiseLinkCallback callback)
             {
 #if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
-                _native?.LinkResolve(uri, callback);
+                var contextExecutor = new ContextThreadExecutor();
+                _native?.LinkResolve(uri, (result) =>
+                {
+                    contextExecutor.Run(() =>
+                    {
+                        callback.Invoke(result);
+                    });
+                });
 #else
                 Api<IAffiseLinkApi>(AffiseModules.Link)?.LinkResolve(uri, callback);
 #endif
             }
             
-          
+            /**
+             * Module Subscription fetch products
+             */
+            public static void FetchProducts(List<string> ids, AffiseResultCallback<AffiseProductsResult> callback)
+            {
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+                var contextExecutor = new ContextThreadExecutor();
+                _native?.FetchProducts(ids, (result) =>
+                {
+                    contextExecutor.Run(() =>
+                    {
+                        callback.Invoke(result);
+                    });
+                });           
+#else
+                UnityEngine.Debug.LogWarning($"{NotSupported} - FetchProducts");
+                callback.Invoke(AffiseResult<AffiseProductsResult>.Failure(NotSupported));
+#endif
+            }
+            
+            /**
+             * Module Subscription purchase
+             */
+            public static void Purchase(
+                AffiseProduct product, 
+                AffiseProductType type, 
+                AffiseResultCallback<AffisePurchasedInfo> callback
+            )
+            {
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+                var contextExecutor = new ContextThreadExecutor();
+                _native?.Purchase(product, type, (result) =>
+                {
+                    contextExecutor.Run(() =>
+                    {
+                        callback.Invoke(result);
+                    });
+                });
+#else               
+                UnityEngine.Debug.LogWarning($"{NotSupported} - Purchase");
+                callback.Invoke(AffiseResult<AffisePurchasedInfo>.Failure(NotSupported));
+#endif
+            }
             
             private static T? Api<T>(AffiseModules module) where T : IAffiseModuleApi
             {
@@ -468,9 +586,16 @@ namespace AffiseAttributionLib
             public static void Validate(DebugOnValidateCallback callback)
             {
 #if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
-                _native?.Validate(callback);
+                var contextExecutor = new ContextThreadExecutor();
+                _native?.Validate((status) =>
+                {
+                    contextExecutor.Run(() =>
+                    {
+                        callback.Invoke(status);
+                    });
+                });
 #else
-                _api?.DebugValidateUseCase.Validate(callback);
+                _api?.DebugValidateUseCase?.Validate(callback);
 #endif
             }
             
@@ -480,9 +605,16 @@ namespace AffiseAttributionLib
              * Show request/response data
              */
             public static void Network(DebugOnNetworkCallback callback)
-            {
+            { 
 #if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
-                _native?.Network(callback);
+                var contextExecutor = new ContextThreadExecutor();
+                _native?.Network((request, response) =>
+                {
+                    contextExecutor.Run(() =>
+                    {
+                        callback.Invoke(request, response);
+                    });
+                });
 #else
                 _api?.DebugNetworkUseCase.OnRequest(callback);
 #endif

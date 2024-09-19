@@ -2,7 +2,7 @@ package com.affise.attribution.unity;
 
 
 import com.affise.attribution.internal.AffiseApiMethod;
-import com.affise.attribution.internal.callback.AffiseResult;
+import com.affise.attribution.internal.callback.InternalResult;
 import com.affise.attribution.internal.utils.JSONObjectExtKt;
 
 import org.json.JSONArray;
@@ -61,5 +61,5 @@ public abstract class NativeCallHandler {
         apiCall(apiName, json);
     }
 
-    public abstract void apiCall(AffiseApiMethod api, Map<String, ?> data, AffiseResult result);
+    public abstract void apiCall(AffiseApiMethod api, Map<String, ?> data, InternalResult result);
 }

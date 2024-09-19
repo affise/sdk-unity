@@ -48,6 +48,9 @@ namespace AffiseAttributionLib.Native
         GET_STATUS_CALLBACK,
         // Link Module
         MODULE_LINK_LINK_RESOLVE_CALLBACK,
+        // Module Subscription
+        MODULE_SUBS_FETCH_PRODUCTS_CALLBACK,
+        MODULE_SUBS_PURCHASE_CALLBACK,
         ////////////////////////////////////////
         // modules
         ////////////////////////////////////////
@@ -112,6 +115,9 @@ namespace AffiseAttributionLib.Native
                 AffiseApiMethod.GET_STATUS_CALLBACK => "get_status_callback",
                 // Link Module
                 AffiseApiMethod.MODULE_LINK_LINK_RESOLVE_CALLBACK => "module_link_link_resolve_callback",
+                // Module Subscription
+                AffiseApiMethod.MODULE_SUBS_FETCH_PRODUCTS_CALLBACK => "module_subs_fetch_products_callback",
+                AffiseApiMethod.MODULE_SUBS_PURCHASE_CALLBACK => "module_subs_purchase_callback",
                 ////////////////////////////////////////
                 // modules
                 ////////////////////////////////////////

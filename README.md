@@ -4,7 +4,7 @@
 
 | Artifact      | Version               |
 |---------------|-----------------------|
-| `attribution` | [`1.6.21`](/releases/tag/1.6.21) |
+| `attribution` | [`1.6.22`](/releases/tag/1.6.22) |
 
 - [Affise Unity package](#affise-unity-package)
 - [Description](#description)
@@ -17,6 +17,7 @@
         - [Domain](#domain)
       - [Manual](#manual)
         - [Domain](#domain-1)
+      - [Before application is published](#before-application-is-published)
     - [Requirements](#requirements)
       - [iOS](#ios)
     - [Modules](#modules)
@@ -25,6 +26,8 @@
       - [Module Advertising](#module-advertising)
         - [iOS](#ios-2)
       - [Module Link](#module-link)
+      - [Module Status](#module-status)
+      - [Module Subscription](#module-subscription)
   - [Build](#build)
     - [iOS](#ios-3)
 - [Features](#features)
@@ -96,7 +99,7 @@ Add package from git url `https://github.com/affise/sdk-unity.git`
 
 ### Integrate unitypackage file
 
-Download latest Affise SDK [`attribution-1.6.21.unitypackage`](https://github.com/affise/sdk-unity/releases/download/1.6.21/attribution-1.6.21.unitypackage)
+Download latest Affise SDK [`attribution-1.6.22.unitypackage`](https://github.com/affise/sdk-unity/releases/download/1.6.22/attribution-1.6.22.unitypackage)
 from [releases page](https://github.com/affise/sdk-unity/releases) and drop this file to unity editor
 
 ### Initialize
@@ -176,6 +179,18 @@ Affise
     .Start(); // Start Affise SDK
 ```
 
+#### Before application is published
+
+> **Warning**
+>
+> 🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥
+>
+> Please make sure your credentials are valid
+>
+> Visit section [validation credentials](#validate-credentials)
+>
+> 🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥
+
 ### Requirements
 
 #### iOS
@@ -232,12 +247,12 @@ Dependencies located in Android project gradle file `build.gradle`
 dependencies {
   // ...
   // Affise modules
-  implementation 'com.affise:module-advertising:1.6.42'
-  implementation 'com.affise:module-androidid:1.6.42'
-  implementation 'com.affise:module-link:1.6.42'
-  implementation 'com.affise:module-network:1.6.42'
-  implementation 'com.affise:module-phone:1.6.42'
-  implementation 'com.affise:module-status:1.6.42'
+  implementation 'com.affise:module-advertising:1.6.44'
+  implementation 'com.affise:module-androidid:1.6.44'
+  implementation 'com.affise:module-link:1.6.44'
+  implementation 'com.affise:module-network:1.6.44'
+  implementation 'com.affise:module-phone:1.6.44'
+  implementation 'com.affise:module-status:1.6.44'
 }
 ```
 
@@ -251,9 +266,9 @@ All affise modules is updated automatically on build
 
 | Module        |                                       Version                                        | Start    |
 |---------------|:------------------------------------------------------------------------------------:|----------|
-| `Advertising` | [`1.6.39`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Manual` |
-| `Link`        | [`1.6.39`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
-| `Status`      | [`1.6.39`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
+| `Advertising` | [`1.6.40`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Manual` |
+| `Link`        | [`1.6.40`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
+| `Status`      | [`1.6.40`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
 
 Dependencies located in XCode project folder `Podfile`
 
@@ -261,12 +276,12 @@ Dependencies located in XCode project folder `Podfile`
 platform :ios, '11.0'
 
 target 'UnityFramework' do
-  pod 'AffiseInternal', '1.6.39'
+  pod 'AffiseInternal', '1.6.40'
 
   # Affise Modules
-  pod 'AffiseModule/Advertising', `1.6.39`
-  pod 'AffiseModule/Link', '~> 1.6.39'
-  pod 'AffiseModule/Status', `1.6.39`
+  pod 'AffiseModule/Advertising', `1.6.40`
+  pod 'AffiseModule/Link', '~> 1.6.40'
+  pod 'AffiseModule/Status', `1.6.40`
 end
 
 target 'Unity-iPhone' do
@@ -311,6 +326,66 @@ Affise.Module.LinkResolve("SITE_WITH_REDIRECTION", (redirectUrl) => {
 });
 ```
 
+#### Module Status
+
+> **Warning**
+>
+> 🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥
+>
+> If `getStatus` return an error or working more than 2 minutes
+>
+> Please see section [validation credentials](#validate-credentials)
+>
+> 🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥
+
+```C#
+Affise.Module.GetStatus(AffiseModules.Status, response => {
+    // handle response
+});
+```
+
+#### Module Subscription
+
+Get products by ids:
+
+```C#
+var ids = new List<AffiseProduct> {
+    "exampple.product.id_1", 
+    "exampple.product.id_2",
+};
+
+Affise.Module.FetchProducts(ids, (result) =>
+{
+    if (result.IsSuccess)
+    {
+        var value = result.AsSuccess;
+        var products = value.Products;
+        var invalidIds = value.InvalidIds;
+    }
+    else
+    {
+        var error = result.AsFailure;
+    }
+});
+```
+
+Purchase product:
+
+```C#
+// Specify product type for correct affise event
+Affise.Module.Purchase(product, AffiseProductType.CONSUMABLE, (result) =>
+{
+    if (result.IsSuccess)
+    {
+        AffisePurchasedInfo purchasedInfo = result.AsSuccess;
+    }
+    else
+    {
+        var error = result.AsFailure;
+    }
+});
+```
+
 ## Build
 
 ### iOS
@@ -341,10 +416,10 @@ Podfile:
 platform :ios, '11.0'
 
 target 'UnityFramework' do
-  pod 'AffiseInternal', '1.6.39'
+  pod 'AffiseInternal', '1.6.40'
 
   # Affise Modules
-  # pod 'AffiseModule', `1.6.39`
+  # pod 'AffiseModule', `1.6.40`
 end
 
 target 'Unity-iPhone' do
@@ -1179,6 +1254,16 @@ In examples above `ReferrerKey.CLICK_ID` is used, but many others is available:
 - `SUB_5`
 
 ## Get module state
+
+> **Warning**
+>
+> 🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥
+>
+> If `getStatus` return an error or working more than 2 minutes
+>
+> Please see section [validation credentials](#validate-credentials)
+>
+> 🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥
 
 ```C#
 Affise.Module.GetStatus(AffiseModules.Status, response => {

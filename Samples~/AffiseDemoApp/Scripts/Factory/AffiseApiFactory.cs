@@ -19,10 +19,16 @@ namespace AffiseDemo
         public string ReferrerValue = ReferrerKey.AD_ID.ToString();
 
         public Action<string>? Output = null;
+        public Action<string, string>? Alert = null;
 
         private void Print(string value)
         {
             Output?.Invoke(value);
+        }
+        
+        private void AlertMsg(string title, string message)
+        {
+            Alert?.Invoke(title, message);
         }
 
         public Dictionary<string, Action> Create()
@@ -46,11 +52,11 @@ namespace AffiseDemo
                         {
                             var list = value.Parameters.Select(h => $"{h.Key}=[{string.Join(", ", h.Value)}]").ToList();
                             var parameters = string.Join(", ", list);
-                            Print($"Deeplink: {value.Deeplink}\n" +
-                                  $"scheme={value.Scheme}\n" +
-                                  $"host={value.Host}\n" +
-                                  $"path={value.Path}\n" +
-                                  $"parameters=[{parameters}]"
+                            AlertMsg("Deeplink", $"{value.Deeplink}\n\n" +
+                                     $"scheme={value.Scheme}\n" +
+                                     $"host={value.Host}\n" +
+                                     $"path={value.Path}\n" +
+                                     $"parameters=[{parameters}]"
                             );
                         });
                     }

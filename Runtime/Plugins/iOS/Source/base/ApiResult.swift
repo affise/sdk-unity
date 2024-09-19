@@ -1,6 +1,6 @@
 import AffiseInternal
 
-class ApiResult : AffiseResult {
+class ApiResult : InternalResult {
     
     private var result: Any?
     private var error: String?

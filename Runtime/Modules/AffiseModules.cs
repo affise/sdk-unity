@@ -11,6 +11,7 @@ namespace AffiseAttributionLib.Modules
         Network,
         Phone,
         Status,
+        Subscription,
     }
     
     internal static class AffiseModulesExt
@@ -25,6 +26,7 @@ namespace AffiseAttributionLib.Modules
                 AffiseModules.Network => "Network",
                 AffiseModules.Phone => "Phone",
                 AffiseModules.Status => "Status",
+                AffiseModules.Subscription => "Subscription",
                 _ => ""
             };
         }

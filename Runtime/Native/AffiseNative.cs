@@ -8,7 +8,9 @@ using AffiseAttributionLib.Deeplink;
 using AffiseAttributionLib.Events;
 using AffiseAttributionLib.Init;
 using AffiseAttributionLib.Module.Link;
+using AffiseAttributionLib.Module.Subscription;
 using AffiseAttributionLib.Modules;
+using AffiseAttributionLib.Native.Data;
 using AffiseAttributionLib.Native.Utils;
 using AffiseAttributionLib.Referrer;
 using AffiseAttributionLib.SKAd;
@@ -18,9 +20,6 @@ namespace AffiseAttributionLib.Native
 {
     internal class AffiseNative : NativeBase, IAffiseNative
     {
-        private const string SUCCESS = "success";
-        private const string FAILED = "failed";
-
         private readonly EventToSerializedEventConverter _converter = new();
 
         public AffiseNative(AffiseInitProperties initProperties)
@@ -51,8 +50,8 @@ namespace AffiseAttributionLib.Native
                 AffiseApiMethod.SEND_EVENT_NOW,
                 new Dictionary<string, object>()
                 {
-                    { SUCCESS, success },
-                    { FAILED, failed }
+                    { DataName.SUCCESS, success },
+                    { DataName.FAILED, failed }
                 },
                 data
             );
@@ -177,8 +176,8 @@ namespace AffiseAttributionLib.Native
         {
             var data = new Dictionary<string, object>
             {
-                { "fineValue", fineValue },
-                { "coarseValue", coarseValue.Value }
+                { DataName.FINE_VALUE, fineValue },
+                { DataName.COARSE_VALUE, coarseValue.Value }
             };
             NativeCallbackOnce(
                 api: AffiseApiMethod.SKAD_POSTBACK_ERROR_CALLBACK,
@@ -229,6 +228,7 @@ namespace AffiseAttributionLib.Native
             return result;
         }
 
+        // Module Link
         public void LinkResolve(string uri, AffiseLinkCallback callback)
         {
             NativeCallbackOnce(
@@ -237,6 +237,37 @@ namespace AffiseAttributionLib.Native
                 data: uri
             );
         }
+        
+        // Module Subscription
+        public void FetchProducts(List<string> ids, AffiseResultCallback<AffiseProductsResult> callback)
+        {
+            NativeCallbackOnce(
+                api: AffiseApiMethod.MODULE_SUBS_FETCH_PRODUCTS_CALLBACK,
+                callback: callback,
+                data: ids
+            );
+        }
+
+        // Module Subscription
+        public void Purchase(
+            AffiseProduct product,
+            AffiseProductType type,
+            AffiseResultCallback<AffisePurchasedInfo> callback
+        )
+        {
+            var data = new Dictionary<string, object?>
+            {
+                { DataName.PRODUCT, DataMapper.FromProduct(product) },
+                { DataName.TYPE, type.ToValue() }
+            };
+
+            NativeCallbackOnce(
+                api: AffiseApiMethod.MODULE_SUBS_PURCHASE_CALLBACK,
+                callback: callback,
+                data: data
+            );
+        }
+        
         ////////////////////////////////////////
         // modules
         ////////////////////////////////////////
@@ -248,10 +279,10 @@ namespace AffiseAttributionLib.Native
                 case AffiseApiMethod.SEND_EVENT_NOW:
                     switch (tag)
                     {
-                        case SUCCESS:
+                        case DataName.SUCCESS:
                             (callback as OnSendSuccessCallback)?.Invoke();
                             break;
-                        case FAILED:
+                        case DataName.FAILED:
                             (callback as OnSendFailedCallback)?.Invoke(DebugUtils.ToResponse(json));
                             break;
                     }
@@ -290,8 +321,19 @@ namespace AffiseAttributionLib.Native
                 case AffiseApiMethod.GET_STATUS_CALLBACK:
                     (callback as OnKeyValueCallback)?.Invoke(DataMapper.ToAffiseKeyValueList(json));
                     break;
+                // Module Link
                 case AffiseApiMethod.MODULE_LINK_LINK_RESOLVE_CALLBACK:
                     (callback as AffiseLinkCallback)?.Invoke(DataMapper.ToNonNullString(json));
+                    break;
+                // Module Subscription
+                case AffiseApiMethod.MODULE_SUBS_FETCH_PRODUCTS_CALLBACK:
+                    (callback as AffiseResultCallback<AffiseProductsResult>)
+                        ?.Invoke(DataMapper.ToResultAffiseProductsResult(json));
+                    break;
+                // Module Subscription
+                case AffiseApiMethod.MODULE_SUBS_PURCHASE_CALLBACK:
+                    (callback as AffiseResultCallback<AffisePurchasedInfo>)
+                        ?.Invoke(DataMapper.ToResultAffisePurchasedInfo(json));
                     break;
                 ////////////////////////////////////////
                 // modules

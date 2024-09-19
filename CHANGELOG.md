@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.6.22] - 2024-09-11
+
+### Added
+
+- Module `Subscription` support.
+
+### Fixed
+
+- Api callback executes on other thread.
+
+### Changed
+
+- Update native iOS to [`1.6.40`](https://github.com/affise/sdk-ios/blob/1.6.40/CHANGELOG.md).
+- Update native Android to [`1.6.44`](https://github.com/affise/sdk-android/blob/v1.6.44/CHANGELOG.md).
+
 ## [1.6.21] - 2024-08-21
 
 ### Added
@@ -106,6 +121,7 @@
 - Update native iOS to `1.6.20`.
 - Update native Android to `1.6.22`.
   
+[1.6.22]: https://github.com/affise/sdk-unity/compare/1.6.21...1.6.22
 [1.6.21]: https://github.com/affise/sdk-unity/compare/1.6.20...1.6.21
 [1.6.20]: https://github.com/affise/sdk-unity/compare/1.6.19...1.6.20
 [1.6.19]: https://github.com/affise/sdk-unity/compare/1.6.18...1.6.19

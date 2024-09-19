@@ -5,7 +5,7 @@ public class NativeCallHandler: NSObject {
 
     @discardableResult
     public func apiCallAny(_ apiName: String, json: String) -> Any? {
-        var result: AffiseResult = ApiResult()
+        var result: InternalResult = ApiResult()
 
         guard let api = AffiseApiMethod.from(apiName) else {
             print("AffiseApi [\(apiName)] error: method not found")
@@ -34,7 +34,7 @@ public class NativeCallHandler: NSObject {
         return asNativeData(result)
     }
     
-    private func asNativeData(_ result: AffiseResult) -> Any? {
+    private func asNativeData(_ result: InternalResult) -> Any? {
         guard let result = result as? ApiResult else { return nil }
         guard let data = result.getResult() else { return nil }
                 
@@ -65,7 +65,7 @@ public class NativeCallHandler: NSObject {
         }
     }
 
-    func apiCall(_ api: AffiseApiMethod, data: [String: Any?], result _: inout AffiseResult) {
+    func apiCall(_ api: AffiseApiMethod, data: [String: Any?], result _: inout InternalResult) {
         print("AffiseApi [\(api.method)] error: methods not implemented")
     }
 }

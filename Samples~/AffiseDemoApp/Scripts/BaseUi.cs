@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using AffiseAttributionLib.Executors;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -14,35 +13,38 @@ namespace AffiseDemo
     {
         #region variables
         
-        private ScrollView? _eventsView;
+        private VisualElement? _tabViews;
         private ScrollView? _apiView;
+        private ScrollView? _eventsView;
+        private VisualElement? _storeView;
         private VisualElement? _apiContainer;
         
+        private VisualElement? _alert;
+        private Label? _alertTitle;
+        private Label? _alertText;
+
         private VisualElement? _root;
         private VisualElement? _safeZone;
         private TextField? _output;
-        private bool _isApi = true;
 
         private readonly Dictionary<CallbackEventHandler, EventCallback<ClickEvent>> _clickCallback = new();
-
-        private ContextThreadExecutor? _contextExecutor;
 
         #endregion variables
 
         private void Start()
         {
-            _contextExecutor = new ContextThreadExecutor();
-            
             BindView();
 
             if (_apiView is not null) ApiView(_apiView);
             if (_eventsView is not null) EventsView(_eventsView);
+            if (_storeView is not null) StoreView(_storeView);
             Init();
         }
 
         protected abstract void Init();
         protected abstract void ApiView(VisualElement view);
         protected abstract void EventsView(VisualElement view);
+        protected abstract void StoreView(VisualElement view);
 
         private void OnDestroy()
         {
@@ -58,18 +60,74 @@ namespace AffiseDemo
             _safeZone = _root.Q<VisualElement>("safe-zone");
             _safeZone.RegisterCallback<GeometryChangedEvent>(LayoutChanged);
 
-            _eventsView = _root.Q<ScrollView>("events");
-            _apiContainer = _root.Q<VisualElement>("api-view");
-            _apiView = _root.Q<ScrollView>("api");
+            _tabViews = _root.Q<VisualElement>("tab-views");
+            _eventsView = _tabViews.Q<ScrollView>("events");
+            _apiContainer = _tabViews.Q<VisualElement>("api-view");
+            _apiView = _apiContainer.Q<ScrollView>("api");
+            _storeView = _tabViews.Q<VisualElement>("store");
 
             _output = _root.Q<TextField>("output");
 
-            BindButton("toggle-btn", ToggleMode);
+            BindAlert();
+            BindTabs(_tabViews);
 
             BindButton("output-clear", () =>
             {
                 _output.value = "";
             });
+        }
+        
+        #region Alert View
+        
+        private void BindAlert()
+        {
+            _alert = _root.Q<VisualElement>("alert");
+            var alertClose = _root.Q<Button>("alert-close");
+            _alertTitle = _root.Q<Label>("alert-title");
+            _alertText = _root.Q<Label>("alert-text");
+
+            _alert.visible = false;
+            
+            EventCallback<ClickEvent> callback = (_) =>
+            {
+                _alert.visible = !_alert.visible;
+            };
+            _alert.RegisterCallback(callback);
+
+            _clickCallback[alertClose] = callback;
+        }
+
+        protected void Alert(string title, string text)
+        {
+            if (_alertTitle is null) return;
+            if (_alertText is null) return;
+            if (_alert is null) return;
+
+            _alertTitle.text = title;
+            _alertText.text = text;
+            _alert.visible = true;
+        }
+        
+        #endregion
+        
+        private void BindTabs(VisualElement tabViews)
+        {
+            var tabsButtons = _root.Q<VisualElement>("tabs");
+            var tabChildren = tabsButtons.Children().OfType<Button>();
+            var tabs = tabViews.Children().Select((view, i) => (view, i));
+            
+            foreach (var (button, i) in tabChildren.Select((button, i) => (button, i)))
+            {
+                BindButton(button, (() =>
+                {
+                    ToggleMode(tabs, i);
+                    OnTabShow(i);
+                }));
+            }
+        }
+
+        protected virtual void OnTabShow(int index)
+        {
         }
 
         private void UnBindView()
@@ -80,7 +138,7 @@ namespace AffiseDemo
 
         protected void Output(string msg)
         {
-            _contextExecutor?.Run(() => OutputTextUI(msg));
+            OutputTextUI(msg);
         }
 
         private void OutputTextUI(string msg)
@@ -97,11 +155,12 @@ namespace AffiseDemo
             }
         }
 
-        private void ToggleMode()
+        private void ToggleMode(IEnumerable<(VisualElement view, int i)> views, int index)
         {
-            _isApi = !_isApi;
-            Show(_apiContainer, _isApi);
-            Hide(_eventsView, _isApi);
+            foreach (var (view, i) in views)
+            {
+                Show(view, index == i);
+            }
         }
 
         private void UnBindButtons()
@@ -114,6 +173,20 @@ namespace AffiseDemo
             _clickCallback.Clear();
         }
 
+        private Button BindButton(Button button, Action action)
+        {
+            EventCallback<ClickEvent> callback = (_) => 
+            {
+                action.Invoke();
+            };
+
+            button.RegisterCallback(callback);
+
+            _clickCallback[button] = callback;
+
+            return button;
+        }
+        
         private Button BindButton(string btnName, Action action)
         {
             EventCallback<ClickEvent> callback = (_) => 
@@ -164,6 +237,14 @@ namespace AffiseDemo
             elm.AddToClassList("border");
             parent.Add(elm);
             return elm;
+        }
+        
+        protected static VisualElement AddView(VisualElement parent, Action<VisualElement> action)
+        {
+            var view = new VisualElement();
+            action.Invoke(view);
+            parent.Add(view);
+            return view;
         }
 
         private static void Hide(VisualElement? input, bool hide = true)

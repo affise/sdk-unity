@@ -26,8 +26,7 @@ namespace AffiseAttributionLib.Native.Android
             {
                 var unityContext = new AndroidJavaClass(JavaUnityPlayer);
                 var activity = unityContext.GetStatic<AndroidJavaObject>("currentActivity");
-                var app = activity.Call<AndroidJavaObject>("getApplication");
-                _plugin = new AndroidJavaObject(JavaModule, app, this);
+                _plugin = new AndroidJavaObject(JavaModule, activity, this);
             }
             catch (Exception e)
             {

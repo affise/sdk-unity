@@ -1,8 +1,8 @@
 package com.affise.attribution.unity;
 
-import com.affise.attribution.internal.callback.AffiseResult;
+import com.affise.attribution.internal.callback.InternalResult;
 
-public class ApiResult implements AffiseResult {
+public class ApiResult implements InternalResult {
 
     private Object result;
     private String error;

@@ -7,6 +7,7 @@ using AffiseAttributionLib.Deeplink;
 using AffiseAttributionLib.Events;
 using AffiseAttributionLib.Init;
 using AffiseAttributionLib.Module.Link;
+using AffiseAttributionLib.Module.Subscription;
 using AffiseAttributionLib.Modules;
 using AffiseAttributionLib.Referrer;
 using AffiseAttributionLib.SKAd;
@@ -82,7 +83,18 @@ namespace AffiseAttributionLib.Native
 
         List<AffiseModules> GetModules();
         
+        // Module Link
         void LinkResolve(string uri, AffiseLinkCallback callback);
+
+        // Module Subscription
+        void FetchProducts(List<string> ids, AffiseResultCallback<AffiseProductsResult> callback);
+
+        // Module Subscription
+        void Purchase(
+            AffiseProduct product, AffiseProductType type,
+            AffiseResultCallback<AffisePurchasedInfo> callback
+        );
+
         ////////////////////////////////////////
         // modules
         ////////////////////////////////////////
