@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.6.23] - 2024-10-02
+
+### Added
+
+- Module `Subscription` StoreKit2 support.
+
+### Changed
+
+- Update native iOS to [`1.6.41`](https://github.com/affise/sdk-ios/blob/1.6.41/CHANGELOG.md).
+
 ## [1.6.22] - 2024-09-19
 
 ### Added
@@ -121,6 +131,7 @@
 - Update native iOS to `1.6.20`.
 - Update native Android to `1.6.22`.
   
+[1.6.23]: https://github.com/affise/sdk-unity/compare/1.6.22...1.6.23
 [1.6.22]: https://github.com/affise/sdk-unity/compare/1.6.21...1.6.22
 [1.6.21]: https://github.com/affise/sdk-unity/compare/1.6.20...1.6.21
 [1.6.20]: https://github.com/affise/sdk-unity/compare/1.6.19...1.6.20
