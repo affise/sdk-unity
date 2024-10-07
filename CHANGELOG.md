@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.6.24] - 2024-10-07
+
+### Fixed
+
+- Fix `Affise.Module.getStatus` timing retry.
+
+### Changed
+
+- Update native iOS to [`1.6.42`](https://github.com/affise/sdk-ios/blob/1.6.42/CHANGELOG.md).
+- Update native Android to [`1.6.45`](https://github.com/affise/sdk-android/blob/v1.6.45/CHANGELOG.md).
+  
 ## [1.6.23] - 2024-10-02
 
 ### Added
@@ -131,6 +142,7 @@
 - Update native iOS to `1.6.20`.
 - Update native Android to `1.6.22`.
   
+[1.6.24]: https://github.com/affise/sdk-unity/compare/1.6.23...1.6.24
 [1.6.23]: https://github.com/affise/sdk-unity/compare/1.6.22...1.6.23
 [1.6.22]: https://github.com/affise/sdk-unity/compare/1.6.21...1.6.22
 [1.6.21]: https://github.com/affise/sdk-unity/compare/1.6.20...1.6.21

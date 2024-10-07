@@ -1,6 +1,7 @@
 ﻿#nullable enable
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using AffiseAttributionLib.AffiseParameters.Base;
 using AffiseAttributionLib.Converter;
 using AffiseAttributionLib.Executors;
@@ -16,8 +17,8 @@ namespace AffiseAttributionLib.Module.Status.UseCase
         private const string Path = "check_status";
         private readonly string _url = CloudConfig.GetUrl(Path);
 
-        private const int ATTEMPTS_TO_SEND = 30;
-        private const long TIME_DELAY_SENDING = 5 * 1000;
+        private const long TIME_DELAY_SENDING = 1000;
+        private readonly List<int> TIMINGS = new[] { 1, 1, 2, 3, 5, 8, 13 }.AsEnumerable().Reverse().ToList();
 
         private readonly ILogsManager? _logsManager;
         private readonly IHttpClient _httpClient;
@@ -45,7 +46,7 @@ namespace AffiseAttributionLib.Module.Status.UseCase
 
         public void Send(OnKeyValueCallback onComplete)
         {
-            SendWithRepeat(onComplete, ATTEMPTS_TO_SEND);
+            SendWithRepeat(onComplete, TIMINGS.Count + 1);
         }
 
         private void SendWithRepeat(OnKeyValueCallback onComplete, int attempts)
@@ -58,7 +59,8 @@ namespace AffiseAttributionLib.Module.Status.UseCase
                 }
                 else
                 {
-                    if (--attempts == 0)
+                    attempts--;
+                    if (attempts == 0)
                     {
                         onComplete(new List<AffiseKeyValue>());
                     }
@@ -72,7 +74,12 @@ namespace AffiseAttributionLib.Module.Status.UseCase
 
         private void SendWithDelay(OnKeyValueCallback onComplete, int attempts)
         {
-            _executorServiceProvider.ExecuteWithDelay(TIME_DELAY_SENDING,
+            var i = 1;
+            if (TIMINGS.Count > (attempts - 1))
+            {
+                i = TIMINGS[attempts - 1];
+            }
+            _executorServiceProvider.ExecuteWithDelay(TIME_DELAY_SENDING * i,
                 () => { SendWithRepeat(onComplete, attempts); });
         }
 
