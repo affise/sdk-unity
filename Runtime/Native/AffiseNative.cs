@@ -1,5 +1,6 @@
 ﻿#nullable enable
 using System.Collections.Generic;
+using System.Threading;
 using AffiseAttributionLib.AffiseParameters;
 using AffiseAttributionLib.Converter;
 using AffiseAttributionLib.Debugger.Network;
@@ -48,10 +49,10 @@ namespace AffiseAttributionLib.Native
             var data = _converter.Convert(affiseEvent).Data;
             NativeCallbackGroup(
                 AffiseApiMethod.SEND_EVENT_NOW,
-                new Dictionary<string, object>()
+                new Dictionary<string, CallbackData>
                 {
-                    { DataName.SUCCESS, success },
-                    { DataName.FAILED, failed }
+                    { DataName.SUCCESS, new CallbackData(success) },
+                    { DataName.FAILED, new CallbackData(failed)  }
                 },
                 data
             );

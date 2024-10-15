@@ -1,6 +1,7 @@
 ﻿#nullable enable
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using AffiseAttributionLib.Extensions;
 using AffiseAttributionLib.Native.Base;
 using AffiseAttributionLib.Utils;
@@ -18,16 +19,39 @@ namespace AffiseAttributionLib.Native
 {
     internal abstract class NativeBase
     {
+        internal struct CallbackData
+        {
+            public object Callback { get; }
+            public SynchronizationContext Context { get; }
+            public int ThreadId { get; }
+
+            private CallbackData(object callback, SynchronizationContext context, int threadId)
+            {
+                Callback = callback;
+                Context = context;
+                ThreadId = threadId;
+            }
+
+            public CallbackData(object callback) : this(
+                callback: callback, 
+                context: SynchronizationContext.Current,
+                threadId: Thread.CurrentThread.ManagedThreadId)
+            {
+            }
+
+            public bool IsManagedThread => ThreadId == Thread.CurrentThread.ManagedThreadId;
+        }
+        
         private const string UUID = "callback_uuid";
         private const string TAG = "callback_tag";
 
         private readonly INative? _native = null;
 
-        private readonly Dictionary<string, object> _callbacksOnce = new();
+        private readonly Dictionary<string, CallbackData> _callbacksOnce = new();
         
-        private readonly Dictionary<string, Dictionary<string, object>> _callbacksGroup = new();
+        private readonly Dictionary<string, Dictionary<string, CallbackData>> _callbacksGroup = new();
         
-        private readonly Dictionary<AffiseApiMethod, object> _callbacks = new();
+        private readonly Dictionary<AffiseApiMethod, CallbackData> _callbacks = new();
 
         protected NativeBase()
         {
@@ -131,11 +155,11 @@ namespace AffiseAttributionLib.Native
                 [apiName] = data?.ToJsonNode(),
                 [UUID] = uuid
             };
-            _callbacksOnce[uuid] = callback;
+            _callbacksOnce[uuid] = new CallbackData(callback);
             _native?.Native(apiName, json.ToString());
         }
         
-        protected void NativeCallbackGroup(AffiseApiMethod api, Dictionary<string, object> callbackGroup, object? data = null)
+        protected void NativeCallbackGroup(AffiseApiMethod api, Dictionary<string, CallbackData> callbackGroup, object? data = null)
         {
             var apiName = api.ToMethod();
             if (apiName is null) return;
@@ -157,7 +181,7 @@ namespace AffiseAttributionLib.Native
             {
                 [apiName] = data?.ToJsonNode(),
             };
-            _callbacks[api] = callback;
+            _callbacks[api] = new CallbackData(callback);
             _native?.Native(apiName, json.ToString());
         }
 
@@ -189,11 +213,21 @@ namespace AffiseAttributionLib.Native
             }
         }
 
-        private void OnCallbackCall(AffiseApiMethod? api, object? callback, JSONNode? json, string? tag)
+        private void OnCallbackCall(AffiseApiMethod? api, CallbackData callbackData, JSONNode? json, string? tag)
         {
             if (api is null)  return;
-            if (callback is null)  return;
-            HandleCallback((AffiseApiMethod)api, callback, json, tag);
+            
+            if (callbackData.IsManagedThread)
+            {
+                HandleCallback((AffiseApiMethod)api, callbackData.Callback, json, tag);
+            }
+            else
+            {
+                callbackData.Context.Post(_ =>
+                {
+                    HandleCallback((AffiseApiMethod)api, callbackData.Callback, json, tag);
+                }, null);
+            }
         }
 
         private Tuple<string?, string?, JSONNode?> GetCallbackValue(string data, AffiseApiMethod? api)
@@ -219,7 +253,7 @@ namespace AffiseAttributionLib.Native
             return new Tuple<string?, string?, JSONNode?>(null, null, null);
         }
 
-        private void GetCallbackOnce(string? uuid, Action<object?> action)
+        private void GetCallbackOnce(string? uuid, Action<CallbackData> action)
         {
             if (uuid is null) return;
             if (!_callbacksOnce.ContainsKey(uuid)) return;
@@ -227,7 +261,7 @@ namespace AffiseAttributionLib.Native
             _callbacksOnce.Remove(uuid);
         }
         
-        private void GetCallbackGroup(string? uuid, string? tag, Action<object?> action)
+        private void GetCallbackGroup(string? uuid, string? tag, Action<CallbackData> action)
         {
             if (uuid is null) return;
             if (!_callbacksGroup.ContainsKey(uuid)) return;
@@ -239,7 +273,7 @@ namespace AffiseAttributionLib.Native
             _callbacksGroup.Remove(uuid);
         }
         
-        private void GetCallback(AffiseApiMethod? api, Action<object?> action)
+        private void GetCallback(AffiseApiMethod? api, Action<CallbackData> action)
         {
             if (api is null) return;
             var key = (AffiseApiMethod)api;

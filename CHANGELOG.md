@@ -1,10 +1,16 @@
 # Changelog
 
+## [1.6.25] - 2024-10-15
+
+### Fixed
+
+- Crossplatform api call thread switch.
+
 ## [1.6.24] - 2024-10-07
 
 ### Fixed
 
-- Fix `Affise.Module.getStatus` timing retry.
+- Fix `Affise.Module.GetStatus` timing retry.
 
 ### Changed
 
@@ -142,6 +148,7 @@
 - Update native iOS to `1.6.20`.
 - Update native Android to `1.6.22`.
   
+[1.6.25]: https://github.com/affise/sdk-unity/compare/1.6.24...1.6.25
 [1.6.24]: https://github.com/affise/sdk-unity/compare/1.6.23...1.6.24
 [1.6.23]: https://github.com/affise/sdk-unity/compare/1.6.22...1.6.23
 [1.6.22]: https://github.com/affise/sdk-unity/compare/1.6.21...1.6.22
