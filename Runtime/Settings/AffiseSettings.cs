@@ -13,9 +13,9 @@ namespace AffiseAttributionLib.Settings
         private string? _partParamNameToken;
         private string? _appToken;
         private bool _isProduction = true;
-        private bool _enabledMetrics = false;
+        // private bool _enabledMetrics = false;
         private string? _domain;
-        private List<AutoCatchingType> _autoCatchingClickEvents = new();
+        // private List<AutoCatchingType> _autoCatchingClickEvents = new();
 
         /**
          * Affise SDK settings
@@ -78,20 +78,20 @@ namespace AffiseAttributionLib.Settings
         /**
          * Set list of AutoCatchingType
          */
-        public AffiseSettings SetAutoCatchingClickEvents(List<AutoCatchingType> autoCatchingClickEvents)
-        {
-            _autoCatchingClickEvents = autoCatchingClickEvents;
-            return this;
-        }
+        // public AffiseSettings SetAutoCatchingClickEvents(List<AutoCatchingType> autoCatchingClickEvents)
+        // {
+        //     _autoCatchingClickEvents = autoCatchingClickEvents;
+        //     return this;
+        // }
         
         /**
          * Set Metrics [enable]
          */
-        public AffiseSettings SetEnabledMetrics(bool enable)
-        {
-            _enabledMetrics = enable;
-            return this;
-        }
+        // public AffiseSettings SetEnabledMetrics(bool enable)
+        // {
+        //     _enabledMetrics = enable;
+        //     return this;
+        // }
 
         private AffiseInitProperties GetInitProperties()
         {
@@ -102,8 +102,8 @@ namespace AffiseAttributionLib.Settings
                 partParamNameToken: _partParamNameToken,
                 appToken: _appToken,
                 isProduction: _isProduction,
-                enabledMetrics: _enabledMetrics,
-                autoCatchingClickEvents: _autoCatchingClickEvents,
+                // enabledMetrics: _enabledMetrics,
+                // autoCatchingClickEvents: _autoCatchingClickEvents,
                 domain: _domain
             );
         }

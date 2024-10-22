@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.6.26] - 2024-10-22
+
+### Changed
+
+- Update native Android to [`1.6.47`](https://github.com/affise/sdk-android/blob/v1.6.47/CHANGELOG.md).
+
+### Removed
+
+- Api `SetEnabledMetrics`.
+- Api `SetAutoCatchingTypes`.
+
 ## [1.6.25] - 2024-10-15
 
 ### Fixed
@@ -92,7 +103,7 @@
 ### Added
 
 - Event api `SendNow`.
-- Affise `internal` library group callback support.
+- Affise `Internal` library group callback support.
 
 ### Removed
 
@@ -148,6 +159,7 @@
 - Update native iOS to `1.6.20`.
 - Update native Android to `1.6.22`.
   
+[1.6.26]: https://github.com/affise/sdk-unity/compare/1.6.25...1.6.26
 [1.6.25]: https://github.com/affise/sdk-unity/compare/1.6.24...1.6.25
 [1.6.24]: https://github.com/affise/sdk-unity/compare/1.6.23...1.6.24
 [1.6.23]: https://github.com/affise/sdk-unity/compare/1.6.22...1.6.23

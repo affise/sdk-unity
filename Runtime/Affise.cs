@@ -303,14 +303,14 @@ namespace AffiseAttributionLib
             /**
              * Send enabled autoCatching [types]
              */
-            public static void SetAutoCatchingTypes(List<AutoCatchingType> types)
-            {
-#if (UNITY_ANDROID) && !UNITY_EDITOR
-                _native?.SetAutoCatchingTypes(types);
-#else
-                UnityEngine.Debug.LogWarning($"{NotSupported} - SetAutoCatchingTypes");
-#endif
-            }
+//             public static void SetAutoCatchingTypes(List<AutoCatchingType> types)
+//             {
+// #if (UNITY_ANDROID) && !UNITY_EDITOR
+//                 _native?.SetAutoCatchingTypes(types);
+// #else
+//                 UnityEngine.Debug.LogWarning($"{NotSupported} - SetAutoCatchingTypes");
+// #endif
+//             }
 
             /**
              * Erases all user data
@@ -327,14 +327,14 @@ namespace AffiseAttributionLib
             /**
              * Set [enabled] to collect metrics
              */
-            public static void SetEnabledMetrics(bool enabled)
-            {
-#if (UNITY_ANDROID) && !UNITY_EDITOR
-                _native?.SetEnabledMetrics(enabled);
-#else
-                UnityEngine.Debug.LogWarning($"{NotSupported} - SetEnabledMetrics");
-#endif
-            }
+//             public static void SetEnabledMetrics(bool enabled)
+//             {
+// #if (UNITY_ANDROID) && !UNITY_EDITOR
+//                 _native?.SetEnabledMetrics(enabled);
+// #else
+//                 UnityEngine.Debug.LogWarning($"{NotSupported} - SetEnabledMetrics");
+// #endif
+//             }
 
             public static void CrashApplication()
             {

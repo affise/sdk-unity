@@ -20,9 +20,9 @@ namespace AffiseAttributionLib.Init
 
         public bool IsProduction { get; }
         
-        public bool EnabledMetrics { get; }
+        // public bool EnabledMetrics { get; }
 
-        public List<AutoCatchingType> AutoCatchingClickEvents { get; } = new();
+        // public List<AutoCatchingType> AutoCatchingClickEvents { get; } = new();
         
         public string? Domain { get; }
 
@@ -37,8 +37,8 @@ namespace AffiseAttributionLib.Init
             partParamName: null,
             partParamNameToken: null,
             appToken: null,
-            enabledMetrics: false,
-            autoCatchingClickEvents: null,
+            // enabledMetrics: false,
+            // autoCatchingClickEvents: null,
             domain: null
         )
         {
@@ -51,8 +51,8 @@ namespace AffiseAttributionLib.Init
             string? partParamNameToken = null,
             string? appToken = null,
             bool isProduction = true,
-            bool enabledMetrics = false,
-            List<AutoCatchingType>? autoCatchingClickEvents = null,
+            // bool enabledMetrics = false,
+            // List<AutoCatchingType>? autoCatchingClickEvents = null,
             string? domain = null
         )
         {
@@ -60,7 +60,7 @@ namespace AffiseAttributionLib.Init
             SecretKey = secretKey;
 
             IsProduction = isProduction;
-            EnabledMetrics = enabledMetrics;
+            // EnabledMetrics = enabledMetrics;
             
             if (!string.IsNullOrWhiteSpace(partParamName))
             {
@@ -83,7 +83,7 @@ namespace AffiseAttributionLib.Init
                 CloudConfig.SetupDomain(domain);
             }
             
-            AutoCatchingClickEvents = autoCatchingClickEvents ?? new List<AutoCatchingType>();
+            // AutoCatchingClickEvents = autoCatchingClickEvents ?? new List<AutoCatchingType>();
         }
 
         private AffiseInitProperties(AffiseInitProperties props)
@@ -94,8 +94,8 @@ namespace AffiseAttributionLib.Init
             PartParamName = props.PartParamName;
             PartParamNameToken = props.PartParamNameToken;
             AppToken = props.AppToken;
-            EnabledMetrics = props.EnabledMetrics;
-            AutoCatchingClickEvents = props.AutoCatchingClickEvents;
+            // EnabledMetrics = props.EnabledMetrics;
+            // AutoCatchingClickEvents = props.AutoCatchingClickEvents;
             Domain = props.Domain;
         }
 
@@ -110,8 +110,8 @@ namespace AffiseAttributionLib.Init
                 ["partParamNameToken"] = PartParamNameToken,
                 ["appToken"] = AppToken,
                 ["secretKey"] = SecretKey,
-                ["enabledMetrics"] = EnabledMetrics,
-                ["autoCatchingClickEvents"] = AutoCatchingClickEvents.ToJsonArray(),
+                // ["enabledMetrics"] = EnabledMetrics,
+                // ["autoCatchingClickEvents"] = AutoCatchingClickEvents.ToJsonArray(),
                 ["domain"] = Domain,
             };
     }
