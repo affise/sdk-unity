@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.6.27] - 2024-11-26
+
+### Added
+
+- New module `RuStore`.
+
+### Fixed
+
+- Fix event writing to storage exception.
+
+### Changed
+
+- Update native Android to [`1.6.49`](https://github.com/affise/sdk-android/blob/v1.6.49/CHANGELOG.md).
+
 ## [1.6.26] - 2024-10-22
 
 ### Changed
@@ -159,6 +173,7 @@
 - Update native iOS to `1.6.20`.
 - Update native Android to `1.6.22`.
   
+[1.6.27]: https://github.com/affise/sdk-unity/compare/1.6.26...1.6.27
 [1.6.26]: https://github.com/affise/sdk-unity/compare/1.6.25...1.6.26
 [1.6.25]: https://github.com/affise/sdk-unity/compare/1.6.24...1.6.25
 [1.6.24]: https://github.com/affise/sdk-unity/compare/1.6.23...1.6.24

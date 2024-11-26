@@ -4,7 +4,7 @@
 
 | Artifact      | Version               |
 |---------------|-----------------------|
-| `attribution` | [`1.6.26`](/releases/tag/1.6.26) |
+| `attribution` | [`1.6.27`](/releases/tag/1.6.27) |
 
 - [Affise Unity package](#affise-unity-package)
 - [Description](#description)
@@ -99,7 +99,7 @@ Add package from git url `https://github.com/affise/sdk-unity.git`
 
 ### Integrate unitypackage file
 
-Download latest Affise SDK [`attribution-1.6.26.unitypackage`](https://github.com/affise/sdk-unity/releases/download/1.6.26/attribution-1.6.26.unitypackage)
+Download latest Affise SDK [`attribution-1.6.27.unitypackage`](https://github.com/affise/sdk-unity/releases/download/1.6.27/attribution-1.6.27.unitypackage)
 from [releases page](https://github.com/affise/sdk-unity/releases) and drop this file to unity editor
 
 ### Initialize
@@ -240,11 +240,13 @@ All affise modules is updated automatically on build
 | `Network`     | [![module-network](https://img.shields.io/maven-central/v/com.affise/module-network?label=latest)](https://mvnrepository.com/artifact/com.affise/module-network)             | `Auto` |
 | `Phone`       | [![module-phone](https://img.shields.io/maven-central/v/com.affise/module-phone?label=latest)](https://mvnrepository.com/artifact/com.affise/module-phone)                   | `Auto` |
 | `Status`      | [![module-status](https://img.shields.io/maven-central/v/com.affise/module-status?label=latest)](https://mvnrepository.com/artifact/com.affise/module-status)                | `Auto` |
+| `Subscription`      | [![module-status](https://img.shields.io/maven-central/v/com.affise/module-subscription?label=latest)](https://mvnrepository.com/artifact/com.affise/module-subscription)                | `Auto` |
+| `RuStore`      | [![module-rustore](https://img.shields.io/maven-central/v/com.affise/module-rustore?label=latest)](https://mvnrepository.com/artifact/com.affise/module-rustore)                | `Auto` |
 
 Dependencies located in Android project gradle file `build.gradle`
 
 ```gradle
-final affise_version = '1.6.47'
+final affise_version = '1.6.49'
 
 dependencies {
     // ...
@@ -256,6 +258,7 @@ dependencies {
     implementation "com.affise:module-phone:$affise_version"
     implementation "com.affise:module-status:$affise_version"
     implementation "com.affise:module-subscription:$affise_version"
+    // implementation "com.affise:module-rustore:$affise_version"
 }
 ```
 
@@ -272,6 +275,7 @@ All affise modules is updated automatically on build
 | `Advertising` | [`1.6.42`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Manual` |
 | `Link`        | [`1.6.42`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
 | `Status`      | [`1.6.42`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
+| `Subscription` | [`1.6.42`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
 
 Dependencies located in XCode project folder `Podfile`
 
@@ -282,9 +286,10 @@ target 'UnityFramework' do
   pod 'AffiseInternal', '1.6.42'
 
   # Affise Modules
-  pod 'AffiseModule/Advertising', `1.6.42`
-  pod 'AffiseModule/Link', '~> 1.6.42'
-  pod 'AffiseModule/Status', `1.6.42`
+  pod 'AffiseModule/Advertising', '1.6.42'
+  pod 'AffiseModule/Link', '1.6.42'
+  pod 'AffiseModule/Status', '1.6.42'
+  pod 'AffiseModule/Subscription', '1.6.42'
 end
 
 target 'Unity-iPhone' do
@@ -1168,6 +1173,8 @@ Affise.IsFirstRun();
 
 Use the next public method of SDK to get referrer
 
+> To get Install referrer by installing from `Android` `RuStore` include module [`RuStore`](#modules)
+
 ```C#
 Affise.GetReferrerUrl(referrer => {
     // handle referrer
@@ -1177,6 +1184,8 @@ Affise.GetReferrerUrl(referrer => {
 ## Get referrer value
 
 Use the next public method of SDK to get referrer value by
+
+> To get Install referrer by installing from `Android` `RuStore` include module [`RuStore`](#modules)
 
 ```C#
 Affise.GetReferrerUrlValue(ReferrerKey.CLICK_ID, referrer => {

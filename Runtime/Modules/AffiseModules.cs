@@ -12,6 +12,7 @@ namespace AffiseAttributionLib.Modules
         Phone,
         Status,
         Subscription,
+        RuStore,
     }
     
     internal static class AffiseModulesExt
@@ -27,6 +28,7 @@ namespace AffiseAttributionLib.Modules
                 AffiseModules.Phone => "Phone",
                 AffiseModules.Status => "Status",
                 AffiseModules.Subscription => "Subscription",
+                AffiseModules.RuStore => "RuStore",
                 _ => ""
             };
         }

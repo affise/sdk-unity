@@ -3,7 +3,7 @@
     "name": "Advertising",
     "android": {
       "module": "com.affise:module-advertising",
-      "version": "1.6.45"
+      "version": "1.6.49"
     },
     "ios": {
       "module": "AffiseModule/Advertising",
@@ -14,14 +14,14 @@
     "name": "AndroidId",
     "android": {
       "module": "com.affise:module-androidid",
-      "version": "1.6.45"
+      "version": "1.6.49"
     }
   },
   {
     "name": "Link",
     "android": {
       "module": "com.affise:module-link",
-      "version": "1.6.45"
+      "version": "1.6.49"
     },
     "ios": {
       "module": "AffiseModule/Link",
@@ -32,7 +32,7 @@
     "name": "Status",
     "android": {
       "module": "com.affise:module-status",
-      "version": "1.6.45"
+      "version": "1.6.49"
     },
     "ios": {
       "module": "AffiseModule/Status",
@@ -43,7 +43,7 @@
     "name": "Subscription",
     "android": {
       "module": "com.affise:module-subscription",
-      "version": "1.6.45"
+      "version": "1.6.49"
     },
     "ios": {
       "module": "AffiseModule/Subscription",
@@ -54,14 +54,21 @@
     "name": "Network",
     "android": {
       "module": "com.affise:module-network",
-      "version": "1.6.45"
+      "version": "1.6.49"
     }
   },
   {
     "name": "Phone",
     "android": {
       "module": "com.affise:module-phone",
-      "version": "1.6.45"
+      "version": "1.6.49"
+    }
+  },
+  {
+    "name": "RuStore",
+    "android": {
+      "module": "com.affise:module-rustore",
+      "version": "1.6.49"
     }
   }
 ]
