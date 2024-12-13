@@ -13,6 +13,7 @@ namespace AffiseAttributionLib.Modules
         Status,
         Subscription,
         RuStore,
+        Huawei,
     }
     
     internal static class AffiseModulesExt
@@ -29,6 +30,7 @@ namespace AffiseAttributionLib.Modules
                 AffiseModules.Status => "Status",
                 AffiseModules.Subscription => "Subscription",
                 AffiseModules.RuStore => "RuStore",
+                AffiseModules.Huawei => "Huawei",
                 _ => ""
             };
         }

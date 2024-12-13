@@ -4,7 +4,7 @@
 
 | Artifact      | Version               |
 |---------------|-----------------------|
-| `attribution` | [`1.6.27`](/releases/tag/1.6.27) |
+| `attribution` | [`1.6.28`](/releases/tag/1.6.28) |
 
 - [Affise Unity package](#affise-unity-package)
 - [Description](#description)
@@ -99,7 +99,7 @@ Add package from git url `https://github.com/affise/sdk-unity.git`
 
 ### Integrate unitypackage file
 
-Download latest Affise SDK [`attribution-1.6.27.unitypackage`](https://github.com/affise/sdk-unity/releases/download/1.6.27/attribution-1.6.27.unitypackage)
+Download latest Affise SDK [`attribution-1.6.28.unitypackage`](https://github.com/affise/sdk-unity/releases/download/1.6.28/attribution-1.6.28.unitypackage)
 from [releases page](https://github.com/affise/sdk-unity/releases) and drop this file to unity editor
 
 ### Initialize
@@ -242,11 +242,12 @@ All affise modules is updated automatically on build
 | `Status`      | [![module-status](https://img.shields.io/maven-central/v/com.affise/module-status?label=latest)](https://mvnrepository.com/artifact/com.affise/module-status)                | `Auto` |
 | `Subscription`      | [![module-status](https://img.shields.io/maven-central/v/com.affise/module-subscription?label=latest)](https://mvnrepository.com/artifact/com.affise/module-subscription)                | `Auto` |
 | `RuStore`      | [![module-rustore](https://img.shields.io/maven-central/v/com.affise/module-rustore?label=latest)](https://mvnrepository.com/artifact/com.affise/module-rustore)                | `Auto` |
+| `Huawei`      | [![module-rustore](https://img.shields.io/maven-central/v/com.affise/module-huawei?label=latest)](https://mvnrepository.com/artifact/com.affise/module-huawei)                | `Auto` |
 
 Dependencies located in Android project gradle file `build.gradle`
 
 ```gradle
-final affise_version = '1.6.49'
+final affise_version = '1.6.50'
 
 dependencies {
     // ...
@@ -259,6 +260,7 @@ dependencies {
     implementation "com.affise:module-status:$affise_version"
     implementation "com.affise:module-subscription:$affise_version"
     // implementation "com.affise:module-rustore:$affise_version"
+    // implementation "com.affise:module-huawei:$affise_version"
 }
 ```
 
@@ -1175,6 +1177,8 @@ Use the next public method of SDK to get referrer
 
 > To get Install referrer by installing from `Android` `RuStore` include module [`RuStore`](#modules)
 
+> To get Install referrer by installing from `Android` `AppGallery` include module [`Huawei`](#modules)
+
 ```C#
 Affise.GetReferrerUrl(referrer => {
     // handle referrer
@@ -1186,6 +1190,8 @@ Affise.GetReferrerUrl(referrer => {
 Use the next public method of SDK to get referrer value by
 
 > To get Install referrer by installing from `Android` `RuStore` include module [`RuStore`](#modules)
+
+> To get Install referrer by installing from `Android` `AppGallery` include module [`Huawei`](#modules)
 
 ```C#
 Affise.GetReferrerUrlValue(ReferrerKey.CLICK_ID, referrer => {
@@ -1199,7 +1205,7 @@ Affise.GetReferrerUrlValue(ReferrerKey.CLICK_ID, referrer => {
 
 > **Note**
 >
-> Requires [Affise Status Module](#modules) for [ios](#ios-1)
+> Requires [`Affise Status Module`](#modules) for [iOS](#ios-1)
 
 Use the next public method of SDK
 
@@ -1215,7 +1221,7 @@ Affise.IOS.GetReferrerOnServer(referrer => {
 
 > **Note**
 >
-> Requires [Affise Status Module](#modules) for [ios](#ios)
+> Requires [`Affise Status Module`](#modules) for [iOS](#ios)
 
 Use the next public method of SDK to get referrer parameter by
 
