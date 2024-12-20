@@ -244,7 +244,7 @@ namespace AffiseAttributionLib.Editor.SettingsProviders
             TabAdd("tab3", "tab-view3");
             TabDefault(0);
 
-            _moduleList = new ModuleList(AffiseEditorConfig.GetModules());
+            _moduleList = new ModuleList(AffiseEditorConfig.GetModules(), ModulesData.GetModulesComment());
             _moduleList?.RegisterValueChangedCallback(OnModuleChange);
 
             var modulesView = _root.Q<Foldout>("modules-view");

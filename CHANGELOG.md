@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.6.29] - 2024-12-20
+
+### Changed
+
+- Affise modules improvements
+
 ## [1.6.28] - 2024-12-13
 
 ### Added
@@ -183,6 +189,7 @@
 - Update native iOS to `1.6.20`.
 - Update native Android to `1.6.22`.
   
+[1.6.29]: https://github.com/affise/sdk-unity/compare/1.6.28...1.6.29
 [1.6.28]: https://github.com/affise/sdk-unity/compare/1.6.27...1.6.28
 [1.6.27]: https://github.com/affise/sdk-unity/compare/1.6.26...1.6.27
 [1.6.26]: https://github.com/affise/sdk-unity/compare/1.6.25...1.6.26

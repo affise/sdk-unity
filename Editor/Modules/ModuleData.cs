@@ -9,9 +9,13 @@ namespace AffiseAttributionLib.Editor.Modules
 
         public string Version = "";
         
+        public string? Comment = null;
+        
+        public bool Enabled = true;
+        
         public override string ToString()
         {
-            return $"name={Module}; version={Version};";
+            return $"name={Module}; version={Version}; enabled={Enabled}; comment={Comment};";
         }
     }
 }

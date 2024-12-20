@@ -1,4 +1,4 @@
-name: Publish
+name: 🏗️ Publish
 run-name: Publish ${{ github.ref_name }}
 
 on:

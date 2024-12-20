@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using AffiseAttributionLib.Editor.Extensions;
 using AffiseAttributionLib.Editor.Ui;
-using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace AffiseAttributionLib.Editor.Elements
@@ -31,11 +30,17 @@ namespace AffiseAttributionLib.Editor.Elements
 
         #endregion UXML
 
-        public ModuleList() : this(new List<Modules.Module>())
+        public ModuleList() : this(
+            new List<Modules.Module>(),
+            new Dictionary<string, string?>()
+        )
         {
         }
 
-        public ModuleList(IEnumerable<Modules.Module> modules)
+        public ModuleList(
+            IEnumerable<Modules.Module> modules,
+            IReadOnlyDictionary<string, string?> comments
+        )
         {
             UI.Get(nameof(ModuleList)).ToRoot(this);
             var modulesView = this.Q<VisualElement>("modules");
@@ -44,6 +49,10 @@ namespace AffiseAttributionLib.Editor.Elements
 
             foreach (var module in value)
             {
+                if (comments.ContainsKey(module.name))
+                { 
+                    module.tooltip = comments[module.name];
+                }
                 var moduleElement = new ModuleElement(module);
                 moduleElement.RegisterValueChangedCallback(OnChangeVal);
                 modulesView.Add(moduleElement);

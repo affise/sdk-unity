@@ -1,81 +1,116 @@
 ﻿[
   {
     "name": "Advertising",
+    "comment": "Advertising Module",
     "android": {
+      "comment": "- ProviderType.GAID_ADID_MD5\n- ProviderType.GAID_ADID\n- ProviderType.AD_PERSONALIZATION\n- ProviderType.OAID_MD5\n- ProviderType.OAID",
       "module": "com.affise:module-advertising",
-      "version": "1.6.50"
+      "version": "1.6.50",
+      "enabled": true
     },
     "ios": {
+      "comment": "- ProviderType.ADID",
       "module": "AffiseModule/Advertising",
-      "version": "1.6.42"
+      "version": "1.6.42",
+      "enabled": true
     }
   },
   {
     "name": "AndroidId",
+    "comment": "AndroidId Module",
     "android": {
+      "comment": "- ProviderType.ANDROID_ID\n- ProviderType.ANDROID_ID_MD5\n\nANDROID_ID - 64-bit unique identifier generated when the user first sets up the device",
       "module": "com.affise:module-androidid",
-      "version": "1.6.50"
+      "version": "1.6.50",
+      "enabled": true
     }
   },
   {
     "name": "Link",
+    "comment": "Link Module\n\n- Affise.Module.LinkResolve()",
     "android": {
+      "comment": "",
       "module": "com.affise:module-link",
-      "version": "1.6.50"
+      "version": "1.6.50",
+      "enabled": true
     },
     "ios": {
+      "comment": "",
       "module": "AffiseModule/Link",
-      "version": "1.6.42"
+      "version": "1.6.42",
+      "enabled": true
     }
   },
   {
     "name": "Status",
+    "comment": "Status Module\n\n- Affise.Module.GetStatus()",
     "android": {
+      "comment": "",
       "module": "com.affise:module-status",
-      "version": "1.6.50"
+      "version": "1.6.50",
+      "enabled": true
     },
     "ios": {
+      "comment": "",
       "module": "AffiseModule/Status",
-      "version": "1.6.42"
+      "version": "1.6.42",
+      "enabled": true
     }
   },
   {
     "name": "Subscription",
+    "comment": "Subscription Module\n\n- Affise.Module.FetchProducts()\n- Affise.Module.Purchase()",
     "android": {
+      "comment": "",
       "module": "com.affise:module-subscription",
-      "version": "1.6.50"
+      "version": "1.6.50",
+      "enabled": true
     },
     "ios": {
+      "comment": "",
       "module": "AffiseModule/Subscription",
-      "version": "1.6.42"
+      "version": "1.6.42",
+      "enabled": true
     }
   },
   {
     "name": "Network",
+    "comment": "Network Module",
     "android": {
+      "comment": "- ProviderType.CONNECTION_TYPE\n- ProviderType.MAC_MD5\n- ProviderType.MAC_SHA1\n- ProviderType.PROXY_IP_ADDRESS",
       "module": "com.affise:module-network",
-      "version": "1.6.50"
+      "version": "1.6.50",
+      "enabled": true
     }
   },
   {
     "name": "Phone",
+    "comment": "Phone Module",
     "android": {
+      "comment": "- ProviderType.ISP\n- ProviderType.NETWORK_TYPE",
       "module": "com.affise:module-phone",
-      "version": "1.6.50"
+      "version": "1.6.50",
+      "enabled": true
     }
   },
   {
     "name": "RuStore",
+    "comment": "RuStore Module\n\n- Affise.GetReferrerUrl()\n- Affise.GetReferrerUrlValue()",
     "android": {
+      "comment": "RuStore wrapper\n- install referrer",
       "module": "com.affise:module-rustore",
-      "version": "1.6.50"
+      "version": "1.6.50",
+      "enabled": false
     }
   },
   {
     "name": "Huawei",
+    "comment": "Huawei Module\n\n- Affise.GetReferrerUrl()\n- Affise.GetReferrerUrlValue()",
     "android": {
+      "comment": "HUAWEI AppGallery wrapper\n- install referrer",
       "module": "com.affise:module-huawei",
-      "version": "1.6.50"
+      "version": "1.6.50",
+      "enabled": false
     }
   }
 ]

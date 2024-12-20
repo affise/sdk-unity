@@ -70,6 +70,7 @@ namespace AffiseAttributionLib.Editor.Elements
             _toggleAndroid = this.Q<Toggle>("android");
             _toggleIos = this.Q<Toggle>("ios");
 
+            this.tooltip = module.tooltip;
             _toggleAndroid.value = module.android;
             _toggleIos.value = module.ios;
 

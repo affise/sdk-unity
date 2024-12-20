@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace AffiseAttributionLib.Editor.Modules
 {
+    // Module data for settings file 
     [Serializable]
     internal class Module
     {
@@ -15,6 +16,8 @@ namespace AffiseAttributionLib.Editor.Modules
         [HideInInspector] public bool androidModule;
         [HideInInspector] public bool iosModule;
 
+        public string? tooltip = null;
+        
         public Module Copy(bool? androidEnabled = null, bool? iosEnabled = null)
         {
             return new Module
