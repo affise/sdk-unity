@@ -124,22 +124,22 @@ namespace AffiseAttributionLib.Native
             Native(AffiseApiMethod.CRASH_APPLICATION);
         }
 
-        public void GetReferrerUrl(ReferrerCallback callback)
+        public void GetReferrerUrl(OnReferrerCallback callback)
         {
             NativeCallbackOnce(AffiseApiMethod.GET_REFERRER_URL_CALLBACK, callback: callback);
         }
 
-        public void GetReferrerUrlValue(ReferrerKey key, ReferrerCallback callback)
+        public void GetReferrerUrlValue(ReferrerKey key, OnReferrerCallback callback)
         {
             NativeCallbackOnce(AffiseApiMethod.GET_REFERRER_URL_VALUE_CALLBACK, callback: callback, data: key.ToValue());
         }
 
-        public void GetReferrerOnServer(ReferrerCallback callback)
+        public void GetReferrerOnServer(OnReferrerCallback callback)
         {
             NativeCallbackOnce(AffiseApiMethod.GET_REFERRER_ON_SERVER_CALLBACK, callback: callback);
         }
 
-        public void GetReferrerOnServerValue(ReferrerKey key, ReferrerCallback callback)
+        public void GetReferrerOnServerValue(ReferrerKey key, OnReferrerCallback callback)
         {
             NativeCallbackOnce(AffiseApiMethod.GET_REFERRER_ON_SERVER_VALUE_CALLBACK, callback: callback, data: key.ToValue());
         }
@@ -292,16 +292,16 @@ namespace AffiseAttributionLib.Native
                     (callback as DeeplinkCallback)?.Invoke(DataMapper.ToDeeplinkValue(json));
                     break;
                 case AffiseApiMethod.GET_REFERRER_URL_CALLBACK:
-                    (callback as ReferrerCallback)?.Invoke(DataMapper.ToNonNullString(json));
+                    (callback as OnReferrerCallback)?.Invoke(DataMapper.ToStringOrNull(json));
                     break;
                 case AffiseApiMethod.GET_REFERRER_URL_VALUE_CALLBACK:
-                    (callback as ReferrerCallback)?.Invoke(DataMapper.ToNonNullString(json));
+                    (callback as OnReferrerCallback)?.Invoke(DataMapper.ToStringOrNull(json));
                     break;
                 case AffiseApiMethod.GET_REFERRER_ON_SERVER_CALLBACK:
-                    (callback as ReferrerCallback)?.Invoke(DataMapper.ToNonNullString(json));
+                    (callback as OnReferrerCallback)?.Invoke(DataMapper.ToStringOrNull(json));
                     break;
                 case AffiseApiMethod.GET_REFERRER_ON_SERVER_VALUE_CALLBACK:
-                    (callback as ReferrerCallback)?.Invoke(DataMapper.ToNonNullString(json));
+                    (callback as OnReferrerCallback)?.Invoke(DataMapper.ToStringOrNull(json));
                     break;
                 case AffiseApiMethod.SKAD_REGISTER_ERROR_CALLBACK:
                     (callback as ErrorCallback)?.Invoke(DataMapper.ToNonNullString(json));

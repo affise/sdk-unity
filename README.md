@@ -4,7 +4,7 @@
 
 | Artifact      | Version               |
 |---------------|-----------------------|
-| `attribution` | [`1.6.29`](/releases/tag/1.6.29) |
+| `attribution` | [`1.6.30`](/releases/tag/1.6.30) |
 
 - [Affise Unity package](#affise-unity-package)
 - [Description](#description)
@@ -99,7 +99,7 @@ Add package from git url `https://github.com/affise/sdk-unity.git`
 
 ### Integrate unitypackage file
 
-Download latest Affise SDK [`attribution-1.6.29.unitypackage`](https://github.com/affise/sdk-unity/releases/download/1.6.29/attribution-1.6.29.unitypackage)
+Download latest Affise SDK [`attribution-1.6.30.unitypackage`](https://github.com/affise/sdk-unity/releases/download/1.6.30/attribution-1.6.30.unitypackage)
 from [releases page](https://github.com/affise/sdk-unity/releases) and drop this file to unity editor
 
 ### Initialize
@@ -247,7 +247,7 @@ All affise modules is updated automatically on build
 Dependencies located in Android project gradle file `build.gradle`
 
 ```gradle
-final affise_version = '1.6.50'
+final affise_version = '1.6.51'
 
 dependencies {
     // ...
@@ -1201,32 +1201,28 @@ Affise.GetReferrerUrlValue(ReferrerKey.CLICK_ID, referrer => {
 
 ## Get referrer on server
 
-> `iOS Only`
-
 > **Note**
 >
-> Requires [`Affise Status Module`](#modules) for [iOS](#ios-1)
+> Requires [`Affise Status Module`](#modules)
 
 Use the next public method of SDK
 
 ```C#
-Affise.IOS.GetReferrerOnServer(referrer => {
+Affise.GetReferrerOnServer(referrer => {
     // handle referrer
 });
 ```
 
 ## Get referrer on server parameter
 
-> `iOS Only`
-
 > **Note**
 >
-> Requires [`Affise Status Module`](#modules) for [iOS](#ios)
+> Requires [`Affise Status Module`](#modules)
 
 Use the next public method of SDK to get referrer parameter by
 
 ```C#
-Affise.IOS.GetReferrerOnServerValue(ReferrerKey.CLICK_ID, referrer => {
+Affise.GetReferrerOnServerValue(ReferrerKey.CLICK_ID, referrer => {
     // handle referrer value
 });
 ```

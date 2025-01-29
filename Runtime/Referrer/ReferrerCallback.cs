@@ -1,4 +1,7 @@
 ﻿namespace AffiseAttributionLib.Referrer
 {
-    public delegate void ReferrerCallback(string value);
+    public interface ReferrerCallback
+    {
+        void GetReferrer(OnReferrerCallback callback);
+    }
 }

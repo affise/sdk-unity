@@ -69,11 +69,26 @@ namespace AffiseDemo
                     }
                 },
                 {
-                    "Get Referrer Url Value", () =>
+                    $"Get Referrer Url Value ({ReferrerValue})", () =>
                     {
                         // Get referrer parameter https://github.com/affise/sdk-unity#get-referrer-parameter
                         Affise.GetReferrerUrlValue(ToReferrer(ReferrerValue),
                             value => { Print($"GetReferrerValue: {ReferrerValue} = {value}"); });
+                    }
+                },
+                {
+                    "Get Referrer On Server", () =>
+                    {
+                        // Get referrer https://github.com/affise/sdk-unity#get-referrer-on-server
+                        Affise.GetReferrerOnServer(value => { Print($"GetReferrerOnServer: {value}"); });
+                    }
+                },
+                {
+                    $"Get Referrer On Server Value ({ReferrerValue})", () =>
+                    {
+                        // Get referrer parameter https://github.com/affise/sdk-unity#get-referrer-on-server-parameter
+                        Affise.GetReferrerOnServerValue(ToReferrer(ReferrerValue),
+                            value => { Print($"GetReferrerOnServerValue: {ReferrerValue} = {value}"); });
                     }
                 },
                 {
@@ -96,21 +111,6 @@ namespace AffiseDemo
                     }
                 },
 #if UNITY_IOS
-                {
-                    "iOS: Get Referrer On Server", () =>
-                    {
-                        // Get referrer https://github.com/affise/sdk-unity#get-referrer-on-server
-                        Affise.IOS.GetReferrerOnServer(value => { Print($"GetReferrerOnServer: {value}"); });
-                    }
-                },
-                {
-                    "iOS: Get Referrer On Server Value", () =>
-                    {
-                        // Get referrer parameter https://github.com/affise/sdk-unity#get-referrer-on-server-parameter
-                        Affise.IOS.GetReferrerOnServerValue(ToReferrer(ReferrerValue),
-                            value => { Print($"GetReferrerOnServerValue: {ReferrerValue} = {value}"); });
-                    }
-                },
                 {
                     "iOS: SKAd Register", () =>
                     {

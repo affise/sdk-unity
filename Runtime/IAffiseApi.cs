@@ -5,6 +5,7 @@ using AffiseAttributionLib.Deeplink;
 using AffiseAttributionLib.Events;
 using AffiseAttributionLib.Init;
 using AffiseAttributionLib.Modules;
+using AffiseAttributionLib.Referrer;
 using AffiseAttributionLib.Usecase;
 
 namespace AffiseAttributionLib
@@ -18,6 +19,7 @@ namespace AffiseAttributionLib
         public IInitPropertiesStorage InitPropertiesStorage { get; }
         public IDeeplinkManager DeeplinkManager { get; }
         public PostBackModelFactory PostBackModelFactory { get; }
+        public RetrieveReferrerOnServerUseCase RetrieveReferrerOnServerUseCase { get; }
         public AffiseModuleManager ModuleManager { get; }
         public IDebugNetworkUseCase DebugNetworkUseCase { get; }
         public IDebugValidateUseCase DebugValidateUseCase { get; }

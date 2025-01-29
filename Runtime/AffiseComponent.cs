@@ -13,6 +13,7 @@ using AffiseAttributionLib.Debugger.Network;
 using AffiseAttributionLib.Debugger.Validate;
 using AffiseAttributionLib.Deeplink;
 using AffiseAttributionLib.Modules;
+using AffiseAttributionLib.Referrer;
 using AffiseAttributionLib.Session;
 using AffiseAttributionLib.Storages;
 using AffiseAttributionLib.Usecase;
@@ -36,6 +37,8 @@ namespace AffiseAttributionLib
 
         public PostBackModelFactory PostBackModelFactory { get; }
 
+        public RetrieveReferrerOnServerUseCase RetrieveReferrerOnServerUseCase { get; }
+        
         public AffiseModuleManager ModuleManager { get; }
         
         public IDebugNetworkUseCase DebugNetworkUseCase { get; }
@@ -139,6 +142,10 @@ namespace AffiseAttributionLib
                     _httpClient,
                     _providersToJsonStringConverter
                 }
+            );
+
+            RetrieveReferrerOnServerUseCase = new RetrieveReferrerOnServerUseCase(
+                moduleManager: ModuleManager
             );
             
             DebugNetworkUseCase = new DebugNetworkUseCaseImpl(

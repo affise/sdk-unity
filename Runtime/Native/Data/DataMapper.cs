@@ -18,6 +18,11 @@ namespace AffiseAttributionLib.Native.Data
         {
             return json?.Value ?? "";
         }
+        
+        public static string? ToStringOrNull(JSONNode? json)
+        {
+            return json?.Value;
+        }
 
         public static List<AffiseKeyValue> ToAffiseKeyValueList(JSONNode? json)
         {

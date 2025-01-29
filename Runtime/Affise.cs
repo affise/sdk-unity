@@ -260,7 +260,7 @@ namespace AffiseAttributionLib
          * Get referrer
          */
         [Obsolete("Affise.GetReferrer is deprecated, please use Affise.GetReferrerUrl instead.")]
-        public static void GetReferrer(ReferrerCallback callback)
+        public static void GetReferrer(OnReferrerCallback callback)
         {
             GetReferrerUrl(callback);
         }
@@ -269,7 +269,7 @@ namespace AffiseAttributionLib
          * Get referrer value by key
          */
         [Obsolete("Affise.GetReferrerValue is deprecated, please use Affise.GetReferrerUrlValue instead.")]
-        public static void GetReferrerValue(ReferrerKey key, ReferrerCallback callback)
+        public static void GetReferrerValue(ReferrerKey key, OnReferrerCallback callback)
         {
             GetReferrerUrlValue(key, callback);
         }
@@ -277,7 +277,7 @@ namespace AffiseAttributionLib
         /**
          * Get referrer url
          */
-        public static void GetReferrerUrl(ReferrerCallback callback)
+        public static void GetReferrerUrl(OnReferrerCallback callback)
         {
 #if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
             _native?.GetReferrerUrl(callback);
@@ -289,7 +289,7 @@ namespace AffiseAttributionLib
         /**
          * Get referrer value by key
          */
-        public static void GetReferrerUrlValue(ReferrerKey key, ReferrerCallback callback)
+        public static void GetReferrerUrlValue(ReferrerKey key, OnReferrerCallback callback)
         {
 #if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
             _native?.GetReferrerUrlValue(key, callback);
@@ -298,6 +298,30 @@ namespace AffiseAttributionLib
 #endif
         }
         
+        /**
+         * Get referrer url
+         */
+        public static void GetReferrerOnServer(OnReferrerCallback callback)
+        {
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+            _native?.GetReferrerOnServer(callback);
+#else
+            _api?.RetrieveReferrerOnServerUseCase.GetReferrerOnServer(callback);
+#endif
+        }
+
+        /**
+         * Get referrer value by key
+         */
+        public static void GetReferrerOnServerValue(ReferrerKey key, OnReferrerCallback callback)
+        {
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+            _native?.GetReferrerOnServerValue(key, callback);
+#else
+            _api?.RetrieveReferrerOnServerUseCase.GetReferrerOnServerValue(key, callback);
+#endif
+        }
+
         public static class Android
         {
             /**
@@ -375,7 +399,8 @@ namespace AffiseAttributionLib
             /**
              * Get referrer url
              */
-            public static void GetReferrerOnServer(ReferrerCallback callback)
+            [Obsolete("Affise.IOS.GetReferrerOnServer is deprecated, please use Affise.GetReferrerOnServer instead.")]
+            public static void GetReferrerOnServer(OnReferrerCallback callback)
             {
 #if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
                 _native?.GetReferrerOnServer(callback);
@@ -387,7 +412,8 @@ namespace AffiseAttributionLib
             /**
              * Get referrer value by key
              */
-            public static void GetReferrerOnServerValue(ReferrerKey key, ReferrerCallback callback)
+            [Obsolete("Affise.IOS.GetReferrerOnServerValue is deprecated, please use Affise.GetReferrerOnServerValue instead.")]
+            public static void GetReferrerOnServerValue(ReferrerKey key, OnReferrerCallback callback)
             {
 #if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
                 _native?.GetReferrerOnServerValue(key, callback);
