@@ -81,6 +81,12 @@ namespace AffiseAttributionLib
         
         private readonly ProvidersToJsonStringConverter _providersToJsonStringConverter;
 
+        private readonly PostBackModelToJsonStringConverter _postBackModelToJsonStringConverter;
+        
+        private readonly EventToSerializedEventConverter _eventToSerializedEventConverter;
+        
+        private readonly IIndexUseCase _indexUseCase ;
+
         private readonly bool _isReady = false;
         
         public AffiseComponent(AffiseInitProperties initProperties)
@@ -98,6 +104,11 @@ namespace AffiseAttributionLib
             _activityCountProvider = new CurrentActiveActivityCountProviderImpl(_activityActionsManager);
             _sessionManager = new SessionManagerImpl(_activityCountProvider);
 
+            _indexUseCase = new IndexUseCaseImpl();
+            _postBackModelToJsonStringConverter = new PostBackModelToJsonStringConverter(
+                indexUseCase: _indexUseCase
+            );
+
             FirstAppOpenUseCase = new FirstAppOpenUseCase(_activityCountProvider);
             InitPropertiesStorage = new InitPropertiesStorageImpl();
             SetPropertiesWhenInitUseCase = new SetPropertiesWhenAppInitializedUseCaseImpl(InitPropertiesStorage);
@@ -114,7 +125,9 @@ namespace AffiseAttributionLib
             SetPropertiesWhenInitUseCase.Init(initProperties);
             _sessionManager.Init();
             
-            var _eventToSerializedEventConverter = new EventToSerializedEventConverter();
+            _eventToSerializedEventConverter = new EventToSerializedEventConverter(
+                indexUseCase: _indexUseCase
+            );
 
             _eventsStorage = new EventsStorageImpl(_logsManager);
             _eventsRepository = new EventsRepositoryImpl(
@@ -165,7 +178,7 @@ namespace AffiseAttributionLib
                 executorServiceProvider: new ExecutorServiceProviderImpl(),
                 httpClient: _httpClient,
                 userAgentProvider: PostBackModelFactory.GetProvider<UserAgentProvider>(),
-                postBackModelToJsonStringConverter: new PostBackModelToJsonStringConverter()
+                postBackModelToJsonStringConverter: _postBackModelToJsonStringConverter
             );
             
             _sendDataToServerUseCase = new SendDataToServerUseCaseImpl(
@@ -174,7 +187,8 @@ namespace AffiseAttributionLib
                 cloudRepository: _cloudRepository,
                 eventsRepository: _eventsRepository,
                 logsRepository: _logsRepository,
-                logsManager: _logsManager
+                logsManager: _logsManager,
+                firstAppOpenUseCase: FirstAppOpenUseCase
             );
 
             ImmediateSendToServerUseCase = new ImmediateSendToServerUseCaseImpl(

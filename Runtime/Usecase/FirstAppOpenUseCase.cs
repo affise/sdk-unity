@@ -1,4 +1,5 @@
-﻿using System;
+﻿#nullable enable
+using System;
 using AffiseAttributionLib.AffiseParameters;
 using AffiseAttributionLib.Session;
 using AffiseAttributionLib.Utils;
@@ -10,6 +11,7 @@ namespace AffiseAttributionLib.Usecase
     {
         private readonly ICurrentActiveActivityCountProvider _activityCountProvider;
         private bool _firstRun = false;
+        private bool _isFirstOpenValue = PrefUtils.GetBoolean(FIRST_OPENED, true);
 
         public FirstAppOpenUseCase(ICurrentActiveActivityCountProvider activityCountProvider)
         {
@@ -70,10 +72,16 @@ namespace AffiseAttributionLib.Usecase
          */
         public bool IsFirstOpen()
         {
-            var firstOpened = PrefUtils.GetBoolean(FIRST_OPENED, true);
-            if (!firstOpened) return false;
-            PrefUtils.SaveBoolean(FIRST_OPENED, false);
-            return true;
+            return _isFirstOpenValue;
+        }
+        
+        /**
+         * First open completed
+         */
+        public void CompleteFirstOpen()
+        {
+            _isFirstOpenValue = false;
+            PrefUtils.SaveBoolean(FIRST_OPENED, _isFirstOpenValue);
         }
 
         public bool IsFirstRun()

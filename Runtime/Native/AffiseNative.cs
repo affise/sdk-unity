@@ -1,6 +1,5 @@
 ﻿#nullable enable
 using System.Collections.Generic;
-using System.Threading;
 using AffiseAttributionLib.AffiseParameters;
 using AffiseAttributionLib.Converter;
 using AffiseAttributionLib.Debugger.Network;
@@ -15,13 +14,14 @@ using AffiseAttributionLib.Native.Data;
 using AffiseAttributionLib.Native.Utils;
 using AffiseAttributionLib.Referrer;
 using AffiseAttributionLib.SKAd;
+using AffiseAttributionLib.Usecase;
 using SimpleJSON;
 
 namespace AffiseAttributionLib.Native
 {
     internal class AffiseNative : NativeBase, IAffiseNative
     {
-        private readonly EventToSerializedEventConverter _converter = new();
+        private readonly EventToSerializedEventConverter _converter = new(new IndexUseCaseImpl());
 
         public AffiseNative(AffiseInitProperties initProperties)
         {

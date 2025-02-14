@@ -23,4 +23,18 @@ namespace AffiseAttributionLib.Network.Entity
             Logs = logs;
         }
     }
+
+    internal static class PostBackModelExt
+    {
+        public static PostBackModel AsFirstOpen(this PostBackModel model)
+        {
+            var parameters = model.Parameters;
+            parameters[ProviderType.INSTALL_FIRST_EVENT] = true;
+            return new PostBackModel(
+                parameters: parameters,
+                events: model.Events,
+                logs: model.Logs
+            );
+        }
+    }
 }

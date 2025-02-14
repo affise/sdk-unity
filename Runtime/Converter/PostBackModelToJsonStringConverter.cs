@@ -3,12 +3,20 @@ using System.Collections.Generic;
 using AffiseAttributionLib.AffiseParameters;
 using AffiseAttributionLib.Extensions;
 using AffiseAttributionLib.Network.Entity;
+using AffiseAttributionLib.Usecase;
 using SimpleJSON;
 
 namespace AffiseAttributionLib.Converter
 {
     public class PostBackModelToJsonStringConverter : IConverter<List<PostBackModel>, string>
     {
+        private readonly IIndexUseCase _indexUseCase;
+
+        public PostBackModelToJsonStringConverter(IIndexUseCase indexUseCase)
+        {
+            _indexUseCase = indexUseCase;
+        }
+
         private const string EVENTS_KEY = "events";
         private const string SDK_EVENTS_KEY = "sdk_events";
 
@@ -47,6 +55,8 @@ namespace AffiseAttributionLib.Converter
                 result.AddAny(parameter.Key.Provider(), parameter.Value);
             }
 
+            // PostBack index
+            result.Add(Parameters.UUID_INDEX_KEY, _indexUseCase.GetUuidIndex());
             result[Parameters.AFFISE_EVENTS_COUNT] = eventsArray.Count;
             result[EVENTS_KEY] = eventsArray;
             result[Parameters.AFFISE_SDK_EVENTS_COUNT] = logsArray.Count;

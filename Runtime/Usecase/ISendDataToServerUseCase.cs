@@ -2,6 +2,6 @@
 {
     internal interface ISendDataToServerUseCase
     {
-        void Send(bool withDelay = true);
+        void Send(bool withDelay = true, bool sendEmpty = true);
     }
 }

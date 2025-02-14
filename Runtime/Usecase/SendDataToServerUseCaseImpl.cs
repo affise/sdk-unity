@@ -23,6 +23,7 @@ namespace AffiseAttributionLib.Usecase
         private readonly IEventsRepository _eventsRepository;
         private readonly ILogsRepository _logsRepository;
         private readonly ILogsManager _logsManager;
+        private readonly FirstAppOpenUseCase _firstAppOpenUseCase;
 
         private readonly Dictionary<string, bool> _lockSend = CloudConfig.GetUrls().ToDictionary(
             key => key,
@@ -40,7 +41,8 @@ namespace AffiseAttributionLib.Usecase
             ICloudRepository cloudRepository,
             IEventsRepository eventsRepository,
             ILogsRepository logsRepository,
-            ILogsManager logsManager
+            ILogsManager logsManager,
+            FirstAppOpenUseCase firstAppOpenUseCase
         )
         {
             _executorServiceProvider = executorServiceProvider;
@@ -49,9 +51,10 @@ namespace AffiseAttributionLib.Usecase
             _eventsRepository = eventsRepository;
             _logsRepository = logsRepository;
             _logsManager = logsManager;
+            _firstAppOpenUseCase = firstAppOpenUseCase;
         }
 
-        public void Send(bool withDelay = true)
+        public void Send(bool withDelay = true, bool sendEmpty = true)
         {
             foreach (var url in CloudConfig.GetUrls())
             {
@@ -61,7 +64,7 @@ namespace AffiseAttributionLib.Usecase
 
                 if (withDelay)
                 {
-                    SendWithDelay(url, () =>
+                    SendWithDelay(url, sendEmpty, () =>
                     {
                         _lockSend[url] = false;
                         _attemptSend[url] = 0;
@@ -69,7 +72,7 @@ namespace AffiseAttributionLib.Usecase
                 }
                 else
                 {
-                    Send(url, () =>
+                    Send(url, sendEmpty, () =>
                     {
                         _lockSend[url] = false;
                         _attemptSend[url] = 0;
@@ -83,13 +86,21 @@ namespace AffiseAttributionLib.Usecase
             return _eventsRepository.HasEvents(url) || _logsRepository.HasLogs(url);
         }
 
-        private void Send(string url, Action onComplete)
+        private void Send(string url, bool sendEmpty, Action onComplete)
         {
             //Get events
             var events = _eventsRepository.GetEvents(url);
 
             //Get logs
             var logs = _logsRepository.GetLogs(url);
+
+            if (!sendEmpty && !(events.Count != 0 || logs.Count != 0))
+            {
+                // if flag sendEmpty is false and all array is empty
+                // don't send empty postback
+                onComplete.Invoke();
+                return;
+            }
 
             // Send data for single url
             _cloudRepository.Send(
@@ -104,10 +115,14 @@ namespace AffiseAttributionLib.Usecase
 
                         if (IsToSendWithDelay(url))
                         {
-                            SendWithDelay(url, onComplete);
+                            SendWithDelay(url, sendEmpty, onComplete);
                         }
                         else
                         {
+                            if (_firstAppOpenUseCase.IsFirstOpen()) {
+                                // Complete first open
+                                _firstAppOpenUseCase.CompleteFirstOpen();
+                            }
                             onComplete.Invoke();
                         }
                     }
@@ -124,25 +139,32 @@ namespace AffiseAttributionLib.Usecase
                             retry: true
                         ));
                         _attemptSend[url] += 1;
-                        SendWithDelay(url, onComplete);  
+                        SendWithDelay(url, sendEmpty, onComplete);  
                     }
                 }
             );
         }
 
-        private void SendWithDelay(string url, Action onComplete)
+        private void SendWithDelay(string url, bool sendEmpty, Action onComplete)
         {
             _executorServiceProvider.ExecuteWithDelay(TIME_DELAY_SENDING, () =>
             {
-                Send(url, onComplete);
+                Send(url, sendEmpty, onComplete);
             });
         }
 
         private List<PostBackModel> PostBackModelsData(List<SerializedEvent> events, List<SerializedLog> logs)
         {
+            var data = _postBackModelFactory.Create(events, logs);
+            // If first run
+            if (_firstAppOpenUseCase.IsFirstOpen())
+            {
+                data = data.AsFirstOpen();
+            }
+            
             return new List<PostBackModel>
             {
-                _postBackModelFactory.Create(events, logs)
+                data
             };
         }
 

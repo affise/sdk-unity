@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.6.31] - 2025-02-14
+
+### Added
+
+- New event index `affise_event_id_index`.
+- New postback index `uuid_index`.
+
+### Fixed
+
+- Fix `ProviderType.INSTALL_FIRST_EVENT`
+
+### Changed
+
+- Update native iOS to [`1.6.43`](https://github.com/affise/sdk-ios/blob/1.6.43/CHANGELOG.md).
+- Update native Android to [`1.6.52`](https://github.com/affise/sdk-android/blob/v1.6.52/CHANGELOG.md).
+
 ## [1.6.30] - 2025-01-29
 
 ### Added
@@ -200,6 +216,7 @@
 - Update native iOS to `1.6.20`.
 - Update native Android to `1.6.22`.
   
+[1.6.31]: https://github.com/affise/sdk-unity/compare/1.6.30...1.6.31
 [1.6.30]: https://github.com/affise/sdk-unity/compare/1.6.29...1.6.30
 [1.6.29]: https://github.com/affise/sdk-unity/compare/1.6.28...1.6.29
 [1.6.28]: https://github.com/affise/sdk-unity/compare/1.6.27...1.6.28
