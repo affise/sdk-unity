@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.6.32] - 2025-03-07
+
+### Added
+
+- New module `Persistent` for `iOS`.
+- Persistent `AFFISE_DEVICE_ID`.
+
+### Changed
+
+- Update native iOS to [`1.6.45`](https://github.com/affise/sdk-ios/blob/1.6.45/CHANGELOG.md).
+- Update native Android to [`1.6.53`](https://github.com/affise/sdk-android/blob/v1.6.53/CHANGELOG.md).
+
 ## [1.6.31] - 2025-02-14
 
 ### Added
@@ -216,6 +228,7 @@
 - Update native iOS to `1.6.20`.
 - Update native Android to `1.6.22`.
   
+[1.6.32]: https://github.com/affise/sdk-unity/compare/1.6.31...1.6.32
 [1.6.31]: https://github.com/affise/sdk-unity/compare/1.6.30...1.6.31
 [1.6.30]: https://github.com/affise/sdk-unity/compare/1.6.29...1.6.30
 [1.6.29]: https://github.com/affise/sdk-unity/compare/1.6.28...1.6.29

@@ -4,11 +4,12 @@
 
 | Artifact      | Version               |
 |---------------|-----------------------|
-| `attribution` | [`1.6.31`](/releases/tag/1.6.31) |
+| `attribution` | [`1.6.32`](/releases/tag/1.6.32) |
 
 - [Affise Unity package](#affise-unity-package)
 - [Description](#description)
   - [Quick start](#quick-start)
+    - [SDK compatibility](#sdk-compatibility)
   - [Integration](#integration)
     - [Integrate unity package](#integrate-unity-package)
     - [Integrate unitypackage file](#integrate-unitypackage-file)
@@ -85,6 +86,12 @@ referrer.
 
 ## Quick start
 
+### SDK compatibility
+
+- `Xcode`   `14.2+`  
+- `iOS`     `12+`
+- `Android` `21+`
+
 ## Integration
 
 ### Integrate unity package
@@ -99,7 +106,7 @@ Add package from git url `https://github.com/affise/sdk-unity.git`
 
 ### Integrate unitypackage file
 
-Download latest Affise SDK [`attribution-1.6.31.unitypackage`](https://github.com/affise/sdk-unity/releases/download/1.6.31/attribution-1.6.31.unitypackage)
+Download latest Affise SDK [`attribution-1.6.32.unitypackage`](https://github.com/affise/sdk-unity/releases/download/1.6.32/attribution-1.6.32.unitypackage)
 from [releases page](https://github.com/affise/sdk-unity/releases) and drop this file to unity editor
 
 ### Initialize
@@ -247,7 +254,7 @@ All affise modules is updated automatically on build
 Dependencies located in Android project gradle file `build.gradle`
 
 ```gradle
-final affise_version = '1.6.52'
+final affise_version = '1.6.53'
 
 dependencies {
     // ...
@@ -272,26 +279,28 @@ All affise modules is updated automatically on build
 >
 > **No manual editing is reqired**
 
-| Module        |                                       Version                                        | Start    |
-|---------------|:------------------------------------------------------------------------------------:|----------|
-| `Advertising` | [`1.6.43`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Manual` |
-| `Link`        | [`1.6.43`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
-| `Status`      | [`1.6.43`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
-| `Subscription` | [`1.6.43`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
+| Module         |                                       Version                                        | Start    |
+|----------------|:------------------------------------------------------------------------------------:|----------|
+| `Advertising`  | [`1.6.45`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Manual` |
+| `Link`         | [`1.6.45`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
+| `Persistent`   | [`1.6.45`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
+| `Status`       | [`1.6.45`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
+| `Subscription` | [`1.6.45`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
 
 Dependencies located in XCode project folder `Podfile`
 
 ```rb
-platform :ios, '11.0'
+platform :ios, '12.0'
 
 target 'UnityFramework' do
-  pod 'AffiseInternal', '1.6.43'
+  pod 'AffiseInternal', '1.6.45'
 
   # Affise Modules
-  pod 'AffiseModule/Advertising', '1.6.43'
-  pod 'AffiseModule/Link', '1.6.43'
-  pod 'AffiseModule/Status', '1.6.43'
-  pod 'AffiseModule/Subscription', '1.6.43'
+  pod 'AffiseModule/Advertising', '1.6.45'
+  pod 'AffiseModule/Link', '1.6.45'
+  pod 'AffiseModule/Persistent', '1.6.45'
+  pod 'AffiseModule/Status', '1.6.45'
+  pod 'AffiseModule/Subscription', '1.6.45'
 end
 
 target 'Unity-iPhone' do
@@ -426,10 +435,10 @@ Podfile:
 platform :ios, '11.0'
 
 target 'UnityFramework' do
-  pod 'AffiseInternal', '1.6.43'
+  pod 'AffiseInternal', '1.6.45'
 
   # Affise Modules
-  # pod 'AffiseModule', `1.6.43`
+  # pod 'AffiseModule', `1.6.45`
 end
 
 target 'Unity-iPhone' do
@@ -1140,6 +1149,14 @@ Affise.GetRandomUserId();
 ```
 
 ## Get random device Id
+
+> **Note**
+>
+> To make `device id` more persistent on application reinstall
+>
+> use [Affise `Persistent` Module](#modules) for `iOS`
+>
+> use [Affise `AndroidId` Module](#modules) for `Android`
 
 ```c#
 Affise.GetRandomDeviceId();

@@ -5,23 +5,23 @@
     "android": {
       "comment": "- ProviderType.GAID_ADID_MD5\n- ProviderType.GAID_ADID\n- ProviderType.AD_PERSONALIZATION\n- ProviderType.OAID_MD5\n- ProviderType.OAID",
       "module": "com.affise:module-advertising",
-      "version": "1.6.52",
+      "version": "1.6.53",
       "enabled": true
     },
     "ios": {
       "comment": "- ProviderType.ADID",
       "module": "AffiseModule/Advertising",
-      "version": "1.6.43",
+      "version": "1.6.45",
       "enabled": true
     }
   },
   {
     "name": "AndroidId",
-    "comment": "AndroidId Module",
+    "comment": "AndroidId Module\n\n- Persistent AFFISE_DEVICE_ID on reinstall",
     "android": {
       "comment": "- ProviderType.ANDROID_ID\n- ProviderType.ANDROID_ID_MD5\n\nANDROID_ID - 64-bit unique identifier generated when the user first sets up the device",
       "module": "com.affise:module-androidid",
-      "version": "1.6.52",
+      "version": "1.6.53",
       "enabled": true
     }
   },
@@ -31,13 +31,13 @@
     "android": {
       "comment": "",
       "module": "com.affise:module-link",
-      "version": "1.6.52",
+      "version": "1.6.53",
       "enabled": true
     },
     "ios": {
       "comment": "",
       "module": "AffiseModule/Link",
-      "version": "1.6.43",
+      "version": "1.6.45",
       "enabled": true
     }
   },
@@ -47,13 +47,13 @@
     "android": {
       "comment": "",
       "module": "com.affise:module-status",
-      "version": "1.6.52",
+      "version": "1.6.53",
       "enabled": true
     },
     "ios": {
       "comment": "",
       "module": "AffiseModule/Status",
-      "version": "1.6.43",
+      "version": "1.6.45",
       "enabled": true
     }
   },
@@ -63,13 +63,13 @@
     "android": {
       "comment": "",
       "module": "com.affise:module-subscription",
-      "version": "1.6.52",
+      "version": "1.6.53",
       "enabled": false
     },
     "ios": {
       "comment": "",
       "module": "AffiseModule/Subscription",
-      "version": "1.6.43",
+      "version": "1.6.45",
       "enabled": false
     }
   },
@@ -79,7 +79,7 @@
     "android": {
       "comment": "- ProviderType.CONNECTION_TYPE\n- ProviderType.MAC_MD5\n- ProviderType.MAC_SHA1\n- ProviderType.PROXY_IP_ADDRESS",
       "module": "com.affise:module-network",
-      "version": "1.6.52",
+      "version": "1.6.53",
       "enabled": true
     }
   },
@@ -89,8 +89,18 @@
     "android": {
       "comment": "- ProviderType.ISP\n- ProviderType.NETWORK_TYPE",
       "module": "com.affise:module-phone",
-      "version": "1.6.52",
+      "version": "1.6.53",
       "enabled": true
+    }
+  },
+  {
+    "name": "Persistent",
+    "comment": "Persistent Module\n\n- Persistent AFFISE_DEVICE_ID on reinstall",
+    "ios": {
+      "comment": "",
+      "module": "AffiseModule/Persistent",
+      "version": "1.6.45",
+      "enabled": false
     }
   },
   {
@@ -99,7 +109,7 @@
     "android": {
       "comment": "RuStore wrapper\n- install referrer",
       "module": "com.affise:module-rustore",
-      "version": "1.6.52",
+      "version": "1.6.53",
       "enabled": false
     }
   },
@@ -109,7 +119,7 @@
     "android": {
       "comment": "HUAWEI AppGallery wrapper\n- install referrer",
       "module": "com.affise:module-huawei",
-      "version": "1.6.52",
+      "version": "1.6.53",
       "enabled": false
     }
   }
