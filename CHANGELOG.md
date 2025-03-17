@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.6.33] - 2025-03-17
+
+### Changed
+
+- Update api `Affise.GetReferrerOnServer` moved to `Affise.GetDeferredDeeplink`.
+- Update api `Affise.GetReferrerOnServerValue` moved to `Affise.GetDeferredDeeplinkValue`.
+- Update native iOS to [`1.6.47`](https://github.com/affise/sdk-ios/blob/1.6.47/CHANGELOG.md).
+- Update native Android to [`1.6.54`](https://github.com/affise/sdk-android/blob/v1.6.54/CHANGELOG.md).
+
 ## [1.6.32] - 2025-03-07
 
 ### Added
@@ -228,6 +237,7 @@
 - Update native iOS to `1.6.20`.
 - Update native Android to `1.6.22`.
   
+[1.6.33]: https://github.com/affise/sdk-unity/compare/1.6.32...1.6.33
 [1.6.32]: https://github.com/affise/sdk-unity/compare/1.6.31...1.6.32
 [1.6.31]: https://github.com/affise/sdk-unity/compare/1.6.30...1.6.31
 [1.6.30]: https://github.com/affise/sdk-unity/compare/1.6.29...1.6.30

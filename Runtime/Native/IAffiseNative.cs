@@ -54,9 +54,9 @@ namespace AffiseAttributionLib.Native
 
         void GetReferrerUrlValue(ReferrerKey key, OnReferrerCallback callback);
         
-        void GetReferrerOnServer(OnReferrerCallback callback);
+        void GetDeferredDeeplink(OnReferrerCallback callback);
 
-        void GetReferrerOnServerValue(ReferrerKey key, OnReferrerCallback callback);
+        void GetDeferredDeeplinkValue(ReferrerKey key, OnReferrerCallback callback);
 
         string? GetRandomUserId();
 

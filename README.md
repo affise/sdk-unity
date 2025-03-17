@@ -4,7 +4,7 @@
 
 | Artifact      | Version               |
 |---------------|-----------------------|
-| `attribution` | [`1.6.32`](/releases/tag/1.6.32) |
+| `attribution` | [`1.6.33`](/releases/tag/1.6.33) |
 
 - [Affise Unity package](#affise-unity-package)
 - [Description](#description)
@@ -49,14 +49,16 @@
     - [PredefinedListString](#predefinedliststring)
   - [Events buffering](#events-buffering)
   - [Push token tracking](#push-token-tracking)
-  - [Deeplinks / Applink](#deeplinks--applink)
+  - [Links](#links)
     - [Config](#config)
-    - [Config Deeplink Manual](#config-deeplink-manual)
+    - [Deeplinks manual](#deeplinks-manual)
       - [Android](#android-1)
       - [iOS](#ios-4)
-    - [Config Applink Manual](#config-applink-manual)
+    - [Applinks manual](#applinks-manual)
       - [Android](#android-2)
       - [iOS](#ios-5)
+    - [Get deferred deeplink](#get-deferred-deeplink)
+    - [Get deferred deeplink value](#get-deferred-deeplink-value)
   - [Offline mode](#offline-mode)
   - [Disable tracking](#disable-tracking)
   - [Disable background tracking](#disable-background-tracking)
@@ -66,8 +68,6 @@
   - [Is first run](#is-first-run)
   - [Get referrer](#get-referrer)
   - [Get referrer value](#get-referrer-value)
-  - [Get referrer on server](#get-referrer-on-server)
-  - [Get referrer on server parameter](#get-referrer-on-server-parameter)
   - [Referrer keys](#referrer-keys)
   - [Get module state](#get-module-state)
   - [Platform specific](#platform-specific)
@@ -106,7 +106,7 @@ Add package from git url `https://github.com/affise/sdk-unity.git`
 
 ### Integrate unitypackage file
 
-Download latest Affise SDK [`attribution-1.6.32.unitypackage`](https://github.com/affise/sdk-unity/releases/download/1.6.32/attribution-1.6.32.unitypackage)
+Download latest Affise SDK [`attribution-1.6.33.unitypackage`](https://github.com/affise/sdk-unity/releases/download/1.6.33/attribution-1.6.33.unitypackage)
 from [releases page](https://github.com/affise/sdk-unity/releases) and drop this file to unity editor
 
 ### Initialize
@@ -254,7 +254,7 @@ All affise modules is updated automatically on build
 Dependencies located in Android project gradle file `build.gradle`
 
 ```gradle
-final affise_version = '1.6.53'
+final affise_version = '1.6.54'
 
 dependencies {
     // ...
@@ -281,11 +281,11 @@ All affise modules is updated automatically on build
 
 | Module         |                                       Version                                        | Start    |
 |----------------|:------------------------------------------------------------------------------------:|----------|
-| `Advertising`  | [`1.6.45`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Manual` |
-| `Link`         | [`1.6.45`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
-| `Persistent`   | [`1.6.45`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
-| `Status`       | [`1.6.45`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
-| `Subscription` | [`1.6.45`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
+| `Advertising`  | [`1.6.47`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Manual` |
+| `Link`         | [`1.6.47`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
+| `Persistent`   | [`1.6.47`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
+| `Status`       | [`1.6.47`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
+| `Subscription` | [`1.6.47`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
 
 Dependencies located in XCode project folder `Podfile`
 
@@ -293,14 +293,14 @@ Dependencies located in XCode project folder `Podfile`
 platform :ios, '12.0'
 
 target 'UnityFramework' do
-  pod 'AffiseInternal', '1.6.45'
+  pod 'AffiseInternal', '1.6.47'
 
   # Affise Modules
-  pod 'AffiseModule/Advertising', '1.6.45'
-  pod 'AffiseModule/Link', '1.6.45'
-  pod 'AffiseModule/Persistent', '1.6.45'
-  pod 'AffiseModule/Status', '1.6.45'
-  pod 'AffiseModule/Subscription', '1.6.45'
+  pod 'AffiseModule/Advertising', '1.6.47'
+  pod 'AffiseModule/Link', '1.6.47'
+  pod 'AffiseModule/Persistent', '1.6.47'
+  pod 'AffiseModule/Status', '1.6.47'
+  pod 'AffiseModule/Subscription', '1.6.47'
 end
 
 target 'Unity-iPhone' do
@@ -435,10 +435,10 @@ Podfile:
 platform :ios, '11.0'
 
 target 'UnityFramework' do
-  pod 'AffiseInternal', '1.6.45'
+  pod 'AffiseInternal', '1.6.47'
 
   # Affise Modules
-  # pod 'AffiseModule', `1.6.45`
+  # pod 'AffiseModule', `1.6.47`
 end
 
 target 'Unity-iPhone' do
@@ -870,7 +870,7 @@ First add firebase integration to your app completing these steps: Firebase [iOS
 Affise.AddPushToken(token);
 ```
 
-## Deeplinks / Applink
+## Links
 
 - Register deeplink callback right after `Affise.Settings(affiseAppId,secretKey).Start()`
 
@@ -922,7 +922,7 @@ On `Settings` tab add links
 >
 > 🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧🟧
 
-### Config Deeplink Manual
+### Deeplinks manual
 
 > **Warning**
 >
@@ -985,7 +985,7 @@ Example: `myapp://mydomain.com`
 </array>
 ```
 
-### Config Applink Manual
+### Applinks manual
 
 > **Warning**
 >
@@ -1085,6 +1085,34 @@ Example: `https://mydomain.com`
 <array>
     <string>applinks:YOUR_DOMAIN</string>
 </array>
+```
+
+### Get deferred deeplink
+
+> **Note**
+>
+> Requires [`Affise Status Module`](#modules)
+
+Use the next public method of SDK to get deferred deeplink from server
+
+```C#
+Affise.GetDeferredDeeplink(deferredDeeplink => {
+    // handle deferred deeplink
+});
+```
+
+### Get deferred deeplink value
+
+> **Note**
+>
+> Requires [`Affise Status Module`](#modules)
+
+Use the next public method of SDK to get deferred deeplink value from server
+
+```C#
+Affise.GetReferrerOnServerValue(ReferrerKey.CLICK_ID, deferredDeeplinkValue => {
+    // handle deferred deeplink value
+});
 ```
 
 ## Offline mode
@@ -1212,34 +1240,6 @@ Use the next public method of SDK to get referrer value by
 
 ```C#
 Affise.GetReferrerUrlValue(ReferrerKey.CLICK_ID, referrer => {
-    // handle referrer value
-});
-```
-
-## Get referrer on server
-
-> **Note**
->
-> Requires [`Affise Status Module`](#modules)
-
-Use the next public method of SDK
-
-```C#
-Affise.GetReferrerOnServer(referrer => {
-    // handle referrer
-});
-```
-
-## Get referrer on server parameter
-
-> **Note**
->
-> Requires [`Affise Status Module`](#modules)
-
-Use the next public method of SDK to get referrer parameter by
-
-```C#
-Affise.GetReferrerOnServerValue(ReferrerKey.CLICK_ID, referrer => {
     // handle referrer value
 });
 ```

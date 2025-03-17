@@ -134,14 +134,14 @@ namespace AffiseAttributionLib.Native
             NativeCallbackOnce(AffiseApiMethod.GET_REFERRER_URL_VALUE_CALLBACK, callback: callback, data: key.ToValue());
         }
 
-        public void GetReferrerOnServer(OnReferrerCallback callback)
+        public void GetDeferredDeeplink(OnReferrerCallback callback)
         {
-            NativeCallbackOnce(AffiseApiMethod.GET_REFERRER_ON_SERVER_CALLBACK, callback: callback);
+            NativeCallbackOnce(AffiseApiMethod.GET_DEFERRED_DEEPLINK_CALLBACK, callback: callback);
         }
 
-        public void GetReferrerOnServerValue(ReferrerKey key, OnReferrerCallback callback)
+        public void GetDeferredDeeplinkValue(ReferrerKey key, OnReferrerCallback callback)
         {
-            NativeCallbackOnce(AffiseApiMethod.GET_REFERRER_ON_SERVER_VALUE_CALLBACK, callback: callback, data: key.ToValue());
+            NativeCallbackOnce(AffiseApiMethod.GET_DEFERRED_DEEPLINK_VALUE_CALLBACK, callback: callback, data: key.ToValue());
         }
 
         public bool IsFirstRun()
@@ -297,10 +297,10 @@ namespace AffiseAttributionLib.Native
                 case AffiseApiMethod.GET_REFERRER_URL_VALUE_CALLBACK:
                     (callback as OnReferrerCallback)?.Invoke(DataMapper.ToStringOrNull(json));
                     break;
-                case AffiseApiMethod.GET_REFERRER_ON_SERVER_CALLBACK:
+                case AffiseApiMethod.GET_DEFERRED_DEEPLINK_CALLBACK:
                     (callback as OnReferrerCallback)?.Invoke(DataMapper.ToStringOrNull(json));
                     break;
-                case AffiseApiMethod.GET_REFERRER_ON_SERVER_VALUE_CALLBACK:
+                case AffiseApiMethod.GET_DEFERRED_DEEPLINK_VALUE_CALLBACK:
                     (callback as OnReferrerCallback)?.Invoke(DataMapper.ToStringOrNull(json));
                     break;
                 case AffiseApiMethod.SKAD_REGISTER_ERROR_CALLBACK:

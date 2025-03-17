@@ -301,10 +301,28 @@ namespace AffiseAttributionLib
         /**
          * Get referrer url
          */
+        [Obsolete("Affise.GetReferrerOnServer is deprecated, please use Affise.GetDeferredDeeplink instead.")]
         public static void GetReferrerOnServer(OnReferrerCallback callback)
         {
+            GetDeferredDeeplink(callback);
+        }
+
+        /**
+         * Get referrer value by key
+         */
+        [Obsolete("Affise.GetReferrerOnServerValue is deprecated, please use Affise.GetDeferredDeeplinkValue instead.")]
+        public static void GetReferrerOnServerValue(ReferrerKey key, OnReferrerCallback callback)
+        {
+            GetDeferredDeeplinkValue(key, callback);
+        }
+
+        /**
+         * Get referrer url
+         */
+        public static void GetDeferredDeeplink(OnReferrerCallback callback)
+        {
 #if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
-            _native?.GetReferrerOnServer(callback);
+            _native?.GetDeferredDeeplink(callback);
 #else
             _api?.RetrieveReferrerOnServerUseCase.GetReferrerOnServer(callback);
 #endif
@@ -313,10 +331,10 @@ namespace AffiseAttributionLib
         /**
          * Get referrer value by key
          */
-        public static void GetReferrerOnServerValue(ReferrerKey key, OnReferrerCallback callback)
+        public static void GetDeferredDeeplinkValue(ReferrerKey key, OnReferrerCallback callback)
         {
 #if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
-            _native?.GetReferrerOnServerValue(key, callback);
+            _native?.GetDeferredDeeplinkValue(key, callback);
 #else
             _api?.RetrieveReferrerOnServerUseCase.GetReferrerOnServerValue(key, callback);
 #endif

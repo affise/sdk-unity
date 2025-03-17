@@ -77,18 +77,18 @@ namespace AffiseDemo
                     }
                 },
                 {
-                    "Get Referrer On Server", () =>
+                    "Get Deferred Deeplink On Server", () =>
                     {
-                        // Get referrer https://github.com/affise/sdk-unity#get-referrer-on-server
-                        Affise.GetReferrerOnServer(value => { Print($"GetReferrerOnServer: {value}"); });
+                        // Get deferred deeplink https://github.com/affise/sdk-unity#get-deferred-deeplink
+                        Affise.GetDeferredDeeplink(value => { Print($"GetDeferredDeeplink: {value}"); });
                     }
                 },
                 {
-                    $"Get Referrer On Server Value ({ReferrerValue})", () =>
+                    $"Get Deferred Deeplink Value On Server ({ReferrerValue})", () =>
                     {
-                        // Get referrer parameter https://github.com/affise/sdk-unity#get-referrer-on-server-parameter
-                        Affise.GetReferrerOnServerValue(ToReferrer(ReferrerValue),
-                            value => { Print($"GetReferrerOnServerValue: {ReferrerValue} = {value}"); });
+                        // Get deferred deeplink value https://github.com/affise/sdk-unity#get-deferred-deeplink-value
+                        Affise.GetDeferredDeeplinkValue(ToReferrer(ReferrerValue),
+                            value => { Print($"GetDeferredDeeplinkValue: {ReferrerValue} = {value}"); });
                     }
                 },
                 {
