@@ -196,7 +196,7 @@ namespace AffiseAttributionLib
         /**
          * Get module status
          */
-        [Obsolete("Affise.GetStatus is deprecated, please use Affise.Module.GetStatus instead.")]
+        [Obsolete("use Affise.Module." + nameof(Affise.Module.GetStatus) + " instead.")]
         public static void GetStatus(AffiseModules module, OnKeyValueCallback onComplete)
         {
             Module.GetStatus(module, onComplete);
@@ -205,7 +205,7 @@ namespace AffiseAttributionLib
         /**
          * Manual module start
          */
-        [Obsolete("Affise.ModuleStart is deprecated, please use Affise.Module.ModuleStart instead.")]
+        [Obsolete("use Affise.Module." + nameof(Affise.Module.ModuleStart) + " instead.")]
         public static bool ModuleStart(AffiseModules module)
         {
             return Module.ModuleStart(module);
@@ -214,7 +214,7 @@ namespace AffiseAttributionLib
         /**
          * Get installed modules
          */
-        [Obsolete("Affise.GetModulesInstalled is deprecated, please use Affise.Module.GetModulesInstalled instead.")]
+        [Obsolete("use Affise.Module." + nameof(Affise.Module.GetModulesInstalled) + " instead.")]
         public static List<AffiseModules> GetModulesInstalled()
         {
             return Module.GetModulesInstalled();
@@ -259,7 +259,7 @@ namespace AffiseAttributionLib
         /**
          * Get referrer
          */
-        [Obsolete("Affise.GetReferrer is deprecated, please use Affise.GetReferrerUrl instead.")]
+        [Obsolete("use Affise." + nameof(Affise.GetReferrerUrl) + " instead.")]
         public static void GetReferrer(OnReferrerCallback callback)
         {
             GetReferrerUrl(callback);
@@ -268,7 +268,7 @@ namespace AffiseAttributionLib
         /**
          * Get referrer value by key
          */
-        [Obsolete("Affise.GetReferrerValue is deprecated, please use Affise.GetReferrerUrlValue instead.")]
+        [Obsolete("use Affise." + nameof(Affise.GetReferrerUrlValue) + " instead.")]
         public static void GetReferrerValue(ReferrerKey key, OnReferrerCallback callback)
         {
             GetReferrerUrlValue(key, callback);
@@ -301,7 +301,7 @@ namespace AffiseAttributionLib
         /**
          * Get referrer url
          */
-        [Obsolete("Affise.GetReferrerOnServer is deprecated, please use Affise.GetDeferredDeeplink instead.")]
+        [Obsolete("use Affise." + nameof(Affise.GetDeferredDeeplink) + " instead.")]
         public static void GetReferrerOnServer(OnReferrerCallback callback)
         {
             GetDeferredDeeplink(callback);
@@ -310,7 +310,7 @@ namespace AffiseAttributionLib
         /**
          * Get referrer value by key
          */
-        [Obsolete("Affise.GetReferrerOnServerValue is deprecated, please use Affise.GetDeferredDeeplinkValue instead.")]
+        [Obsolete("use Affise." + nameof(Affise.GetDeferredDeeplinkValue) + " instead.")]
         public static void GetReferrerOnServerValue(ReferrerKey key, OnReferrerCallback callback)
         {
             GetDeferredDeeplinkValue(key, callback);
@@ -417,27 +417,19 @@ namespace AffiseAttributionLib
             /**
              * Get referrer url
              */
-            [Obsolete("Affise.IOS.GetReferrerOnServer is deprecated, please use Affise.GetReferrerOnServer instead.")]
+            [Obsolete("use Affise." + nameof(Affise.GetDeferredDeeplink) + " instead.")]
             public static void GetReferrerOnServer(OnReferrerCallback callback)
             {
-#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
-                _native?.GetReferrerOnServer(callback);
-#else
-                callback.Invoke(NotSupported);
-#endif
+                GetDeferredDeeplink(callback);
             }
 
             /**
              * Get referrer value by key
              */
-            [Obsolete("Affise.IOS.GetReferrerOnServerValue is deprecated, please use Affise.GetReferrerOnServerValue instead.")]
+            [Obsolete("use Affise." + nameof(Affise.GetDeferredDeeplinkValue) + " instead.")]
             public static void GetReferrerOnServerValue(ReferrerKey key, OnReferrerCallback callback)
             {
-#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
-                _native?.GetReferrerOnServerValue(key, callback);
-#else
-                callback.Invoke(NotSupported);
-#endif
+                GetDeferredDeeplinkValue(key, callback);
             }
         }
 

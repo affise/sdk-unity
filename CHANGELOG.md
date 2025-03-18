@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.34] - 2025-03-18
+
+### Fixed
+
+- Fix `GetDeferredDeeplink`
+- Fix `GetDeferredDeeplinkValue`
+
 ## [1.6.33] - 2025-03-17
 
 ### Changed
@@ -237,6 +244,7 @@
 - Update native iOS to `1.6.20`.
 - Update native Android to `1.6.22`.
   
+[1.6.34]: https://github.com/affise/sdk-unity/compare/1.6.33...1.6.34
 [1.6.33]: https://github.com/affise/sdk-unity/compare/1.6.32...1.6.33
 [1.6.32]: https://github.com/affise/sdk-unity/compare/1.6.31...1.6.32
 [1.6.31]: https://github.com/affise/sdk-unity/compare/1.6.30...1.6.31
