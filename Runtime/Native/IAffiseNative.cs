@@ -69,10 +69,15 @@ namespace AffiseAttributionLib.Native
         void RegisterAppForAdNetworkAttribution(ErrorCallback completionHandler);
 
         void UpdatePostbackConversionValue(int fineValue, CoarseValue coarseValue, ErrorCallback completionHandler);
-
+        
+        ////////////////////////////////////////
+        // debug
+        ////////////////////////////////////////
         void Validate(DebugOnValidateCallback callback);
 
         void Network(DebugOnNetworkCallback callback);
+
+        string? VersionNative();
 
         ////////////////////////////////////////
         // modules

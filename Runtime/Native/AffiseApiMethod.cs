@@ -29,6 +29,8 @@ namespace AffiseAttributionLib.Native
         IS_FIRST_RUN,
 
         // callbacks
+        ON_INIT_SUCCESS_HANDLER,
+        ON_INIT_ERROR_HANDLER,
         GET_REFERRER_URL_CALLBACK,
         GET_REFERRER_URL_VALUE_CALLBACK,
         GET_DEFERRED_DEEPLINK_CALLBACK,
@@ -40,6 +42,7 @@ namespace AffiseAttributionLib.Native
         // debug
         DEBUG_VALIDATE_CALLBACK,
         DEBUG_NETWORK_CALLBACK,
+        DEBUG_VERSION_NATIVE,
         ////////////////////////////////////////
         // modules
         ////////////////////////////////////////
@@ -96,6 +99,8 @@ namespace AffiseAttributionLib.Native
                 AffiseApiMethod.GET_PROVIDERS => "get_providers",
                 AffiseApiMethod.IS_FIRST_RUN => "is_first_run",
                 // callbacks
+                AffiseApiMethod.ON_INIT_SUCCESS_HANDLER => "on_init_success_handler",
+                AffiseApiMethod.ON_INIT_ERROR_HANDLER => "on_init_error_handler",
                 AffiseApiMethod.GET_REFERRER_URL_CALLBACK => "get_referrer_url_callback",
                 AffiseApiMethod.GET_REFERRER_URL_VALUE_CALLBACK => "get_referrer_url_value_callback",
                 AffiseApiMethod.GET_DEFERRED_DEEPLINK_CALLBACK => "get_deferred_deeplink_callback",
@@ -106,6 +111,7 @@ namespace AffiseAttributionLib.Native
                 // debug
                 AffiseApiMethod.DEBUG_VALIDATE_CALLBACK => "debug_validate_callback",
                 AffiseApiMethod.DEBUG_NETWORK_CALLBACK => "debug_network_callback",
+                AffiseApiMethod.DEBUG_VERSION_NATIVE => "debug_version_native",
 
                 ////////////////////////////////////////
                 // modules

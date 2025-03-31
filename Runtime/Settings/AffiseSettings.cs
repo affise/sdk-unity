@@ -1,6 +1,4 @@
 ﻿#nullable enable
-using System.Collections.Generic;
-using AffiseAttributionLib.Events;
 using AffiseAttributionLib.Init;
 
 namespace AffiseAttributionLib.Settings
@@ -16,6 +14,8 @@ namespace AffiseAttributionLib.Settings
         // private bool _enabledMetrics = false;
         private string? _domain;
         // private List<AutoCatchingType> _autoCatchingClickEvents = new();
+        private OnInitSuccessHandler? _onInitSuccessHandler;
+        private OnInitErrorHandler? _onInitErrorHandler;
 
         /**
          * Affise SDK settings
@@ -76,6 +76,24 @@ namespace AffiseAttributionLib.Settings
         }
 
         /**
+         * Set OnInitSuccessHandler
+         */
+        public AffiseSettings SetOnInitSuccess(OnInitSuccessHandler onInitSuccessHandler)
+        {
+            _onInitSuccessHandler = onInitSuccessHandler;
+            return this;
+        }
+
+        /**
+         * Set OnInitErrorHandler
+         */
+        public AffiseSettings SetOnInitError(OnInitErrorHandler onInitErrorHandler)
+        {
+            _onInitErrorHandler = onInitErrorHandler;
+            return this;
+        }
+
+        /**
          * Set list of AutoCatchingType
          */
         // public AffiseSettings SetAutoCatchingClickEvents(List<AutoCatchingType> autoCatchingClickEvents)
@@ -104,7 +122,9 @@ namespace AffiseAttributionLib.Settings
                 isProduction: _isProduction,
                 // enabledMetrics: _enabledMetrics,
                 // autoCatchingClickEvents: _autoCatchingClickEvents,
-                domain: _domain
+                domain: _domain,
+                onInitSuccessHandler: _onInitSuccessHandler,
+                onInitErrorHandler: _onInitErrorHandler
             );
         }
 

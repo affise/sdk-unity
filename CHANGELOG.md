@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.6.35] - 2025-03-31
+
+### Added
+
+- Api `Affise.Settings.SetOnInitSuccess`.
+- Api `Affise.Settings.SetOnInitError`.
+- Api `Affise.Debug.Version`.
+- Api `Affise.Debug.VersionNative`.
+
+### Changed
+
+- Update native iOS to [`1.6.48`](https://github.com/affise/sdk-ios/blob/1.6.48/CHANGELOG.md).
+- Update native Android to [`1.6.55`](https://github.com/affise/sdk-android/blob/v1.6.55/CHANGELOG.md).
+  
 ## [1.6.34] - 2025-03-18
 
 ### Fixed
@@ -244,6 +258,7 @@
 - Update native iOS to `1.6.20`.
 - Update native Android to `1.6.22`.
   
+[1.6.35]: https://github.com/affise/sdk-unity/compare/1.6.34...1.6.35
 [1.6.34]: https://github.com/affise/sdk-unity/compare/1.6.33...1.6.34
 [1.6.33]: https://github.com/affise/sdk-unity/compare/1.6.32...1.6.33
 [1.6.32]: https://github.com/affise/sdk-unity/compare/1.6.31...1.6.32

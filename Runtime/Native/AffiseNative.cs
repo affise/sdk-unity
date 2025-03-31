@@ -13,6 +13,7 @@ using AffiseAttributionLib.Modules;
 using AffiseAttributionLib.Native.Data;
 using AffiseAttributionLib.Native.Utils;
 using AffiseAttributionLib.Referrer;
+using AffiseAttributionLib.Settings;
 using AffiseAttributionLib.SKAd;
 using AffiseAttributionLib.Usecase;
 using SimpleJSON;
@@ -25,6 +26,22 @@ namespace AffiseAttributionLib.Native
 
         public AffiseNative(AffiseInitProperties initProperties)
         {
+            if (initProperties.OnInitSuccessHandler is not null)
+            {
+                NativeCallback(
+                    AffiseApiMethod.ON_INIT_SUCCESS_HANDLER,
+                    callback: initProperties.OnInitSuccessHandler
+                );
+            }
+
+            if (initProperties.OnInitErrorHandler is not null)
+            {
+                NativeCallback(
+                    AffiseApiMethod.ON_INIT_ERROR_HANDLER,
+                    callback: initProperties.OnInitErrorHandler
+                );
+            }
+
             Init(initProperties);
         }
 
@@ -187,6 +204,9 @@ namespace AffiseAttributionLib.Native
             );
         }
 
+        ////////////////////////////////////////
+        // debug
+        ////////////////////////////////////////
         public void Validate(DebugOnValidateCallback callback)
         {
             NativeCallbackOnce(AffiseApiMethod.DEBUG_VALIDATE_CALLBACK, callback: callback);
@@ -196,7 +216,12 @@ namespace AffiseAttributionLib.Native
         {
             NativeCallback(AffiseApiMethod.DEBUG_NETWORK_CALLBACK, callback: callback);
         }
-        
+
+        public string? VersionNative()
+        {
+            return Native<string>(AffiseApiMethod.DEBUG_VERSION_NATIVE);;
+        }
+
         ////////////////////////////////////////
         // modules
         ////////////////////////////////////////
@@ -287,6 +312,12 @@ namespace AffiseAttributionLib.Native
                             (callback as OnSendFailedCallback)?.Invoke(DebugUtils.ToResponse(json));
                             break;
                     }
+                    break;
+                case AffiseApiMethod.ON_INIT_SUCCESS_HANDLER:
+                    (callback as OnInitSuccessHandler)?.Invoke();
+                    break;
+                case AffiseApiMethod.ON_INIT_ERROR_HANDLER:
+                    (callback as OnInitErrorHandler)?.Invoke(DataMapper.ToNonNullString(json));
                     break;
                 case AffiseApiMethod.REGISTER_DEEPLINK_CALLBACK:
                     (callback as DeeplinkCallback)?.Invoke(DataMapper.ToDeeplinkValue(json));

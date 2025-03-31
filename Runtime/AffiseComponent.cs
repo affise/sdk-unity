@@ -85,7 +85,7 @@ namespace AffiseAttributionLib
         
         private readonly EventToSerializedEventConverter _eventToSerializedEventConverter;
         
-        private readonly IIndexUseCase _indexUseCase ;
+        private readonly IIndexUseCase _indexUseCase;
 
         private readonly bool _isReady = false;
         

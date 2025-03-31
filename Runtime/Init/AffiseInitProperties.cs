@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using AffiseAttributionLib.Events;
 using AffiseAttributionLib.Network;
+using AffiseAttributionLib.Settings;
 using SimpleJSON;
 
 namespace AffiseAttributionLib.Init
@@ -19,6 +20,10 @@ namespace AffiseAttributionLib.Init
         public string? AppToken { get; }
 
         public bool IsProduction { get; }
+        
+        public OnInitSuccessHandler? OnInitSuccessHandler { get; }
+        
+        public OnInitErrorHandler? OnInitErrorHandler { get; }
         
         // public bool EnabledMetrics { get; }
 
@@ -39,7 +44,9 @@ namespace AffiseAttributionLib.Init
             appToken: null,
             // enabledMetrics: false,
             // autoCatchingClickEvents: null,
-            domain: null
+            domain: null,
+            onInitSuccessHandler: null,
+            onInitErrorHandler: null
         )
         {
         }
@@ -53,7 +60,9 @@ namespace AffiseAttributionLib.Init
             bool isProduction = true,
             // bool enabledMetrics = false,
             // List<AutoCatchingType>? autoCatchingClickEvents = null,
-            string? domain = null
+            string? domain = null,
+            OnInitSuccessHandler? onInitSuccessHandler = null,
+            OnInitErrorHandler? onInitErrorHandler = null
         )
         {
             AffiseAppId = affiseAppId;
@@ -82,7 +91,10 @@ namespace AffiseAttributionLib.Init
                 Domain = domain;
                 CloudConfig.SetupDomain(domain);
             }
-            
+
+            OnInitSuccessHandler = onInitSuccessHandler;
+            OnInitErrorHandler = onInitErrorHandler;
+
             // AutoCatchingClickEvents = autoCatchingClickEvents ?? new List<AutoCatchingType>();
         }
 

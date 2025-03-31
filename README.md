@@ -4,7 +4,7 @@
 
 | Artifact      | Version               |
 |---------------|-----------------------|
-| `attribution` | [`1.6.34`](/releases/tag/1.6.34) |
+| `attribution` | [`1.6.35`](/releases/tag/1.6.35) |
 
 - [Affise Unity package](#affise-unity-package)
 - [Description](#description)
@@ -75,6 +75,8 @@
 - [SDK to SDK integrations](#sdk-to-sdk-integrations)
 - [Debug](#debug)
   - [Validate credentials](#validate-credentials)
+  - [Version](#version)
+  - [Version native](#version-native)
 - [Troubleshoots](#troubleshoots)
   - [iOS](#ios-6)
   - [Android](#android-3)
@@ -106,7 +108,7 @@ Add package from git url `https://github.com/affise/sdk-unity.git`
 
 ### Integrate unitypackage file
 
-Download latest Affise SDK [`attribution-1.6.34.unitypackage`](https://github.com/affise/sdk-unity/releases/download/1.6.34/attribution-1.6.34.unitypackage)
+Download latest Affise SDK [`attribution-1.6.35.unitypackage`](https://github.com/affise/sdk-unity/releases/download/1.6.35/attribution-1.6.35.unitypackage)
 from [releases page](https://github.com/affise/sdk-unity/releases) and drop this file to unity editor
 
 ### Initialize
@@ -254,7 +256,7 @@ All affise modules is updated automatically on build
 Dependencies located in Android project gradle file `build.gradle`
 
 ```gradle
-final affise_version = '1.6.54'
+final affise_version = '1.6.55'
 
 dependencies {
     // ...
@@ -281,11 +283,11 @@ All affise modules is updated automatically on build
 
 | Module         |                                       Version                                        | Start    |
 |----------------|:------------------------------------------------------------------------------------:|----------|
-| `Advertising`  | [`1.6.47`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Manual` |
-| `Link`         | [`1.6.47`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
-| `Persistent`   | [`1.6.47`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
-| `Status`       | [`1.6.47`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
-| `Subscription` | [`1.6.47`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
+| `Advertising`  | [`1.6.48`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Manual` |
+| `Link`         | [`1.6.48`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
+| `Persistent`   | [`1.6.48`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
+| `Status`       | [`1.6.48`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
+| `Subscription` | [`1.6.48`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
 
 Dependencies located in XCode project folder `Podfile`
 
@@ -293,14 +295,14 @@ Dependencies located in XCode project folder `Podfile`
 platform :ios, '12.0'
 
 target 'UnityFramework' do
-  pod 'AffiseInternal', '1.6.47'
+  pod 'AffiseInternal', '1.6.48'
 
   # Affise Modules
-  pod 'AffiseModule/Advertising', '1.6.47'
-  pod 'AffiseModule/Link', '1.6.47'
-  pod 'AffiseModule/Persistent', '1.6.47'
-  pod 'AffiseModule/Status', '1.6.47'
-  pod 'AffiseModule/Subscription', '1.6.47'
+  pod 'AffiseModule/Advertising', '1.6.48'
+  pod 'AffiseModule/Link', '1.6.48'
+  pod 'AffiseModule/Persistent', '1.6.48'
+  pod 'AffiseModule/Status', '1.6.48'
+  pod 'AffiseModule/Subscription', '1.6.48'
 end
 
 target 'Unity-iPhone' do
@@ -435,10 +437,10 @@ Podfile:
 platform :ios, '11.0'
 
 target 'UnityFramework' do
-  pod 'AffiseInternal', '1.6.47'
+  pod 'AffiseInternal', '1.6.48'
 
   # Affise Modules
-  # pod 'AffiseModule', `1.6.47`
+  # pod 'AffiseModule', `1.6.48`
 end
 
 target 'Unity-iPhone' do
@@ -1388,6 +1390,22 @@ Affise.Debug.Validate(status =>
 {
     // Handle validation status
 });
+```
+
+## Version
+
+Get Affise flutter library version
+
+```c#
+Affise.Debug.Version()
+```
+
+## Version native
+
+Get Affise native `Android`/`iOS` library version
+
+```c#
+Affise.Debug.VersionNative();
 ```
 
 # Troubleshoots

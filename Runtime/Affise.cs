@@ -54,10 +54,19 @@ namespace AffiseAttributionLib
             _native = new AffiseNative(initProperties);
 #else
             if (_api is not null) return;
-            _api = new AffiseComponent(initProperties);
+            try
+            {
+                _api = new AffiseComponent(initProperties);
+                initProperties.OnInitSuccessHandler?.Invoke();
+            }
+            catch (Exception e)
+            {
+                initProperties.OnInitErrorHandler?.Invoke(e.StackTrace);
+            }
 #endif
         }
 
+        [Obsolete("use Affise.Settings().SetOnInitSuccess() instead.")]
         public static bool IsInitialized()
         {
 #if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
@@ -551,6 +560,26 @@ namespace AffiseAttributionLib
                 _native?.Network(callback);
 #else
                 _api?.DebugNetworkUseCase.OnRequest(callback);
+#endif
+            }
+
+            /**
+             * Debug get version of flutter library
+             */
+            public static string Version()
+            {
+                return "1.6.35";
+            }
+            
+            /**
+             * Debug get version of native library Android/iOS
+             */
+            public static string? VersionNative()
+            {
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+                return _native?.VersionNative();
+#else
+                return null;
 #endif
             }
         }

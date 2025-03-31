@@ -45,6 +45,20 @@ namespace AffiseDemo
                     }
                 },
                 {
+                    "Debug: Version", () =>
+                    {
+                        // Debug: Version https://github.com/affise/sdk-unity#version
+                        Print($"Version: {Affise.Debug.Version()}");
+                    } 
+                },
+                {
+                    "Debug: Version Native", () =>
+                    {
+                        // Debug: Version Native https://github.com/affise/sdk-unity#version-native
+                        Print($"Version {Application.platform} Native: {Affise.Debug.VersionNative()}");
+                    } 
+                },
+                {
                     "RegisterDeeplinkCallback", () =>
                     {
                         // Deeplinks https://github.com/affise/sdk-unity#deeplinks
