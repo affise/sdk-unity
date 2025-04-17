@@ -568,7 +568,7 @@ namespace AffiseAttributionLib
              */
             public static string Version()
             {
-                return "1.6.35";
+                return "1.6.36";
             }
             
             /**

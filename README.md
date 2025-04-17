@@ -4,7 +4,7 @@
 
 | Artifact      | Version               |
 |---------------|-----------------------|
-| `attribution` | [`1.6.35`](/releases/tag/1.6.35) |
+| `attribution` | [`1.6.36`](/releases/tag/1.6.36) |
 
 - [Affise Unity package](#affise-unity-package)
 - [Description](#description)
@@ -26,6 +26,7 @@
       - [iOS](#ios-1)
       - [Module Advertising](#module-advertising)
         - [iOS](#ios-2)
+      - [Module Huawei](#module-huawei)
       - [Module Link](#module-link)
       - [Module Status](#module-status)
       - [Module Subscription](#module-subscription)
@@ -35,6 +36,8 @@
   - [ProviderType identifiers collection](#providertype-identifiers-collection)
     - [Attribution](#attribution)
     - [Advertising](#advertising)
+    - [AndroidId](#androidid)
+    - [Huawei](#huawei)
     - [Network](#network)
     - [Phone](#phone)
   - [Event send control](#event-send-control)
@@ -48,6 +51,8 @@
     - [PredefinedListObject](#predefinedlistobject)
     - [PredefinedListString](#predefinedliststring)
   - [Events buffering](#events-buffering)
+  - [Advertising Identifier (google) tracking](#advertising-identifier-google-tracking)
+  - [Open Advertising Identifier (huawei) tracking](#open-advertising-identifier-huawei-tracking)
   - [Push token tracking](#push-token-tracking)
   - [Links](#links)
     - [Config](#config)
@@ -108,7 +113,7 @@ Add package from git url `https://github.com/affise/sdk-unity.git`
 
 ### Integrate unitypackage file
 
-Download latest Affise SDK [`attribution-1.6.35.unitypackage`](https://github.com/affise/sdk-unity/releases/download/1.6.35/attribution-1.6.35.unitypackage)
+Download latest Affise SDK [`attribution-1.6.36.unitypackage`](https://github.com/affise/sdk-unity/releases/download/1.6.36/attribution-1.6.36.unitypackage)
 from [releases page](https://github.com/affise/sdk-unity/releases) and drop this file to unity editor
 
 ### Initialize
@@ -256,7 +261,7 @@ All affise modules is updated automatically on build
 Dependencies located in Android project gradle file `build.gradle`
 
 ```gradle
-final affise_version = '1.6.55'
+final affise_version = '1.6.56'
 
 dependencies {
     // ...
@@ -283,11 +288,11 @@ All affise modules is updated automatically on build
 
 | Module         |                                       Version                                        | Start    |
 |----------------|:------------------------------------------------------------------------------------:|----------|
-| `Advertising`  | [`1.6.48`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Manual` |
-| `Link`         | [`1.6.48`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
-| `Persistent`   | [`1.6.48`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
-| `Status`       | [`1.6.48`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
-| `Subscription` | [`1.6.48`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
+| `Advertising`  | [`1.6.49`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Manual` |
+| `Link`         | [`1.6.49`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
+| `Persistent`   | [`1.6.49`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
+| `Status`       | [`1.6.49`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
+| `Subscription` | [`1.6.49`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
 
 Dependencies located in XCode project folder `Podfile`
 
@@ -295,14 +300,14 @@ Dependencies located in XCode project folder `Podfile`
 platform :ios, '12.0'
 
 target 'UnityFramework' do
-  pod 'AffiseInternal', '1.6.48'
+  pod 'AffiseInternal', '1.6.49'
 
   # Affise Modules
-  pod 'AffiseModule/Advertising', '1.6.48'
-  pod 'AffiseModule/Link', '1.6.48'
-  pod 'AffiseModule/Persistent', '1.6.48'
-  pod 'AffiseModule/Status', '1.6.48'
-  pod 'AffiseModule/Subscription', '1.6.48'
+  pod 'AffiseModule/Advertising', '1.6.49'
+  pod 'AffiseModule/Link', '1.6.49'
+  pod 'AffiseModule/Persistent', '1.6.49'
+  pod 'AffiseModule/Status', '1.6.49'
+  pod 'AffiseModule/Subscription', '1.6.49'
 end
 
 target 'Unity-iPhone' do
@@ -334,6 +339,24 @@ This module required to Use [`IDFA`](https://developer.apple.com/documentation/a
 > 🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥
 
 Or Manual open `info.plist` and add key `NSUserTrackingUsageDescription` with string value. For more information [read requirements](#requirements)
+
+#### Module Huawei
+
+> **Note**
+>
+> 🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥
+>
+> Use `Android` [Huawei Module](#modules) to get OAID (Open Advertising Identifier)
+>
+> 🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥
+
+```c#
+var providers = Affise.GetProviders();
+var key = ProviderType.OAID;
+if (providers.ContainsKey(key)) {
+    var oaid = providers[key];
+}
+```
 
 #### Module Link
 
@@ -437,10 +460,10 @@ Podfile:
 platform :ios, '11.0'
 
 target 'UnityFramework' do
-  pod 'AffiseInternal', '1.6.48'
+  pod 'AffiseInternal', '1.6.49'
 
   # Affise Modules
-  # pod 'AffiseModule', `1.6.48`
+  # pod 'AffiseModule', `1.6.49`
 end
 
 target 'Unity-iPhone' do
@@ -495,8 +518,6 @@ To match users with events and data library is sending, these `ProviderType` ide
 - `DEVICE_ATLAS_ID`
 - `AFFISE_DEVICE_ID`
 - `AFFISE_ALT_DEVICE_ID`
-- `ANDROID_ID`
-- `ANDROID_ID_MD5`
 - `REFTOKEN`
 - `REFTOKENS`
 - `REFERRER`
@@ -543,12 +564,20 @@ To match users with events and data library is sending, these `ProviderType` ide
 
 - `GAID_ADID`
 - `GAID_ADID_MD5`
-- `OAID`
-- `OAID_MD5`
 - `ADID`
 - `ALTSTR_ADID`
 - `FIREOS_ADID`
 - `COLOROS_ADID`
+
+### AndroidId
+
+- `ANDROID_ID`
+- `ANDROID_ID_MD5`
+
+### Huawei
+
+- `OAID`
+- `OAID_MD5`
 
 ### Network
 
@@ -862,6 +891,26 @@ In examples above `PredefinedParameters.DESCRIPTION` and `PredefinedObject.CONTE
 
 Affise library will send any pending events with first opportunity,
 but if there is no network connection or device is disabled, events are kept locally for 7 days before deletion.
+
+## Advertising Identifier (google) tracking
+
+> **Note**
+>
+> `Android` only
+>
+> Requires [Affise Advertising Module](#modules)
+
+Advertising Identifier (google) tracking is supported automatically, no actions needed
+
+## Open Advertising Identifier (huawei) tracking
+
+> **Note**
+>
+> `Android` only
+>
+> Requires [Affise Huawei Module](#modules)
+
+Open Advertising Identifier is supported automatically, no actions needed
 
 ## Push token tracking
 

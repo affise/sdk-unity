@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.6.36] - 2025-04-17
+
+### Removed
+
+- Remove code support for `iOS` version lesser then `12`
+
+### Changed
+
+- Update `android` provider `OAID` moved to module `huawei`.
+- Update `android` provider `OAID_MD5` moved to module `huawei`.
+- Update `android` provider `OAID` to use `com.huawei.hms:ads-identifier`
+- Update `iOS` EventsManager scheduler
+- Update native iOS to [`1.6.49`](https://github.com/affise/sdk-ios/blob/1.6.49/CHANGELOG.md).
+- Update native Android to [`1.6.56`](https://github.com/affise/sdk-android/blob/v1.6.56/CHANGELOG.md).
+
 ## [1.6.35] - 2025-03-31
 
 ### Added
@@ -258,6 +273,7 @@
 - Update native iOS to `1.6.20`.
 - Update native Android to `1.6.22`.
   
+[1.6.36]: https://github.com/affise/sdk-unity/compare/1.6.35...1.6.36
 [1.6.35]: https://github.com/affise/sdk-unity/compare/1.6.34...1.6.35
 [1.6.34]: https://github.com/affise/sdk-unity/compare/1.6.33...1.6.34
 [1.6.33]: https://github.com/affise/sdk-unity/compare/1.6.32...1.6.33
