@@ -28,7 +28,7 @@ namespace AffiseAttributionLib.Native
         {
             if (initProperties.OnInitSuccessHandler is not null)
             {
-                NativeCallback(
+                NativeCallbackOnly(
                     AffiseApiMethod.ON_INIT_SUCCESS_HANDLER,
                     callback: initProperties.OnInitSuccessHandler
                 );
@@ -36,7 +36,7 @@ namespace AffiseAttributionLib.Native
 
             if (initProperties.OnInitErrorHandler is not null)
             {
-                NativeCallback(
+                NativeCallbackOnly(
                     AffiseApiMethod.ON_INIT_ERROR_HANDLER,
                     callback: initProperties.OnInitErrorHandler
                 );

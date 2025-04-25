@@ -4,7 +4,7 @@
 
 | Artifact      | Version               |
 |---------------|-----------------------|
-| `attribution` | [`1.6.36`](/releases/tag/1.6.36) |
+| `attribution` | [`1.6.37`](/releases/tag/1.6.37) |
 
 - [Affise Unity package](#affise-unity-package)
 - [Description](#description)
@@ -113,7 +113,7 @@ Add package from git url `https://github.com/affise/sdk-unity.git`
 
 ### Integrate unitypackage file
 
-Download latest Affise SDK [`attribution-1.6.36.unitypackage`](https://github.com/affise/sdk-unity/releases/download/1.6.36/attribution-1.6.36.unitypackage)
+Download latest Affise SDK [`attribution-1.6.37.unitypackage`](https://github.com/affise/sdk-unity/releases/download/1.6.37/attribution-1.6.37.unitypackage)
 from [releases page](https://github.com/affise/sdk-unity/releases) and drop this file to unity editor
 
 ### Initialize

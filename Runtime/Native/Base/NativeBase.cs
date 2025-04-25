@@ -185,6 +185,11 @@ namespace AffiseAttributionLib.Native
             _native?.Native(apiName, json.ToString());
         }
 
+        protected void NativeCallbackOnly(AffiseApiMethod api, object callback)
+        {
+            _callbacks[api] = new CallbackData(callback);
+        }
+
         private void AffiseCallback(string apiName, string data)
         {
             var api = apiName.ToAffiseApiMethod();

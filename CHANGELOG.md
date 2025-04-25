@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.37] - 2025-04-25
+
+### Fixed
+
+- Fix `Affise.settings.setOnInitSuccess` false positive error.
+- Fix `Affise.settings.setOnInitError` false positive error.
+
 ## [1.6.36] - 2025-04-17
 
 ### Removed
@@ -273,6 +280,7 @@
 - Update native iOS to `1.6.20`.
 - Update native Android to `1.6.22`.
   
+[1.6.37]: https://github.com/affise/sdk-unity/compare/1.6.36...1.6.37
 [1.6.36]: https://github.com/affise/sdk-unity/compare/1.6.35...1.6.36
 [1.6.35]: https://github.com/affise/sdk-unity/compare/1.6.34...1.6.35
 [1.6.34]: https://github.com/affise/sdk-unity/compare/1.6.33...1.6.34
