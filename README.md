@@ -4,7 +4,7 @@
 
 | Artifact      | Version               |
 |---------------|-----------------------|
-| `attribution` | [`1.6.37`](/releases/tag/1.6.37) |
+| `attribution` | [`1.6.38`](/releases/tag/1.6.38) |
 
 - [Affise Unity package](#affise-unity-package)
 - [Description](#description)
@@ -28,6 +28,7 @@
         - [iOS](#ios-2)
       - [Module Huawei](#module-huawei)
       - [Module Link](#module-link)
+      - [Module Meta](#module-meta)
       - [Module Status](#module-status)
       - [Module Subscription](#module-subscription)
   - [Build](#build)
@@ -38,6 +39,7 @@
     - [Advertising](#advertising)
     - [AndroidId](#androidid)
     - [Huawei](#huawei)
+    - [Meta](#meta)
     - [Network](#network)
     - [Phone](#phone)
   - [Event send control](#event-send-control)
@@ -113,7 +115,7 @@ Add package from git url `https://github.com/affise/sdk-unity.git`
 
 ### Integrate unitypackage file
 
-Download latest Affise SDK [`attribution-1.6.37.unitypackage`](https://github.com/affise/sdk-unity/releases/download/1.6.37/attribution-1.6.37.unitypackage)
+Download latest Affise SDK [`attribution-1.6.38.unitypackage`](https://github.com/affise/sdk-unity/releases/download/1.6.38/attribution-1.6.38.unitypackage)
 from [releases page](https://github.com/affise/sdk-unity/releases) and drop this file to unity editor
 
 ### Initialize
@@ -257,11 +259,12 @@ All affise modules is updated automatically on build
 | `Subscription`      | [![module-status](https://img.shields.io/maven-central/v/com.affise/module-subscription?label=latest)](https://mvnrepository.com/artifact/com.affise/module-subscription)                | `Auto` |
 | `RuStore`      | [![module-rustore](https://img.shields.io/maven-central/v/com.affise/module-rustore?label=latest)](https://mvnrepository.com/artifact/com.affise/module-rustore)                | `Auto` |
 | `Huawei`      | [![module-rustore](https://img.shields.io/maven-central/v/com.affise/module-huawei?label=latest)](https://mvnrepository.com/artifact/com.affise/module-huawei)                | `Auto` |
+| `META`         | [![module-meta](https://img.shields.io/maven-central/v/com.affise/module-meta?label=latest)](https://mvnrepository.com/artifact/com.affise/module-meta)             | `Auto` |
 
 Dependencies located in Android project gradle file `build.gradle`
 
 ```gradle
-final affise_version = '1.6.56'
+final affise_version = '1.6.57'
 
 dependencies {
     // ...
@@ -273,6 +276,7 @@ dependencies {
     implementation "com.affise:module-phone:$affise_version"
     implementation "com.affise:module-status:$affise_version"
     implementation "com.affise:module-subscription:$affise_version"
+    // implementation "com.affise:module-meta:$affise_version"
     // implementation "com.affise:module-rustore:$affise_version"
     // implementation "com.affise:module-huawei:$affise_version"
 }
@@ -368,6 +372,40 @@ Return last url in chan of redirection
 Affise.Module.LinkResolve("SITE_WITH_REDIRECTION", (redirectUrl) => {  
     // handle redirect url
 });
+```
+
+#### Module Meta
+
+- [Meta Install Referrer Docs](https://developers.facebook.com/docs/app-ads/meta-install-referrer)
+- [Google's Install Referral Docs](https://developer.android.com/google/play/installreferrer)
+
+1. Add `queries` to your `AndroidManifest.xml`
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <queries>
+        <package android:name="com.facebook.katana" />
+        <package android:name="com.instagram.android" />
+        <package android:name="com.facebook.lite" />
+    </queries>
+
+    <application>
+      ...
+    </application>
+</manifest>
+```
+
+2. Add your `Facebook App Id` as config value `AffiseConfig.FB_APP_ID` in `Affise.settings`
+
+```c#
+Affise
+    .Settings(
+        affiseAppId: "Your appId", //Change to your app id
+        secretKey: "Your SDK secretKey", //Change to your SDK secretKey
+    )
+    .setConfigValue(AffiseConfig.FB_APP_ID, "Your Facebook App Id")
+    .Start(); // Start Affise SDK
 ```
 
 #### Module Status
@@ -578,6 +616,10 @@ To match users with events and data library is sending, these `ProviderType` ide
 
 - `OAID`
 - `OAID_MD5`
+
+### Meta
+
+- `META`
 
 ### Network
 

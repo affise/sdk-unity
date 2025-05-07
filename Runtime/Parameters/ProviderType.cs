@@ -102,6 +102,9 @@ namespace AffiseAttributionLib.AffiseParameters
         FIREOS_ADID,
         COLOROS_ADID,
 
+        // meta
+        META,
+
         // network
         MAC_SHA1,
         MAC_MD5,
@@ -215,6 +218,9 @@ namespace AffiseAttributionLib.AffiseParameters
                 ProviderType.ALTSTR_ADID => "altstr_adid",
                 ProviderType.FIREOS_ADID => "fireos_adid",
                 ProviderType.COLOROS_ADID => "coloros_adid",
+
+                // meta
+                ProviderType.META => "meta",
 
                 // network
                 ProviderType.MAC_SHA1 => "mac_sha1",

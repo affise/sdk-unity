@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.6.38] - 2025-05-07
+
+### Added
+
+- New module `meta` for `Facebook`.
+- Provider for `Facebook` install referrer
+
+### Changed
+
+- Update native Android to [`1.6.57`](https://github.com/affise/sdk-android/blob/v1.6.57/CHANGELOG.md).
+
 ## [1.6.37] - 2025-04-25
 
 ### Fixed
@@ -280,6 +291,7 @@
 - Update native iOS to `1.6.20`.
 - Update native Android to `1.6.22`.
   
+[1.6.38]: https://github.com/affise/sdk-unity/compare/1.6.37...1.6.38
 [1.6.37]: https://github.com/affise/sdk-unity/compare/1.6.36...1.6.37
 [1.6.36]: https://github.com/affise/sdk-unity/compare/1.6.35...1.6.36
 [1.6.35]: https://github.com/affise/sdk-unity/compare/1.6.34...1.6.35

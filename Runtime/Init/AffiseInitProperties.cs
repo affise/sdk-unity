@@ -1,6 +1,8 @@
 ﻿#nullable enable
+using System;
 using System.Collections.Generic;
 using AffiseAttributionLib.Events;
+using AffiseAttributionLib.Extensions;
 using AffiseAttributionLib.Network;
 using AffiseAttributionLib.Settings;
 using SimpleJSON;
@@ -24,6 +26,8 @@ namespace AffiseAttributionLib.Init
         public OnInitSuccessHandler? OnInitSuccessHandler { get; }
         
         public OnInitErrorHandler? OnInitErrorHandler { get; }
+        
+        public Dictionary<string, Object> ConfigValues { get; }
         
         // public bool EnabledMetrics { get; }
 
@@ -62,7 +66,8 @@ namespace AffiseAttributionLib.Init
             // List<AutoCatchingType>? autoCatchingClickEvents = null,
             string? domain = null,
             OnInitSuccessHandler? onInitSuccessHandler = null,
-            OnInitErrorHandler? onInitErrorHandler = null
+            OnInitErrorHandler? onInitErrorHandler = null,
+            Dictionary<string, Object>? configValues = null
         )
         {
             AffiseAppId = affiseAppId;
@@ -95,6 +100,8 @@ namespace AffiseAttributionLib.Init
             OnInitSuccessHandler = onInitSuccessHandler;
             OnInitErrorHandler = onInitErrorHandler;
 
+            ConfigValues = configValues ?? new Dictionary<string, object>();
+
             // AutoCatchingClickEvents = autoCatchingClickEvents ?? new List<AutoCatchingType>();
         }
 
@@ -109,6 +116,7 @@ namespace AffiseAttributionLib.Init
             // EnabledMetrics = props.EnabledMetrics;
             // AutoCatchingClickEvents = props.AutoCatchingClickEvents;
             Domain = props.Domain;
+            ConfigValues = props.ConfigValues;
         }
 
         public AffiseInitProperties Copy() => new(this);
@@ -125,6 +133,7 @@ namespace AffiseAttributionLib.Init
                 // ["enabledMetrics"] = EnabledMetrics,
                 // ["autoCatchingClickEvents"] = AutoCatchingClickEvents.ToJsonArray(),
                 ["domain"] = Domain,
+                ["configStrings"] = ConfigValues.ToJsonObject(),
             };
     }
 }
