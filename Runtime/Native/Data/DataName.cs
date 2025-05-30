@@ -48,5 +48,8 @@ namespace AffiseAttributionLib.Native.Data
         public const string TIME_UNIT = "timeUnit";
         public const string NUMBER_OF_UNITS = "numberOfUnits";
         public const string PRODUCT_DETAILS = "productDetails";
+
+        public const string EVENT_NAME = "eventName";
+        public const string EVENT_VALUES = "eventValues";
     }
 }

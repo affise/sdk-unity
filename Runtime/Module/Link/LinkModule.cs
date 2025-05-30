@@ -20,7 +20,7 @@ namespace AffiseAttributionLib.Module.Link
             );
         }
 
-        public void LinkResolve(string uri, AffiseLinkCallback callback)
+        public void Resolve(string uri, AffiseLinkCallback callback)
         {
             _useCase?.LinkResolve(uri, callback);
         }

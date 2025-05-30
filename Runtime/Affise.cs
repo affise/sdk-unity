@@ -3,18 +3,14 @@ using System;
 using System.Collections.Generic;
 using AffiseAttributionLib.AffiseParameters;
 using AffiseAttributionLib.AffiseParameters.Providers;
-using AffiseAttributionLib.Debugger.Network;
-using AffiseAttributionLib.Debugger.Validate;
+using AffiseAttributionLib.Debugger;
 using AffiseAttributionLib.Deeplink;
 using AffiseAttributionLib.Events;
 using AffiseAttributionLib.Init;
-using AffiseAttributionLib.Module;
-using AffiseAttributionLib.Module.Link;
-using AffiseAttributionLib.Module.Subscription;
+using AffiseAttributionLib.Module.Attribution;
 using AffiseAttributionLib.Modules;
 using AffiseAttributionLib.Referrer;
 using AffiseAttributionLib.Settings;
-using AffiseAttributionLib.SKAd;
 using AffiseAttributionLib.Utils;
 #if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
 using AffiseAttributionLib.Native;
@@ -25,9 +21,9 @@ namespace AffiseAttributionLib
     public static class Affise
     {
 #if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
-        private static IAffiseNative? _native;
+        internal static IAffiseNative? _native;
 #else
-        private static AffiseComponent? _api;
+        internal static AffiseComponent? _api;
 #endif
 
         internal static bool IsInit
@@ -349,240 +345,11 @@ namespace AffiseAttributionLib
 #endif
         }
 
-        public static class Android
-        {
-            /**
-             * Send enabled autoCatching [types]
-             */
-//             public static void SetAutoCatchingTypes(List<AutoCatchingType> types)
-//             {
-// #if (UNITY_ANDROID) && !UNITY_EDITOR
-//                 _native?.SetAutoCatchingTypes(types);
-// #else
-//                 UnityEngine.Debug.LogWarning($"{NotSupported} - SetAutoCatchingTypes");
-// #endif
-//             }
-
-            /**
-             * Erases all user data
-             */
-            public static void Forget(string userData)
-            {
-#if (UNITY_ANDROID) && !UNITY_EDITOR
-                _native?.Forget(userData);
-#else
-                UnityEngine.Debug.LogWarning($"{NotSupported} - Forget");
-#endif
-            }
-
-            /**
-             * Set [enabled] to collect metrics
-             */
-//             public static void SetEnabledMetrics(bool enabled)
-//             {
-// #if (UNITY_ANDROID) && !UNITY_EDITOR
-//                 _native?.SetEnabledMetrics(enabled);
-// #else
-//                 UnityEngine.Debug.LogWarning($"{NotSupported} - SetEnabledMetrics");
-// #endif
-//             }
-
-            public static void CrashApplication()
-            {
-#if (UNITY_ANDROID) && !UNITY_EDITOR
-                _native?.CrashApplication();
-#else
-                UnityEngine.Debug.LogWarning($"{NotSupported} - CrashApplication");
-#endif
-            }
-        }
+        public static readonly IAffiseIOSApi IOS = new AffiseModuleIso();
+        public static readonly IAffiseAndroidApi Android = new AffiseModuleAndroid();
+        public static readonly IAffiseAttributionModuleApi Module = new AffiseAttributionModule();
         
-        public static class IOS
-        {
-            /**
-             * StoreKit Ad Network register app
-             */
-            public static void RegisterAppForAdNetworkAttribution(ErrorCallback completionHandler)
-            {
-#if (UNITY_IOS) && !UNITY_EDITOR
-                _native?.RegisterAppForAdNetworkAttribution(completionHandler);
-#else
-                completionHandler.Invoke(NotSupported);
-#endif
-            }
-
-            /**
-             * StoreKit Ad Network updatePostbackConversionValue
-             */
-            public static void UpdatePostbackConversionValue(int fineValue, CoarseValue coarseValue, ErrorCallback completionHandler)
-            {
-#if (UNITY_IOS) && !UNITY_EDITOR
-                _native?.UpdatePostbackConversionValue(fineValue, coarseValue, completionHandler);
-#else
-                completionHandler.Invoke(NotSupported);
-#endif
-            }
-            
-            /**
-             * Get referrer url
-             */
-            [Obsolete("use Affise." + nameof(Affise.GetDeferredDeeplink) + " instead.")]
-            public static void GetReferrerOnServer(OnReferrerCallback callback)
-            {
-                GetDeferredDeeplink(callback);
-            }
-
-            /**
-             * Get referrer value by key
-             */
-            [Obsolete("use Affise." + nameof(Affise.GetDeferredDeeplinkValue) + " instead.")]
-            public static void GetReferrerOnServerValue(ReferrerKey key, OnReferrerCallback callback)
-            {
-                GetDeferredDeeplinkValue(key, callback);
-            }
-        }
-
-        public static class Module
-        {
-            /**
-             * Get module status
-             */
-            public static void GetStatus(AffiseModules module, OnKeyValueCallback onComplete)
-            {
-#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
-                _native?.GetStatus(module, onComplete);
-#else
-                _api?.ModuleManager.Status(module, onComplete);
-#endif
-            }
-
-            /**
-             * Manual module start
-             */
-            public static bool ModuleStart(AffiseModules module)
-            {
-#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
-                return _native?.ModuleStart(module) ?? true;
-#else
-                return _api?.ModuleManager.ManualStart(module) ?? true;
-#endif
-            }
-        
-            /**
-             * Get installed modules
-             */
-            public static List<AffiseModules> GetModulesInstalled()
-            {
-#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
-                return _native?.GetModules() ?? new List<AffiseModules>();
-#else
-                return _api?.ModuleManager.GetModules() ?? new List<AffiseModules>();
-#endif
-            }
-            
-            /**
-             * Module Link url Resolve
-             */
-            public static void LinkResolve(string uri, AffiseLinkCallback callback)
-            {
-#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
-                _native?.LinkResolve(uri, callback);
-#else
-                Api<IAffiseLinkApi>(AffiseModules.Link)?.LinkResolve(uri, callback);
-#endif
-            }
-            
-            /**
-             * Module Subscription fetch products
-             */
-            public static void FetchProducts(List<string> ids, AffiseResultCallback<AffiseProductsResult> callback)
-            {
-#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
-                _native?.FetchProducts(ids, callback);           
-#else
-                UnityEngine.Debug.LogWarning($"{NotSupported} - FetchProducts");
-                callback.Invoke(AffiseResult<AffiseProductsResult>.Failure(NotSupported));
-#endif
-            }
-            
-            /**
-             * Module Subscription purchase
-             */
-            public static void Purchase(
-                AffiseProduct product, 
-                AffiseProductType type, 
-                AffiseResultCallback<AffisePurchasedInfo> callback
-            )
-            {
-#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
-                _native?.Purchase(product, type, callback);
-#else               
-                UnityEngine.Debug.LogWarning($"{NotSupported} - Purchase");
-                callback.Invoke(AffiseResult<AffisePurchasedInfo>.Failure(NotSupported));
-#endif
-            }
-            
-            private static T? Api<T>(AffiseModules module) where T : IAffiseModuleApi
-            {
-#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
-                return default;
-#else
-                if ( _api?.ModuleManager.GetModule(module) is T result) return result;
-                return default;
-#endif
-            }
-        }
-
-        public static class Debug
-        {
-            /**
-             * Won't work on Production
-             *
-             * Validate credentials
-             */
-            public static void Validate(DebugOnValidateCallback callback)
-            {
-#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
-                _native?.Validate(callback);
-#else
-                _api?.DebugValidateUseCase?.Validate(callback);
-#endif
-            }
-            
-            /**
-             * Won't work on Production
-             *
-             * Show request/response data
-             */
-            public static void Network(DebugOnNetworkCallback callback)
-            { 
-#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
-                _native?.Network(callback);
-#else
-                _api?.DebugNetworkUseCase.OnRequest(callback);
-#endif
-            }
-
-            /**
-             * Debug get version of flutter library
-             */
-            public static string Version()
-            {
-                return "1.6.38";
-            }
-            
-            /**
-             * Debug get version of native library Android/iOS
-             */
-            public static string? VersionNative()
-            {
-#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
-                return _native?.VersionNative();
-#else
-                return null;
-#endif
-            }
-        }
+        public static readonly IAffiseDebugApi Debug = new AffiseDebug();
 
         private const string NotSupported = "[Affise] platform not supported";
     }

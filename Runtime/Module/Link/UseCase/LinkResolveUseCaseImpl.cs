@@ -1,5 +1,6 @@
 ﻿#nullable enable
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using AffiseAttributionLib.Executors;
 using AffiseAttributionLib.Network;
@@ -35,7 +36,7 @@ namespace AffiseAttributionLib.Module.Link.UseCase
                 //Has redirect status
                 if (response.IsRedirect() && maxRedirectCount > 0)
                 {
-                    var redirectUrl = response.Headers[HEADER_LOCATION]
+                    var redirectUrl = response.Headers.GetValueOrDefault(HEADER_LOCATION)
                         ?.FirstOrDefault(f => !string.IsNullOrWhiteSpace(f));
 
                     if (redirectUrl is not null)

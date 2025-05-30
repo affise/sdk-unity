@@ -99,7 +99,9 @@ namespace AffiseAttributionLib.Native
             AffiseProduct product, AffiseProductType type,
             AffiseResultCallback<AffisePurchasedInfo> callback
         );
-
+        
+        // AppsFlyer
+        void LogEvent<T>(string eventName, Dictionary<string, T> eventValues);
         ////////////////////////////////////////
         // modules
         ////////////////////////////////////////

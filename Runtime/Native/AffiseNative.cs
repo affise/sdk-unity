@@ -6,6 +6,7 @@ using AffiseAttributionLib.Debugger.Network;
 using AffiseAttributionLib.Debugger.Validate;
 using AffiseAttributionLib.Deeplink;
 using AffiseAttributionLib.Events;
+using AffiseAttributionLib.Extensions;
 using AffiseAttributionLib.Init;
 using AffiseAttributionLib.Module.Link;
 using AffiseAttributionLib.Module.Subscription;
@@ -293,7 +294,16 @@ namespace AffiseAttributionLib.Native
                 data: data
             );
         }
-        
+
+        // AppsFlyer
+        public void LogEvent<T>(string eventName, Dictionary<string, T> eventValues) {
+            var data = new Dictionary<string, object>
+            {
+                { DataName.EVENT_NAME, eventName },
+                { DataName.EVENT_VALUES, eventValues.ToJsonObject() },
+            };
+            Native(AffiseApiMethod.MODULE_APPSFLYER_LOG_EVENT, data);
+        }
         ////////////////////////////////////////
         // modules
         ////////////////////////////////////////

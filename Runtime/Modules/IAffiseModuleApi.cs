@@ -1,7 +1,8 @@
-﻿namespace AffiseAttributionLib.Modules
+﻿#nullable enable
+
+namespace AffiseAttributionLib.Modules
 {
-    public interface IAffiseModuleApi 
+    public interface IAffiseModuleApi
     {
-        
     }
 }

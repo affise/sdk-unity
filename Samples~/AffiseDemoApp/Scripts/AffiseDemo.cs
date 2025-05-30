@@ -232,7 +232,7 @@ namespace AffiseDemo
 
         private void FetchProducts(bool skipCheck = true)
         {
-            Affise.Module.FetchProducts(_storeData.Keys.ToList(), (result) =>
+            Affise.Module.Subscription.FetchProducts(_storeData.Keys.ToList(), (result) =>
             {
                     if (result.IsSuccess)
                     {
@@ -258,7 +258,7 @@ namespace AffiseDemo
         {
             var type = _storeData.GetValueOrDefault(product.ProductId);
             
-            Affise.Module.Purchase(product, type, (result) =>
+            Affise.Module.Subscription.Purchase(product, type, (result) =>
             {
                 if (result.IsSuccess)
                 {

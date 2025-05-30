@@ -5,6 +5,6 @@ namespace AffiseAttributionLib.Module.Link
 {
     public interface IAffiseLinkApi : IAffiseModuleApi
     {
-        void LinkResolve(string uri, AffiseLinkCallback callback);
+        void Resolve(string uri, AffiseLinkCallback callback);
     }
 }

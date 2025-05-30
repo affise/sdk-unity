@@ -155,5 +155,13 @@ namespace AffiseAttributionLib.Events
          * @return map of predefined parameter
          */
         internal Dictionary<string, object> GetPredefinedParameters() => _predefinedParameters;
+        
+        protected void AddRawParameters<T>(Dictionary<string, T> parameters)
+        {
+            foreach (var (key, value) in parameters)
+            {
+                if (value != null) _predefinedParameters.Add($"{PredefinedConstants.PREFIX}{key}", value);
+            }
+        }
     }
 }

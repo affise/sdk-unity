@@ -87,10 +87,11 @@ namespace AffiseAttributionLib.Modules
         {
             var affiseModules = new Dictionary<AffiseModules, AffiseModule>
             {
-                // { AffiseModules.Advertising, new AdvertisingModule() },
+                { AffiseModules.Advertising, new AdvertisingModule() },
+                { AffiseModules.AppsFlyer, new AppsFlyerModule() },
                 { AffiseModules.Link, new LinkModule() },
-                // { AffiseModules.Network, new NetworkModule() },
-                // { AffiseModules.Phone, new PhoneModule() },
+                { AffiseModules.Network, new NetworkModule() },
+                { AffiseModules.Phone, new PhoneModule() },
                 { AffiseModules.Status, new StatusModule() },
             };
 

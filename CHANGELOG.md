@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.6.39] - 2025-05-30
+
+### Added
+
+- New module `AppsFlyer`.
+- Api `Affise.Module.AppsFlyer.LogEvent`.
+
+### Changed
+
+- Update api `Affise.Module.LinkResolve` moved to `Affise.Module.Link.Resolve`.
+- Update api `Affise.Module.FetchProducts` moved to `Affise.Module.Subscription.FetchProducts`.
+- Update api `Affise.Module.Purchase` moved to `Affise.Module.Subscription.Purchase`.
+- Update native iOS to [`1.6.50`](https://github.com/affise/sdk-ios/blob/1.6.50/CHANGELOG.md).
+- Update native Android to [`1.6.58`](https://github.com/affise/sdk-android/blob/v1.6.58/CHANGELOG.md).
+- 
 ## [1.6.38] - 2025-05-07
 
 ### Added

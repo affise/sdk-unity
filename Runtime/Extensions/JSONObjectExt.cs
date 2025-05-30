@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using SimpleJSON;
+using UnityEngine;
 
 namespace AffiseAttributionLib.Extensions
 {
@@ -19,8 +20,10 @@ namespace AffiseAttributionLib.Extensions
                 double doubleValue => new JSONNumber(doubleValue.ToString(CultureInfo.InvariantCulture)),
                 bool boolValue => new JSONBool(boolValue),
                 JSONNode jsonNodeValue => jsonNodeValue,
+                Dictionary<string, string> mapValue => mapValue.ToJsonObject(),
                 Dictionary<string, object> mapValue => mapValue.ToJsonObject(),
                 List<JSONObject> listValue => listValue.ToJsonArray(),
+                List<Dictionary<string, string>> listValue => listValue.ToJsonArray(),
                 List<Dictionary<string, object>> listValue => listValue.ToJsonArray(),
                 List<string> listValue => listValue.ToJsonArray(),
                 List<long> listValue => listValue.ToJsonArray(),

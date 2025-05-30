@@ -7,6 +7,7 @@ namespace AffiseAttributionLib.Modules
     {
         Advertising,
         AndroidId,
+        AppsFlyer,
         Link,
         Meta,
         Network,
@@ -26,6 +27,7 @@ namespace AffiseAttributionLib.Modules
             {
                 AffiseModules.Advertising => "Advertising",
                 AffiseModules.AndroidId => "AndroidId",
+                AffiseModules.AppsFlyer => "AppsFlyer",
                 AffiseModules.Link => "Link",
                 AffiseModules.Meta => "Meta",
                 AffiseModules.Network => "Network",

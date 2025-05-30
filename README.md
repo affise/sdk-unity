@@ -4,7 +4,7 @@
 
 | Artifact      | Version               |
 |---------------|-----------------------|
-| `attribution` | [`1.6.38`](/releases/tag/1.6.38) |
+| `attribution` | [`1.6.39`](/releases/tag/1.6.39) |
 
 - [Affise Unity package](#affise-unity-package)
 - [Description](#description)
@@ -27,6 +27,7 @@
       - [Module Advertising](#module-advertising)
         - [iOS](#ios-2)
       - [Module Huawei](#module-huawei)
+      - [Module AppsFlyer](#module-appsflyer)
       - [Module Link](#module-link)
       - [Module Meta](#module-meta)
       - [Module Status](#module-status)
@@ -115,7 +116,7 @@ Add package from git url `https://github.com/affise/sdk-unity.git`
 
 ### Integrate unitypackage file
 
-Download latest Affise SDK [`attribution-1.6.38.unitypackage`](https://github.com/affise/sdk-unity/releases/download/1.6.38/attribution-1.6.38.unitypackage)
+Download latest Affise SDK [`attribution-1.6.39.unitypackage`](https://github.com/affise/sdk-unity/releases/download/1.6.39/attribution-1.6.39.unitypackage)
 from [releases page](https://github.com/affise/sdk-unity/releases) and drop this file to unity editor
 
 ### Initialize
@@ -252,6 +253,7 @@ All affise modules is updated automatically on build
 |---------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------|
 | `Advertising` | [![module-advertising](https://img.shields.io/maven-central/v/com.affise/module-advertising?label=latest)](https://mvnrepository.com/artifact/com.affise/module-advertising) | `Auto` |
 | `AndroidId`   | [![module-androidid](https://img.shields.io/maven-central/v/com.affise/module-androidid?label=latest)](https://mvnrepository.com/artifact/com.affise/module-androidid)       | `Auto` |
+| `AppsFlyer`   | [![module-androidid](https://img.shields.io/maven-central/v/com.affise/module-appsflyer?label=latest)](https://mvnrepository.com/artifact/com.affise/module-appsflyer)       | `Auto` |
 | `Link`        | [![module-link](https://img.shields.io/maven-central/v/com.affise/module-link?label=latest)](https://mvnrepository.com/artifact/com.affise/module-link)                      | `Auto` |
 | `Network`     | [![module-network](https://img.shields.io/maven-central/v/com.affise/module-network?label=latest)](https://mvnrepository.com/artifact/com.affise/module-network)             | `Auto` |
 | `Phone`       | [![module-phone](https://img.shields.io/maven-central/v/com.affise/module-phone?label=latest)](https://mvnrepository.com/artifact/com.affise/module-phone)                   | `Auto` |
@@ -264,7 +266,7 @@ All affise modules is updated automatically on build
 Dependencies located in Android project gradle file `build.gradle`
 
 ```gradle
-final affise_version = '1.6.57'
+final affise_version = '1.6.58'
 
 dependencies {
     // ...
@@ -276,9 +278,10 @@ dependencies {
     implementation "com.affise:module-phone:$affise_version"
     implementation "com.affise:module-status:$affise_version"
     implementation "com.affise:module-subscription:$affise_version"
-    // implementation "com.affise:module-meta:$affise_version"
-    // implementation "com.affise:module-rustore:$affise_version"
-    // implementation "com.affise:module-huawei:$affise_version"
+    implementation "com.affise:module-meta:$affise_version"
+    implementation "com.affise:module-rustore:$affise_version"
+    implementation "com.affise:module-huawei:$affise_version"
+    implementation "com.affise:module-appsflyer:$affise_version"
 }
 ```
 
@@ -292,11 +295,12 @@ All affise modules is updated automatically on build
 
 | Module         |                                       Version                                        | Start    |
 |----------------|:------------------------------------------------------------------------------------:|----------|
-| `Advertising`  | [`1.6.49`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Manual` |
-| `Link`         | [`1.6.49`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
-| `Persistent`   | [`1.6.49`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
-| `Status`       | [`1.6.49`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
-| `Subscription` | [`1.6.49`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
+| `Advertising`  | [`1.6.50`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Manual` |
+| `AppsFlyer`    | [`1.6.50`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
+| `Link`         | [`1.6.50`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
+| `Persistent`   | [`1.6.50`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
+| `Status`       | [`1.6.50`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
+| `Subscription` | [`1.6.50`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
 
 Dependencies located in XCode project folder `Podfile`
 
@@ -304,14 +308,15 @@ Dependencies located in XCode project folder `Podfile`
 platform :ios, '12.0'
 
 target 'UnityFramework' do
-  pod 'AffiseInternal', '1.6.49'
+  pod 'AffiseInternal', '1.6.50'
 
   # Affise Modules
-  pod 'AffiseModule/Advertising', '1.6.49'
-  pod 'AffiseModule/Link', '1.6.49'
-  pod 'AffiseModule/Persistent', '1.6.49'
-  pod 'AffiseModule/Status', '1.6.49'
-  pod 'AffiseModule/Subscription', '1.6.49'
+  pod 'AffiseModule/Advertising', '1.6.50'
+  pod 'AffiseModule/AppsFlyer', '1.6.50'
+  pod 'AffiseModule/Link', '1.6.50'
+  pod 'AffiseModule/Persistent', '1.6.50'
+  pod 'AffiseModule/Status', '1.6.50'
+  pod 'AffiseModule/Subscription', '1.6.50'
 end
 
 target 'Unity-iPhone' do
@@ -362,6 +367,28 @@ if (providers.ContainsKey(key)) {
 }
 ```
 
+#### Module AppsFlyer
+
+Send AppsFlyer event data to Affise
+
+[AppsFlyer In-App Events Docs](https://dev.appsflyer.com/hc/docs/inappevents#send-event)
+
+```C#
+//AppsFlyer event data
+const string eventName = "af_add_to_wishlist";
+Dictionary<string, string> eventValues = new()
+{
+    {AFInAppEvents.PRICE, "1234.56"},
+    {AFInAppEvents.CONTENT_ID, "1234567"}
+};
+
+// Send AppsFlyer event
+AppsFlyer.sendEvent(eventName, eventValues);
+
+// Send AppsFlyer data to Affise
+Affise.Module.AppsFlyer.LogEvent(eventName, eventValues);
+```
+
 #### Module Link
 
 Return last url in chan of redirection
@@ -369,7 +396,7 @@ Return last url in chan of redirection
 🟥Support MAX 10 redirections🟥
 
 ```C#
-Affise.Module.LinkResolve("SITE_WITH_REDIRECTION", (redirectUrl) => {  
+Affise.Module.Link.Resolve("SITE_WITH_REDIRECTION", (redirectUrl) => {  
     // handle redirect url
 });
 ```
@@ -436,7 +463,7 @@ var ids = new List<AffiseProduct> {
     "exampple.product.id_2",
 };
 
-Affise.Module.FetchProducts(ids, (result) =>
+Affise.Module.Subscription.FetchProducts(ids, (result) =>
 {
     if (result.IsSuccess)
     {
@@ -455,7 +482,7 @@ Purchase product:
 
 ```C#
 // Specify product type for correct affise event
-Affise.Module.Purchase(product, AffiseProductType.CONSUMABLE, (result) =>
+Affise.Module.Subscription.Purchase(product, AffiseProductType.CONSUMABLE, (result) =>
 {
     if (result.IsSuccess)
     {
@@ -498,10 +525,10 @@ Podfile:
 platform :ios, '11.0'
 
 target 'UnityFramework' do
-  pod 'AffiseInternal', '1.6.49'
+  pod 'AffiseInternal', '1.6.50'
 
   # Affise Modules
-  # pod 'AffiseModule', `1.6.49`
+  # pod 'AffiseModule', `1.6.50`
 end
 
 target 'Unity-iPhone' do

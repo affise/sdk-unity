@@ -49,6 +49,8 @@ namespace AffiseAttributionLib.Native
         MODULE_START,
         GET_MODULES_INSTALLED,
         GET_STATUS_CALLBACK,
+        // AppsFlyer Module
+        MODULE_APPSFLYER_LOG_EVENT,
         // Link Module
         MODULE_LINK_LINK_RESOLVE_CALLBACK,
         // Module Subscription
@@ -119,6 +121,8 @@ namespace AffiseAttributionLib.Native
                 AffiseApiMethod.MODULE_START => "module_start",
                 AffiseApiMethod.GET_MODULES_INSTALLED => "get_modules_installed",
                 AffiseApiMethod.GET_STATUS_CALLBACK => "get_status_callback",
+                // AppsFlyer Module
+                AffiseApiMethod.MODULE_APPSFLYER_LOG_EVENT => "module_appsflyer_log_event",
                 // Link Module
                 AffiseApiMethod.MODULE_LINK_LINK_RESOLVE_CALLBACK => "module_link_link_resolve_callback",
                 // Module Subscription
