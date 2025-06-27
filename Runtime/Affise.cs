@@ -21,9 +21,9 @@ namespace AffiseAttributionLib
     public static class Affise
     {
 #if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
-        internal static IAffiseNative? _native;
+        internal static IAffiseNative? _native { get; private set; }
 #else
-        internal static AffiseComponent? _api;
+        internal static AffiseComponent? _api { get; private set; }
 #endif
 
         internal static bool IsInit

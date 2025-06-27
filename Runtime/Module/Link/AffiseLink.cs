@@ -6,7 +6,7 @@ using AffiseAttributionLib.Native;
 
 namespace AffiseAttributionLib.Module.Link
 {
-    internal class AffiseLink : AffiseModuleApiWrapper<IAffiseLinkApi>, IAffiseLinkApi
+    internal class AffiseLink : AffiseModuleApiWrapper<IAffiseLinkApi>, IAffiseModuleLinkApi
     {
         protected override AffiseModules Module => AffiseModules.Link;
 
@@ -18,5 +18,7 @@ namespace AffiseAttributionLib.Module.Link
             ModuleApi?.Resolve(uri, callback);
 #endif
         }
+        
+        public bool HasModule() => IsModuleInit;
     }
 }

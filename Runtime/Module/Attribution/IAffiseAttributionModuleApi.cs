@@ -12,9 +12,9 @@ namespace AffiseAttributionLib.Module.Attribution
     {
         internal const string NotSupported = "[Affise] platform not supported";
      
-        public IAffiseLinkApi Link { get; }
-        public IAffiseAppsFlyerApi AppsFlyer { get; }
-        public IAffiseSubscriptionApi Subscription { get; }
+        public IAffiseModuleLinkApi Link { get; }
+        public IAffiseModuleAppsFlyerApi AppsFlyer { get; }
+        public IAffiseModuleSubscriptionApi Subscription { get; }
 
         /**
          * Get module status

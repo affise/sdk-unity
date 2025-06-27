@@ -10,23 +10,36 @@ namespace AffiseAttributionLib.Modules
 #if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
         protected IAffiseNative? _native => Affise._native;
 #else
-        protected AffiseModuleManager? ModuleManager => Affise._api?.ModuleManager;
+        protected AffiseComponent? _api => Affise._api;
 #endif
-        
+
         protected abstract AffiseModules Module { get; }
-        
-        private API? _api;
+
+        private API? _moduleApi;
+
         protected API? ModuleApi
         {
             get
             {
-                if (_api is not null) return _api;
+                if (_moduleApi is not null) return _moduleApi;
 #if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
 #else
-                if (ModuleManager is null) return _api;
-                _api = ModuleManager.Api<API>(Module);
+                if (_api?.ModuleManager is null) return _moduleApi;
+                _moduleApi = _api.ModuleManager.Api<API>(Module);
 #endif
-                return _api;
+                return _moduleApi;
+            }
+        }
+
+        protected bool IsModuleInit
+        {
+            get
+            {
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+                return _native?.GetModules().Contains(Module) ?? false;
+#else
+                return _api?.ModuleManager.HasModule(Module) ?? false;
+#endif
             }
         }
     }

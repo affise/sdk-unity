@@ -19,9 +19,9 @@ namespace AffiseAttributionLib.Module.Attribution
         private AffiseComponent? _api => Affise._api;
 #endif
 
-        public IAffiseLinkApi Link { get; }
-        public IAffiseAppsFlyerApi AppsFlyer { get; }
-        public IAffiseSubscriptionApi Subscription { get; }
+        public IAffiseModuleLinkApi Link { get; }
+        public IAffiseModuleAppsFlyerApi AppsFlyer { get; }
+        public IAffiseModuleSubscriptionApi Subscription { get; }
 
         public AffiseAttributionModule()
         {

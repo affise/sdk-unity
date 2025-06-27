@@ -4,7 +4,7 @@
 
 | Artifact      | Version               |
 |---------------|-----------------------|
-| `attribution` | [`1.6.39`](/releases/tag/1.6.39) |
+| `attribution` | [`1.6.40`](/releases/tag/1.6.40) |
 
 - [Affise Unity package](#affise-unity-package)
 - [Description](#description)
@@ -116,7 +116,7 @@ Add package from git url `https://github.com/affise/sdk-unity.git`
 
 ### Integrate unitypackage file
 
-Download latest Affise SDK [`attribution-1.6.39.unitypackage`](https://github.com/affise/sdk-unity/releases/download/1.6.39/attribution-1.6.39.unitypackage)
+Download latest Affise SDK [`attribution-1.6.40.unitypackage`](https://github.com/affise/sdk-unity/releases/download/1.6.40/attribution-1.6.40.unitypackage)
 from [releases page](https://github.com/affise/sdk-unity/releases) and drop this file to unity editor
 
 ### Initialize
@@ -266,7 +266,7 @@ All affise modules is updated automatically on build
 Dependencies located in Android project gradle file `build.gradle`
 
 ```gradle
-final affise_version = '1.6.58'
+final affise_version = '1.6.59'
 
 dependencies {
     // ...
@@ -295,12 +295,12 @@ All affise modules is updated automatically on build
 
 | Module         |                                       Version                                        | Start    |
 |----------------|:------------------------------------------------------------------------------------:|----------|
-| `Advertising`  | [`1.6.50`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Manual` |
-| `AppsFlyer`    | [`1.6.50`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
-| `Link`         | [`1.6.50`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
-| `Persistent`   | [`1.6.50`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
-| `Status`       | [`1.6.50`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
-| `Subscription` | [`1.6.50`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
+| `Advertising`  | [`1.6.51`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Manual` |
+| `AppsFlyer`    | [`1.6.51`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
+| `Link`         | [`1.6.51`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
+| `Persistent`   | [`1.6.51`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
+| `Status`       | [`1.6.51`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
+| `Subscription` | [`1.6.51`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
 
 Dependencies located in XCode project folder `Podfile`
 
@@ -308,15 +308,15 @@ Dependencies located in XCode project folder `Podfile`
 platform :ios, '12.0'
 
 target 'UnityFramework' do
-  pod 'AffiseInternal', '1.6.50'
+  pod 'AffiseInternal', '1.6.51'
 
   # Affise Modules
-  pod 'AffiseModule/Advertising', '1.6.50'
-  pod 'AffiseModule/AppsFlyer', '1.6.50'
-  pod 'AffiseModule/Link', '1.6.50'
-  pod 'AffiseModule/Persistent', '1.6.50'
-  pod 'AffiseModule/Status', '1.6.50'
-  pod 'AffiseModule/Subscription', '1.6.50'
+  pod 'AffiseModule/Advertising', '1.6.51'
+  pod 'AffiseModule/AppsFlyer', '1.6.51'
+  pod 'AffiseModule/Link', '1.6.51'
+  pod 'AffiseModule/Persistent', '1.6.51'
+  pod 'AffiseModule/Status', '1.6.51'
+  pod 'AffiseModule/Subscription', '1.6.51'
 end
 
 target 'Unity-iPhone' do
@@ -389,6 +389,12 @@ AppsFlyer.sendEvent(eventName, eventValues);
 Affise.Module.AppsFlyer.LogEvent(eventName, eventValues);
 ```
 
+Is Module present:
+
+```C#
+Affise.Module.AppsFlyer.HasModule();
+```
+
 #### Module Link
 
 Return last url in chan of redirection
@@ -399,6 +405,12 @@ Return last url in chan of redirection
 Affise.Module.Link.Resolve("SITE_WITH_REDIRECTION", (redirectUrl) => {  
     // handle redirect url
 });
+```
+
+Is Module present:
+
+```C#
+Affise.Module.Link.HasModule();
 ```
 
 #### Module Meta
@@ -495,6 +507,12 @@ Affise.Module.Subscription.Purchase(product, AffiseProductType.CONSUMABLE, (resu
 });
 ```
 
+Is Module present:
+
+```C#
+Affise.Module.Subscription.HasModule();
+```
+
 ## Build
 
 ### iOS
@@ -525,10 +543,10 @@ Podfile:
 platform :ios, '11.0'
 
 target 'UnityFramework' do
-  pod 'AffiseInternal', '1.6.50'
+  pod 'AffiseInternal', '1.6.51'
 
   # Affise Modules
-  # pod 'AffiseModule', `1.6.50`
+  # pod 'AffiseModule', `1.6.51`
 end
 
 target 'Unity-iPhone' do

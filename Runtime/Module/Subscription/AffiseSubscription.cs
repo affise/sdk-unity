@@ -5,7 +5,7 @@ using AffiseAttributionLib.Modules;
 
 namespace AffiseAttributionLib.Module.Subscription
 {
-    internal class AffiseSubscription: AffiseModuleApiWrapper<IAffiseSubscriptionApi>, IAffiseSubscriptionApi
+    internal class AffiseSubscription: AffiseModuleApiWrapper<IAffiseSubscriptionApi>, IAffiseModuleSubscriptionApi
     {
         protected override AffiseModules Module => AffiseModules.Subscription;
         
@@ -28,5 +28,7 @@ namespace AffiseAttributionLib.Module.Subscription
             callback.Invoke(AffiseResult<AffisePurchasedInfo>.Failure(IAffiseAttributionModuleApi.NotSupported));
 #endif
         }
+        
+        public bool HasModule() => IsModuleInit;
     }
 }

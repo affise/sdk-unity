@@ -83,6 +83,11 @@ namespace AffiseAttributionLib.Modules
             return _modules.ContainsKey(name) ? _modules[name] : null;
         }
 
+        public bool HasModule(AffiseModules name)
+        {
+            return GetModule(name) != null;
+        }
+
         private void InitAffiseModules(Action<AffiseModule> callback)
         {
             var affiseModules = new Dictionary<AffiseModules, AffiseModule>
