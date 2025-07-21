@@ -76,9 +76,13 @@ namespace AffiseAttributionLib.Native
             );
         }
 
-        public void AddPushToken(string pushToken)
+        public void AddPushToken(string pushToken, PushTokenService service)
         {
-            Native(AffiseApiMethod.ADD_PUSH_TOKEN, pushToken);
+            Native(AffiseApiMethod.ADD_PUSH_TOKEN, new Dictionary<string, string?>
+            {
+                { DataName.PUSH_TOKEN, pushToken },
+                { DataName.PUSH_TOKEN_SERVICE, service.Service() }
+            });
         }
 
         public void RegisterDeeplinkCallback(DeeplinkCallback callback)

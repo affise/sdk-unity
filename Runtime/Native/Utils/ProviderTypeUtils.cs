@@ -82,6 +82,7 @@ namespace AffiseAttributionLib.Native.Utils
                 case ProviderType.OS_VERSION:
                 case ProviderType.PLATFORM:
                 case ProviderType.PUSHTOKEN:
+                case ProviderType.PUSHTOKEN_SERVICE:
                 case ProviderType.RANDOM_USER_ID:
                 case ProviderType.REFERRER_INSTALL_VERSION:
                 case ProviderType.REFTOKEN:

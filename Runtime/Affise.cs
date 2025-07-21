@@ -99,12 +99,12 @@ namespace AffiseAttributionLib
         /**
          * Add [pushToken]
          */
-        public static void AddPushToken(string pushToken)
+        public static void AddPushToken(string pushToken, PushTokenService service)
         {
 #if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
-            _native?.AddPushToken(pushToken);
+            _native?.AddPushToken(pushToken, service);
 #else
-            PrefUtils.SaveString(PushTokenProvider.KEY_APP_PUSHTOKEN, pushToken);
+            _api?.PushTokenUseCase?.AddPushToken(pushToken, service);
 #endif
         }
 

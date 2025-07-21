@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.6.41] - 2025-07-21
+
+### Added
+
+- Provider `PUSHTOKEN_SERVICE`
+
+### Changed
+
+- Update native iOS to [`1.6.52`](https://github.com/affise/sdk-ios/blob/1.6.51/CHANGELOG.md)
+- Update native Android to [`1.6.60`](https://github.com/affise/sdk-android/blob/v1.6.59/CHANGELOG.md)
+
 ## [1.6.40] - 2025-06-27
 
 ### Added
@@ -319,6 +330,7 @@
 - Update native iOS to `1.6.20`
 - Update native Android to `1.6.22`
 
+[1.6.41]: https://github.com/affise/sdk-unity/compare/1.6.40...1.6.41
 [1.6.40]: https://github.com/affise/sdk-unity/compare/1.6.39...1.6.40
 [1.6.39]: https://github.com/affise/sdk-unity/compare/1.6.38...1.6.39
 [1.6.38]: https://github.com/affise/sdk-unity/compare/1.6.37...1.6.38

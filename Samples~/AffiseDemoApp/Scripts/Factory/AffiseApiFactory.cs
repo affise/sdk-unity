@@ -148,8 +148,8 @@ namespace AffiseDemo
                     {
                         var token = Uuid.Generate();
                         // Push token tracking https://github.com/affise/sdk-unity#push-token-tracking
-                        Affise.AddPushToken(token);
-                        Print($"AddPushToken: {token}");
+                        Affise.AddPushToken(token, PushTokenService.FIREBASE);
+                        Print($"AddPushToken: {token} {PushTokenService.FIREBASE}");
                     }
                 },
                 {

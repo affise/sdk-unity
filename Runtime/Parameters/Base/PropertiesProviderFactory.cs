@@ -17,6 +17,7 @@ namespace AffiseAttributionLib.AffiseParameters.Base
         private readonly IConverter<string, string> _stringToSHA256Converter;
         private readonly IConverter<string, string> _stringToMd5Converter;
         private readonly IDeeplinkClickRepository _deeplinkClickRepository;
+        private readonly IPushTokenUseCase _pushTokenUseCase;
 
         public PropertiesProviderFactory(
             FirstAppOpenUseCase firstAppOpenUseCase,
@@ -24,7 +25,8 @@ namespace AffiseAttributionLib.AffiseParameters.Base
             IInitPropertiesStorage initPropertiesStorage,
             IConverter<string, string> stringToSHA256Converter,
             IConverter<string, string> stringToMd5Converter,
-            IDeeplinkClickRepository deeplinkClickRepository
+            IDeeplinkClickRepository deeplinkClickRepository, 
+            IPushTokenUseCase pushTokenUseCase
         )
         {
             _firstAppOpenUseCase = firstAppOpenUseCase;
@@ -33,6 +35,7 @@ namespace AffiseAttributionLib.AffiseParameters.Base
             _stringToSHA256Converter = stringToSHA256Converter;
             _stringToMd5Converter = stringToMd5Converter;
             _deeplinkClickRepository = deeplinkClickRepository;
+            _pushTokenUseCase = pushTokenUseCase;
         }
 
         public PostBackModelFactory Create()
@@ -113,7 +116,8 @@ namespace AffiseAttributionLib.AffiseParameters.Base
                     new AffAppTokenPropertyProvider(_initPropertiesStorage, _stringToSHA256Converter),
                     // new EmptyStringProvider(ProviderType.LABEL, 62.0f),
                     // new AffSDKSecretIdProvider(_initPropertiesStorage),
-                    new PushTokenProvider(),
+                    new PushTokenProvider(_pushTokenUseCase),
+                    new PushTokenServiceProvider(_pushTokenUseCase),
                     // new EmptyStringProvider(ProviderType.OS_AND_VERSION, 68.0f),
                     // new EmptyStringProvider(ProviderType.DEVICE, 69.0f),
                     // new EmptyStringProvider(ProviderType.BUILD, 70.0f),

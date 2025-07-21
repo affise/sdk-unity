@@ -4,7 +4,7 @@
 
 | Artifact      | Version               |
 |---------------|-----------------------|
-| `attribution` | [`1.6.40`](/releases/tag/1.6.40) |
+| `attribution` | [`1.6.41`](/releases/tag/1.6.41) |
 
 - [Affise Unity package](#affise-unity-package)
 - [Description](#description)
@@ -57,6 +57,7 @@
   - [Advertising Identifier (google) tracking](#advertising-identifier-google-tracking)
   - [Open Advertising Identifier (huawei) tracking](#open-advertising-identifier-huawei-tracking)
   - [Push token tracking](#push-token-tracking)
+    - [Firebase Flutter Plugin](#firebase-flutter-plugin)
   - [Links](#links)
     - [Config](#config)
     - [Deeplinks manual](#deeplinks-manual)
@@ -116,7 +117,7 @@ Add package from git url `https://github.com/affise/sdk-unity.git`
 
 ### Integrate unitypackage file
 
-Download latest Affise SDK [`attribution-1.6.40.unitypackage`](https://github.com/affise/sdk-unity/releases/download/1.6.40/attribution-1.6.40.unitypackage)
+Download latest Affise SDK [`attribution-1.6.41.unitypackage`](https://github.com/affise/sdk-unity/releases/download/1.6.41/attribution-1.6.41.unitypackage)
 from [releases page](https://github.com/affise/sdk-unity/releases) and drop this file to unity editor
 
 ### Initialize
@@ -266,7 +267,7 @@ All affise modules is updated automatically on build
 Dependencies located in Android project gradle file `build.gradle`
 
 ```gradle
-final affise_version = '1.6.59'
+final affise_version = '1.6.60'
 
 dependencies {
     // ...
@@ -295,12 +296,12 @@ All affise modules is updated automatically on build
 
 | Module         |                                       Version                                        | Start    |
 |----------------|:------------------------------------------------------------------------------------:|----------|
-| `Advertising`  | [`1.6.51`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Manual` |
-| `AppsFlyer`    | [`1.6.51`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
-| `Link`         | [`1.6.51`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
-| `Persistent`   | [`1.6.51`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
-| `Status`       | [`1.6.51`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
-| `Subscription` | [`1.6.51`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
+| `Advertising`  | [`1.6.52`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Manual` |
+| `AppsFlyer`    | [`1.6.52`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
+| `Link`         | [`1.6.52`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
+| `Persistent`   | [`1.6.52`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
+| `Status`       | [`1.6.52`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
+| `Subscription` | [`1.6.52`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
 
 Dependencies located in XCode project folder `Podfile`
 
@@ -308,15 +309,15 @@ Dependencies located in XCode project folder `Podfile`
 platform :ios, '12.0'
 
 target 'UnityFramework' do
-  pod 'AffiseInternal', '1.6.51'
+  pod 'AffiseInternal', '1.6.52'
 
   # Affise Modules
-  pod 'AffiseModule/Advertising', '1.6.51'
-  pod 'AffiseModule/AppsFlyer', '1.6.51'
-  pod 'AffiseModule/Link', '1.6.51'
-  pod 'AffiseModule/Persistent', '1.6.51'
-  pod 'AffiseModule/Status', '1.6.51'
-  pod 'AffiseModule/Subscription', '1.6.51'
+  pod 'AffiseModule/Advertising', '1.6.52'
+  pod 'AffiseModule/AppsFlyer', '1.6.52'
+  pod 'AffiseModule/Link', '1.6.52'
+  pod 'AffiseModule/Persistent', '1.6.52'
+  pod 'AffiseModule/Status', '1.6.52'
+  pod 'AffiseModule/Subscription', '1.6.52'
 end
 
 target 'Unity-iPhone' do
@@ -543,10 +544,10 @@ Podfile:
 platform :ios, '11.0'
 
 target 'UnityFramework' do
-  pod 'AffiseInternal', '1.6.51'
+  pod 'AffiseInternal', '1.6.52'
 
   # Affise Modules
-  # pod 'AffiseModule', `1.6.51`
+  # pod 'AffiseModule', `1.6.52`
 end
 
 target 'Unity-iPhone' do
@@ -636,6 +637,7 @@ To match users with events and data library is sending, these `ProviderType` ide
 - `UUID`
 - `AFFISE_APP_OPENED`
 - `PUSHTOKEN`
+- `PUSHTOKEN_SERVICE`
 - `AFFISE_EVENTS_COUNT`
 - `AFFISE_SDK_EVENTS_COUNT`
 - `AFFISE_METRICS_EVENTS_COUNT`
@@ -1002,10 +1004,40 @@ Open Advertising Identifier is supported automatically, no actions needed
 ## Push token tracking
 
 To let affise track push token you need to receive it from your push service provider, and pass to Affise library.
-First add firebase integration to your app completing these steps: Firebase [iOS](https://firebase.google.com/docs/cloud-messaging/ios/client) or [Android](https://firebase.google.com/docs/cloud-messaging/android/client) Docs
 
 ```c#
-Affise.AddPushToken(token);
+Affise.AddPushToken(token, PushTokenService.FIREBASE);
+```
+
+Supported service providers:
+
+- `APPLE` - **iOS only**
+- `FIREBASE`
+
+### Firebase Flutter Plugin
+
+[Add Firebase to your Unity project](https://firebase.google.com/docs/unity/setup)
+
+[Retrieve ID tokens on clients](https://firebase.google.com/docs/auth/admin/verify-id-tokens#unity)
+
+```c#
+Firebase.Auth.FirebaseUser user = Firebase.Auth.FirebaseAuth.DefaultInstance.CurrentUser;
+
+user.TokenAsync(true).ContinueWith(task => {
+    if (task.IsCanceled) {
+        Debug.LogError("TokenAsync was canceled.");
+        return;
+    }
+
+    if (task.IsFaulted) {
+        Debug.LogError("TokenAsync encountered an error: " + task.Exception);
+        return;
+    }
+
+    string idToken = task.Result;
+
+    Affise.AddPushToken(idToken, PushTokenService.FIREBASE);
+});
 ```
 
 ## Links

@@ -44,7 +44,9 @@ namespace AffiseAttributionLib
         public IDebugNetworkUseCase DebugNetworkUseCase { get; }
         
         public IDebugValidateUseCase DebugValidateUseCase { get; }
-        
+
+        public IPushTokenUseCase PushTokenUseCase { get; }
+
         public IImmediateSendToServerUseCase ImmediateSendToServerUseCase { get; }
 
         private readonly ConverterToBase64 _converterToBase64;
@@ -135,6 +137,8 @@ namespace AffiseAttributionLib
                 eventToSerializedEventConverter: _eventToSerializedEventConverter,
                 eventsStorage: _eventsStorage
             );
+            
+            PushTokenUseCase = new PushTokenUseCase();
 
             PostBackModelFactory = new PropertiesProviderFactory(
                 firstAppOpenUseCase: FirstAppOpenUseCase,
@@ -142,7 +146,8 @@ namespace AffiseAttributionLib
                 initPropertiesStorage: InitPropertiesStorage,
                 stringToSHA256Converter: new StringToSHA256Converter(),
                 stringToMd5Converter: new StringToMD5Converter(),
-                deeplinkClickRepository: _isDeeplinkClickRepository
+                deeplinkClickRepository: _isDeeplinkClickRepository,
+                pushTokenUseCase: PushTokenUseCase
             ).Create();
 
             ModuleManager = new AffiseModuleManager(

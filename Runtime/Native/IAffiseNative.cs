@@ -10,6 +10,7 @@ using AffiseAttributionLib.Module.Link;
 using AffiseAttributionLib.Module.Subscription;
 using AffiseAttributionLib.Modules;
 using AffiseAttributionLib.Referrer;
+using AffiseAttributionLib.Settings;
 using AffiseAttributionLib.SKAd;
 
 namespace AffiseAttributionLib.Native
@@ -24,7 +25,7 @@ namespace AffiseAttributionLib.Native
 
         void SendEventNow(AffiseEvent affiseEvent, OnSendSuccessCallback success, OnSendFailedCallback failed);
 
-        void AddPushToken(string pushToken);
+        void AddPushToken(string pushToken, PushTokenService service);
 
         void RegisterDeeplinkCallback(DeeplinkCallback callback);
 

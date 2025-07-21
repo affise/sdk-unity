@@ -23,6 +23,7 @@ namespace AffiseAttributionLib
         public AffiseModuleManager ModuleManager { get; }
         public IDebugNetworkUseCase DebugNetworkUseCase { get; }
         public IDebugValidateUseCase DebugValidateUseCase { get; }
+        public IPushTokenUseCase PushTokenUseCase { get; }
 
         public bool IsInitialized();
     }

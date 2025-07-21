@@ -1,5 +1,5 @@
 ﻿using AffiseAttributionLib.AffiseParameters.Base;
-using AffiseAttributionLib.Utils;
+using AffiseAttributionLib.Usecase;
 
 namespace AffiseAttributionLib.AffiseParameters.Providers
 {
@@ -8,13 +8,16 @@ namespace AffiseAttributionLib.AffiseParameters.Providers
      */
     internal class PushTokenProvider : StringPropertyProvider
     {
+        private readonly IPushTokenUseCase _useCase;
+
+        public PushTokenProvider(IPushTokenUseCase useCase)
+        {
+            _useCase = useCase;
+        }
+
         public override float Order => 65.0f;
         public override ProviderType? Key => ProviderType.PUSHTOKEN;
-        public const string KEY_APP_PUSHTOKEN = "com.affise.attribution.init.PUSHTOKEN";
-        
-        public override string Provide()
-        {
-            return PrefUtils.GetString(KEY_APP_PUSHTOKEN, null);
-        }
+
+        public override string Provide() => _useCase.GetPushToken();
     }
 }
