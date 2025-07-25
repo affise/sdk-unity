@@ -4,7 +4,7 @@
 
 | Artifact      | Version               |
 |---------------|-----------------------|
-| `attribution` | [`1.6.41`](/releases/tag/1.6.41) |
+| `attribution` | [`1.6.42`](/releases/tag/1.6.42) |
 
 - [Affise Unity package](#affise-unity-package)
 - [Description](#description)
@@ -24,6 +24,7 @@
     - [Modules](#modules)
       - [Android](#android)
       - [iOS](#ios-1)
+      - [Module AdService](#module-adservice)
       - [Module Advertising](#module-advertising)
         - [iOS](#ios-2)
       - [Module Huawei](#module-huawei)
@@ -37,6 +38,7 @@
 - [Features](#features)
   - [ProviderType identifiers collection](#providertype-identifiers-collection)
     - [Attribution](#attribution)
+    - [AdService](#adservice)
     - [Advertising](#advertising)
     - [AndroidId](#androidid)
     - [Huawei](#huawei)
@@ -117,7 +119,7 @@ Add package from git url `https://github.com/affise/sdk-unity.git`
 
 ### Integrate unitypackage file
 
-Download latest Affise SDK [`attribution-1.6.41.unitypackage`](https://github.com/affise/sdk-unity/releases/download/1.6.41/attribution-1.6.41.unitypackage)
+Download latest Affise SDK [`attribution-1.6.42.unitypackage`](https://github.com/affise/sdk-unity/releases/download/1.6.42/attribution-1.6.42.unitypackage)
 from [releases page](https://github.com/affise/sdk-unity/releases) and drop this file to unity editor
 
 ### Initialize
@@ -296,12 +298,13 @@ All affise modules is updated automatically on build
 
 | Module         |                                       Version                                        | Start    |
 |----------------|:------------------------------------------------------------------------------------:|----------|
-| `Advertising`  | [`1.6.52`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Manual` |
-| `AppsFlyer`    | [`1.6.52`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
-| `Link`         | [`1.6.52`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
-| `Persistent`   | [`1.6.52`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
-| `Status`       | [`1.6.52`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
-| `Subscription` | [`1.6.52`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
+| `AdService`    | [`1.6.53`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
+| `Advertising`  | [`1.6.53`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Manual` |
+| `AppsFlyer`    | [`1.6.53`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
+| `Link`         | [`1.6.53`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
+| `Persistent`   | [`1.6.53`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
+| `Status`       | [`1.6.53`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
+| `Subscription` | [`1.6.53`](https://github.com/CocoaPods/Specs/tree/master/Specs/0/3/d/AffiseModule/) | `Auto`   |
 
 Dependencies located in XCode project folder `Podfile`
 
@@ -309,15 +312,16 @@ Dependencies located in XCode project folder `Podfile`
 platform :ios, '12.0'
 
 target 'UnityFramework' do
-  pod 'AffiseInternal', '1.6.52'
+  pod 'AffiseInternal', '1.6.53'
 
   # Affise Modules
-  pod 'AffiseModule/Advertising', '1.6.52'
-  pod 'AffiseModule/AppsFlyer', '1.6.52'
-  pod 'AffiseModule/Link', '1.6.52'
-  pod 'AffiseModule/Persistent', '1.6.52'
-  pod 'AffiseModule/Status', '1.6.52'
-  pod 'AffiseModule/Subscription', '1.6.52'
+  pod 'AffiseModule/AdService', '1.6.53'
+  pod 'AffiseModule/Advertising', '1.6.53'
+  pod 'AffiseModule/AppsFlyer', '1.6.53'
+  pod 'AffiseModule/Link', '1.6.53'
+  pod 'AffiseModule/Persistent', '1.6.53'
+  pod 'AffiseModule/Status', '1.6.53'
+  pod 'AffiseModule/Subscription', '1.6.53'
 end
 
 target 'Unity-iPhone' do
@@ -325,6 +329,12 @@ end
 
 use_frameworks! :linkage => :static
 ```
+
+#### Module AdService
+
+`iOS 14.3+`
+
+Sends `attributionToken` from `AdServices` framework `AAAttribution.attributionToken()` to Affise server
 
 #### Module Advertising
 
@@ -544,10 +554,10 @@ Podfile:
 platform :ios, '11.0'
 
 target 'UnityFramework' do
-  pod 'AffiseInternal', '1.6.52'
+  pod 'AffiseInternal', '1.6.53'
 
   # Affise Modules
-  # pod 'AffiseModule', `1.6.52`
+  # pod 'AffiseModule', `1.6.53`
 end
 
 target 'Unity-iPhone' do
@@ -644,6 +654,10 @@ To match users with events and data library is sending, these `ProviderType` ide
 - `AFFISE_INTERNAL_EVENTS_COUNT`
 - `IS_ROOTED`
 - `IS_EMULATOR`
+
+### AdService
+
+- `AD_SERVICE_ATTRIBUTION`
 
 ### Advertising
 

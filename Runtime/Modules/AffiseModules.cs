@@ -5,6 +5,7 @@ namespace AffiseAttributionLib.Modules
 {
     public enum AffiseModules
     {
+        AdService,
         Advertising,
         AndroidId,
         AppsFlyer,
@@ -25,6 +26,7 @@ namespace AffiseAttributionLib.Modules
         {
             return key switch
             {
+                AffiseModules.AdService => "AdService",
                 AffiseModules.Advertising => "Advertising",
                 AffiseModules.AndroidId => "AndroidId",
                 AffiseModules.AppsFlyer => "AppsFlyer",

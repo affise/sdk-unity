@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.6.42] - 2025-07-25
+
+### Added
+
+- New module `AdService` for `iOS`
+- Provider `AD_SERVICE_ATTRIBUTION`
+
+### Changed
+
+- Update native iOS to [`1.6.53`](https://github.com/affise/sdk-ios/blob/1.6.51/CHANGELOG.md)
+
 ## [1.6.41] - 2025-07-21
 
 ### Added
@@ -330,6 +341,7 @@
 - Update native iOS to `1.6.20`
 - Update native Android to `1.6.22`
 
+[1.6.42]: https://github.com/affise/sdk-unity/compare/1.6.41...1.6.42
 [1.6.41]: https://github.com/affise/sdk-unity/compare/1.6.40...1.6.41
 [1.6.40]: https://github.com/affise/sdk-unity/compare/1.6.39...1.6.40
 [1.6.39]: https://github.com/affise/sdk-unity/compare/1.6.38...1.6.39

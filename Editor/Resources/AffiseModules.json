@@ -1,5 +1,15 @@
 ﻿[
   {
+    "name": "AdService",
+    "comment": "AdService Module",
+    "ios": {
+      "comment": "- ProviderType.AD_SERVICE_ATTRIBUTION",
+      "module": "AffiseModule/AdService",
+      "version": "1.6.53",
+      "enabled": false
+    }
+  },
+  {
     "name": "Advertising",
     "comment": "Advertising Module",
     "android": {
@@ -11,7 +21,7 @@
     "ios": {
       "comment": "- ProviderType.ADID",
       "module": "AffiseModule/Advertising",
-      "version": "1.6.52",
+      "version": "1.6.53",
       "enabled": true
     }
   },
@@ -32,13 +42,13 @@
       "comment": "",
       "module": "com.affise:module-appsflyer",
       "version": "1.6.60",
-      "enabled": true
+      "enabled": false
     },
     "ios": {
       "comment": "",
       "module": "AffiseModule/AppsFlyer",
-      "version": "1.6.52",
-      "enabled": true
+      "version": "1.6.53",
+      "enabled": false
     }
   },
   {
@@ -53,7 +63,7 @@
     "ios": {
       "comment": "",
       "module": "AffiseModule/Link",
-      "version": "1.6.52",
+      "version": "1.6.53",
       "enabled": true
     }
   },
@@ -64,7 +74,7 @@
       "comment": "- ProviderType.META",
       "module": "com.affise:module-meta",
       "version": "1.6.60",
-      "enabled": true
+      "enabled": false
     }
   },
   {
@@ -79,7 +89,7 @@
     "ios": {
       "comment": "",
       "module": "AffiseModule/Status",
-      "version": "1.6.52",
+      "version": "1.6.53",
       "enabled": true
     }
   },
@@ -95,7 +105,7 @@
     "ios": {
       "comment": "",
       "module": "AffiseModule/Subscription",
-      "version": "1.6.52",
+      "version": "1.6.53",
       "enabled": false
     }
   },
@@ -125,7 +135,7 @@
     "ios": {
       "comment": "",
       "module": "AffiseModule/Persistent",
-      "version": "1.6.52",
+      "version": "1.6.53",
       "enabled": false
     }
   },
