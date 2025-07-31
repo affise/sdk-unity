@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.6.43] - 2025-07-31
+
+### Fixed
+
+- Fix crash for android API < 24 
+
+### Changed
+
+- Update native Android to [`1.6.61`](https://github.com/affise/sdk-android/blob/v1.6.61/CHANGELOG.md)
+
 ## [1.6.42] - 2025-07-25
 
 ### Added
@@ -9,7 +19,7 @@
 
 ### Changed
 
-- Update native iOS to [`1.6.53`](https://github.com/affise/sdk-ios/blob/1.6.51/CHANGELOG.md)
+- Update native iOS to [`1.6.53`](https://github.com/affise/sdk-ios/blob/1.6.53/CHANGELOG.md)
 
 ## [1.6.41] - 2025-07-21
 
@@ -19,8 +29,8 @@
 
 ### Changed
 
-- Update native iOS to [`1.6.52`](https://github.com/affise/sdk-ios/blob/1.6.51/CHANGELOG.md)
-- Update native Android to [`1.6.60`](https://github.com/affise/sdk-android/blob/v1.6.59/CHANGELOG.md)
+- Update native iOS to [`1.6.52`](https://github.com/affise/sdk-ios/blob/1.6.52/CHANGELOG.md)
+- Update native Android to [`1.6.60`](https://github.com/affise/sdk-android/blob/v1.6.60/CHANGELOG.md)
 
 ## [1.6.40] - 2025-06-27
 
@@ -341,6 +351,7 @@
 - Update native iOS to `1.6.20`
 - Update native Android to `1.6.22`
 
+[1.6.43]: https://github.com/affise/sdk-unity/compare/1.6.42...1.6.43
 [1.6.42]: https://github.com/affise/sdk-unity/compare/1.6.41...1.6.42
 [1.6.41]: https://github.com/affise/sdk-unity/compare/1.6.40...1.6.41
 [1.6.40]: https://github.com/affise/sdk-unity/compare/1.6.39...1.6.40

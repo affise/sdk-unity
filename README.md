@@ -4,7 +4,7 @@
 
 | Artifact      | Version               |
 |---------------|-----------------------|
-| `attribution` | [`1.6.42`](/releases/tag/1.6.42) |
+| `attribution` | [`1.6.43`](/releases/tag/1.6.43) |
 
 - [Affise Unity package](#affise-unity-package)
 - [Description](#description)
@@ -103,7 +103,7 @@ referrer.
 
 - `Xcode`   `14.2+`  
 - `iOS`     `12+`
-- `Android` `21+`
+- `Android` `24+`
 
 ## Integration
 
@@ -119,7 +119,7 @@ Add package from git url `https://github.com/affise/sdk-unity.git`
 
 ### Integrate unitypackage file
 
-Download latest Affise SDK [`attribution-1.6.42.unitypackage`](https://github.com/affise/sdk-unity/releases/download/1.6.42/attribution-1.6.42.unitypackage)
+Download latest Affise SDK [`attribution-1.6.43.unitypackage`](https://github.com/affise/sdk-unity/releases/download/1.6.43/attribution-1.6.43.unitypackage)
 from [releases page](https://github.com/affise/sdk-unity/releases) and drop this file to unity editor
 
 ### Initialize
@@ -269,7 +269,7 @@ All affise modules is updated automatically on build
 Dependencies located in Android project gradle file `build.gradle`
 
 ```gradle
-final affise_version = '1.6.60'
+final affise_version = '1.6.61'
 
 dependencies {
     // ...
